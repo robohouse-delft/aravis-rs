@@ -1,6 +1,16 @@
 [package]
 name = "aravis"
 version = "0.0.1"
+description = "safe bindings for Aravis, a vision library for genicam based cameras"
+authors = [
+	"RoboHouse <robohouse@robovalley.com>",
+	"Maarten de Vries <maarten@de-vri.es>",
+]
+license = "BSD-2-Clause"
+keywords = ["GenICam", "GigE Vision", "USB3 Vision", "camera"]
+categories = ["multimedia::video"]
+repository = "https://github.com/robohouse-delft/aravis-rs"
+documentation = "https://docs.rs/aravis"
 
 [dependencies]
 gio = "0.7.0"
