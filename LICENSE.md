@@ -1,7 +1,6 @@
 BSD 2-Clause License
 
 Copyright (c) 2019, RoboHouse <robohouse@robovalley.com>
-All rights reserved.
 
 This license applies to the Rust bindings, not to the Aravis library itself.
 
