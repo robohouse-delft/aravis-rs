@@ -1,0 +1,13 @@
+[options]
+library = "Aravis"
+version = "0.8"
+min_cfg_version = "0.8"
+girs_dir = "../gir-files"
+target_path = "."
+work_mode = "sys"
+
+external_libraries = [
+	"GLib",
+	"Gio",
+	"GObject",
+]
