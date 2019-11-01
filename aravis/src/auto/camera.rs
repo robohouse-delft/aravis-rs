@@ -27,7 +27,7 @@ glib_wrapper! {
 }
 
 impl Camera {
-    pub fn new(name: Option<&str>) -> Camera {
+    pub fn new(name: Option<&str>) -> Option<Camera> {
         assert_initialized_main_thread!();
         unsafe {
             from_glib_full(aravis_sys::arv_camera_new(name.to_glib_none().0))

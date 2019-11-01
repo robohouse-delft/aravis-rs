@@ -909,7 +909,7 @@ drawback of not exposing all the available features. See #ArvDevice and
              line="2697">Creates a new #ArvCamera. If @name is null, it will instantiate the
 first available camera.</doc>
         <source-position filename="../src/arvcamera.h" line="43"/>
-        <return-value transfer-ownership="full">
+        <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
                line="2704">a new #ArvCamera.</doc>
