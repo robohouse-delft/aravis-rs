@@ -6,3 +6,6 @@ edition = "2018"
 
 [dependencies]
 aravis = {version = "0.0.1", path = "../aravis" }
+structopt = "0.3.3"
+gio = "0.7.0"
+png = "0.15.0"
