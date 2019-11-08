@@ -1,6 +1,8 @@
 use aravis::BufferExt;
 use aravis::CameraExt;
-use std::path::{Path, PathBuf};
+use std::path::Path;
+use std::sync::mpsc;
+use std::time::{Duration, Instant};
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -11,7 +13,25 @@ struct Options {
 	id: String,
 
 	/// Where to save the output file.
-	out: PathBuf,
+	#[structopt(long)]
+	#[structopt(default_value = "./image-")]
+	out: String,
+
+	/// The numer of images to record.
+	#[structopt(long, short)]
+	#[structopt(default_value = "1")]
+	count: usize,
+
+	/// The frequency at which to record images.
+	#[structopt(long, short)]
+	#[structopt(default_value = "30")]
+	frequency: f64,
+}
+
+struct Image {
+	width: u32,
+	height: u32,
+	data: Vec<u8>,
 }
 
 fn main() {
@@ -25,45 +45,69 @@ fn main() {
 		},
 	};
 
+	let (sender, receiver) = mpsc::sync_channel::<(String, Image)>(options.count);
+	let write_thread = std::thread::spawn(move || {
+		for (path, image) in receiver {
+			if let Err(err) = write_png(&path, &image) {
+				eprintln!("Failed to save image to {}: {}.", path, err);
+			};
+		}
+	});
+
 	println!("Connected");
 
-	let start = std::time::Instant::now();
+	let period = Duration::from_secs_f64(1.0 / options.frequency);
+	let mut next_frame = Instant::now() + period;
 
-	let buffer = match camera.acquisition(3_000_000) {
-		Some(x) => x,
-		None => {
-			println!("Failed to acquire image.");
-			std::process::exit(1);
+	for i in 0..options.count {
+		let start = Instant::now();
+
+		let buffer = match camera.acquisition(3_000_000) {
+			Some(x) => x,
+			None => {
+				eprintln!("Failed to acquire image.");
+				continue;
+			}
+		};
+
+		let end = Instant::now();
+
+		println!("Capture time: {}", end.duration_since(start).as_secs_f64());
+
+		let path = format!("{}{:03}.png", &options.out, i);
+		let image = Image {
+			width: buffer.get_image_width() as u32,
+			height: buffer.get_image_height() as u32,
+			data: buffer.get_data(),
+		};
+
+		sender.send((path, image)).unwrap_or_else(|e| {
+			eprintln!("Failed to send image to writer thread: {}.", e);
+		});
+
+		let now = Instant::now();
+		if next_frame > now {
+			std::thread::sleep(next_frame.duration_since(now));
 		}
-	};
+		next_frame += period;
+	}
 
-	println!("Capture time: {}", start.elapsed().as_secs_f64());
-
-	let width = buffer.get_image_width();
-	let height = buffer.get_image_height();
-	println!("Recorded image of {}x{} pixel.", width, height);
-
-	if let Err(err) = write_png(&options.out, &buffer) {
-		println!("Failed to save image to {}: {}.", options.out.display(), err);
-		std::process::exit(1);
-	};
+	drop(sender);
+	let _ = write_thread.join();
 }
 
-fn write_png(path: impl AsRef<Path>, buffer: &aravis::Buffer) -> std::io::Result<()> {
-	let width = buffer.get_image_width() as u32;
-	let height = buffer.get_image_height() as u32;
+fn write_png(path: impl AsRef<Path>, image: &Image) -> std::io::Result<()> {
 
 	let path = path.as_ref();
 	let file = std::fs::File::create(path)?;
-	let mut writer = std::io::BufWriter::new(file);
+	let writer = std::io::BufWriter::new(file);
 
-	let mut encoder = png::Encoder::new(writer, width, height);
+	let mut encoder = png::Encoder::new(writer, image.width, image.height);
 	encoder.set_color(png::ColorType::Grayscale);
 	encoder.set_depth(png::BitDepth::Eight);
 	let mut writer = encoder.write_header()?;
 
-	let data = buffer.get_data();
-
-	writer.write_image_data(&data[0..(width * height) as usize])?;
+	let length = (image.width * image.height) as usize;
+	writer.write_image_data(&image.data[0..length])?;
 	Ok(())
 }
