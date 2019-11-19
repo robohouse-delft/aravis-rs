@@ -63,6 +63,8 @@ pub trait DeviceExt: 'static {
 
     fn get_string_feature_value(&self, feature: &str) -> Result<GString, glib::Error>;
 
+    fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error>;
+
     //fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<(), glib::Error>;
 
     fn read_register(&self, address: u64) -> Result<u32, glib::Error>;
@@ -210,6 +212,14 @@ impl<O: IsA<Device>> DeviceExt for O {
             let mut error = ptr::null_mut();
             let ret = aravis_sys::arv_device_get_string_feature_value(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
             if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
+        }
+    }
+
+    fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error> {
+        unsafe {
+            let mut error = ptr::null_mut();
+            let _ = aravis_sys::arv_device_is_feature_available(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
 

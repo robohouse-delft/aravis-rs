@@ -54,7 +54,7 @@ fn main() {
 		}
 	});
 
-	println!("Connected");
+	println!("Connected.");
 
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let mut next_frame = Instant::now() + period;
@@ -63,9 +63,9 @@ fn main() {
 		let start = Instant::now();
 
 		let buffer = match camera.acquisition(3_000_000) {
-			Some(x) => x,
-			None => {
-				eprintln!("Failed to acquire image.");
+			Ok(x) => x,
+			Err(e) => {
+				eprintln!("Failed to acquire image: {}.", e);
 				continue;
 			}
 		};
@@ -97,7 +97,6 @@ fn main() {
 }
 
 fn write_png(path: impl AsRef<Path>, image: &Image) -> std::io::Result<()> {
-
 	let path = path.as_ref();
 	let file = std::fs::File::create(path)?;
 	let writer = std::io::BufWriter::new(file);

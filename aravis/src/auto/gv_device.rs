@@ -6,10 +6,12 @@ use Device;
 use GvStreamOption;
 use aravis_sys;
 use gio;
+use glib;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
+use std::ptr;
 
 glib_wrapper! {
     pub struct GvDevice(Object<aravis_sys::ArvGvDevice, aravis_sys::ArvGvDeviceClass, GvDeviceClass>) @extends Device;
@@ -26,36 +28,34 @@ impl GvDevice {
             Device::from_glib_full(aravis_sys::arv_gv_device_new(interface_address.as_ref().to_glib_none().0, device_address.as_ref().to_glib_none().0)).unsafe_cast()
         }
     }
-
-    //pub fn get_url_regex() -> /*Ignored*/Option<glib::Regex> {
-    //    unsafe { TODO: call aravis_sys:arv_gv_device_get_url_regex() }
-    //}
 }
 
 pub const NONE_GV_DEVICE: Option<&GvDevice> = None;
 
 pub trait GvDeviceExt: 'static {
-    fn auto_packet_size(&self) -> u32;
+    fn auto_packet_size(&self) -> Result<(), glib::Error>;
 
     fn get_device_address(&self) -> Option<gio::SocketAddress>;
 
     fn get_interface_address(&self) -> Option<gio::SocketAddress>;
 
-    fn get_packet_size(&self) -> u32;
+    fn get_packet_size(&self) -> Result<(), glib::Error>;
 
     fn get_stream_options(&self) -> GvStreamOption;
 
-    fn get_timestamp_tick_frequency(&self) -> u64;
+    fn get_timestamp_tick_frequency(&self) -> Result<u64, glib::Error>;
 
-    fn set_packet_size(&self, packet_size: i32);
+    fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
 
     fn set_stream_options(&self, options: GvStreamOption);
 }
 
 impl<O: IsA<GvDevice>> GvDeviceExt for O {
-    fn auto_packet_size(&self) -> u32 {
+    fn auto_packet_size(&self) -> Result<(), glib::Error> {
         unsafe {
-            aravis_sys::arv_gv_device_auto_packet_size(self.as_ref().to_glib_none().0)
+            let mut error = ptr::null_mut();
+            let _ = aravis_sys::arv_gv_device_auto_packet_size(self.as_ref().to_glib_none().0, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
 
@@ -71,9 +71,11 @@ impl<O: IsA<GvDevice>> GvDeviceExt for O {
         }
     }
 
-    fn get_packet_size(&self) -> u32 {
+    fn get_packet_size(&self) -> Result<(), glib::Error> {
         unsafe {
-            aravis_sys::arv_gv_device_get_packet_size(self.as_ref().to_glib_none().0)
+            let mut error = ptr::null_mut();
+            let _ = aravis_sys::arv_gv_device_get_packet_size(self.as_ref().to_glib_none().0, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
 
@@ -83,15 +85,19 @@ impl<O: IsA<GvDevice>> GvDeviceExt for O {
         }
     }
 
-    fn get_timestamp_tick_frequency(&self) -> u64 {
+    fn get_timestamp_tick_frequency(&self) -> Result<u64, glib::Error> {
         unsafe {
-            aravis_sys::arv_gv_device_get_timestamp_tick_frequency(self.as_ref().to_glib_none().0)
+            let mut error = ptr::null_mut();
+            let ret = aravis_sys::arv_gv_device_get_timestamp_tick_frequency(self.as_ref().to_glib_none().0, &mut error);
+            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
         }
     }
 
-    fn set_packet_size(&self, packet_size: i32) {
+    fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error> {
         unsafe {
-            aravis_sys::arv_gv_device_set_packet_size(self.as_ref().to_glib_none().0, packet_size);
+            let mut error = ptr::null_mut();
+            let _ = aravis_sys::arv_gv_device_set_packet_size(self.as_ref().to_glib_none().0, packet_size, &mut error);
+            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
         }
     }
 

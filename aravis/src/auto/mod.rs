@@ -239,7 +239,6 @@ pub use self::enums::GvStreamOption;
 pub use self::enums::GvStreamPacketResend;
 pub use self::enums::GvStreamSocketBuffer;
 pub use self::enums::RegisterCachePolicy;
-pub use self::enums::Status;
 pub use self::enums::XmlSchemaError;
 
 mod alias;

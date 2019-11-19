@@ -1603,94 +1603,6 @@ impl SetValue for RegisterCachePolicy {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[derive(Clone, Copy)]
-pub enum Status {
-    Unknown,
-    Success,
-    Timeout,
-    WriteError,
-    TransferError,
-    ProtocolError,
-    NotConnected,
-    #[doc(hidden)]
-    __Unknown(i32),
-}
-
-impl fmt::Display for Status {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Status::{}", match *self {
-            Status::Unknown => "Unknown",
-            Status::Success => "Success",
-            Status::Timeout => "Timeout",
-            Status::WriteError => "WriteError",
-            Status::TransferError => "TransferError",
-            Status::ProtocolError => "ProtocolError",
-            Status::NotConnected => "NotConnected",
-            _ => "Unknown",
-        })
-    }
-}
-
-#[doc(hidden)]
-impl ToGlib for Status {
-    type GlibType = aravis_sys::ArvStatus;
-
-    fn to_glib(&self) -> aravis_sys::ArvStatus {
-        match *self {
-            Status::Unknown => aravis_sys::ARV_STATUS_UNKNOWN,
-            Status::Success => aravis_sys::ARV_STATUS_SUCCESS,
-            Status::Timeout => aravis_sys::ARV_STATUS_TIMEOUT,
-            Status::WriteError => aravis_sys::ARV_STATUS_WRITE_ERROR,
-            Status::TransferError => aravis_sys::ARV_STATUS_TRANSFER_ERROR,
-            Status::ProtocolError => aravis_sys::ARV_STATUS_PROTOCOL_ERROR,
-            Status::NotConnected => aravis_sys::ARV_STATUS_NOT_CONNECTED,
-            Status::__Unknown(value) => value
-        }
-    }
-}
-
-#[doc(hidden)]
-impl FromGlib<aravis_sys::ArvStatus> for Status {
-    fn from_glib(value: aravis_sys::ArvStatus) -> Self {
-        skip_assert_initialized!();
-        match value {
-            -1 => Status::Unknown,
-            0 => Status::Success,
-            1 => Status::Timeout,
-            2 => Status::WriteError,
-            3 => Status::TransferError,
-            4 => Status::ProtocolError,
-            5 => Status::NotConnected,
-            value => Status::__Unknown(value),
-        }
-    }
-}
-
-impl StaticType for Status {
-    fn static_type() -> Type {
-        unsafe { from_glib(aravis_sys::arv_status_get_type()) }
-    }
-}
-
-impl<'a> FromValueOptional<'a> for Status {
-    unsafe fn from_value_optional(value: &Value) -> Option<Self> {
-        Some(FromValue::from_value(value))
-    }
-}
-
-impl<'a> FromValue<'a> for Status {
-    unsafe fn from_value(value: &Value) -> Self {
-        from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
-    }
-}
-
-impl SetValue for Status {
-    unsafe fn set_value(value: &mut Value, this: &Self) {
-        gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
-    }
-}
-
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[derive(Clone, Copy)]
 pub enum XmlSchemaError {
     Structure,
     #[doc(hidden)]
@@ -1725,6 +1637,25 @@ impl FromGlib<aravis_sys::ArvXmlSchemaError> for XmlSchemaError {
         match value {
             0 => XmlSchemaError::Structure,
             value => XmlSchemaError::__Unknown(value),
+        }
+    }
+}
+
+impl ErrorDomain for XmlSchemaError {
+    fn domain() -> Quark {
+        skip_assert_initialized!();
+        unsafe { from_glib(aravis_sys::arv_xml_schema_error_quark()) }
+    }
+
+    fn code(self) -> i32 {
+        self.to_glib()
+    }
+
+    fn from(code: i32) -> Option<Self> {
+        skip_assert_initialized!();
+        match code {
+            0 => Some(XmlSchemaError::Structure),
+            value => Some(XmlSchemaError::__Unknown(value)),
         }
     }
 }
