@@ -47,8 +47,6 @@ pub trait CameraExt: 'static {
 
     //fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 
-    //fn create_stream(&self, callback: /*Unimplemented*/FnMut(/*Ignored*/StreamCallbackType, &Buffer), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Option<Stream>;
-
     fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
 
     fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error>;
@@ -279,10 +277,6 @@ impl<O: IsA<Camera>> CameraExt for O {
 
     //fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
     //    unsafe { TODO: call aravis_sys:arv_camera_create_chunk_parser() }
-    //}
-
-    //fn create_stream(&self, callback: /*Unimplemented*/FnMut(/*Ignored*/StreamCallbackType, &Buffer), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Option<Stream> {
-    //    unsafe { TODO: call aravis_sys:arv_camera_create_stream() }
     //}
 
     fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {

@@ -33,8 +33,6 @@ pub const NONE_DEVICE: Option<&Device> = None;
 pub trait DeviceExt: 'static {
     //fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 
-    //fn create_stream(&self, callback: /*Unimplemented*/FnMut(/*Ignored*/StreamCallbackType, &Buffer), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Option<Stream>;
-
     fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
 
     fn get_available_enumeration_feature_values(&self, feature: &str) -> Result<Vec<i64>, glib::Error>;
@@ -89,10 +87,6 @@ pub trait DeviceExt: 'static {
 impl<O: IsA<Device>> DeviceExt for O {
     //fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
     //    unsafe { TODO: call aravis_sys:arv_device_create_chunk_parser() }
-    //}
-
-    //fn create_stream(&self, callback: /*Unimplemented*/FnMut(/*Ignored*/StreamCallbackType, &Buffer), user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Option<Stream> {
-    //    unsafe { TODO: call aravis_sys:arv_device_create_stream() }
     //}
 
     fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {

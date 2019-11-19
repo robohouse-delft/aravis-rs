@@ -30,10 +30,6 @@ impl Buffer {
             from_glib_full(aravis_sys::arv_buffer_new_allocate(size))
         }
     }
-
-    //pub fn new_full(size: usize, preallocated: /*Unimplemented*/Option<Fundamental: Pointer>, user_data: /*Unimplemented*/Option<Fundamental: Pointer>) -> Buffer {
-    //    unsafe { TODO: call aravis_sys:arv_buffer_new_full() }
-    //}
 }
 
 pub const NONE_BUFFER: Option<&Buffer> = None;

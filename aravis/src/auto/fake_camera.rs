@@ -60,8 +60,6 @@ pub trait FakeCameraExt: 'static {
 
     fn set_control_channel_privilege(&self, privilege: u32);
 
-    //fn set_fill_pattern(&self, fill_pattern_callback: /*Unimplemented*/FnMut(&Buffer, /*Unimplemented*/Option<Fundamental: Pointer>, u32, u32, PixelFormat), fill_pattern_data: /*Unimplemented*/Option<Fundamental: Pointer>);
-
     fn set_inet_address<P: IsA<gio::InetAddress>>(&self, address: &P);
 
     fn set_trigger_frequency(&self, frequency: f64);
@@ -149,10 +147,6 @@ impl<O: IsA<FakeCamera>> FakeCameraExt for O {
             aravis_sys::arv_fake_camera_set_control_channel_privilege(self.as_ref().to_glib_none().0, privilege);
         }
     }
-
-    //fn set_fill_pattern(&self, fill_pattern_callback: /*Unimplemented*/FnMut(&Buffer, /*Unimplemented*/Option<Fundamental: Pointer>, u32, u32, PixelFormat), fill_pattern_data: /*Unimplemented*/Option<Fundamental: Pointer>) {
-    //    unsafe { TODO: call aravis_sys:arv_fake_camera_set_fill_pattern() }
-    //}
 
     fn set_inet_address<P: IsA<gio::InetAddress>>(&self, address: &P) {
         unsafe {

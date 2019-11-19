@@ -12,14 +12,14 @@ single_version_file = true
 generate = [
 	"Aravis.AcquisitionMode",
 	"Aravis.Auto",
-	"Aravis.Buffer",
+	#"Aravis.Buffer",
 	"Aravis.BufferPayloadType",
 	"Aravis.BufferStatus",
-	"Aravis.Camera",
+	#"Aravis.Camera",
 	#"Aravis.ChunkParser",
 	#"Aravis.ChunkParserError",
 	"Aravis.DebugLevel",
-	"Aravis.Device",
+	#"Aravis.Device",
 	"Aravis.DomCharacterData",
 	"Aravis.DomDocument",
 	"Aravis.DomDocumentCreateFunction",
@@ -31,7 +31,7 @@ generate = [
 	"Aravis.DomNodeType",
 	"Aravis.DomText",
 	"Aravis.Evaluator",
-	"Aravis.FakeCamera",
+	#"Aravis.FakeCamera",
 	"Aravis.FakeCameraFillPattern",
 	"Aravis.FakeDevice",
 	"Aravis.FakeInterface",
@@ -612,3 +612,31 @@ manual = [
 	"Gio.ZlibDecompressor",
 	"Gio.ZlibDecompressorClass",
 ]
+
+[[object]]
+name = "Aravis.Buffer"
+status = "generate"
+	[[object.function]]
+	name = "new_full"
+	ignore = true
+
+[[object]]
+name = "Aravis.Camera"
+status = "generate"
+	[[object.function]]
+	name = "create_stream"
+	ignore = true
+
+[[object]]
+name = "Aravis.Device"
+status = "generate"
+	[[object.function]]
+	name = "create_stream"
+	ignore = true
+
+[[object]]
+name = "Aravis.FakeCamera"
+status = "generate"
+	[[object.function]]
+	name = "set_fill_pattern"
+	ignore = true

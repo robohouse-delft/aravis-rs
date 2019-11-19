@@ -1,6 +1,12 @@
 use std::ffi::CString;
 use std::sync::atomic::{AtomicBool, Ordering};
 
+mod buffer;
+mod camera;
+mod device;
+pub use self::camera::*;
+pub use self::device::*;
+
 static INITIALIZED : AtomicBool = AtomicBool::new(false);
 
 pub struct Aravis {
