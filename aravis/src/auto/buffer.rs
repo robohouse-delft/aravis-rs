@@ -37,8 +37,6 @@ pub const NONE_BUFFER: Option<&Buffer> = None;
 pub trait BufferExt: 'static {
     fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
 
-    fn get_data(&self) -> Vec<u8>;
-
     fn get_frame_id(&self) -> u32;
 
     fn get_image_height(&self) -> i32;
@@ -75,14 +73,6 @@ impl<O: IsA<Buffer>> BufferExt for O {
         unsafe {
             let mut size = mem::MaybeUninit::uninit();
             let ret = FromGlibContainer::from_glib_none_num(aravis_sys::arv_buffer_get_chunk_data(self.as_ref().to_glib_none().0, chunk_id, size.as_mut_ptr()), size.assume_init() as usize);
-            ret
-        }
-    }
-
-    fn get_data(&self) -> Vec<u8> {
-        unsafe {
-            let mut size = mem::MaybeUninit::uninit();
-            let ret = FromGlibContainer::from_glib_none_num(aravis_sys::arv_buffer_get_data(self.as_ref().to_glib_none().0, size.as_mut_ptr()), size.assume_init() as usize);
             ret
         }
     }

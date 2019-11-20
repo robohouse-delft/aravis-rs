@@ -619,6 +619,9 @@ status = "generate"
 	[[object.function]]
 	name = "new_full"
 	ignore = true
+	[[object.function]]
+	name = "get_data"
+	ignore = true
 
 [[object]]
 name = "Aravis.Camera"

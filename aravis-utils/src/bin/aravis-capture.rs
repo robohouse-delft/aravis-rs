@@ -1,5 +1,11 @@
+#![feature(new_uninit)]
+#![feature(maybe_uninit_slice)]
+
 use aravis::BufferExt;
+use aravis::BufferExtManual;
 use aravis::CameraExt;
+use aravis::CameraExtManual;
+use aravis::StreamExt;
 use std::path::Path;
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
@@ -31,7 +37,7 @@ struct Options {
 struct Image {
 	width: u32,
 	height: u32,
-	data: Vec<u8>,
+	data: Box<[u8]>,
 }
 
 fn main() {
@@ -56,16 +62,25 @@ fn main() {
 
 	println!("Connected.");
 
+	let stream = camera.create_stream();
+
+	// Fill stream with 10 buffers.
+	let (_, _, width, height) = camera.get_region().unwrap();
+	for _ in 0..10 {
+		// TODO: use pixel depth to calculate size.
+		stream.push_buffer(&make_buffer((width * height) as usize))
+	}
+
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let mut next_frame = Instant::now() + period;
 
 	for i in 0..options.count {
 		let start = Instant::now();
 
-		let buffer = match camera.acquisition(3_000_000) {
-			Ok(x) => x,
-			Err(e) => {
-				eprintln!("Failed to acquire image: {}.", e);
+		let buffer = match stream.timeout_pop_buffer(3_000_000) {
+			Some(x) => x,
+			None => {
+				eprintln!("Failed to acquire image.");
 				continue;
 			}
 		};
@@ -75,11 +90,7 @@ fn main() {
 		println!("Capture time: {}", end.duration_since(start).as_secs_f64());
 
 		let path = format!("{}{:03}.png", &options.out, i);
-		let image = Image {
-			width: buffer.get_image_width() as u32,
-			height: buffer.get_image_height() as u32,
-			data: buffer.get_data(),
-		};
+		let image = unsafe { consume_buffer(buffer) };
 
 		sender.send((path, image)).unwrap_or_else(|e| {
 			eprintln!("Failed to send image to writer thread: {}.", e);
@@ -109,4 +120,26 @@ fn write_png(path: impl AsRef<Path>, image: &Image) -> std::io::Result<()> {
 	let length = (image.width * image.height) as usize;
 	writer.write_image_data(&image.data[0..length])?;
 	Ok(())
+}
+
+fn make_buffer(len: usize) -> aravis::Buffer {
+	let mut buffer = Box::<[u8]>::new_uninit_slice(len);
+	let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
+	let result = unsafe { aravis::Buffer::new_preallocated(data, len) };
+	std::mem::forget(buffer);
+	result
+}
+
+unsafe fn consume_buffer(buffer: aravis::Buffer) -> Image {
+	// TODO: check buffer status
+	let (data, len) = buffer.get_data();
+	Image {
+		width  : buffer.get_image_width()  as u32,
+		height : buffer.get_image_height() as u32,
+		data   : boxed_slice_from_raw(data, len),
+	}
+}
+
+unsafe fn boxed_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
+	Box::from_raw(std::slice::from_raw_parts_mut(data, len))
 }
