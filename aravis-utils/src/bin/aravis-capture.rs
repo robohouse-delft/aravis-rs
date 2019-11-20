@@ -6,7 +6,7 @@ use aravis::BufferExtManual;
 use aravis::CameraExt;
 use aravis::CameraExtManual;
 use aravis::StreamExt;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
@@ -18,10 +18,16 @@ struct Options {
 	/// The IP address of the camera to connecto to.
 	id: String,
 
-	/// Where to save the output file.
+	/// Save recorded images to a folder.
 	#[structopt(long)]
-	#[structopt(default_value = "./image-")]
-	out: String,
+	#[structopt(value_name = "PATH")]
+	save: Option<PathBuf>,
+
+	/// The name prefix of the saved images.
+	#[structopt(long)]
+	#[structopt(value_name = "PREFIX")]
+	#[structopt(default_value = "image-")]
+	out_name: String,
 
 	/// The numer of images to record.
 	#[structopt(long, short)]
@@ -51,11 +57,11 @@ fn main() {
 		},
 	};
 
-	let (sender, receiver) = mpsc::sync_channel::<(String, Image)>(options.count);
+	let (sender, receiver) = mpsc::sync_channel::<(PathBuf, Image)>(options.count);
 	let write_thread = std::thread::spawn(move || {
 		for (path, image) in receiver {
 			if let Err(err) = write_png(&path, &image) {
-				eprintln!("Failed to save image to {}: {}.", path, err);
+				eprintln!("Failed to save image to {}: {}.", path.display(), err);
 			};
 		}
 	});
@@ -71,6 +77,9 @@ fn main() {
 		stream.push_buffer(&make_buffer((width * height) as usize))
 	}
 
+	let _ = camera.start_acquisition();
+
+	let start = Instant::now();
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let mut next_frame = Instant::now() + period;
 
@@ -84,24 +93,28 @@ fn main() {
 				continue;
 			}
 		};
+		eprintln!("Capture time: {}", start.elapsed().as_secs_f64());
 
-		let end = Instant::now();
-
-		println!("Capture time: {}", end.duration_since(start).as_secs_f64());
-
-		let path = format!("{}{:03}.png", &options.out, i);
 		let image = unsafe { consume_buffer(buffer) };
+		stream.push_buffer(&make_buffer((width * height) as usize));
 
-		sender.send((path, image)).unwrap_or_else(|e| {
-			eprintln!("Failed to send image to writer thread: {}.", e);
-		});
+		if let Some(path) = &options.save {
+			let path = path.join(format!("{}{:03}.png", &options.out_name, i));
+			sender.send((path, image)).unwrap_or_else(|e| {
+				eprintln!("Failed to send image to writer thread: {}.", e);
+			});
+		}
 
 		let now = Instant::now();
 		if next_frame > now {
 			std::thread::sleep(next_frame.duration_since(now));
 		}
+
 		next_frame += period;
 	}
+
+	let total_duration = start.elapsed().as_secs_f64();
+	eprintln!("Total record time: {}s, average FPS: {}", total_duration, options.count as f64 / total_duration);
 
 	drop(sender);
 	let _ = write_thread.join();
