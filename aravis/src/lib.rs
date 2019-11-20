@@ -20,3 +20,8 @@ pub use auto::*;
 
 mod manual;
 pub use manual::*;
+
+pub mod prelude {
+    pub use auto::traits::*;
+    pub use manual::traits::*;
+}

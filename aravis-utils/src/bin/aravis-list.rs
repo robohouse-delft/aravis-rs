@@ -5,7 +5,8 @@ fn main() {
 
 	let devices = aravis.get_device_list();
 	if devices.is_empty() {
-		println!("No devices found.");
+		eprintln!("No devices found.");
+		std::process::exit(1);
 	} else {
 		for device in &devices {
 			println!("{:#?}", device);

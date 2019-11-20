@@ -8,6 +8,13 @@ pub use self::buffer::*;
 pub use self::camera::*;
 pub use self::device::*;
 
+#[doc(hidden)]
+pub mod traits {
+	pub use super::buffer::BufferExtManual;
+	pub use super::camera::CameraExtManual;
+	pub use super::device::DeviceExtManual;
+}
+
 static INITIALIZED : AtomicBool = AtomicBool::new(false);
 
 pub struct Aravis {

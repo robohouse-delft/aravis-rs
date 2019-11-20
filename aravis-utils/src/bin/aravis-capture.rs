@@ -46,13 +46,53 @@ struct Image {
 	data: Box<[u8]>,
 }
 
+fn init_logging() {
+	env_logger::Builder::new().format(|buffer, record: &log::Record| {
+		use std::io::Write;
+		use env_logger::fmt::Color;
+
+		let mut prefix_style = buffer.style();
+		let prefix;
+
+		match record.level() {
+			log::Level::Trace => {
+				prefix = "Trace: ";
+				prefix_style.set_bold(true);
+			}
+			log::Level::Debug => {
+				prefix = "";
+			}
+			log::Level::Info => {
+				prefix = "";
+			}
+			log::Level::Warn => {
+				prefix = "Warning: ";
+				prefix_style.set_color(Color::Yellow).set_bold(true);
+			}
+			log::Level::Error => {
+				prefix = "Error: ";
+				prefix_style.set_color(Color::Red).set_bold(true);
+			}
+		};
+
+		writeln!(
+			buffer,
+			"{}{}",
+			prefix_style.value(prefix),
+			record.args()
+		)
+	}).init();
+}
+
 fn main() {
+	init_logging();
+
 	let options = Options::from_args();
-	println!("Connecting to camera {}.", options.id);
+	log::info!("Connecting to camera {}.", options.id);
 	let camera = match aravis::Camera::new(Some(&options.id)) {
 		Some(x) => x,
 		None => {
-			println!("Failed to connect to camera.");
+			log::error!("Failed to connect to camera.");
 			std::process::exit(1);
 		},
 	};
@@ -61,12 +101,12 @@ fn main() {
 	let write_thread = std::thread::spawn(move || {
 		for (path, image) in receiver {
 			if let Err(err) = write_png(&path, &image) {
-				eprintln!("Failed to save image to {}: {}.", path.display(), err);
+				log::error!("Failed to save image to {}: {}.", path.display(), err);
 			};
 		}
 	});
 
-	println!("Connected.");
+	log::info!("Connected.");
 
 	let stream = camera.create_stream();
 
@@ -89,11 +129,11 @@ fn main() {
 		let buffer = match stream.timeout_pop_buffer(3_000_000) {
 			Some(x) => x,
 			None => {
-				eprintln!("Failed to acquire image.");
+				log::error!("Failed to acquire image.");
 				continue;
 			}
 		};
-		eprintln!("Capture time: {}", start.elapsed().as_secs_f64());
+		log::info!("Capture time: {}", start.elapsed().as_secs_f64());
 
 		let image = unsafe { consume_buffer(buffer) };
 		stream.push_buffer(&make_buffer((width * height) as usize));
@@ -101,7 +141,7 @@ fn main() {
 		if let Some(path) = &options.save {
 			let path = path.join(format!("{}{:03}.png", &options.out_name, i));
 			sender.send((path, image)).unwrap_or_else(|e| {
-				eprintln!("Failed to send image to writer thread: {}.", e);
+				log::error!("Failed to send image to writer thread: {}.", e);
 			});
 		}
 
@@ -114,7 +154,7 @@ fn main() {
 	}
 
 	let total_duration = start.elapsed().as_secs_f64();
-	eprintln!("Total record time: {}s, average FPS: {}", total_duration, options.count as f64 / total_duration);
+	log::info!("Total record time: {}s, average FPS: {}", total_duration, options.count as f64 / total_duration);
 
 	drop(sender);
 	let _ = write_thread.join();
