@@ -40,20 +40,10 @@ impl Default for GcBoolean {
 pub const NONE_GC_BOOLEAN: Option<&GcBoolean> = None;
 
 pub trait GcBooleanExt: 'static {
-    fn get_value(&self) -> Result<(), glib::Error>;
-
     fn set_value(&self, v_boolean: bool) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<GcBoolean>> GcBooleanExt for O {
-    fn get_value(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_gc_boolean_get_value(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
     fn set_value(&self, v_boolean: bool) -> Result<(), glib::Error> {
         unsafe {
             let mut error = ptr::null_mut();

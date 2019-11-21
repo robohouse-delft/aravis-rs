@@ -104,8 +104,7 @@ fn walk_genicam<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, indent: &str) ->
 	let node = genicam.get_node(feature).unwrap();
 
 	if let Some(node) = node.dynamic_cast_ref::<aravis::GcBoolean>() {
-		// TODO: fix GcBoolean::get_value().
-		println!("{}{}: boolean {:?}", indent, feature, node.get_value()?);
+		println!("{}{}: boolean {}", indent, feature, node.get_value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcCategory>() {
 		if feature == "Root" {
 			for feature in node.get_features() {

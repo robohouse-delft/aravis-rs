@@ -4,15 +4,18 @@ use std::sync::atomic::{AtomicBool, Ordering};
 mod buffer;
 mod camera;
 mod device;
+mod gc_boolean;
 pub use self::buffer::*;
 pub use self::camera::*;
 pub use self::device::*;
+pub use self::gc_boolean::*;
 
 #[doc(hidden)]
 pub mod traits {
 	pub use super::buffer::BufferExtManual;
 	pub use super::camera::CameraExtManual;
 	pub use super::device::DeviceExtManual;
+	pub use super::gc_boolean::GcBooleanExtManual;
 }
 
 static INITIALIZED : AtomicBool = AtomicBool::new(false);

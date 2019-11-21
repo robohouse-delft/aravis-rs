@@ -38,7 +38,7 @@ generate = [
 	"Aravis.FakeStream",
 	"Aravis.Gc",
 	"Aravis.GcAccessMode",
-	"Aravis.GcBoolean",
+	#"Aravis.GcBoolean",
 	"Aravis.GcCachable",
 	"Aravis.GcCategory",
 	"Aravis.GcCommand",
@@ -642,4 +642,11 @@ name = "Aravis.FakeCamera"
 status = "generate"
 	[[object.function]]
 	name = "set_fill_pattern"
+	ignore = true
+
+[[object]]
+name = "Aravis.GcBoolean"
+status = "generate"
+	[[object.function]]
+	name = "get_value"
 	ignore = true
