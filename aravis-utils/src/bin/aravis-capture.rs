@@ -46,46 +46,8 @@ struct Image {
 	data: Box<[u8]>,
 }
 
-fn init_logging() {
-	env_logger::Builder::new().format(|buffer, record: &log::Record| {
-		use std::io::Write;
-		use env_logger::fmt::Color;
-
-		let mut prefix_style = buffer.style();
-		let prefix;
-
-		match record.level() {
-			log::Level::Trace => {
-				prefix = "Trace: ";
-				prefix_style.set_bold(true);
-			}
-			log::Level::Debug => {
-				prefix = "";
-			}
-			log::Level::Info => {
-				prefix = "";
-			}
-			log::Level::Warn => {
-				prefix = "Warning: ";
-				prefix_style.set_color(Color::Yellow).set_bold(true);
-			}
-			log::Level::Error => {
-				prefix = "Error: ";
-				prefix_style.set_color(Color::Red).set_bold(true);
-			}
-		};
-
-		writeln!(
-			buffer,
-			"{}{}",
-			prefix_style.value(prefix),
-			record.args()
-		)
-	}).init();
-}
-
 fn main() {
-	init_logging();
+	aravis_utils::init_logging();
 
 	let options = Options::from_args();
 	log::info!("Connecting to camera {}.", options.id);
