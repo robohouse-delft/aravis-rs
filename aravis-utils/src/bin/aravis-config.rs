@@ -48,19 +48,16 @@ fn do_main() -> Result<(), String> {
 	let genicam = camera.get_device().unwrap().get_genicam().unwrap();
 
 	if options.all {
-		walk_genicam(&genicam, "Root", "").map_err(|e| format!("{}", e))?;
+		walk_genicam(&genicam, "Root", "").map_err(|e| format!("{}", e))
 	} else if let Some(feature) = options.feature {
 		if let Some(set_value) = &options.set {
-			set_feature(&genicam, &feature, set_value)?;
-			return Err(String::from("Setting feature values is not yet implemented."));
+			set_feature(&genicam, &feature, set_value)
 		} else {
-			walk_genicam(&genicam, &feature, "").map_err(|e| format!("{}", e))?;
+			walk_genicam(&genicam, &feature, "").map_err(|e| format!("{}", e))
 		}
 	} else {
 		unreachable!();
 	}
-
-	Ok(())
 }
 
 fn walk_genicam<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, indent: &str) -> Result<(), glib::Error> {
