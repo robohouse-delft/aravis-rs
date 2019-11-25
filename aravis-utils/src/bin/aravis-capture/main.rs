@@ -19,6 +19,8 @@ pub mod image;
 
 use image::{ArcImage, ImageFormat, ImageInfo};
 
+type ImageCallback = Box<dyn FnMut(usize, ArcImage) + Send>;
+
 #[derive(StructOpt)]
 #[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
 #[structopt(setting = structopt::clap::AppSettings::UnifiedHelpMessage)]
@@ -62,12 +64,14 @@ fn main() {
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let name_prefix = options.out_name;
 
-	let mut senders = Vec::with_capacity(2);
+	let mut senders = Vec::<ImageCallback>::with_capacity(2);
 
 	// Start write thread if saving images.
 	let write_thread = options.save.map(|path| {
 		let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
-		senders.push(sender);
+		senders.push(Box::new(move |i, image| if let Err(e) = sender.send((i, image)) {
+			log::error!("Failed to send image to writer thread: {}.", e);
+		}));
 		std::thread::spawn(move || {
 			for (i, image) in receiver {
 				let path = path.join(format!("{}{:03}.png", name_prefix, i));
@@ -78,28 +82,45 @@ fn main() {
 		})
 	});
 
+	let gui_thread;
+
 	#[cfg(feature = "gtk")]
 	{
 		if options.show {
-			let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
-			senders.push(sender);
-			if let Err(e) = gui::run_gui(receiver) {
-				log::error!("{}", e);
-			}
+			let (sender, receiver) = mpsc::channel();
+			let thread = std::thread::spawn(move || {
+				if let Err(e) = gui::run_gui(sender) {
+					log::error!("{}", e);
+				}
+				// TODO: Stop other threads.
+			});
+			senders.push(receiver.recv().unwrap());
+			gui_thread = Some(thread);
+		} else {
+			gui_thread = None;
 		}
 	}
 
+	#[cfg(not(feature = "gtk"))]
+	{
+		gui_thread = None;
+	}
+
 	let camera_thread = std::thread::spawn(move || {
-		if let Err(e) = run_camera_loop(&camera_id, count, period, &senders) {
+		if let Err(e) = run_camera_loop(&camera_id, count, period, &mut senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
+		// TODO: Stop other threads.
 	});
 
 	// Join all threads.
 	let _ = camera_thread.join();
-	if let Some(write_thread) = write_thread {
-		let _ = write_thread.join();
+	if let Some(thread) = write_thread {
+		let _ = thread.join();
+	}
+	if let Some(thread) = gui_thread {
+		let _ = thread.join();
 	}
 }
 
@@ -107,7 +128,7 @@ fn run_camera_loop(
 	camera_id: &str,
 	count: usize,
 	period: Duration,
-	channels: &[mpsc::Sender<(usize, ArcImage)>],
+	callbacks: &mut [ImageCallback],
 ) -> Result<(), String> {
 	log::info!("Connecting to camera {}.", camera_id);
 	let camera = aravis::Camera::new(Some(&camera_id))
@@ -143,10 +164,8 @@ fn run_camera_loop(
 		let image = unsafe { consume_buffer(buffer) };
 		stream.push_buffer(&make_buffer((width * height) as usize));
 
-		for channel in channels {
-			channel.send((i, image.clone())).unwrap_or_else(|e| {
-				log::error!("Failed to send image to writer thread: {}.", e);
-			});
+		for callback in callbacks.iter_mut() {
+			callback(i, image.clone());
 		}
 
 		let now = Instant::now();

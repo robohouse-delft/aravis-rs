@@ -1,14 +1,14 @@
 use std::path::Path;
 use std::sync::Arc;
 
-#[derive(Debug, Clone)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub enum ImageFormat {
 	Mono8,
 	Mono16,
 	Rgb8,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
 pub struct ImageInfo {
 	pub width: u32,
 	pub height: u32,
