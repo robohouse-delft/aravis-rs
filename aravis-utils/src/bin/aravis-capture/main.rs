@@ -6,10 +6,15 @@ use aravis::BufferExtManual;
 use aravis::CameraExt;
 use aravis::CameraExtManual;
 use aravis::StreamExt;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
+
+mod gui;
+mod image;
+
+use image::Image;
 
 #[derive(StructOpt)]
 #[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
@@ -17,6 +22,10 @@ use structopt::StructOpt;
 struct Options {
 	/// The IP address of the camera to connecto to.
 	id: String,
+
+	/// Show recorded images in a graphical window.
+	#[structopt(long)]
+	show: bool,
 
 	/// Save recorded images to a folder.
 	#[structopt(long)]
@@ -40,34 +49,62 @@ struct Options {
 	frequency: f64,
 }
 
-struct Image {
-	width: u32,
-	height: u32,
-	data: Box<[u8]>,
-}
-
 fn main() {
 	aravis_utils::init_logging();
 
 	let options = Options::from_args();
-	log::info!("Connecting to camera {}.", options.id);
-	let camera = match aravis::Camera::new(Some(&options.id)) {
-		Some(x) => x,
-		None => {
-			log::error!("Failed to connect to camera.");
-			std::process::exit(1);
-		},
+	let camera_id = options.id;
+	let count = options.count;
+	let period = Duration::from_secs_f64(1.0 / options.frequency);
+	let name_prefix = options.out_name;
+
+	// Start write thread if saving images.
+	let (write_thread, image_sender) = match options.save {
+		None => (None, None),
+		Some(path) => {
+			let (sender, receiver) = mpsc::channel::<(usize, Image)>();
+			let thread = std::thread::spawn(move || {
+				for (i, image) in receiver {
+					let path = path.join(format!("{}{:03}.png", name_prefix, i));
+					if let Err(err) = image.write_png(&path) {
+						log::error!("Failed to save image to {}: {}.", path.display(), err);
+					};
+				}
+			});
+			(Some(thread), Some(sender))
+		}
 	};
 
-	let (sender, receiver) = mpsc::sync_channel::<(PathBuf, Image)>(options.count);
-	let write_thread = std::thread::spawn(move || {
-		for (path, image) in receiver {
-			if let Err(err) = write_png(&path, &image) {
-				log::error!("Failed to save image to {}: {}.", path.display(), err);
-			};
+	let camera_thread = std::thread::spawn(move || {
+		if let Err(e) = run_camera_loop(&camera_id, count, period, image_sender) {
+			// Only log the error, let the write thread stop on by itself when the channel is empty.
+			log::error!("{}", e);
 		}
 	});
 
+	if options.show {
+		if let Err(e) = gui::run_gui() {
+			log::error!("{}", e);
+		}
+	}
+
+	// Join all threads.
+	let _ = camera_thread.join();
+	if let Some(write_thread) = write_thread {
+		let _ = write_thread.join();
+	}
+
+}
+
+fn run_camera_loop(
+	camera_id: &str,
+	count: usize,
+	period: Duration,
+	channel: Option<mpsc::Sender<(usize, Image)>>
+) -> Result<(), String> {
+	log::info!("Connecting to camera {}.", camera_id);
+	let camera = aravis::Camera::new(Some(&camera_id))
+		.ok_or("Failed to connect to camera")?;
 	log::info!("Connected.");
 
 	let stream = camera.create_stream();
@@ -82,10 +119,9 @@ fn main() {
 	let _ = camera.start_acquisition();
 
 	let start = Instant::now();
-	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let mut next_frame = Instant::now() + period;
 
-	for i in 0..options.count {
+	for i in 0..count {
 		let start = Instant::now();
 
 		let buffer = match stream.timeout_pop_buffer(3_000_000) {
@@ -100,9 +136,8 @@ fn main() {
 		let image = unsafe { consume_buffer(buffer) };
 		stream.push_buffer(&make_buffer((width * height) as usize));
 
-		if let Some(path) = &options.save {
-			let path = path.join(format!("{}{:03}.png", &options.out_name, i));
-			sender.send((path, image)).unwrap_or_else(|e| {
+		if let Some(channel) = &channel {
+			channel.send((i, image)).unwrap_or_else(|e| {
 				log::error!("Failed to send image to writer thread: {}.", e);
 			});
 		}
@@ -116,24 +151,8 @@ fn main() {
 	}
 
 	let total_duration = start.elapsed().as_secs_f64();
-	log::info!("Total record time: {}s, average FPS: {}", total_duration, options.count as f64 / total_duration);
+	log::info!("Total record time: {}s, average FPS: {}", total_duration, count as f64 / total_duration);
 
-	drop(sender);
-	let _ = write_thread.join();
-}
-
-fn write_png(path: impl AsRef<Path>, image: &Image) -> std::io::Result<()> {
-	let path = path.as_ref();
-	let file = std::fs::File::create(path)?;
-	let writer = std::io::BufWriter::new(file);
-
-	let mut encoder = png::Encoder::new(writer, image.width, image.height);
-	encoder.set_color(png::ColorType::Grayscale);
-	encoder.set_depth(png::BitDepth::Eight);
-	let mut writer = encoder.write_header()?;
-
-	let length = (image.width * image.height) as usize;
-	writer.write_image_data(&image.data[0..length])?;
 	Ok(())
 }
 
@@ -149,9 +168,9 @@ unsafe fn consume_buffer(buffer: aravis::Buffer) -> Image {
 	// TODO: check buffer status
 	let (data, len) = buffer.get_data();
 	Image {
-		width  : buffer.get_image_width()  as u32,
-		height : buffer.get_image_height() as u32,
-		data   : boxed_slice_from_raw(data, len),
+		width: buffer.get_image_width()  as u32,
+		height: buffer.get_image_height() as u32,
+		data: boxed_slice_from_raw(data, len),
 	}
 }
 
