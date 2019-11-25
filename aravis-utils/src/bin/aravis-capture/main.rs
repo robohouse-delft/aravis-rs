@@ -78,21 +78,23 @@ fn main() {
 		})
 	});
 
+	#[cfg(feature = "gtk")]
+	{
+		if options.show {
+			let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
+			senders.push(sender);
+			if let Err(e) = gui::run_gui(receiver) {
+				log::error!("{}", e);
+			}
+		}
+	}
+
 	let camera_thread = std::thread::spawn(move || {
 		if let Err(e) = run_camera_loop(&camera_id, count, period, &senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
 	});
-
-	#[cfg(feature = "gtk")]
-	{
-		if options.show {
-			if let Err(e) = gui::run_gui() {
-				log::error!("{}", e);
-			}
-		}
-	}
 
 	// Join all threads.
 	let _ = camera_thread.join();
