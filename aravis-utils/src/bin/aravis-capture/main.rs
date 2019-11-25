@@ -1,5 +1,6 @@
-#![feature(new_uninit)]
+#![feature(get_mut_unchecked)]
 #![feature(maybe_uninit_slice)]
+#![feature(new_uninit)]
 
 use aravis::BufferExt;
 use aravis::BufferExtManual;
@@ -8,14 +9,15 @@ use aravis::CameraExtManual;
 use aravis::StreamExt;
 use std::path::PathBuf;
 use std::sync::mpsc;
+use std::sync::Arc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
 
 #[cfg(feature = "gtk")]
 mod gui;
-mod image;
+pub mod image;
 
-use image::Image;
+use image::{ArcImage, ImageFormat, ImageInfo};
 
 #[derive(StructOpt)]
 #[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
@@ -60,25 +62,24 @@ fn main() {
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let name_prefix = options.out_name;
 
+	let mut senders = Vec::with_capacity(2);
+
 	// Start write thread if saving images.
-	let (write_thread, image_sender) = match options.save {
-		None => (None, None),
-		Some(path) => {
-			let (sender, receiver) = mpsc::channel::<(usize, Image)>();
-			let thread = std::thread::spawn(move || {
-				for (i, image) in receiver {
-					let path = path.join(format!("{}{:03}.png", name_prefix, i));
-					if let Err(err) = image.write_png(&path) {
-						log::error!("Failed to save image to {}: {}.", path.display(), err);
-					};
-				}
-			});
-			(Some(thread), Some(sender))
-		}
-	};
+	let write_thread = options.save.map(|path| {
+		let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
+		senders.push(sender);
+		std::thread::spawn(move || {
+			for (i, image) in receiver {
+				let path = path.join(format!("{}{:03}.png", name_prefix, i));
+				if let Err(err) = image.write_png(&path) {
+					log::error!("Failed to save image to {}: {}.", path.display(), err);
+				};
+			}
+		})
+	});
 
 	let camera_thread = std::thread::spawn(move || {
-		if let Err(e) = run_camera_loop(&camera_id, count, period, image_sender) {
+		if let Err(e) = run_camera_loop(&camera_id, count, period, &senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
@@ -104,7 +105,7 @@ fn run_camera_loop(
 	camera_id: &str,
 	count: usize,
 	period: Duration,
-	channel: Option<mpsc::Sender<(usize, Image)>>
+	channels: &[mpsc::Sender<(usize, ArcImage)>],
 ) -> Result<(), String> {
 	log::info!("Connecting to camera {}.", camera_id);
 	let camera = aravis::Camera::new(Some(&camera_id))
@@ -140,8 +141,8 @@ fn run_camera_loop(
 		let image = unsafe { consume_buffer(buffer) };
 		stream.push_buffer(&make_buffer((width * height) as usize));
 
-		if let Some(channel) = &channel {
-			channel.send((i, image)).unwrap_or_else(|e| {
+		for channel in channels {
+			channel.send((i, image.clone())).unwrap_or_else(|e| {
 				log::error!("Failed to send image to writer thread: {}.", e);
 			});
 		}
@@ -161,23 +162,28 @@ fn run_camera_loop(
 }
 
 fn make_buffer(len: usize) -> aravis::Buffer {
-	let mut buffer = Box::<[u8]>::new_uninit_slice(len);
-	let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
-	let result = unsafe { aravis::Buffer::new_preallocated(data, len) };
-	std::mem::forget(buffer);
-	result
-}
-
-unsafe fn consume_buffer(buffer: aravis::Buffer) -> Image {
-	// TODO: check buffer status
-	let (data, len) = buffer.get_data();
-	Image {
-		width: buffer.get_image_width()  as u32,
-		height: buffer.get_image_height() as u32,
-		data: boxed_slice_from_raw(data, len),
+	unsafe {
+		let mut buffer = Arc::<[u8]>::new_uninit_slice(len);
+		let data = std::mem::MaybeUninit::first_ptr_mut(Arc::get_mut_unchecked(&mut buffer));
+		let result = aravis::Buffer::new_preallocated(data, len);
+		std::mem::forget(buffer);
+		result
 	}
 }
 
-unsafe fn boxed_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
-	Box::from_raw(std::slice::from_raw_parts_mut(data, len))
+unsafe fn consume_buffer(buffer: aravis::Buffer) -> ArcImage {
+	// TODO: check buffer status
+	let (data, len) = buffer.get_data();
+	ArcImage {
+		info: ImageInfo {
+			width: buffer.get_image_width()  as u32,
+			height: buffer.get_image_height() as u32,
+			format: ImageFormat::Mono8,
+		},
+		data: arc_slice_from_raw(data, len),
+	}
+}
+
+unsafe fn arc_slice_from_raw<T>(data: *mut T, len: usize) -> Arc<[T]> {
+	Arc::from_raw(std::slice::from_raw_parts_mut(data, len))
 }
