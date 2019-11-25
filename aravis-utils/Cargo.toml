@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["Maarten de Vries <maarten@de-vri.es>"]
 edition = "2018"
 
+[features]
+default = ["gtk"]
+
 [dependencies]
 aravis     = {version = "0.0.1", path = "../aravis" }
 env_logger = "0.7.1"
@@ -12,4 +15,4 @@ glib       = "0.8.0"
 log        = "0.4.8"
 png        = "0.15.0"
 structopt  = "0.3.3"
-gtk        = "0.7.0"
+gtk        = { version = "0.7.0", optional = true }

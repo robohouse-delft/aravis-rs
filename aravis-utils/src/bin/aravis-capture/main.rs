@@ -11,6 +11,7 @@ use std::sync::mpsc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
 
+#[cfg(feature = "gtk")]
 mod gui;
 mod image;
 
@@ -25,6 +26,7 @@ struct Options {
 
 	/// Show recorded images in a graphical window.
 	#[structopt(long)]
+	#[cfg(feature = "gtk")]
 	show: bool,
 
 	/// Save recorded images to a folder.
@@ -82,9 +84,12 @@ fn main() {
 		}
 	});
 
-	if options.show {
-		if let Err(e) = gui::run_gui() {
-			log::error!("{}", e);
+	#[cfg(feature = "gtk")]
+	{
+		if options.show {
+			if let Err(e) = gui::run_gui() {
+				log::error!("{}", e);
+			}
 		}
 	}
 
@@ -93,7 +98,6 @@ fn main() {
 	if let Some(write_thread) = write_thread {
 		let _ = write_thread.join();
 	}
-
 }
 
 fn run_camera_loop(
