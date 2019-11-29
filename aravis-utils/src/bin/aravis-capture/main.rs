@@ -1,4 +1,3 @@
-#![feature(get_mut_unchecked)]
 #![feature(maybe_uninit_slice)]
 #![feature(new_uninit)]
 
@@ -9,7 +8,6 @@ use aravis::CameraExtManual;
 use aravis::StreamExt;
 use std::path::PathBuf;
 use std::sync::mpsc;
-use std::sync::Arc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
 
@@ -17,7 +15,7 @@ use structopt::StructOpt;
 mod gui;
 pub mod image;
 
-use image::{ArcImage, ImageFormat, ImageInfo};
+use image::{ArcImage, BoxImage, ImageFormat, ImageInfo};
 
 type ImageCallback = Box<dyn FnMut(usize, ArcImage) + Send>;
 
@@ -163,6 +161,7 @@ fn run_camera_loop(
 
 		let image = unsafe { consume_buffer(buffer) };
 		stream.push_buffer(&make_buffer((width * height) as usize));
+		let image = ArcImage::from(image);
 
 		for callback in callbacks.iter_mut() {
 			callback(i, image.clone());
@@ -184,27 +183,27 @@ fn run_camera_loop(
 
 fn make_buffer(len: usize) -> aravis::Buffer {
 	unsafe {
-		let mut buffer = Arc::<[u8]>::new_uninit_slice(len);
-		let data = std::mem::MaybeUninit::first_ptr_mut(Arc::get_mut_unchecked(&mut buffer));
+		let mut buffer = Box::<[u8]>::new_uninit_slice(len);
+		let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
 		let result = aravis::Buffer::new_preallocated(data, len);
 		std::mem::forget(buffer);
 		result
 	}
 }
 
-unsafe fn consume_buffer(buffer: aravis::Buffer) -> ArcImage {
+unsafe fn consume_buffer(buffer: aravis::Buffer) -> BoxImage {
 	// TODO: check buffer status
 	let (data, len) = buffer.get_data();
-	ArcImage {
+	BoxImage {
 		info: ImageInfo {
 			width: buffer.get_image_width()  as u32,
 			height: buffer.get_image_height() as u32,
 			format: ImageFormat::Mono8,
 		},
-		data: arc_slice_from_raw(data, len),
+		data: box_slice_from_raw(data, len),
 	}
 }
 
-unsafe fn arc_slice_from_raw<T>(data: *mut T, len: usize) -> Arc<[T]> {
-	Arc::from_raw(std::slice::from_raw_parts_mut(data, len))
+unsafe fn box_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
+	Box::from_raw(std::slice::from_raw_parts_mut(data, len))
 }

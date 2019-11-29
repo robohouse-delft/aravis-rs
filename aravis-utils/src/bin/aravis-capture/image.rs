@@ -16,7 +16,7 @@ pub struct ImageInfo {
 }
 
 #[derive(Debug, Clone)]
-pub struct Image {
+pub struct BoxImage {
 	pub info: ImageInfo,
 	pub data: Box<[u8]>,
 }
@@ -27,7 +27,7 @@ pub struct ArcImage {
 	pub data: Arc<[u8]>,
 }
 
-impl Image {
+impl BoxImage {
 	pub fn write_png(&self, path: impl AsRef<Path>) -> std::io::Result<()> {
 		write_png(path, &self.info, &self.data)
 	}
@@ -60,4 +60,14 @@ fn write_png(path: impl AsRef<Path>, info: &ImageInfo, data: &[u8]) -> std::io::
 	let length = (info.width * info.height) as usize;
 	writer.write_image_data(&data[0..length])?;
 	Ok(())
+}
+
+impl From<BoxImage> for ArcImage {
+	fn from(other: BoxImage) -> Self {
+		let BoxImage { info, data } = other;
+		Self {
+			info,
+			data: Arc::from(data),
+		}
+	}
 }
