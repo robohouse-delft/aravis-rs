@@ -16,7 +16,7 @@ struct SetImage {
 impl SetImage {
 	fn set_image(&self, _i: usize, image: ArcImage) {
 		let widget = self.widget;
-		gtk::idle_add(move || unsafe {
+		glib::idle_add(move || unsafe {
 			let widget = widget as *mut gtk_sys::GtkImage;
 			let widget : gtk::Image = glib::translate::from_glib_none(widget);
 			let pixbuf = match Pixbuf::new(gdk_pixbuf::Colorspace::Rgb, false, 8, image.info.width as i32, image.info.height as i32) {
