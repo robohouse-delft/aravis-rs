@@ -47,6 +47,10 @@ struct Options {
 	#[structopt(default_value = "1")]
 	count: usize,
 
+	#[structopt(long)]
+	#[structopt(conflicts_with = "count")]
+	forever: bool,
+
 	/// The frequency at which to record images.
 	#[structopt(long, short)]
 	#[structopt(default_value = "30")]
@@ -58,7 +62,11 @@ fn main() {
 
 	let options = Options::from_args();
 	let camera_id = options.id;
-	let count = options.count;
+	let count = if options.forever {
+		0
+	} else {
+		options.count
+	};
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 	let name_prefix = options.out_name;
 
@@ -147,7 +155,8 @@ fn run_camera_loop(
 	let start = Instant::now();
 	let mut next_frame = Instant::now() + period;
 
-	for i in 0..count {
+	for i in (0..).take_while(|i| count == 0 || *i < count) {
+
 		let start = Instant::now();
 
 		let buffer = match stream.timeout_pop_buffer(3_000_000) {
