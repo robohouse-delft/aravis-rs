@@ -69,7 +69,7 @@ pub trait CameraExt: 'static {
 
     fn get_binning(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_boolean(&self, feature: &str) -> Result<(), glib::Error>;
+    fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error>;
 
     fn get_chunk_mode(&self) -> Result<(), glib::Error>;
 
@@ -379,11 +379,13 @@ impl<O: IsA<Camera>> CameraExt for O {
         }
     }
 
-    fn get_boolean(&self, feature: &str) -> Result<(), glib::Error> {
+    fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error> {
         unsafe {
+            let mut value = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_boolean(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = aravis_sys::arv_camera_get_boolean_gi(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value.as_mut_ptr(), &mut error);
+            let value = value.assume_init();
+            if error.is_null() { Ok(from_glib(value)) } else { Err(from_glib_full(error)) }
         }
     }
 

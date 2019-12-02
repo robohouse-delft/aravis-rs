@@ -906,13 +906,13 @@ drawback of not exposing all the available features. See #ArvDevice and
       <constructor name="new" c:identifier="arv_camera_new" version="0.2.0">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2972">Creates a new #ArvCamera. If @name is null, it will instantiate the
+             line="2812">Creates a new #ArvCamera. If @name is null, it will instantiate the
 first available camera.</doc>
         <source-position filename="../src/arvcamera.h" line="43"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2979">a new #ArvCamera.</doc>
+               line="2819">a new #ArvCamera.</doc>
           <type name="Camera" c:type="ArvCamera*"/>
         </return-value>
         <parameters>
@@ -922,7 +922,7 @@ first available camera.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2974">name of the camera.</doc>
+                 line="2814">name of the camera.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -933,7 +933,7 @@ first available camera.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="721">Aborts video stream acquisition.</doc>
+             line="719">Aborts video stream acquisition.</doc>
         <source-position filename="../src/arvcamera.h" line="88"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -942,7 +942,7 @@ first available camera.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="723">a #ArvCamera</doc>
+                 line="721">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -953,25 +953,25 @@ first available camera.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="737">Acquire one image buffer.</doc>
+             line="735">Acquire one image buffer.</doc>
         <source-position filename="../src/arvcamera.h" line="90"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="745">A new #ArvBuffer, NULL on error. The returned buffer must be freed using g_object_unref().</doc>
+               line="743">A new #ArvBuffer, NULL on error. The returned buffer must be freed using g_object_unref().</doc>
           <type name="Buffer" c:type="ArvBuffer*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="739">a #ArvCamera</doc>
+                 line="737">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="timeout" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="740">acquisition timeout in µs. Zero means no timeout.</doc>
+                 line="738">acquisition timeout in µs. Zero means no timeout.</doc>
             <type name="guint64" c:type="guint64"/>
           </parameter>
         </parameters>
@@ -979,7 +979,7 @@ first available camera.</doc>
       <method name="check_status"
               c:identifier="arv_camera_check_status"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="164"/>
+        <source-position filename="../src/arvcamera.h" line="165"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -995,7 +995,7 @@ first available camera.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1263">Disables all triggers.</doc>
+             line="1274">Disables all triggers.</doc>
         <source-position filename="../src/arvcamera.h" line="109"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1004,7 +1004,7 @@ first available camera.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1265">a #ArvCamera</doc>
+                 line="1276">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1014,19 +1014,19 @@ first available camera.</doc>
               version="0.4.0">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2951">Creates a new #ArvChunkParser object, used for the extraction of chunk data from #ArvBuffer.</doc>
-        <source-position filename="../src/arvcamera.h" line="197"/>
+             line="2791">Creates a new #ArvChunkParser object, used for the extraction of chunk data from #ArvBuffer.</doc>
+        <source-position filename="../src/arvcamera.h" line="198"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2957">a new #ArvChunkParser.</doc>
+               line="2797">a new #ArvChunkParser.</doc>
           <type name="ChunkParser" c:type="ArvChunkParser*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2953">a #ArvCamera</doc>
+                 line="2793">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1036,20 +1036,20 @@ first available camera.</doc>
               version="0.2.0">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="125">Creates a new #ArvStream for video stream handling. See
+             line="123">Creates a new #ArvStream for video stream handling. See
 #ArvStreamCallback for details regarding the callback function.</doc>
         <source-position filename="../src/arvcamera.h" line="46"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="134">a new #ArvStream.</doc>
+               line="132">a new #ArvStream.</doc>
           <type name="Stream" c:type="ArvStream*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="127">a #ArvCamera</doc>
+                 line="125">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="callback"
@@ -1060,7 +1060,7 @@ first available camera.</doc>
                      closure="1">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="128">a frame processing callback</doc>
+                 line="126">a frame processing callback</doc>
             <type name="StreamCallback" c:type="ArvStreamCallback"/>
           </parameter>
           <parameter name="user_data"
@@ -1069,7 +1069,7 @@ first available camera.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="129">user data for @callback</doc>
+                 line="127">user data for @callback</doc>
             <type name="gpointer" c:type="void*"/>
           </parameter>
         </parameters>
@@ -1080,7 +1080,7 @@ first available camera.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1807">Execute a Genicam command.</doc>
+             line="1800">Execute a Genicam command.</doc>
         <source-position filename="../src/arvcamera.h" line="138"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1089,13 +1089,13 @@ first available camera.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1809">a #ArvCamera</doc>
+                 line="1802">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1810">feature name</doc>
+                 line="1803">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1108,14 +1108,14 @@ first available camera.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="806">acquisition mode.</doc>
+               line="804">acquisition mode.</doc>
           <type name="AcquisitionMode" c:type="ArvAcquisitionMode"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="803">a #ArvCamera</doc>
+                 line="801">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1126,12 +1126,12 @@ first available camera.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2246">Get all the available values of @feature, as 64 bit integers.</doc>
-        <source-position filename="../src/arvcamera.h" line="155"/>
+             line="2167">Get all the available values of @feature, as 64 bit integers.</doc>
+        <source-position filename="../src/arvcamera.h" line="156"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2255">a newly created array of integers, which must freed after use using g_free, or
+               line="2176">a newly created array of integers, which must freed after use using g_free, or
 NULL on error.</doc>
           <array length="1" zero-terminated="0" c:type="gint64*">
             <type name="gint64" c:type="gint64"/>
@@ -1141,13 +1141,13 @@ NULL on error.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2248">a #ArvCamera</doc>
+                 line="2169">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2249">feature name</doc>
+                 line="2170">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="n_values"
@@ -1156,7 +1156,7 @@ NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2250">placeholder for the number of returned values</doc>
+                 line="2171">placeholder for the number of returned values</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1167,12 +1167,12 @@ NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2322">Get display names of all the available entries of @feature.</doc>
-        <source-position filename="../src/arvcamera.h" line="159"/>
+             line="2223">Get display names of all the available entries of @feature.</doc>
+        <source-position filename="../src/arvcamera.h" line="160"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2331">a newly created array of const strings, to be freed after use using g_free, or
+               line="2232">a newly created array of const strings, to be freed after use using g_free, or
 %NULL on error.</doc>
           <array length="1" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
@@ -1182,13 +1182,13 @@ NULL on error.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2324">a #ArvCamera</doc>
+                 line="2225">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2325">feature name</doc>
+                 line="2226">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="n_values"
@@ -1197,7 +1197,7 @@ NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2326">placeholder for the number of returned values</doc>
+                 line="2227">placeholder for the number of returned values</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1208,12 +1208,12 @@ NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2285">Get all the available values of @feature, as strings.</doc>
-        <source-position filename="../src/arvcamera.h" line="157"/>
+             line="2195">Get all the available values of @feature, as strings.</doc>
+        <source-position filename="../src/arvcamera.h" line="158"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2294">a newly created array of const strings, which must freed after use using g_free,
+               line="2204">a newly created array of const strings, which must freed after use using g_free,
 or %NULL on error.</doc>
           <array length="1" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
@@ -1223,13 +1223,13 @@ or %NULL on error.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2287">a #ArvCamera</doc>
+                 line="2197">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2288">feature name</doc>
+                 line="2198">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="n_values"
@@ -1238,7 +1238,7 @@ or %NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2289">placeholder for the number of returned values</doc>
+                 line="2199">placeholder for the number of returned values</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1249,12 +1249,12 @@ or %NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="627">Retrieves the list of all available pixel formats.</doc>
+             line="625">Retrieves the list of all available pixel formats.</doc>
         <source-position filename="../src/arvcamera.h" line="80"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="635">a newly allocated array of #ArvPixelFormat</doc>
+               line="633">a newly allocated array of #ArvPixelFormat</doc>
           <array length="0" zero-terminated="0" c:type="gint64*">
             <type name="gint64" c:type="gint64"/>
           </array>
@@ -1263,7 +1263,7 @@ or %NULL on error.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="629">a #ArvCamera</doc>
+                 line="627">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="n_pixel_formats"
@@ -1272,7 +1272,7 @@ or %NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="630">number of different pixel formats</doc>
+                 line="628">number of different pixel formats</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1283,13 +1283,13 @@ or %NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="667">Retrieves the list of all available pixel formats as display names.
+             line="665">Retrieves the list of all available pixel formats as display names.
 In general, these human-readable strings cannot be used as settings.</doc>
         <source-position filename="../src/arvcamera.h" line="82"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="676">a newly allocated array of string constants.</doc>
+               line="674">a newly allocated array of string constants.</doc>
           <array length="0" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
           </array>
@@ -1298,7 +1298,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="669">a #ArvCamera</doc>
+                 line="667">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="n_pixel_formats"
@@ -1307,7 +1307,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="670">number of different pixel formats</doc>
+                 line="668">number of different pixel formats</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1318,12 +1318,12 @@ In general, these human-readable strings cannot be used as settings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="646">Retrieves the list of all available pixel formats as strings.</doc>
+             line="644">Retrieves the list of all available pixel formats as strings.</doc>
         <source-position filename="../src/arvcamera.h" line="81"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="654">a newly allocated array of strings.</doc>
+               line="652">a newly allocated array of strings.</doc>
           <array length="0" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
           </array>
@@ -1332,7 +1332,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="648">a #ArvCamera</doc>
+                 line="646">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="n_pixel_formats"
@@ -1341,7 +1341,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="649">number of different pixel formats</doc>
+                 line="647">number of different pixel formats</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1352,12 +1352,12 @@ In general, these human-readable strings cannot be used as settings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1225">Gets the list of all available trigger sources.</doc>
+             line="1236">Gets the list of all available trigger sources.</doc>
         <source-position filename="../src/arvcamera.h" line="107"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1233">a newly allocated array of strings, which must be freed using g_free().</doc>
+               line="1244">a newly allocated array of strings, which must be freed using g_free().</doc>
           <array length="0" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
           </array>
@@ -1366,7 +1366,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1227">a #ArvCamera</doc>
+                 line="1238">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="n_sources"
@@ -1375,7 +1375,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1228">number of sources</doc>
+                 line="1239">number of sources</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1386,12 +1386,12 @@ In general, these human-readable strings cannot be used as settings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1244">Gets a list of all available triggers: FrameStart, ExposureActive, etc...</doc>
+             line="1255">Gets a list of all available triggers: FrameStart, ExposureActive, etc...</doc>
         <source-position filename="../src/arvcamera.h" line="108"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1252">a newly allocated array of strings, which must be freed using g_free().</doc>
+               line="1263">a newly allocated array of strings, which must be freed using g_free().</doc>
           <array length="0" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
           </array>
@@ -1400,7 +1400,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1246">a #ArvCamera</doc>
+                 line="1257">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="n_triggers"
@@ -1409,7 +1409,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1247">number of available triggers</doc>
+                 line="1258">number of available triggers</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -1420,7 +1420,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="465">Retrieves binning in both directions.</doc>
+             line="463">Retrieves binning in both directions.</doc>
         <source-position filename="../src/arvcamera.h" line="68"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1429,7 +1429,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="467">a #ArvCamera</doc>
+                 line="465">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="dx"
@@ -1438,7 +1438,7 @@ In general, these human-readable strings cannot be used as settings.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="468">horizontal binning placeholder</doc>
+                 line="466">horizontal binning placeholder</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="dy"
@@ -1447,34 +1447,68 @@ In general, these human-readable strings cannot be used as settings.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="469">vertical binning placeholder</doc>
+                 line="467">vertical binning placeholder</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
       </method>
       <method name="get_boolean"
               c:identifier="arv_camera_get_boolean"
+              shadowed-by="get_boolean_gi"
               version="0.8.0"
               throws="1">
         <source-position filename="../src/arvcamera.h" line="141"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1868">the boolean feature value, %FALSE on error.</doc>
+               line="1849">the boolean feature value, %FALSE on error.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1864">a #ArvCamera</doc>
+                 line="1845">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1865">feature name</doc>
+                 line="1846">feature name</doc>
             <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_boolean_gi"
+              c:identifier="arv_camera_get_boolean_gi"
+              shadows="get_boolean"
+              version="0.8.0"
+              throws="1">
+        <source-position filename="../src/arvcamera.h" line="142"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="camera" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvcamera.c"
+                 line="1866">a #ArvCamera</doc>
+            <type name="Camera" c:type="ArvCamera*"/>
+          </instance-parameter>
+          <parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvcamera.c"
+                 line="1867">feature name</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/arvcamera.c"
+                 line="1868">output value</doc>
+            <type name="gboolean" c:type="gboolean*"/>
           </parameter>
         </parameters>
       </method>
@@ -1484,19 +1518,19 @@ In general, these human-readable strings cannot be used as settings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2810">Check wether chunk data mode is active. Please see arv_camera_set_chunk_mode().</doc>
-        <source-position filename="../src/arvcamera.h" line="193"/>
+             line="2650">Check wether chunk data mode is active. Please see arv_camera_set_chunk_mode().</doc>
+        <source-position filename="../src/arvcamera.h" line="194"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2817">%TRUE if chunk data mode is active.</doc>
+               line="2657">%TRUE if chunk data mode is active.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2812">a #ArvCamera</doc>
+                 line="2652">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1507,26 +1541,26 @@ In general, these human-readable strings cannot be used as settings.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2859">Gets state of chunk data. Chunk data are be embedded in #ArvBuffer only
+             line="2699">Gets state of chunk data. Chunk data are be embedded in #ArvBuffer only
 if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
-        <source-position filename="../src/arvcamera.h" line="195"/>
+        <source-position filename="../src/arvcamera.h" line="196"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2868">%TRUE if @chunk is enabled.</doc>
+               line="2708">%TRUE if @chunk is enabled.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2861">a #ArvCamera</doc>
+                 line="2701">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="chunk" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2862">chunk data name</doc>
+                 line="2702">chunk data name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1536,19 +1570,19 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               version="0.2.0">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1616">Retrieves the #ArvDevice object for more complete access to camera features.</doc>
+             line="1627">Retrieves the #ArvDevice object for more complete access to camera features.</doc>
         <source-position filename="../src/arvcamera.h" line="44"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1622">underlying device object.</doc>
+               line="1633">underlying device object.</doc>
           <type name="Device" c:type="ArvDevice*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1618">a #ArvCamera</doc>
+                 line="1629">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1561,14 +1595,14 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="188">the camera device ID.</doc>
+               line="186">the camera device ID.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="185">a #ArvCamera</doc>
+                 line="183">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1581,14 +1615,14 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1370">current exposure time, in µs.</doc>
+               line="1381">current exposure time, in µs.</doc>
           <type name="gdouble" c:type="double"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1367">a #ArvCamera</doc>
+                 line="1378">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1601,14 +1635,14 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1466">auto exposure mode selection</doc>
+               line="1477">auto exposure mode selection</doc>
           <type name="Auto" c:type="ArvAuto"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1463">a #ArvCamera</doc>
+                 line="1474">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1619,7 +1653,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1395">Retrieves exposure time bounds, in µs.</doc>
+             line="1406">Retrieves exposure time bounds, in µs.</doc>
         <source-position filename="../src/arvcamera.h" line="117"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1628,7 +1662,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1397">a #ArvCamera</doc>
+                 line="1408">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -1637,7 +1671,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1398">minimum exposure time</doc>
+                 line="1409">minimum exposure time</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
           <parameter name="max"
@@ -1646,7 +1680,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1399">maximum exposure time</doc>
+                 line="1410">maximum exposure time</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
         </parameters>
@@ -1655,24 +1689,24 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               c:identifier="arv_camera_get_float"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="152"/>
+        <source-position filename="../src/arvcamera.h" line="153"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2191">the float feature value, 0.0 on error.</doc>
+               line="2124">the float feature value, 0.0 on error.</doc>
           <type name="gdouble" c:type="double"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2187">a #ArvCamera</doc>
+                 line="2120">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2188">feature name</doc>
+                 line="2121">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1683,8 +1717,8 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2217">Retrieves float feature bounds.</doc>
-        <source-position filename="../src/arvcamera.h" line="153"/>
+             line="2139">Retrieves float feature bounds.</doc>
+        <source-position filename="../src/arvcamera.h" line="154"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1692,13 +1726,13 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2219">a #ArvCamera</doc>
+                 line="2141">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2220">feature name</doc>
+                 line="2142">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="min"
@@ -1707,7 +1741,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2221">minimum feature value</doc>
+                 line="2143">minimum feature value</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
           <parameter name="max"
@@ -1716,7 +1750,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2222">maximum feature value</doc>
+                 line="2144">maximum feature value</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
         </parameters>
@@ -1729,14 +1763,14 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="865">number of frames to capture in MultiFrame mode.</doc>
+               line="863">number of frames to capture in MultiFrame mode.</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="862">a #ArvCamera</doc>
+                 line="860">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1747,7 +1781,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="876">Retrieves allowed range for frame count.</doc>
+             line="874">Retrieves allowed range for frame count.</doc>
         <source-position filename="../src/arvcamera.h" line="97"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1756,7 +1790,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="878">a #ArvCamera</doc>
+                 line="876">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -1765,7 +1799,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="879">minimal possible frame count</doc>
+                 line="877">minimal possible frame count</doc>
             <type name="gint64" c:type="gint64*"/>
           </parameter>
           <parameter name="max"
@@ -1774,7 +1808,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="880">maximum possible frame count</doc>
+                 line="878">maximum possible frame count</doc>
             <type name="gint64" c:type="gint64*"/>
           </parameter>
         </parameters>
@@ -1787,14 +1821,14 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1023">actual frame rate, in Hz.</doc>
+               line="1034">actual frame rate, in Hz.</doc>
           <type name="gdouble" c:type="double"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1020">a #ArvCamera</doc>
+                 line="1031">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1804,7 +1838,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1070">Retrieves allowed range for framerate.
+             line="1081">Retrieves allowed range for framerate.
 
 Since 0.8.0</doc>
         <source-position filename="../src/arvcamera.h" line="103"/>
@@ -1815,7 +1849,7 @@ Since 0.8.0</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1072">a #ArvCamera</doc>
+                 line="1083">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -1824,7 +1858,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1073">minimal possible framerate</doc>
+                 line="1084">minimal possible framerate</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
           <parameter name="max"
@@ -1833,7 +1867,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1074">maximum possible framerate</doc>
+                 line="1085">maximum possible framerate</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
         </parameters>
@@ -1846,14 +1880,14 @@ Since 0.8.0</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1513">the current gain setting.</doc>
+               line="1524">the current gain setting.</doc>
           <type name="gdouble" c:type="double"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1510">a #ArvCamera</doc>
+                 line="1521">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1866,14 +1900,14 @@ Since 0.8.0</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1582">auto gain mode selection</doc>
+               line="1593">auto gain mode selection</doc>
           <type name="Auto" c:type="ArvAuto"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1579">a #ArvCamera</doc>
+                 line="1590">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1884,7 +1918,7 @@ Since 0.8.0</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1531">Retrieves gain bounds.</doc>
+             line="1542">Retrieves gain bounds.</doc>
         <source-position filename="../src/arvcamera.h" line="128"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1893,7 +1927,7 @@ Since 0.8.0</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1533">a #ArvCamera</doc>
+                 line="1544">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -1902,7 +1936,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1534">minimum gain</doc>
+                 line="1545">minimum gain</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
           <parameter name="max"
@@ -1911,7 +1945,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1535">maximum gain</doc>
+                 line="1546">maximum gain</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
         </parameters>
@@ -1922,7 +1956,7 @@ Since 0.8.0</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="402">Retrieves the valid range for image height.</doc>
+             line="400">Retrieves the valid range for image height.</doc>
         <source-position filename="../src/arvcamera.h" line="65"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1931,7 +1965,7 @@ Since 0.8.0</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="404">a #ArvCamera</doc>
+                 line="402">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -1940,7 +1974,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="405">minimum height</doc>
+                 line="403">minimum height</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="max"
@@ -1949,7 +1983,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="406">maximum height</doc>
+                 line="404">maximum height</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -1962,14 +1996,14 @@ Since 0.8.0</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="425">height value increment.</doc>
+               line="423">height value increment.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="422">a #ArvCamera</doc>
+                 line="420">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1978,24 +2012,24 @@ Since 0.8.0</doc>
               c:identifier="arv_camera_get_integer"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="147"/>
+        <source-position filename="../src/arvcamera.h" line="148"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1989">the integer feature value, 0 on error.</doc>
+               line="1953">the integer feature value, 0 on error.</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1985">a #ArvCamera</doc>
+                 line="1949">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1986">feature name</doc>
+                 line="1950">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -2006,8 +2040,8 @@ Since 0.8.0</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2015">Retrieves integer feature bounds.</doc>
-        <source-position filename="../src/arvcamera.h" line="148"/>
+             line="1968">Retrieves integer feature bounds.</doc>
+        <source-position filename="../src/arvcamera.h" line="149"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2015,13 +2049,13 @@ Since 0.8.0</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2017">a #ArvCamera</doc>
+                 line="1970">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2018">feature name</doc>
+                 line="1971">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="min"
@@ -2030,7 +2064,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2019">minimum feature value</doc>
+                 line="1972">minimum feature value</doc>
             <type name="gint64" c:type="gint64*"/>
           </parameter>
           <parameter name="max"
@@ -2039,7 +2073,7 @@ Since 0.8.0</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2020">maximum feature value</doc>
+                 line="1973">maximum feature value</doc>
             <type name="gint64" c:type="gint64*"/>
           </parameter>
         </parameters>
@@ -2048,24 +2082,24 @@ Since 0.8.0</doc>
               c:identifier="arv_camera_get_integer_increment"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="149"/>
+        <source-position filename="../src/arvcamera.h" line="150"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2050">@feature value increment.</doc>
+               line="2002">@feature value increment, or 1 on error.</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2046">a #ArvCamera</doc>
+                 line="1998">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2047">feature name</doc>
+                 line="1999">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -2078,14 +2112,14 @@ Since 0.8.0</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="172">the camera model name.</doc>
+               line="170">the camera model name.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="169">a #ArvCamera</doc>
+                 line="167">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2096,20 +2130,20 @@ Since 0.8.0</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1597">Retrieves the size needed for the storage of an image. This value is used
+             line="1608">Retrieves the size needed for the storage of an image. This value is used
 for the creation of the stream buffers.</doc>
         <source-position filename="../src/arvcamera.h" line="134"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1605">frame storage size, in bytes.</doc>
+               line="1616">frame storage size, in bytes.</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1599">a #ArvCamera</doc>
+                 line="1610">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2122,14 +2156,14 @@ for the creation of the stream buffers.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="600">pixel format.</doc>
+               line="598">pixel format.</doc>
           <type name="PixelFormat" c:type="ArvPixelFormat"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="597">a #ArvCamera</doc>
+                 line="595">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2140,7 +2174,7 @@ for the creation of the stream buffers.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="611">Retuns: pixel format as string, NULL on error.</doc>
+             line="609">Retuns: pixel format as string, NULL on error.</doc>
         <source-position filename="../src/arvcamera.h" line="79"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
@@ -2149,7 +2183,7 @@ for the creation of the stream buffers.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="613">a #ArvCamera</doc>
+                 line="611">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2160,7 +2194,7 @@ for the creation of the stream buffers.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="266">Retrieves the current region of interest.</doc>
+             line="264">Retrieves the current region of interest.</doc>
         <source-position filename="../src/arvcamera.h" line="58"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2169,7 +2203,7 @@ for the creation of the stream buffers.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="268">a #ArvCamera</doc>
+                 line="266">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="x"
@@ -2178,7 +2212,7 @@ for the creation of the stream buffers.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="269">x offset</doc>
+                 line="267">x offset</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="y"
@@ -2187,7 +2221,7 @@ for the creation of the stream buffers.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="270">y_offset</doc>
+                 line="268">y_offset</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="width"
@@ -2196,7 +2230,7 @@ for the creation of the stream buffers.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="271">region width</doc>
+                 line="269">region width</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="height"
@@ -2205,7 +2239,7 @@ for the creation of the stream buffers.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="272">region height</doc>
+                 line="270">region height</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2222,7 +2256,7 @@ for the creation of the stream buffers.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="203">a #ArvCamera</doc>
+                 line="201">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="width"
@@ -2231,7 +2265,7 @@ for the creation of the stream buffers.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="204">camera sensor width</doc>
+                 line="202">camera sensor width</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="height"
@@ -2240,7 +2274,7 @@ for the creation of the stream buffers.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="205">camera sensor height</doc>
+                 line="203">camera sensor height</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2249,24 +2283,24 @@ for the creation of the stream buffers.</doc>
               c:identifier="arv_camera_get_string"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="144"/>
+        <source-position filename="../src/arvcamera.h" line="145"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1929">the string feature value, %NULL on error.</doc>
+               line="1910">the string feature value, %NULL on error.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1925">a #ArvCamera</doc>
+                 line="1906">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1926">feature name</doc>
+                 line="1907">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -2277,20 +2311,20 @@ for the creation of the stream buffers.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1206">Gets the trigger source. This function doesn't check if the camera is configured
+             line="1217">Gets the trigger source. This function doesn't check if the camera is configured
 to actually use this source as a trigger.</doc>
         <source-position filename="../src/arvcamera.h" line="106"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1214">a string containing the trigger source name, NULL on error.</doc>
+               line="1225">a string containing the trigger source name, NULL on error.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1208">a #ArvCamera</doc>
+                 line="1219">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2303,14 +2337,14 @@ to actually use this source as a trigger.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="156">the camera vendor name.</doc>
+               line="154">the camera vendor name.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="153">a #ArvCamera</doc>
+                 line="151">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2321,7 +2355,7 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="368">Retrieves the valid range for image width.</doc>
+             line="366">Retrieves the valid range for image width.</doc>
         <source-position filename="../src/arvcamera.h" line="63"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2330,7 +2364,7 @@ to actually use this source as a trigger.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="370">a #ArvCamera</doc>
+                 line="368">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -2339,7 +2373,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="371">minimum width</doc>
+                 line="369">minimum width</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="max"
@@ -2348,7 +2382,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="372">maximum width</doc>
+                 line="370">maximum width</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2361,14 +2395,14 @@ to actually use this source as a trigger.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="391">width value increment.</doc>
+               line="389">width value increment.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="388">a #ArvCamera</doc>
+                 line="386">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2379,7 +2413,7 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="493">Retrieves the valid range for image horizontal binning.</doc>
+             line="491">Retrieves the valid range for image horizontal binning.</doc>
         <source-position filename="../src/arvcamera.h" line="69"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2388,7 +2422,7 @@ to actually use this source as a trigger.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="495">a #ArvCamera</doc>
+                 line="493">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -2397,7 +2431,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="496">minimum binning</doc>
+                 line="494">minimum binning</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="max"
@@ -2406,7 +2440,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="497">maximum binning</doc>
+                 line="495">maximum binning</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2419,14 +2453,14 @@ to actually use this source as a trigger.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="516">horizontal binning value increment.</doc>
+               line="514">horizontal binning value increment.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="513">a #ArvCamera</doc>
+                 line="511">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2437,7 +2471,7 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="300">Retrieves the valid range for image horizontal offset.</doc>
+             line="298">Retrieves the valid range for image horizontal offset.</doc>
         <source-position filename="../src/arvcamera.h" line="59"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2446,7 +2480,7 @@ to actually use this source as a trigger.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="302">a #ArvCamera</doc>
+                 line="300">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -2455,7 +2489,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="303">minimum offset</doc>
+                 line="301">minimum offset</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="max"
@@ -2464,7 +2498,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="304">maximum offset</doc>
+                 line="302">maximum offset</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2477,14 +2511,14 @@ to actually use this source as a trigger.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="323">horizontal offset value increment.</doc>
+               line="321">horizontal offset value increment.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="320">a #ArvCamera</doc>
+                 line="318">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2495,7 +2529,7 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="527">Retrieves the valid range for image vertical binning.</doc>
+             line="525">Retrieves the valid range for image vertical binning.</doc>
         <source-position filename="../src/arvcamera.h" line="71"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2504,7 +2538,7 @@ to actually use this source as a trigger.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="529">a #ArvCamera</doc>
+                 line="527">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -2513,7 +2547,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="530">minimum binning</doc>
+                 line="528">minimum binning</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="max"
@@ -2522,7 +2556,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="531">maximum binning</doc>
+                 line="529">maximum binning</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2535,14 +2569,14 @@ to actually use this source as a trigger.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="550">vertical binning value increment.</doc>
+               line="548">vertical binning value increment.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="547">a #ArvCamera</doc>
+                 line="545">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2553,7 +2587,7 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="334">Retrieves the valid range for image vertical offset.</doc>
+             line="332">Retrieves the valid range for image vertical offset.</doc>
         <source-position filename="../src/arvcamera.h" line="61"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2562,7 +2596,7 @@ to actually use this source as a trigger.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="336">a #ArvCamera</doc>
+                 line="334">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -2571,7 +2605,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="337">minimum offset</doc>
+                 line="335">minimum offset</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
           <parameter name="max"
@@ -2580,7 +2614,7 @@ to actually use this source as a trigger.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="338">maximum offset</doc>
+                 line="336">maximum offset</doc>
             <type name="gint" c:type="gint*"/>
           </parameter>
         </parameters>
@@ -2593,14 +2627,14 @@ to actually use this source as a trigger.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="357">vertical offset value increment.</doc>
+               line="355">vertical offset value increment.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="354">a #ArvCamera</doc>
+                 line="352">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2611,22 +2645,22 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2622">Automatically determine the biggest packet size that can be used data
+             line="2472">Automatically determine the biggest packet size that can be used data
 streaming, and set GevSCPSPacketSize value accordingly. This function relies
 on the GevSCPSFireTestPacket feature. If this feature is not available, the
 packet size will be set to a default value (1500 bytes).</doc>
-        <source-position filename="../src/arvcamera.h" line="178"/>
+        <source-position filename="../src/arvcamera.h" line="179"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2632">The packet size, in bytes.</doc>
+               line="2482">The packet size, in bytes.</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2624">a #ArvCamera</doc>
+                 line="2474">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2635,18 +2669,18 @@ packet size will be set to a default value (1500 bytes).</doc>
               c:identifier="arv_camera_gv_get_current_stream_channel"
               version="0.4.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="172"/>
+        <source-position filename="../src/arvcamera.h" line="173"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2471">The current stream channel id.</doc>
+               line="2336">The current stream channel id.</doc>
           <type name="gint" c:type="int"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2468">a #ArvCamera</doc>
+                 line="2333">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2655,18 +2689,18 @@ packet size will be set to a default value (1500 bytes).</doc>
               c:identifier="arv_camera_gv_get_n_stream_channels"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="170"/>
+        <source-position filename="../src/arvcamera.h" line="171"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2431">the number of supported stream channels.</doc>
+               line="2296">the number of supported stream channels.</doc>
           <type name="gint" c:type="gint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2428">a #ArvCamera</doc>
+                 line="2293">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2675,18 +2709,18 @@ packet size will be set to a default value (1500 bytes).</doc>
               c:identifier="arv_camera_gv_get_packet_delay"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="175"/>
+        <source-position filename="../src/arvcamera.h" line="176"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2527">The inter packet delay, in nanoseconds.</doc>
+               line="2392">The inter packet delay, in nanoseconds.</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2524">a #ArvCamera</doc>
+                 line="2389">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2695,18 +2729,18 @@ packet size will be set to a default value (1500 bytes).</doc>
               c:identifier="arv_camera_gv_get_packet_size"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="177"/>
+        <source-position filename="../src/arvcamera.h" line="178"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2597">The stream packet size, in bytes.</doc>
+               line="2457">The stream packet size, in bytes.</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2594">a #ArvCamera</doc>
+                 line="2454">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2717,8 +2751,8 @@ packet size will be set to a default value (1500 bytes).</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2444">Select the current stream channel.</doc>
-        <source-position filename="../src/arvcamera.h" line="171"/>
+             line="2309">Select the current stream channel.</doc>
+        <source-position filename="../src/arvcamera.h" line="172"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2726,13 +2760,13 @@ packet size will be set to a default value (1500 bytes).</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2446">a #ArvCamera</doc>
+                 line="2311">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="channel_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2447">id of the channel to select</doc>
+                 line="2312">id of the channel to select</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -2743,10 +2777,10 @@ packet size will be set to a default value (1500 bytes).</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2484">Configure the inter packet delay to insert between each packet for the current stream
+             line="2349">Configure the inter packet delay to insert between each packet for the current stream
 channel. This can be used as a crude flow-control mechanism if the application or the network
 infrastructure cannot keep up with the packets coming from the device.</doc>
-        <source-position filename="../src/arvcamera.h" line="174"/>
+        <source-position filename="../src/arvcamera.h" line="175"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2754,13 +2788,13 @@ infrastructure cannot keep up with the packets coming from the device.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2486">a #ArvCamera</doc>
+                 line="2351">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="delay_ns" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2487">inter packet delay, in nanoseconds</doc>
+                 line="2352">inter packet delay, in nanoseconds</doc>
             <type name="gint64" c:type="gint64"/>
           </parameter>
         </parameters>
@@ -2771,12 +2805,12 @@ infrastructure cannot keep up with the packets coming from the device.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2559">Specifies the stream packet size, in bytes, to send on the selected channel for a GVSP transmitter
+             line="2424">Specifies the stream packet size, in bytes, to send on the selected channel for a GVSP transmitter
 or specifies the maximum packet size supported by a GVSP receiver.
 
 This does not include data leader and data trailer and the last data packet which might be of
 smaller size (since packet size is not necessarily a multiple of block size for stream channel).</doc>
-        <source-position filename="../src/arvcamera.h" line="176"/>
+        <source-position filename="../src/arvcamera.h" line="177"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2784,13 +2818,13 @@ smaller size (since packet size is not necessarily a multiple of block size for 
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2561">a #ArvCamera</doc>
+                 line="2426">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="packet_size" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2562">packet size, in bytes</doc>
+                 line="2427">packet size, in bytes</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -2800,9 +2834,9 @@ smaller size (since packet size is not necessarily a multiple of block size for 
               version="0.6.0">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2657">Sets the options used during stream object creation. These options mus be
+             line="2497">Sets the options used during stream object creation. These options mus be
 set before the call to arv_camera_create_stream().</doc>
-        <source-position filename="../src/arvcamera.h" line="180"/>
+        <source-position filename="../src/arvcamera.h" line="181"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2810,13 +2844,13 @@ set before the call to arv_camera_create_stream().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2659">a #ArvCamera</doc>
+                 line="2499">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="options" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2660">option for stream creation</doc>
+                 line="2500">option for stream creation</doc>
             <type name="GvStreamOption" c:type="ArvGvStreamOption"/>
           </parameter>
         </parameters>
@@ -2829,14 +2863,14 @@ set before the call to arv_camera_create_stream().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1763">%TRUE if Binning feature is available.</doc>
+               line="1774">%TRUE if Binning feature is available.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1760">a #ArvCamera</doc>
+                 line="1771">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2849,14 +2883,14 @@ set before the call to arv_camera_create_stream().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1708">%TRUE if Exposure Auto feature is available.</doc>
+               line="1719">%TRUE if Exposure Auto feature is available.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1705">a #ArvCamera</doc>
+                 line="1716">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2869,14 +2903,14 @@ set before the call to arv_camera_create_stream().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1679">%TRUE if Exposure Time feature is available.</doc>
+               line="1690">%TRUE if Exposure Time feature is available.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1676">a #ArvCamera</doc>
+                 line="1687">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2885,24 +2919,24 @@ set before the call to arv_camera_create_stream().</doc>
               c:identifier="arv_camera_is_feature_available"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="162"/>
+        <source-position filename="../src/arvcamera.h" line="163"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2365">%TRUE if feature is available, %FALSE if not or on error.</doc>
+               line="2257">%TRUE if feature is available, %FALSE if not or on error.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2361">a #ArvCamera</doc>
+                 line="2253">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2362">feature name</doc>
+                 line="2254">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -2915,14 +2949,14 @@ set before the call to arv_camera_create_stream().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1642">%TRUE if FrameRate feature is available</doc>
+               line="1653">%TRUE if FrameRate feature is available</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1639">a #ArvCamera</doc>
+                 line="1650">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2935,14 +2969,14 @@ set before the call to arv_camera_create_stream().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1747">%TRUE if Gain feature is available.</doc>
+               line="1758">%TRUE if Gain feature is available.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1744">a #ArvCamera</doc>
+                 line="1755">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2955,14 +2989,14 @@ set before the call to arv_camera_create_stream().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="1724">%TRUE if Gain feature is available.</doc>
+               line="1735">%TRUE if Gain feature is available.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1721">a #ArvCamera</doc>
+                 line="1732">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2970,18 +3004,18 @@ set before the call to arv_camera_create_stream().</doc>
       <method name="is_gv_device"
               c:identifier="arv_camera_is_gv_device"
               version="0.4.0">
-        <source-position filename="../src/arvcamera.h" line="168"/>
+        <source-position filename="../src/arvcamera.h" line="169"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2411">%TRUE if @camera is a GigEVision device.</doc>
+               line="2276">%TRUE if @camera is a GigEVision device.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2409">a #ArvCamera</doc>
+                 line="2274">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -2989,18 +3023,18 @@ set before the call to arv_camera_create_stream().</doc>
       <method name="is_uv_device"
               c:identifier="arv_camera_is_uv_device"
               version="0.6.0">
-        <source-position filename="../src/arvcamera.h" line="184"/>
+        <source-position filename="../src/arvcamera.h" line="185"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2682">%TRUE if @camera is a USB3Vision device.</doc>
+               line="2522">%TRUE if @camera is a USB3Vision device.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2680">a #ArvCamera</doc>
+                 line="2520">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3027,7 +3061,7 @@ set before the call to arv_camera_create_stream().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="436">Defines binning in both directions. Not all cameras support this
+             line="434">Defines binning in both directions. Not all cameras support this
 feature.</doc>
         <source-position filename="../src/arvcamera.h" line="67"/>
         <return-value transfer-ownership="none">
@@ -3037,19 +3071,19 @@ feature.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="438">a #ArvCamera</doc>
+                 line="436">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="dx" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="439">horizontal binning</doc>
+                 line="437">horizontal binning</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="dy" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="440">vertical binning</doc>
+                 line="438">vertical binning</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -3060,7 +3094,7 @@ feature.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1834">Set a boolean feature value.</doc>
+             line="1821">Set a boolean feature value.</doc>
         <source-position filename="../src/arvcamera.h" line="140"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3069,19 +3103,19 @@ feature.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1836">a #ArvCamera</doc>
+                 line="1823">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1837">feature name</doc>
+                 line="1824">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1838">new feature value</doc>
+                 line="1825">new feature value</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -3092,10 +3126,10 @@ feature.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2789">Controls wether chunk data mode is active. When active, chunk data
+             line="2629">Controls wether chunk data mode is active. When active, chunk data
 are appended to image data in #ArvBuffer. A #ArvChunkParser must be used in
 order to extract chunk data.</doc>
-        <source-position filename="../src/arvcamera.h" line="192"/>
+        <source-position filename="../src/arvcamera.h" line="193"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3103,13 +3137,13 @@ order to extract chunk data.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2791">a #ArvCamera</doc>
+                 line="2631">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="is_active" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2792">wether to enable chunk data mode</doc>
+                 line="2632">wether to enable chunk data mode</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -3120,9 +3154,9 @@ order to extract chunk data.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2830">Sets state of a chunk data. Chunk data are be embedded in #ArvBuffer only
+             line="2670">Sets state of a chunk data. Chunk data are be embedded in #ArvBuffer only
 if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
-        <source-position filename="../src/arvcamera.h" line="194"/>
+        <source-position filename="../src/arvcamera.h" line="195"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3130,19 +3164,19 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2832">a #ArvCamera</doc>
+                 line="2672">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="chunk" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2833">chunk data name</doc>
+                 line="2673">chunk data name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="is_enabled" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2834">wether to enable this chunk</doc>
+                 line="2674">wether to enable this chunk</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -3153,9 +3187,9 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2890">Convenience function for enabling a set of chunk data. Chunk mode is activated, or deactivated
+             line="2730">Convenience function for enabling a set of chunk data. Chunk mode is activated, or deactivated
 if @chunk_list is %NULL or empty. All chunk data not listed are disabled.</doc>
-        <source-position filename="../src/arvcamera.h" line="196"/>
+        <source-position filename="../src/arvcamera.h" line="197"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3163,13 +3197,13 @@ if @chunk_list is %NULL or empty. All chunk data not listed are disabled.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2892">a #ArvCamera</doc>
+                 line="2732">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="chunk_list" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2893">chunk data names, as a comma or space separated list</doc>
+                 line="2733">chunk data names, as a comma or space separated list</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3180,7 +3214,7 @@ if @chunk_list is %NULL or empty. All chunk data not listed are disabled.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1312">Sets exposure time. User should take care to set a value compatible with
+             line="1323">Sets exposure time. User should take care to set a value compatible with
 the desired frame rate.</doc>
         <source-position filename="../src/arvcamera.h" line="115"/>
         <return-value transfer-ownership="none">
@@ -3190,13 +3224,13 @@ the desired frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1314">a #ArvCamera</doc>
+                 line="1325">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="exposure_time_us" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1315">exposure time, in µs</doc>
+                 line="1326">exposure time, in µs</doc>
             <type name="gdouble" c:type="double"/>
           </parameter>
         </parameters>
@@ -3207,7 +3241,7 @@ the desired frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1444">Configures automatic exposure feature.</doc>
+             line="1455">Configures automatic exposure feature.</doc>
         <source-position filename="../src/arvcamera.h" line="118"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3216,13 +3250,13 @@ the desired frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1446">a #ArvCamera</doc>
+                 line="1457">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="auto_mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1447">auto exposure mode selection</doc>
+                 line="1458">auto exposure mode selection</doc>
             <type name="Auto" c:type="ArvAuto"/>
           </parameter>
         </parameters>
@@ -3233,8 +3267,8 @@ the desired frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2157">Set a float feature value.</doc>
-        <source-position filename="../src/arvcamera.h" line="151"/>
+             line="2096">Set a float feature value.</doc>
+        <source-position filename="../src/arvcamera.h" line="152"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3242,19 +3276,19 @@ the desired frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2159">a #ArvCamera</doc>
+                 line="2098">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2160">feature name</doc>
+                 line="2099">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2161">new feature value</doc>
+                 line="2100">new feature value</doc>
             <type name="gdouble" c:type="double"/>
           </parameter>
         </parameters>
@@ -3265,7 +3299,7 @@ the desired frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="823">Sets the number of frames to capture in MultiFrame mode.</doc>
+             line="821">Sets the number of frames to capture in MultiFrame mode.</doc>
         <source-position filename="../src/arvcamera.h" line="95"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3274,13 +3308,13 @@ the desired frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="825">a #ArvCamera</doc>
+                 line="823">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="frame_count" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="826">number of frames to capture in MultiFrame mode</doc>
+                 line="824">number of frames to capture in MultiFrame mode</doc>
             <type name="gint64" c:type="gint64"/>
           </parameter>
         </parameters>
@@ -3291,8 +3325,8 @@ the desired frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="894">Configures a fixed frame rate mode. Once acquisition start is triggered, the
-video stream will be acquired with the given frame rate.</doc>
+             line="892">Configures a fixed frame rate mode. Once acquisition start is triggered, the video stream will be acquired with the given frame rate. A
+negative or zero @frame_rate value disables the frame rate limit.</doc>
         <source-position filename="../src/arvcamera.h" line="101"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3301,13 +3335,13 @@ video stream will be acquired with the given frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="896">a #ArvCamera</doc>
+                 line="894">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="frame_rate" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="897">frame rate, in Hz</doc>
+                 line="895">frame rate, in Hz</doc>
             <type name="gdouble" c:type="double"/>
           </parameter>
         </parameters>
@@ -3318,7 +3352,7 @@ video stream will be acquired with the given frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1481">Sets the gain of the ADC converter.</doc>
+             line="1492">Sets the gain of the ADC converter.</doc>
         <source-position filename="../src/arvcamera.h" line="126"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3327,13 +3361,13 @@ video stream will be acquired with the given frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1483">a #ArvCamera</doc>
+                 line="1494">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="gain" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1484">gain value</doc>
+                 line="1495">gain value</doc>
             <type name="gdouble" c:type="double"/>
           </parameter>
         </parameters>
@@ -3344,7 +3378,7 @@ video stream will be acquired with the given frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1560">Configures automatic gain feature.</doc>
+             line="1571">Configures automatic gain feature.</doc>
         <source-position filename="../src/arvcamera.h" line="129"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3353,13 +3387,13 @@ video stream will be acquired with the given frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1562">a #ArvCamera</doc>
+                 line="1573">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="auto_mode" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1563">auto gain mode selection</doc>
+                 line="1574">auto gain mode selection</doc>
             <type name="Auto" c:type="ArvAuto"/>
           </parameter>
         </parameters>
@@ -3370,8 +3404,8 @@ video stream will be acquired with the given frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1955">Set an integer feature value.</doc>
-        <source-position filename="../src/arvcamera.h" line="146"/>
+             line="1925">Set an integer feature value.</doc>
+        <source-position filename="../src/arvcamera.h" line="147"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3379,19 +3413,19 @@ video stream will be acquired with the given frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1957">a #ArvCamera</doc>
+                 line="1927">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1958">feature name</doc>
+                 line="1928">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1959">new feature value</doc>
+                 line="1929">new feature value</doc>
             <type name="gint64" c:type="gint64"/>
           </parameter>
         </parameters>
@@ -3402,7 +3436,7 @@ video stream will be acquired with the given frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="561">Defines pixel format.</doc>
+             line="559">Defines pixel format.</doc>
         <source-position filename="../src/arvcamera.h" line="76"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3411,13 +3445,13 @@ video stream will be acquired with the given frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="563">a #ArvCamera</doc>
+                 line="561">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="format" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="564">pixel format</doc>
+                 line="562">pixel format</doc>
             <type name="PixelFormat" c:type="ArvPixelFormat"/>
           </parameter>
         </parameters>
@@ -3428,7 +3462,7 @@ video stream will be acquired with the given frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="578">Defines pixel format described by a string.</doc>
+             line="576">Defines pixel format described by a string.</doc>
         <source-position filename="../src/arvcamera.h" line="77"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3437,13 +3471,13 @@ video stream will be acquired with the given frame rate.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="580">a #ArvCamera</doc>
+                 line="578">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="format" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="581">pixel format</doc>
+                 line="579">pixel format</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3454,7 +3488,7 @@ video stream will be acquired with the given frame rate.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="227">Defines the region of interest which will be transmitted in the video
+             line="225">Defines the region of interest which will be transmitted in the video
 stream.</doc>
         <source-position filename="../src/arvcamera.h" line="57"/>
         <return-value transfer-ownership="none">
@@ -3464,31 +3498,31 @@ stream.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="229">a #ArvCamera</doc>
+                 line="227">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="x" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="230">x offset</doc>
+                 line="228">x offset</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="y" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="231">y_offset</doc>
+                 line="229">y_offset</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="width" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="232">region width</doc>
+                 line="230">region width</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
           <parameter name="height" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="233">region height</doc>
+                 line="231">region height</doc>
             <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
@@ -3499,8 +3533,8 @@ stream.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1894">Set an string feature value.</doc>
-        <source-position filename="../src/arvcamera.h" line="143"/>
+             line="1882">Set an string feature value.</doc>
+        <source-position filename="../src/arvcamera.h" line="144"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3508,19 +3542,19 @@ stream.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1896">a #ArvCamera</doc>
+                 line="1884">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1897">feature name</doc>
+                 line="1885">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1898">new feature value</doc>
+                 line="1886">new feature value</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3531,7 +3565,7 @@ stream.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1142">Configures the camera in trigger mode. Typical values for source are "Line1"
+             line="1153">Configures the camera in trigger mode. Typical values for source are "Line1"
 or "Line2". See the camera documentation for the allowed values.
 Activation is set to rising edge. It can be changed by accessing the
 underlying device object.
@@ -3546,13 +3580,13 @@ by a call to arv_camera_software_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1144">a #ArvCamera</doc>
+                 line="1155">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="source" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1145">trigger source as string</doc>
+                 line="1156">trigger source as string</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3563,7 +3597,7 @@ by a call to arv_camera_software_trigger().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1188">Sets the trigger source. This function doesn't check if the camera is configured
+             line="1199">Sets the trigger source. This function doesn't check if the camera is configured
 to actually use this source as a trigger.</doc>
         <source-position filename="../src/arvcamera.h" line="105"/>
         <return-value transfer-ownership="none">
@@ -3573,13 +3607,13 @@ to actually use this source as a trigger.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1190">a #ArvCamera</doc>
+                 line="1201">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="source" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1191">source name</doc>
+                 line="1202">source name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3590,7 +3624,7 @@ to actually use this source as a trigger.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="1295">Sends a software trigger command to @camera. The camera must be previously
+             line="1306">Sends a software trigger command to @camera. The camera must be previously
 configured to use a software trigger, using @arv_camera_set_trigger().</doc>
         <source-position filename="../src/arvcamera.h" line="110"/>
         <return-value transfer-ownership="none">
@@ -3600,7 +3634,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="1297">a #ArvCamera</doc>
+                 line="1308">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3611,7 +3645,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="689">Starts video stream acquisition.</doc>
+             line="687">Starts video stream acquisition.</doc>
         <source-position filename="../src/arvcamera.h" line="86"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3620,7 +3654,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="691">a #ArvCamera</doc>
+                 line="689">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3631,7 +3665,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="705">Stops video stream acquisition.</doc>
+             line="703">Stops video stream acquisition.</doc>
         <source-position filename="../src/arvcamera.h" line="87"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -3640,7 +3674,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="707">a #ArvCamera</doc>
+                 line="705">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3649,18 +3683,18 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
               c:identifier="arv_camera_uv_get_bandwidth"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="187"/>
+        <source-position filename="../src/arvcamera.h" line="188"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2760">the current bandwidth limit</doc>
+               line="2600">the current bandwidth limit</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2757">a #ArvCamera</doc>
+                 line="2597">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3669,7 +3703,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
               c:identifier="arv_camera_uv_get_bandwidth_bounds"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="188"/>
+        <source-position filename="../src/arvcamera.h" line="189"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3677,7 +3711,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2775">a #ArvCamera</doc>
+                 line="2615">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -3686,7 +3720,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2776">minimum bandwidth</doc>
+                 line="2616">minimum bandwidth</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
           <parameter name="max"
@@ -3695,7 +3729,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2777">maximum bandwidth</doc>
+                 line="2617">maximum bandwidth</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -3704,18 +3738,18 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
               c:identifier="arv_camera_uv_is_bandwidth_control_available"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="185"/>
+        <source-position filename="../src/arvcamera.h" line="186"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2706">wether bandwidth limits are available on this camera</doc>
+               line="2546">wether bandwidth limits are available on this camera</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2703">a #ArvCamera</doc>
+                 line="2543">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3724,7 +3758,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
               c:identifier="arv_camera_uv_set_bandwidth"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvcamera.h" line="186"/>
+        <source-position filename="../src/arvcamera.h" line="187"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3732,13 +3766,13 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2729">a #ArvCamera</doc>
+                 line="2569">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="bandwidth" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2730">Desired bandwith limit in megabits/sec. Set to 0 to disable limit mode.</doc>
+                 line="2570">Desired bandwith limit in megabits/sec. Set to 0 to disable limit mode.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -4407,12 +4441,12 @@ advanced uses.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="664">Get all the available values of @feature, as integers.</doc>
-        <source-position filename="../src/arvdevice.h" line="111"/>
+             line="684">Get all the available values of @feature, as integers.</doc>
+        <source-position filename="../src/arvdevice.h" line="112"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="673">a newly created array of 64 bit integers, which must freed after use using g_free,
+               line="693">a newly created array of 64 bit integers, which must freed after use using g_free,
 or NULL on error.</doc>
           <array length="1" zero-terminated="0" c:type="gint64*">
             <type name="gint64" c:type="gint64"/>
@@ -4422,13 +4456,13 @@ or NULL on error.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="666">an #ArvDevice</doc>
+                 line="686">an #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="667">feature name</doc>
+                 line="687">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="n_values"
@@ -4437,7 +4471,7 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="668">placeholder for the number of returned values</doc>
+                 line="688">placeholder for the number of returned values</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -4448,12 +4482,12 @@ or NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="724">Get display names of all the available entries of @feature.</doc>
-        <source-position filename="../src/arvdevice.h" line="115"/>
+             line="744">Get display names of all the available entries of @feature.</doc>
+        <source-position filename="../src/arvdevice.h" line="116"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="733">a newly created array of const strings, to be freed after use using g_free, or
+               line="753">a newly created array of const strings, to be freed after use using g_free, or
 %NULL on error.</doc>
           <array length="1" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
@@ -4463,13 +4497,13 @@ or NULL on error.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="726">an #ArvDevice</doc>
+                 line="746">an #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="727">feature name</doc>
+                 line="747">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="n_values"
@@ -4478,7 +4512,7 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="728">placeholder for the number of returned values</doc>
+                 line="748">placeholder for the number of returned values</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -4489,12 +4523,12 @@ or NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="694">Get all the available values of @feature, as strings.</doc>
-        <source-position filename="../src/arvdevice.h" line="113"/>
+             line="714">Get all the available values of @feature, as strings.</doc>
+        <source-position filename="../src/arvdevice.h" line="114"/>
         <return-value transfer-ownership="container">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="703">a newly created array of const strings, which must freed after use using g_free,
+               line="723">a newly created array of const strings, which must freed after use using g_free,
 or NULL on error.</doc>
           <array length="1" zero-terminated="0" c:type="const char**">
             <type name="utf8"/>
@@ -4504,13 +4538,13 @@ or NULL on error.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="696">an #ArvDevice</doc>
+                 line="716">an #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="697">feature name</doc>
+                 line="717">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="n_values"
@@ -4519,13 +4553,14 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="698">placeholder for the number of returned values</doc>
+                 line="718">placeholder for the number of returned values</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
       </method>
       <method name="get_boolean_feature_value"
               c:identifier="arv_device_get_boolean_feature_value"
+              shadowed-by="get_boolean_feature_value_gi"
               version="0.8.0"
               throws="1">
         <source-position filename="../src/arvdevice.h" line="97"/>
@@ -4547,6 +4582,42 @@ or NULL on error.</doc>
                  filename="../src/arvdevice.c"
                  line="362">feature name</doc>
             <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_boolean_feature_value_gi"
+              c:identifier="arv_device_get_boolean_feature_value_gi"
+              shadows="get_boolean_feature_value"
+              version="0.8.0"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="../src/arvdevice.c"
+             line="382">Get the feature value, or %FALSE on error.</doc>
+        <source-position filename="../src/arvdevice.h" line="98"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="device" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvdevice.c"
+                 line="384">a #ArvDevice</doc>
+            <type name="Device" c:type="ArvDevice*"/>
+          </instance-parameter>
+          <parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvdevice.c"
+                 line="385">feature name</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/arvdevice.c"
+                 line="386">feature value</doc>
+            <type name="gboolean" c:type="gboolean*"/>
           </parameter>
         </parameters>
       </method>
@@ -4581,8 +4652,8 @@ or NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="609">Retrieves feature bounds.</doc>
-        <source-position filename="../src/arvdevice.h" line="109"/>
+             line="629">Retrieves feature bounds.</doc>
+        <source-position filename="../src/arvdevice.h" line="110"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -4590,13 +4661,13 @@ or NULL on error.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="611">a #ArvDevice</doc>
+                 line="631">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="612">feature name</doc>
+                 line="632">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="min"
@@ -4605,7 +4676,7 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="613">minimum feature value</doc>
+                 line="633">minimum feature value</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
           <parameter name="max"
@@ -4614,7 +4685,7 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="614">maximum feature value</doc>
+                 line="634">maximum feature value</doc>
             <type name="gdouble" c:type="double*"/>
           </parameter>
         </parameters>
@@ -4623,24 +4694,24 @@ or NULL on error.</doc>
               c:identifier="arv_device_get_float_feature_value"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvdevice.h" line="108"/>
+        <source-position filename="../src/arvdevice.h" line="109"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="592">the float feature value, 0.0 on error.</doc>
+               line="612">the float feature value, 0.0 on error.</doc>
           <type name="gdouble" c:type="double"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="588">a #ArvDevice</doc>
+                 line="608">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="589">feature name</doc>
+                 line="609">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -4706,8 +4777,8 @@ or NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="472">Retrieves feature bounds.</doc>
-        <source-position filename="../src/arvdevice.h" line="104"/>
+             line="492">Retrieves feature bounds.</doc>
+        <source-position filename="../src/arvdevice.h" line="105"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -4715,13 +4786,13 @@ or NULL on error.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="474">a #ArvDevice</doc>
+                 line="494">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="475">feature name</doc>
+                 line="495">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="min"
@@ -4730,7 +4801,7 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="476">minimum feature value</doc>
+                 line="496">minimum feature value</doc>
             <type name="gint64" c:type="gint64*"/>
           </parameter>
           <parameter name="max"
@@ -4739,7 +4810,7 @@ or NULL on error.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="477">maximum feature value</doc>
+                 line="497">maximum feature value</doc>
             <type name="gint64" c:type="gint64*"/>
           </parameter>
         </parameters>
@@ -4750,26 +4821,26 @@ or NULL on error.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="527">Not all integer features have evenly distributed allowed values, which means the returned increment may not reflect the allowed value
+             line="547">Not all integer features have evenly distributed allowed values, which means the returned increment may not reflect the allowed value
 set.</doc>
-        <source-position filename="../src/arvdevice.h" line="105"/>
+        <source-position filename="../src/arvdevice.h" line="106"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="536">feature value increment, or 1 on error.</doc>
+               line="556">feature value increment, or 1 on error.</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="529">a #ArvDevice</doc>
+                 line="549">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="530">feature name</doc>
+                 line="550">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -4778,24 +4849,24 @@ set.</doc>
               c:identifier="arv_device_get_integer_feature_value"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvdevice.h" line="103"/>
+        <source-position filename="../src/arvdevice.h" line="104"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="455">the integer feature value, 0 on error.</doc>
+               line="475">the integer feature value, 0 on error.</doc>
           <type name="gint64" c:type="gint64"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="451">a #ArvDevice</doc>
+                 line="471">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="452">feature name</doc>
+                 line="472">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -4804,24 +4875,24 @@ set.</doc>
               c:identifier="arv_device_get_string_feature_value"
               version="0.8.0"
               throws="1">
-        <source-position filename="../src/arvdevice.h" line="100"/>
+        <source-position filename="../src/arvdevice.h" line="101"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvdevice.c"
-               line="410">the string feature value, %NULL on error.</doc>
+               line="430">the string feature value, %NULL on error.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="406">a #ArvDevice</doc>
+                 line="426">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="407">feature name</doc>
+                 line="427">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -4972,8 +5043,8 @@ set.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="564">Set the float feature value.</doc>
-        <source-position filename="../src/arvdevice.h" line="107"/>
+             line="584">Set the float feature value.</doc>
+        <source-position filename="../src/arvdevice.h" line="108"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -4981,19 +5052,19 @@ set.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="566">a #ArvDevice</doc>
+                 line="586">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="567">feature name</doc>
+                 line="587">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="568">new feature value</doc>
+                 line="588">new feature value</doc>
             <type name="gdouble" c:type="double"/>
           </parameter>
         </parameters>
@@ -5004,8 +5075,8 @@ set.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="427">Set the integer feature value.</doc>
-        <source-position filename="../src/arvdevice.h" line="102"/>
+             line="447">Set the integer feature value.</doc>
+        <source-position filename="../src/arvdevice.h" line="103"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5013,19 +5084,19 @@ set.</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="429">a #ArvDevice</doc>
+                 line="449">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="430">feature name</doc>
+                 line="450">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="431">new feature value</doc>
+                 line="451">new feature value</doc>
             <type name="gint64" c:type="gint64"/>
           </parameter>
         </parameters>
@@ -5034,13 +5105,13 @@ set.</doc>
               c:identifier="arv_device_set_register_cache_policy">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="754">Sets the register cache policy.
+             line="774">Sets the register cache policy.
 
 &lt;warning&gt;&lt;para&gt;Be aware that some camera may have wrong Cachable properties defined in their Genicam metadata, which may
 lead to incorrect readouts. Using the debug cache policy, and activating genicam debug output (export ARV_DEBUG=genicam), can help you to
 check the cache validity. In this mode, every time the cache content is not in sync with the actual register value, a debug message is
 printed on the console.&lt;/para&gt;&lt;/warning&gt;</doc>
-        <source-position filename="../src/arvdevice.h" line="118"/>
+        <source-position filename="../src/arvdevice.h" line="119"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5048,13 +5119,13 @@ printed on the console.&lt;/para&gt;&lt;/warning&gt;</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="756">a #ArvDevice</doc>
+                 line="776">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="policy" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="757">cache policy</doc>
+                 line="777">cache policy</doc>
             <type name="RegisterCachePolicy" c:type="ArvRegisterCachePolicy"/>
           </parameter>
         </parameters>
@@ -5065,8 +5136,8 @@ printed on the console.&lt;/para&gt;&lt;/warning&gt;</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="382">Set the string feature value.</doc>
-        <source-position filename="../src/arvdevice.h" line="99"/>
+             line="402">Set the string feature value.</doc>
+        <source-position filename="../src/arvdevice.h" line="100"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5074,19 +5145,19 @@ printed on the console.&lt;/para&gt;&lt;/warning&gt;</doc>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="384">a #ArvDevice</doc>
+                 line="404">a #ArvDevice</doc>
             <type name="Device" c:type="ArvDevice*"/>
           </instance-parameter>
           <parameter name="feature" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="385">feature name</doc>
+                 line="405">feature name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvdevice.c"
-                 line="386">new feature value</doc>
+                 line="406">new feature value</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -5176,7 +5247,7 @@ printed on the console.&lt;/para&gt;&lt;/warning&gt;</doc>
       <glib:signal name="control-lost" when="last" version="0.2.0">
         <doc xml:space="preserve"
              filename="../src/arvdevice.c"
-             line="806">Signal that the control of the device is lost.
+             line="826">Signal that the control of the device is lost.
 
 This signal may be emited from a thread different than the main one,
 so please take care to shared data access from the callback.</doc>
@@ -8631,21 +8702,59 @@ standard format. See http://www.genicam.org.</doc>
       </constructor>
       <method name="get_value"
               c:identifier="arv_gc_boolean_get_value"
+              shadowed-by="get_value_gi"
+              version="0.8.0"
               throws="1">
         <source-position filename="../src/arvgcboolean.h" line="41"/>
         <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcboolean.c"
+               line="136">the feature value.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="gc_boolean" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcboolean.c"
+                 line="133">a #ArvGcBoolean</doc>
             <type name="GcBoolean" c:type="ArvGcBoolean*"/>
           </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_value_gi"
+              c:identifier="arv_gc_boolean_get_value_gi"
+              shadows="get_value"
+              version="0.8.0"
+              throws="1">
+        <doc xml:space="preserve"
+             filename="../src/arvgcboolean.c"
+             line="171">Get the feature value.</doc>
+        <source-position filename="../src/arvgcboolean.h" line="42"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_boolean" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcboolean.c"
+                 line="173">a #ArvGcBoolean</doc>
+            <type name="GcBoolean" c:type="ArvGcBoolean*"/>
+          </instance-parameter>
+          <parameter name="value"
+                     direction="out"
+                     caller-allocates="0"
+                     transfer-ownership="full">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcboolean.c"
+                 line="174">feature value</doc>
+            <type name="gboolean" c:type="gboolean*"/>
+          </parameter>
         </parameters>
       </method>
       <method name="set_value"
               c:identifier="arv_gc_boolean_set_value"
               throws="1">
-        <source-position filename="../src/arvgcboolean.h" line="42"/>
+        <source-position filename="../src/arvgcboolean.h" line="43"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>

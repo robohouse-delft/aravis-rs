@@ -41,7 +41,7 @@ pub trait DeviceExt: 'static {
 
     fn get_available_enumeration_feature_values_as_strings(&self, feature: &str) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_boolean_feature_value(&self, feature: &str) -> Result<(), glib::Error>;
+    fn get_boolean_feature_value(&self, feature: &str) -> Result<bool, glib::Error>;
 
     fn get_feature(&self, feature: &str) -> Option<GcNode>;
 
@@ -124,11 +124,13 @@ impl<O: IsA<Device>> DeviceExt for O {
         }
     }
 
-    fn get_boolean_feature_value(&self, feature: &str) -> Result<(), glib::Error> {
+    fn get_boolean_feature_value(&self, feature: &str) -> Result<bool, glib::Error> {
         unsafe {
+            let mut value = mem::MaybeUninit::uninit();
             let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_device_get_boolean_feature_value(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
+            let _ = aravis_sys::arv_device_get_boolean_feature_value_gi(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value.as_mut_ptr(), &mut error);
+            let value = value.assume_init();
+            if error.is_null() { Ok(from_glib(value)) } else { Err(from_glib_full(error)) }
         }
     }
 

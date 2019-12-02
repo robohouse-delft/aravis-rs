@@ -629,6 +629,12 @@ status = "generate"
 	[[object.function]]
 	name = "create_stream"
 	ignore = true
+	[[object.function]]
+	name = "get_boolean"
+	ignore = true
+	[[object.function]]
+	name = "get_boolean_gi"
+	rename = "get_boolean"
 
 [[object]]
 name = "Aravis.Device"
@@ -636,6 +642,12 @@ status = "generate"
 	[[object.function]]
 	name = "create_stream"
 	ignore = true
+	[[object.function]]
+	name = "get_boolean_feature_value"
+	ignore = true
+	[[object.function]]
+	name = "get_boolean_feature_value_gi"
+	rename = "get_boolean_feature_value"
 
 [[object]]
 name = "Aravis.FakeCamera"
@@ -650,3 +662,6 @@ status = "generate"
 	[[object.function]]
 	name = "get_value"
 	ignore = true
+	[[object.function]]
+	name = "get_value_gi"
+	rename = "get_value"
