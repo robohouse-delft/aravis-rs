@@ -1,5 +1,8 @@
+use std::sync::Arc;
+use std::sync::Mutex;
 use std::sync::mpsc;
-use crate::image::{ArcImage, ImageFormat};
+use std::sync::atomic::{AtomicUsize, Ordering};
+use crate::ArcImage;
 use crate::ImageCallback;
 
 use gdk_pixbuf::Pixbuf;
@@ -11,39 +14,51 @@ use glib::ObjectType;
 
 struct SetImage {
 	widget: usize,
+	next_image: Mutex<Option<(usize, ArcImage)>>,
+	last_index: AtomicUsize,
+	last_image: Mutex<Option<ArcImage>>,
 }
 
 impl SetImage {
-	fn set_image(&self, _i: usize, image: ArcImage) {
-		let widget = self.widget;
-		glib::idle_add(move || unsafe {
-			let widget = widget as *mut gtk_sys::GtkImage;
-			let widget : gtk::Image = glib::translate::from_glib_none(widget);
-			let pixbuf = match Pixbuf::new(gdk_pixbuf::Colorspace::Rgb, false, 8, image.info.width as i32, image.info.height as i32) {
-				Some(x) => x,
-				None => {
-					log::error!("Failed to allocate pixbuf for image.");
-					return gtk::Continue(false);
-				}
-			};
+	unsafe fn check(&self) {
+		let widget = self.widget as *mut gtk_sys::GtkImage;
+		let widget : gtk::Image = glib::translate::from_glib_none(widget);
 
-			// TODO
-			assert!(image.info.format == ImageFormat::Mono8);
-
-			let pixels = pixbuf.get_pixels();
-			let rowstride = pixbuf.get_rowstride() as usize;
-			for y in 0..image.info.height as usize {
-				for x in 0..image.info.width as usize {
-					let value = image.data[image.info.width as usize * y + x];
-					pixels[y * rowstride + x * 3 + 0] = value;
-					pixels[y * rowstride + x * 3 + 1] = value;
-					pixels[y * rowstride + x * 3 + 2] = value;
-				}
+		let (index, image) = {
+			let guard = self.next_image.lock().unwrap();
+			match guard.as_ref() {
+				Some(x) => x.clone(),
+				None => return,
 			}
+		};
 
-			widget.set_from_pixbuf(Some(&pixbuf));
-			gtk::Continue(false)
-		});
+		let last_index = self.last_index.load(Ordering::Acquire);
+		if index == last_index {
+			return;
+		}
+
+		let rgb = image.as_rgb8().expect("invalid image type, expected rgb8");
+		let data = rgb.as_flat_samples();
+		let data = data.as_slice();
+		let pixbuf = gdk_pixbuf_sys::gdk_pixbuf_new_from_data(
+			data.as_ptr(),
+			gdk_pixbuf_sys::GDK_COLORSPACE_RGB,
+			0,
+			8,
+			rgb.width() as std::os::raw::c_int,
+			rgb.height() as std::os::raw::c_int,
+			rgb.width() as std::os::raw::c_int * 3,
+			None,
+			std::ptr::null_mut(),
+		);
+
+		let pixbuf = glib::translate::from_glib_full(pixbuf);
+		widget.set_from_pixbuf(Some(&pixbuf));
+		self.last_image.lock().unwrap().replace(image.clone());
+	}
+
+	fn set_next_image(&self, index: usize, image: ArcImage) {
+		self.next_image.lock().unwrap().replace((index, image));
 	}
 }
 
@@ -61,8 +76,20 @@ fn build_gui() -> Result<(gtk::Window, ImageCallback), String> {
 	pixbuf.fill(0);
 	image_widget.set_from_pixbuf(Some(&pixbuf));
 
-	let set_image = SetImage { widget: image_widget.as_ptr() as usize };
-	let callback = Box::new(move |i, image| set_image.set_image(i, image));
+	let set_image = Arc::new(SetImage {
+		widget: image_widget.as_ptr() as usize,
+		next_image: Mutex::new(None),
+		last_index: AtomicUsize::new(0),
+		last_image: Mutex::new(None),
+	});
+
+	let set_image_clone = set_image.clone();
+	let callback = Box::new(move |i, image| set_image_clone.set_next_image(i, image));
+
+	glib::timeout_add(20, move || unsafe {
+		set_image.check();
+		gtk::Continue(true)
+	});
 
 	Ok((window, callback))
 }

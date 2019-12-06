@@ -35,9 +35,10 @@ impl Buffer {
 	}
 }
 
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ImageError {
 	InvalidStatus(crate::BufferStatus),
-	NotAnImage,
+	InvalidPayloadType(crate::BufferPayloadType),
 	UnsupportedPixelFormat(u32),
 }
 
@@ -64,7 +65,7 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 
 		let payload = self.get_payload_type();
 		if payload != crate::BufferPayloadType::Image {
-			return Err(ImageError::NotAnImage);
+			return Err(ImageError::InvalidPayloadType(payload));
 		}
 
 		let width  = self.get_image_width() as u32;
@@ -84,3 +85,15 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 unsafe fn box_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
 	Box::from_raw(std::slice::from_raw_parts_mut(data, len))
 }
+
+impl std::fmt::Display for ImageError {
+	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+		match self {
+			Self::InvalidStatus(x)          => write!(f, "invalid buffer status: {}", x),
+			Self::InvalidPayloadType(x)     => write!(f, "invalid buffer payload type: {}", x),
+			Self::UnsupportedPixelFormat(x) => write!(f, "unsupported pixel format: {}", x),
+		}
+	}
+}
+
+impl std::error::Error for ImageError {}

@@ -1,21 +1,21 @@
 #![feature(maybe_uninit_slice)]
 #![feature(new_uninit)]
 
-use aravis::BufferExt;
 use aravis::BufferExtManual;
 use aravis::CameraExt;
 use aravis::CameraExtManual;
 use aravis::StreamExt;
+use image::DynamicImage;
 use std::path::PathBuf;
+use std::sync::Arc;
 use std::sync::mpsc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
 
 #[cfg(feature = "gtk")]
 mod gui;
-pub mod image;
 
-use image::{ArcImage, BoxImage, ImageFormat, ImageInfo};
+type ArcImage = Arc<image::DynamicImage>;
 
 type ImageCallback = Box<dyn FnMut(usize, ArcImage) + Send>;
 
@@ -81,7 +81,7 @@ fn main() {
 		std::thread::spawn(move || {
 			for (i, image) in receiver {
 				let path = path.join(format!("{}{:03}.png", name_prefix, i));
-				if let Err(err) = image.write_png(&path) {
+				if let Err(err) = image.save(&path) {
 					log::error!("Failed to save image to {}: {}.", path.display(), err);
 				};
 			}
@@ -90,7 +90,7 @@ fn main() {
 
 	let gui_thread;
 
-	#[cfg(feature = "gtk")]
+	#[cfg(feature = "gui")]
 	{
 		if options.show {
 			let (sender, receiver) = mpsc::channel();
@@ -107,13 +107,14 @@ fn main() {
 		}
 	}
 
-	#[cfg(not(feature = "gtk"))]
+	#[cfg(not(feature = "gui"))]
 	{
 		gui_thread = None;
 	}
 
+	let convert_color = gui_thread.is_some();
 	let camera_thread = std::thread::spawn(move || {
-		if let Err(e) = run_camera_loop(&camera_id, count, period, &mut senders) {
+		if let Err(e) = run_camera_loop(&camera_id, count, period, convert_color, &mut senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
@@ -134,6 +135,7 @@ fn run_camera_loop(
 	camera_id: &str,
 	count: usize,
 	period: Duration,
+	convert_color: bool,
 	callbacks: &mut [ImageCallback],
 ) -> Result<(), String> {
 	log::info!("Connecting to camera {}.", camera_id);
@@ -168,9 +170,26 @@ fn run_camera_loop(
 		};
 		log::info!("Capture time: {}", start.elapsed().as_secs_f64());
 
-		let image = unsafe { consume_buffer(buffer) };
+		let image = match unsafe { buffer.into_image() } {
+			Ok(x) => x,
+			Err(e) => {
+				log::error!("Failed to convert buffer into image: {}", e);
+				continue;
+			}
+		};
+
 		stream.push_buffer(&make_buffer((width * height) as usize));
-		let image = ArcImage::from(image);
+
+		let image = if convert_color {
+			match &image {
+				DynamicImage::ImageRgb8(_) => image,
+				_ => DynamicImage::ImageRgb8(image.to_rgb()),
+			}
+		} else {
+			image
+		};
+
+		let image = Arc::new(image);
 
 		for callback in callbacks.iter_mut() {
 			callback(i, image.clone());
@@ -198,21 +217,4 @@ fn make_buffer(len: usize) -> aravis::Buffer {
 		std::mem::forget(buffer);
 		result
 	}
-}
-
-unsafe fn consume_buffer(buffer: aravis::Buffer) -> BoxImage {
-	// TODO: check buffer status
-	let (data, len) = buffer.get_data();
-	BoxImage {
-		info: ImageInfo {
-			width: buffer.get_image_width()  as u32,
-			height: buffer.get_image_height() as u32,
-			format: ImageFormat::Mono8,
-		},
-		data: box_slice_from_raw(data, len),
-	}
-}
-
-unsafe fn box_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
-	Box::from_raw(std::slice::from_raw_parts_mut(data, len))
 }
