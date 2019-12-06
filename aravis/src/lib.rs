@@ -5,6 +5,7 @@ extern crate gio_sys;
 extern crate glib;
 extern crate glib_sys;
 extern crate gobject_sys;
+extern crate image;
 
 macro_rules! assert_initialized_main_thread {
     () => {};

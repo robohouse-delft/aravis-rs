@@ -1,12 +1,22 @@
 use crate::Buffer;
+use crate::BufferExt;
 
 use glib::IsA;
 use glib::translate::ToGlibPtr;
 
 use std::ffi::c_void;
 
+
 pub trait BufferExtManual {
+	/// Get a pointer to the buffer data and the length of the buffer.
 	fn get_data(&self) -> (*mut u8, usize);
+
+	/// Convert the buffer into an image.
+	///
+	/// # Safety
+	/// The data is assumed to have been allocated by a Box,
+	/// and is unsafely turned back into one.
+	unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError>;
 }
 
 impl Buffer {
@@ -25,6 +35,12 @@ impl Buffer {
 	}
 }
 
+pub enum ImageError {
+	InvalidStatus(crate::BufferStatus),
+	NotAnImage,
+	UnsupportedPixelFormat(u32),
+}
+
 impl<T: IsA<Buffer>> BufferExtManual for T {
 	fn get_data(&self) -> (*mut u8, usize) {
 		unsafe {
@@ -33,4 +49,38 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 			(data as *mut u8, size)
 		}
 	}
+
+	unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError> {
+		use image::DynamicImage;
+		use image::ImageBuffer;
+
+		let (data, len) = self.get_data();
+		let data = Vec::from(box_slice_from_raw(data, len));
+
+		let status = self.get_status();
+		if status != crate::BufferStatus::Success {
+			return Err(ImageError::InvalidStatus(status));
+		}
+
+		let payload = self.get_payload_type();
+		if payload != crate::BufferPayloadType::Image {
+			return Err(ImageError::NotAnImage);
+		}
+
+		let width  = self.get_image_width() as u32;
+		let height = self.get_image_height() as u32;
+
+		let image = match self.get_image_pixel_format() {
+			aravis_sys::ARV_PIXEL_FORMAT_RGB_8_PACKED => DynamicImage::ImageRgb8(ImageBuffer::from_raw(width, height, data).unwrap()),
+			aravis_sys::ARV_PIXEL_FORMAT_BGR_8_PACKED => DynamicImage::ImageBgr8(ImageBuffer::from_raw(width, height, data).unwrap()),
+			aravis_sys::ARV_PIXEL_FORMAT_MONO_8       => DynamicImage::ImageLuma8(ImageBuffer::from_raw(width, height, data).unwrap()),
+			x => return Err(ImageError::UnsupportedPixelFormat(x)),
+		};
+
+		Ok(image)
+	}
+}
+
+unsafe fn box_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
+	Box::from_raw(std::slice::from_raw_parts_mut(data, len))
 }

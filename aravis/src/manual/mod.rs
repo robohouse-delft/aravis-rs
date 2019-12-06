@@ -15,6 +15,10 @@ pub mod traits {
 	pub use super::device::DeviceExtManual;
 }
 
+pub type BoxImage<P> = image::ImageBuffer<P, Box<[u8]>>;
+pub type RcImage<P>  = image::ImageBuffer<P, std::rc::Rc<[u8]>>;
+pub type ArcImage<P> = image::ImageBuffer<P, std::sync::Arc<[u8]>>;
+
 static INITIALIZED : AtomicBool = AtomicBool::new(false);
 
 pub struct Aravis {
