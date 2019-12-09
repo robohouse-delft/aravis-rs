@@ -12,29 +12,21 @@ use gtk::ImageExt;
 use gtk::WidgetExt;
 
 struct SetImage {
-	widget: usize,
 	next_image: Mutex<Option<(usize, ArcImage)>>,
 	last_index: AtomicUsize,
 	last_image: Mutex<Option<ArcImage>>,
 }
 
 impl SetImage {
-	fn new(widget: &impl gtk::IsA<gtk::Image>) -> Self {
-		unsafe {
-			gobject_sys::g_object_ref(widget.to_glib_none().0 as *mut _);
-		}
+	fn new() -> Self {
 		Self {
-			widget: widget.as_ptr() as usize,
 			next_image: Mutex::new(None),
 			last_index: AtomicUsize::new(0),
 			last_image: Mutex::new(None),
 		}
 	}
 
-	unsafe fn check(&self) {
-		let widget = self.widget as *mut gtk_sys::GtkImage;
-		let widget : gtk::Image = glib::translate::from_glib_none(widget);
-
+	unsafe fn check(&self, widget: &gtk::Image) {
 		let (index, image) = {
 			let guard = self.next_image.lock().unwrap();
 			match guard.as_ref() {
@@ -73,15 +65,6 @@ impl SetImage {
 	}
 }
 
-impl Drop for SetImage {
-	fn drop(&mut self) {
-		unsafe {
-			// g_object_unref is thread safe.
-			gobject_sys::g_object_unref(self.widget as *mut _);
-		}
-	}
-}
-
 fn build_gui() -> Result<(gtk::Window, ImageCallback), String> {
 	let window = gtk::Window::new(gtk::WindowType::Toplevel);
 	let main_box = gtk::Box::new(gtk::Orientation::Vertical, 0);
@@ -96,13 +79,15 @@ fn build_gui() -> Result<(gtk::Window, ImageCallback), String> {
 	pixbuf.fill(0);
 	image_widget.set_from_pixbuf(Some(&pixbuf));
 
-	let set_image = Arc::new(SetImage::new(&image_widget));
+	let set_image = Arc::new(SetImage::new());
 
-	let set_image_clone = set_image.clone();
-	let callback = Box::new(move |i, image| set_image_clone.set_next_image(i, image));
+	let callback = {
+		let set_image = set_image.clone();
+		Box::new(move |i, image| set_image.set_next_image(i, image))
+	};
 
-	glib::timeout_add(20, move || unsafe {
-		set_image.check();
+	gtk::timeout_add(20, move || unsafe {
+		set_image.check(&image_widget);
 		gtk::Continue(true)
 	});
 
