@@ -140,13 +140,16 @@ fn run_camera_loop(
 		.ok_or("Failed to connect to camera")?;
 	log::info!("Connected.");
 
+	let pixel_format = camera.get_pixel_format()
+		.map_err(|e| format!("Failed to determine pixel format: {}", e))?;
+	let (_, _, width, height) = camera.get_region().unwrap();
+	let make_buffer = || aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
+
 	let stream = camera.create_stream();
 
 	// Fill stream with 10 buffers.
-	let (_, _, width, height) = camera.get_region().unwrap();
 	for _ in 0..10 {
-		// TODO: use pixel depth to calculate size.
-		stream.push_buffer(&aravis::Buffer::new_leaked_box((width * height) as usize))
+		stream.push_buffer(&make_buffer())
 	}
 
 	let _ = camera.start_acquisition();
@@ -175,7 +178,7 @@ fn run_camera_loop(
 			}
 		};
 
-		stream.push_buffer(&aravis::Buffer::new_leaked_box((width * height) as usize));
+		stream.push_buffer(&make_buffer());
 
 		let image = if convert_color {
 			match &image {
