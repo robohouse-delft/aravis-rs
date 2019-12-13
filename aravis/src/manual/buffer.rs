@@ -46,12 +46,22 @@ impl Buffer {
 	/// Create a new buffer backed by a leaked `Box<[u8]>`.
 	///
 	/// The buffer can later be turned into an image using `[Self::into_image]`.
+	/// If the buffer is dropped without taking ownership of the data again, the memory is leaked.
 	pub fn new_leaked_box(len: usize) -> Self {
 		let mut buffer = Box::<[u8]>::new_uninit_slice(len);
 		let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
 		let result = unsafe { Buffer::new_preallocated(data, len) };
 		std::mem::forget(buffer);
 		result
+	}
+
+	/// Create a new buffer for an image of the specified format and dimensions, backed by a leaked `Box<[u8]>`.
+	///
+	/// The buffer can later be turned into an image using `[Self::into_image]`.
+	/// If the buffer is dropped without taking ownership of the data again, the memory is leaked.
+	pub fn new_leaked_image(format: crate::PixelFormat, width: usize, height: usize) -> Self {
+		let byte_len = crate::buffer_size_wh(format, width, height);
+		Self::new_leaked_box(byte_len)
 	}
 }
 
@@ -70,6 +80,9 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 	/// # Safety
 	/// This function assumes the buffer is backed by a leaked box,
 	/// such as created by [`Buffer::new_leaked_box`].
+	///
+	/// This function takes ownership of the leaked box,
+	/// so the memory will be freed when the resulting image is dropped.
 	unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError> {
 		use image::DynamicImage;
 		use image::ImageBuffer;

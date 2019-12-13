@@ -2,12 +2,16 @@ use std::ffi::CString;
 use std::sync::atomic::{AtomicBool, Ordering};
 
 mod buffer;
-mod camera;
-mod device;
-pub mod pixel_format;
 pub use self::buffer::*;
+
+mod camera;
 pub use self::camera::*;
+
+mod device;
 pub use self::device::*;
+
+mod pixel_format;
+pub use self::pixel_format::*;
 
 #[doc(hidden)]
 pub mod traits {
