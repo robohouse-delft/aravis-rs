@@ -1,6 +1,3 @@
-#![feature(maybe_uninit_slice)]
-#![feature(new_uninit)]
-
 use aravis::BufferExtManual;
 use aravis::CameraExt;
 use aravis::CameraExtManual;
@@ -149,7 +146,7 @@ fn run_camera_loop(
 	let (_, _, width, height) = camera.get_region().unwrap();
 	for _ in 0..10 {
 		// TODO: use pixel depth to calculate size.
-		stream.push_buffer(&make_buffer((width * height) as usize))
+		stream.push_buffer(&aravis::Buffer::new_leaked_box((width * height) as usize))
 	}
 
 	let _ = camera.start_acquisition();
@@ -178,7 +175,7 @@ fn run_camera_loop(
 			}
 		};
 
-		stream.push_buffer(&make_buffer((width * height) as usize));
+		stream.push_buffer(&aravis::Buffer::new_leaked_box((width * height) as usize));
 
 		let image = if convert_color {
 			match &image {
@@ -207,14 +204,4 @@ fn run_camera_loop(
 	log::info!("Total record time: {}s, average FPS: {}", total_duration, count as f64 / total_duration);
 
 	Ok(())
-}
-
-fn make_buffer(len: usize) -> aravis::Buffer {
-	unsafe {
-		let mut buffer = Box::<[u8]>::new_uninit_slice(len);
-		let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
-		let result = aravis::Buffer::new_preallocated(data, len);
-		std::mem::forget(buffer);
-		result
-	}
 }

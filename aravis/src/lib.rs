@@ -1,3 +1,6 @@
+#![feature(new_uninit)]
+#![feature(maybe_uninit_slice)]
+
 extern crate aravis_sys;
 extern crate gio;
 extern crate gio_sys;

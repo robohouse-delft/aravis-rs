@@ -42,7 +42,21 @@ pub enum ImageError {
 	UnsupportedPixelFormat(u32),
 }
 
+impl Buffer {
+	/// Create a new buffer backed by a leaked `Box<[u8]>`.
+	///
+	/// The buffer can later be turned into an image using `[Self::into_image]`.
+	pub fn new_leaked_box(len: usize) -> Self {
+		let mut buffer = Box::<[u8]>::new_uninit_slice(len);
+		let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
+		let result = unsafe { Buffer::new_preallocated(data, len) };
+		std::mem::forget(buffer);
+		result
+	}
+}
+
 impl<T: IsA<Buffer>> BufferExtManual for T {
+	/// Get a pointer to the raw data and the length of the buffer.
 	fn get_data(&self) -> (*mut u8, usize) {
 		unsafe {
 			let mut size = 0usize;
@@ -51,6 +65,11 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 		}
 	}
 
+	/// Convert the buffer into an image.
+	///
+	/// # Safety
+	/// This function assumes the buffer is backed by a leaked box,
+	/// such as created by [`Buffer::new_leaked_box`].
 	unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError> {
 		use image::DynamicImage;
 		use image::ImageBuffer;
