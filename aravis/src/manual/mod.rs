@@ -4,6 +4,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 mod buffer;
 mod camera;
 mod device;
+pub mod pixel_format;
 pub use self::buffer::*;
 pub use self::camera::*;
 pub use self::device::*;
