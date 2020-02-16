@@ -6,20 +6,15 @@ edition = "2018"
 
 [features]
 default = ["gui"]
-gui     = ["gdk-pixbuf", "gdk-pixbuf-sys", "gobject-sys", "gtk", "gtk-sys"]
+gui     = ["show-image"]
 
 [dependencies]
-aravis         = {version = "0.0.2", path = "../aravis" }
-env_logger     = "0.7.1"
-gio            = "0.7.0"
-glib           = "0.8.0"
-image          = "0.22.1"
-log            = "0.4.8"
-png            = "0.15.0"
-structopt      = "0.3.3"
-
-gdk-pixbuf     = { version = "0.7.0", optional = true }
-gdk-pixbuf-sys = { version = "0.9.0", optional = true }
-gobject-sys    = { version = "0.9.0", optional = true }
-gtk            = { version = "0.7.0", optional = true }
-gtk-sys        = { version = "0.9.0", optional = true }
+aravis     = {version="0.0.2", path="../aravis" }
+env_logger = "0.7.1"
+gio        = "0.7.0"
+glib       = "0.8.0"
+image      = "0.23.0"
+log        = "0.4.8"
+png        = "0.15.0"
+structopt  = "0.3.3"
+show-image = { version="0.5.0", optional=true, features=["image", "save"] }

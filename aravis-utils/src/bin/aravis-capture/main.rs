@@ -9,11 +9,7 @@ use std::sync::mpsc;
 use std::time::{Duration, Instant};
 use structopt::StructOpt;
 
-#[cfg(feature = "gtk")]
-mod gui;
-
 type ArcImage = Arc<image::DynamicImage>;
-
 type ImageCallback = Box<dyn FnMut(usize, ArcImage) + Send>;
 
 #[derive(StructOpt)]
@@ -25,7 +21,7 @@ struct Options {
 
 	/// Show recorded images in a graphical window.
 	#[structopt(long)]
-	#[cfg(feature = "gtk")]
+	#[cfg(feature = "gui")]
 	show: bool,
 
 	/// Save recorded images to a folder.
@@ -85,28 +81,23 @@ fn main() {
 		})
 	});
 
-	let gui_thread;
-
-	#[cfg(feature = "gui")]
-	{
+	let mut gui_thread = None;
+	#[cfg(feature = "gui")] {
 		if options.show {
-			let (sender, receiver) = mpsc::channel();
-			let thread = std::thread::spawn(move || {
-				if let Err(e) = gui::run_gui(sender) {
-					log::error!("{}", e);
+			let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
+			gui_thread = Some(std::thread::spawn(|| {
+				let window = show_image::make_window("image").unwrap();
+				for (i, image) in receiver {
+					let name = format!("image-{:03}", i);
+					window.set_image(&*image, name).unwrap();
 				}
-				// TODO: Stop other threads.
-			});
-			senders.push(receiver.recv().unwrap());
-			gui_thread = Some(thread);
-		} else {
-			gui_thread = None;
+			}));
+			senders.push(Box::new(move |i, image| {
+				if let Err(e) = sender.send((i, image)) {
+					log::error!("Failed to send image to GUI thread: {}.", e);
+				}
+			}));
 		}
-	}
-
-	#[cfg(not(feature = "gui"))]
-	{
-		gui_thread = None;
 	}
 
 	let convert_color = gui_thread.is_some();
@@ -121,9 +112,6 @@ fn main() {
 	// Join all threads.
 	let _ = camera_thread.join();
 	if let Some(thread) = write_thread {
-		let _ = thread.join();
-	}
-	if let Some(thread) = gui_thread {
 		let _ = thread.join();
 	}
 }
