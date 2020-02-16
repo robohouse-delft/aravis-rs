@@ -1,5 +1,6 @@
 use crate::Buffer;
 use crate::BufferExt;
+use crate::pixel_formats;
 
 use glib::IsA;
 use glib::translate::ToGlibPtr;
@@ -102,15 +103,51 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 
 		let width  = self.get_image_width() as u32;
 		let height = self.get_image_height() as u32;
+		let format = self.get_image_pixel_format();
 
-		let image = match self.get_image_pixel_format() {
-			aravis_sys::ARV_PIXEL_FORMAT_RGB_8_PACKED => DynamicImage::ImageRgb8(ImageBuffer::from_raw(width, height, data).unwrap()),
-			aravis_sys::ARV_PIXEL_FORMAT_BGR_8_PACKED => DynamicImage::ImageBgr8(ImageBuffer::from_raw(width, height, data).unwrap()),
-			aravis_sys::ARV_PIXEL_FORMAT_MONO_8       => DynamicImage::ImageLuma8(ImageBuffer::from_raw(width, height, data).unwrap()),
-			x => return Err(ImageError::UnsupportedPixelFormat(x)),
+		match format {
+			pixel_formats::RGB_8_PACKED => return Ok(DynamicImage::ImageRgb8(ImageBuffer::from_raw(width, height, data).unwrap())),
+			pixel_formats::BGR_8_PACKED => return Ok(DynamicImage::ImageBgr8(ImageBuffer::from_raw(width, height, data).unwrap())),
+			pixel_formats::MONO_8       => return Ok(DynamicImage::ImageLuma8(ImageBuffer::from_raw(width, height, data).unwrap())),
+			_ => (),
 		};
 
-		Ok(image)
+		#[cfg(feature = "bayer")] {
+			if let Some(filter) = debayer::filter(format) {
+				let start = std::time::Instant::now();
+				let result = debayer::debayer(width, height, filter, &data);
+				eprintln!("debayer time: {}", start.elapsed().as_secs_f64());
+				return result;
+			}
+		}
+
+		Err(ImageError::UnsupportedPixelFormat(format))
+	}
+}
+
+#[cfg(feature = "bayer")]
+mod debayer {
+	use crate::ImageError;
+	use crate::PixelFormat;
+	use crate::pixel_formats;
+	use image::DynamicImage;
+	use image::ImageBuffer;
+
+	pub fn filter(format: PixelFormat) -> Option<bayer::CFA> {
+		match format {
+			pixel_formats::BAYER_BG_8 => Some(bayer::CFA::BGGR),
+			pixel_formats::BAYER_GB_8 => Some(bayer::CFA::GBRG),
+			pixel_formats::BAYER_GR_8 => Some(bayer::CFA::GRBG),
+			pixel_formats::BAYER_RG_8 => Some(bayer::CFA::RGGB),
+			_ => None,
+		}
+	}
+
+	pub fn debayer(width: u32, height: u32, filter: bayer::CFA, mut data: &[u8]) -> Result<DynamicImage, ImageError> {
+		let mut buffer = vec![0u8; width as usize * height as usize * 3];
+		let mut dest = bayer::RasterMut::new(width as usize, height as usize, bayer::RasterDepth::Depth8, &mut buffer);
+		bayer::run_demosaic(&mut data, bayer::BayerDepth::Depth8, filter, bayer::Demosaic::Linear, &mut dest).unwrap();
+		Ok(DynamicImage::ImageRgb8(ImageBuffer::from_raw(width, height, buffer).unwrap()))
 	}
 }
 

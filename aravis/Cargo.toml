@@ -13,6 +13,7 @@ repository = "https://github.com/robohouse-delft/aravis-rs"
 documentation = "https://docs.rs/aravis"
 
 [features]
+default = ["bayer"]
 dox = ["aravis-sys/dox"]
 
 [package.metadata.docs.rs]
@@ -26,3 +27,4 @@ glib-sys = "0.9.0"
 gobject-sys = "0.9.0"
 aravis-sys = { version = "0.0.2", path = "../aravis-sys" }
 image = "0.23.0"
+bayer = { version = "0.1.5", optional = true }
