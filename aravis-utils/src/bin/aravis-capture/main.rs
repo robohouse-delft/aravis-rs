@@ -181,15 +181,10 @@ fn run_camera_loop(
 		stream.push_buffer(&make_buffer());
 
 		let image = if convert_color {
-			match &image {
-				DynamicImage::ImageRgb8(_) => image,
-				_ => DynamicImage::ImageRgb8(image.to_rgb()),
-			}
+			Arc::new(DynamicImage::ImageRgb8(image.into_rgb()))
 		} else {
-			image
+			Arc::new(image)
 		};
-
-		let image = Arc::new(image);
 
 		for callback in callbacks.iter_mut() {
 			callback(i, image.clone());
