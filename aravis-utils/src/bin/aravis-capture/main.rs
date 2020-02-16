@@ -134,21 +134,20 @@ fn run_camera_loop(
 	let make_buffer = || aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
 
 	let stream = camera.create_stream();
+	stream.push_buffer(&make_buffer());
 
-	// Fill stream with 10 buffers.
-	for _ in 0..10 {
-		stream.push_buffer(&make_buffer())
-	}
-
-	let _ = camera.start_acquisition();
+	camera.set_acquisition_mode(aravis::AcquisitionMode::Continuous)
+		.map_err(|e| format!("Failed to set acquisition mode to continuous: {}.", e))?;
+	camera.set_trigger("Software")
+		.map_err(|e| format!("Failed to set trigger source to software: {}.", e))?;
+	camera.start_acquisition()
+		.map_err(|e| format!("Failed to start acquisition: {}.", e))?;
 
 	let start = Instant::now();
 	let mut next_frame = Instant::now() + period;
 
 	for i in (0..).take_while(|i| count == 0 || *i < count) {
-
-		let start = Instant::now();
-
+		camera.software_trigger().map_err(|e| format!("Failed to trigger camera: {}", e))?;
 		let buffer = match stream.timeout_pop_buffer(3_000_000) {
 			Some(x) => x,
 			None => {
@@ -156,7 +155,8 @@ fn run_camera_loop(
 				continue;
 			}
 		};
-		log::info!("Capture time: {}", start.elapsed().as_secs_f64());
+
+		stream.push_buffer(&make_buffer());
 
 		let image = match unsafe { buffer.into_image() } {
 			Ok(x) => x,
@@ -165,8 +165,6 @@ fn run_camera_loop(
 				continue;
 			}
 		};
-
-		stream.push_buffer(&make_buffer());
 
 		let image = if convert_color {
 			Arc::new(DynamicImage::ImageRgb8(image.into_rgb()))
@@ -184,6 +182,10 @@ fn run_camera_loop(
 		}
 
 		next_frame += period;
+		if next_frame < now {
+			next_frame = now;
+		}
+
 	}
 
 	let total_duration = start.elapsed().as_secs_f64();
