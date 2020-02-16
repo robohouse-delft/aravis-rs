@@ -6,11 +6,11 @@ use image::DynamicImage;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::mpsc;
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime};
 use structopt::StructOpt;
 
 type ArcImage = Arc<image::DynamicImage>;
-type ImageCallback = Box<dyn FnMut(usize, ArcImage) + Send>;
+type ImageCallback = Box<dyn FnMut(usize, SystemTime, ArcImage) + Send>;
 
 #[derive(StructOpt)]
 #[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
@@ -61,19 +61,27 @@ fn main() {
 		options.count
 	};
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
+
 	let name_prefix = options.out_name;
+	let format_name = move |_i, time: SystemTime, suffix| {
+		let time : chrono::DateTime<chrono::Utc> = time.into();
+		let time = time.format("%F-%H-%M-%S-%9f");
+		format!("{}{}{}", name_prefix, time, suffix)
+	};
 
 	let mut senders = Vec::<ImageCallback>::with_capacity(2);
 
 	// Start write thread if saving images.
 	let write_thread = options.save.map(|path| {
-		let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
-		senders.push(Box::new(move |i, image| if let Err(e) = sender.send((i, image)) {
+		let (sender, receiver) = mpsc::channel::<(usize, SystemTime, ArcImage)>();
+		senders.push(Box::new(move |i, time, image| if let Err(e) = sender.send((i, time, image)) {
 			log::error!("Failed to send image to writer thread: {}.", e);
 		}));
+
+		let format_name = format_name.clone();
 		std::thread::spawn(move || {
-			for (i, image) in receiver {
-				let path = path.join(format!("{}{:03}.png", name_prefix, i));
+			for (i, time, image) in receiver {
+				let path = path.join(format_name(i, time, ".png"));
 				if let Err(err) = image.save(&path) {
 					log::error!("Failed to save image to {}: {}.", path.display(), err);
 				};
@@ -84,17 +92,18 @@ fn main() {
 	let mut gui_thread = None;
 	#[cfg(feature = "gui")] {
 		if options.show {
-			let (sender, receiver) = mpsc::channel::<(usize, ArcImage)>();
-			gui_thread = Some(std::thread::spawn(|| {
-				let window = show_image::make_window("image").unwrap();
-				for (i, image) in receiver {
-					let name = format!("image-{:03}", i);
-					window.set_image(&*image, name).unwrap();
+			let (sender, receiver) = mpsc::channel::<(usize, SystemTime, ArcImage)>();
+			senders.push(Box::new(move |i, time, image| {
+				if let Err(e) = sender.send((i, time, image)) {
+					log::error!("Failed to send image to GUI thread: {}.", e);
 				}
 			}));
-			senders.push(Box::new(move |i, image| {
-				if let Err(e) = sender.send((i, image)) {
-					log::error!("Failed to send image to GUI thread: {}.", e);
+
+			let format_name = format_name.clone();
+			gui_thread = Some(std::thread::spawn(move || {
+				let window = show_image::make_window("image").unwrap();
+				for (i, time, image) in receiver {
+					window.set_image(&*image, format_name(i, time, "")).unwrap();
 				}
 			}));
 		}
@@ -148,6 +157,8 @@ fn run_camera_loop(
 
 	for i in (0..).take_while(|i| count == 0 || *i < count) {
 		camera.software_trigger().map_err(|e| format!("Failed to trigger camera: {}", e))?;
+		let trigger_time = SystemTime::now();
+
 		let buffer = match stream.timeout_pop_buffer(3_000_000) {
 			Some(x) => x,
 			None => {
@@ -173,7 +184,7 @@ fn run_camera_loop(
 		};
 
 		for callback in callbacks.iter_mut() {
-			callback(i, image.clone());
+			callback(i, trigger_time, image.clone());
 		}
 
 		let now = Instant::now();
