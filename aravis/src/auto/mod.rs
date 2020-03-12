@@ -3,58 +3,64 @@
 // DO NOT EDIT
 
 mod buffer;
-pub use self::buffer::{Buffer, BufferClass, NONE_BUFFER};
 pub use self::buffer::BufferExt;
+pub use self::buffer::{Buffer, BufferClass, NONE_BUFFER};
 
 mod camera;
-pub use self::camera::{Camera, CameraClass, NONE_CAMERA};
 pub use self::camera::CameraExt;
+pub use self::camera::{Camera, CameraClass, NONE_CAMERA};
 
 mod device;
-pub use self::device::{Device, DeviceClass, NONE_DEVICE};
 pub use self::device::DeviceExt;
+pub use self::device::{Device, DeviceClass, NONE_DEVICE};
 
 mod dom_character_data;
-pub use self::dom_character_data::{DomCharacterData, DomCharacterDataClass, NONE_DOM_CHARACTER_DATA};
 pub use self::dom_character_data::DomCharacterDataExt;
+pub use self::dom_character_data::{
+	DomCharacterData, DomCharacterDataClass, NONE_DOM_CHARACTER_DATA,
+};
 
 mod dom_document;
-pub use self::dom_document::{DomDocument, DomDocumentClass, NONE_DOM_DOCUMENT};
 pub use self::dom_document::DomDocumentExt;
+pub use self::dom_document::{DomDocument, DomDocumentClass, NONE_DOM_DOCUMENT};
 
 mod dom_document_fragment;
-pub use self::dom_document_fragment::{DomDocumentFragment, DomDocumentFragmentClass, NONE_DOM_DOCUMENT_FRAGMENT};
+pub use self::dom_document_fragment::{
+	DomDocumentFragment, DomDocumentFragmentClass, NONE_DOM_DOCUMENT_FRAGMENT,
+};
 
 mod dom_element;
-pub use self::dom_element::{DomElement, DomElementClass, NONE_DOM_ELEMENT};
 pub use self::dom_element::DomElementExt;
+pub use self::dom_element::{DomElement, DomElementClass, NONE_DOM_ELEMENT};
 
 mod dom_named_node_map;
-pub use self::dom_named_node_map::{DomNamedNodeMap, DomNamedNodeMapClass, NONE_DOM_NAMED_NODE_MAP};
 pub use self::dom_named_node_map::DomNamedNodeMapExt;
+pub use self::dom_named_node_map::{
+	DomNamedNodeMap, DomNamedNodeMapClass, NONE_DOM_NAMED_NODE_MAP,
+};
 
 mod dom_node;
-pub use self::dom_node::{DomNode, DomNodeClass, NONE_DOM_NODE};
 pub use self::dom_node::DomNodeExt;
+pub use self::dom_node::{DomNode, DomNodeClass, NONE_DOM_NODE};
 
 mod dom_node_list;
-pub use self::dom_node_list::{DomNodeList, DomNodeListClass, NONE_DOM_NODE_LIST};
 pub use self::dom_node_list::DomNodeListExt;
+pub use self::dom_node_list::{DomNodeList, DomNodeListClass, NONE_DOM_NODE_LIST};
 
 mod dom_text;
 pub use self::dom_text::{DomText, DomTextClass, NONE_DOM_TEXT};
 
 mod evaluator;
-pub use self::evaluator::{Evaluator, EvaluatorClass, NONE_EVALUATOR};
 pub use self::evaluator::EvaluatorExt;
+pub use self::evaluator::{Evaluator, EvaluatorClass, NONE_EVALUATOR};
 
 mod fake_camera;
-pub use self::fake_camera::{FakeCamera, FakeCameraClass, NONE_FAKE_CAMERA};
 pub use self::fake_camera::FakeCameraExt;
+pub use self::fake_camera::{FakeCamera, FakeCameraClass, NONE_FAKE_CAMERA};
 
 mod fake_device;
-pub use self::fake_device::{FakeDevice, FakeDeviceClass, NONE_FAKE_DEVICE};
 pub use self::fake_device::FakeDeviceExt;
+pub use self::fake_device::{FakeDevice, FakeDeviceClass, NONE_FAKE_DEVICE};
 
 mod fake_interface;
 pub use self::fake_interface::{FakeInterface, FakeInterfaceClass, NONE_FAKE_INTERFACE};
@@ -63,20 +69,20 @@ mod fake_stream;
 pub use self::fake_stream::{FakeStream, FakeStreamClass, NONE_FAKE_STREAM};
 
 mod gc;
-pub use self::gc::{Gc, GcClass, NONE_GC};
 pub use self::gc::GcExt;
+pub use self::gc::{Gc, GcClass, NONE_GC};
 
 mod gc_boolean;
-pub use self::gc_boolean::{GcBoolean, GcBooleanClass, NONE_GC_BOOLEAN};
 pub use self::gc_boolean::GcBooleanExt;
+pub use self::gc_boolean::{GcBoolean, GcBooleanClass, NONE_GC_BOOLEAN};
 
 mod gc_category;
-pub use self::gc_category::{GcCategory, GcCategoryClass, NONE_GC_CATEGORY};
 pub use self::gc_category::GcCategoryExt;
+pub use self::gc_category::{GcCategory, GcCategoryClass, NONE_GC_CATEGORY};
 
 mod gc_command;
-pub use self::gc_command::{GcCommand, GcCommandClass, NONE_GC_COMMAND};
 pub use self::gc_command::GcCommandExt;
+pub use self::gc_command::{GcCommand, GcCommandClass, NONE_GC_COMMAND};
 
 mod gc_converter;
 pub use self::gc_converter::{GcConverter, GcConverterClass, NONE_GC_CONVERTER};
@@ -85,20 +91,20 @@ mod gc_converter_node;
 pub use self::gc_converter_node::{GcConverterNode, GcConverterNodeClass, NONE_GC_CONVERTER_NODE};
 
 mod gc_enum_entry;
-pub use self::gc_enum_entry::{GcEnumEntry, GcEnumEntryClass, NONE_GC_ENUM_ENTRY};
 pub use self::gc_enum_entry::GcEnumEntryExt;
+pub use self::gc_enum_entry::{GcEnumEntry, GcEnumEntryClass, NONE_GC_ENUM_ENTRY};
 
 mod gc_enumeration;
-pub use self::gc_enumeration::{GcEnumeration, GcEnumerationClass, NONE_GC_ENUMERATION};
 pub use self::gc_enumeration::GcEnumerationExt;
+pub use self::gc_enumeration::{GcEnumeration, GcEnumerationClass, NONE_GC_ENUMERATION};
 
 mod gc_feature_node;
-pub use self::gc_feature_node::{GcFeatureNode, GcFeatureNodeClass, NONE_GC_FEATURE_NODE};
 pub use self::gc_feature_node::GcFeatureNodeExt;
+pub use self::gc_feature_node::{GcFeatureNode, GcFeatureNodeClass, NONE_GC_FEATURE_NODE};
 
 mod gc_float;
-pub use self::gc_float::{GcFloat, NONE_GC_FLOAT};
 pub use self::gc_float::GcFloatExt;
+pub use self::gc_float::{GcFloat, NONE_GC_FLOAT};
 
 mod gc_float_node;
 pub use self::gc_float_node::{GcFloatNode, GcFloatNodeClass, NONE_GC_FLOAT_NODE};
@@ -110,103 +116,123 @@ mod gc_group_node;
 pub use self::gc_group_node::{GcGroupNode, GcGroupNodeClass, NONE_GC_GROUP_NODE};
 
 mod gc_index_node;
-pub use self::gc_index_node::{GcIndexNode, GcIndexNodeClass, NONE_GC_INDEX_NODE};
 pub use self::gc_index_node::GcIndexNodeExt;
+pub use self::gc_index_node::{GcIndexNode, GcIndexNodeClass, NONE_GC_INDEX_NODE};
 
 mod gc_int_converter_node;
-pub use self::gc_int_converter_node::{GcIntConverterNode, GcIntConverterNodeClass, NONE_GC_INT_CONVERTER_NODE};
+pub use self::gc_int_converter_node::{
+	GcIntConverterNode, GcIntConverterNodeClass, NONE_GC_INT_CONVERTER_NODE,
+};
 
 mod gc_int_reg_node;
 pub use self::gc_int_reg_node::{GcIntRegNode, GcIntRegNodeClass, NONE_GC_INT_REG_NODE};
 
 mod gc_int_swiss_knife_node;
-pub use self::gc_int_swiss_knife_node::{GcIntSwissKnifeNode, GcIntSwissKnifeNodeClass, NONE_GC_INT_SWISS_KNIFE_NODE};
+pub use self::gc_int_swiss_knife_node::{
+	GcIntSwissKnifeNode, GcIntSwissKnifeNodeClass, NONE_GC_INT_SWISS_KNIFE_NODE,
+};
 
 mod gc_integer;
-pub use self::gc_integer::{GcInteger, NONE_GC_INTEGER};
 pub use self::gc_integer::GcIntegerExt;
+pub use self::gc_integer::{GcInteger, NONE_GC_INTEGER};
 
 mod gc_integer_node;
 pub use self::gc_integer_node::{GcIntegerNode, GcIntegerNodeClass, NONE_GC_INTEGER_NODE};
 
 mod gc_invalidator_node;
-pub use self::gc_invalidator_node::{GcInvalidatorNode, GcInvalidatorNodeClass, NONE_GC_INVALIDATOR_NODE};
+pub use self::gc_invalidator_node::{
+	GcInvalidatorNode, GcInvalidatorNodeClass, NONE_GC_INVALIDATOR_NODE,
+};
 
 mod gc_masked_int_reg_node;
-pub use self::gc_masked_int_reg_node::{GcMaskedIntRegNode, GcMaskedIntRegNodeClass, NONE_GC_MASKED_INT_REG_NODE};
+pub use self::gc_masked_int_reg_node::{
+	GcMaskedIntRegNode, GcMaskedIntRegNodeClass, NONE_GC_MASKED_INT_REG_NODE,
+};
 
 mod gc_node;
-pub use self::gc_node::{GcNode, GcNodeClass, NONE_GC_NODE};
 pub use self::gc_node::GcNodeExt;
+pub use self::gc_node::{GcNode, GcNodeClass, NONE_GC_NODE};
 
 mod gc_port;
-pub use self::gc_port::{GcPort, GcPortClass, NONE_GC_PORT};
 pub use self::gc_port::GcPortExt;
+pub use self::gc_port::{GcPort, GcPortClass, NONE_GC_PORT};
 
 mod gc_property_node;
-pub use self::gc_property_node::{GcPropertyNode, GcPropertyNodeClass, NONE_GC_PROPERTY_NODE};
 pub use self::gc_property_node::GcPropertyNodeExt;
+pub use self::gc_property_node::{GcPropertyNode, GcPropertyNodeClass, NONE_GC_PROPERTY_NODE};
 
 mod gc_register;
-pub use self::gc_register::{GcRegister, NONE_GC_REGISTER};
 pub use self::gc_register::GcRegisterExt;
+pub use self::gc_register::{GcRegister, NONE_GC_REGISTER};
 
 mod gc_register_description_node;
-pub use self::gc_register_description_node::{GcRegisterDescriptionNode, GcRegisterDescriptionNodeClass, NONE_GC_REGISTER_DESCRIPTION_NODE};
 pub use self::gc_register_description_node::GcRegisterDescriptionNodeExt;
+pub use self::gc_register_description_node::{
+	GcRegisterDescriptionNode, GcRegisterDescriptionNodeClass, NONE_GC_REGISTER_DESCRIPTION_NODE,
+};
 
 mod gc_register_node;
 pub use self::gc_register_node::{GcRegisterNode, GcRegisterNodeClass, NONE_GC_REGISTER_NODE};
 
 mod gc_selector;
-pub use self::gc_selector::{GcSelector, NONE_GC_SELECTOR};
 pub use self::gc_selector::GcSelectorExt;
+pub use self::gc_selector::{GcSelector, NONE_GC_SELECTOR};
 
 mod gc_string;
-pub use self::gc_string::{GcString, NONE_GC_STRING};
 pub use self::gc_string::GcStringExt;
+pub use self::gc_string::{GcString, NONE_GC_STRING};
 
 mod gc_string_reg_node;
-pub use self::gc_string_reg_node::{GcStringRegNode, GcStringRegNodeClass, NONE_GC_STRING_REG_NODE};
+pub use self::gc_string_reg_node::{
+	GcStringRegNode, GcStringRegNodeClass, NONE_GC_STRING_REG_NODE,
+};
 
 mod gc_struct_entry_node;
-pub use self::gc_struct_entry_node::{GcStructEntryNode, GcStructEntryNodeClass, NONE_GC_STRUCT_ENTRY_NODE};
+pub use self::gc_struct_entry_node::{
+	GcStructEntryNode, GcStructEntryNodeClass, NONE_GC_STRUCT_ENTRY_NODE,
+};
 
 mod gc_struct_reg_node;
-pub use self::gc_struct_reg_node::{GcStructRegNode, GcStructRegNodeClass, NONE_GC_STRUCT_REG_NODE};
+pub use self::gc_struct_reg_node::{
+	GcStructRegNode, GcStructRegNodeClass, NONE_GC_STRUCT_REG_NODE,
+};
 
 mod gc_swiss_knife;
 pub use self::gc_swiss_knife::{GcSwissKnife, GcSwissKnifeClass, NONE_GC_SWISS_KNIFE};
 
 mod gc_swiss_knife_node;
-pub use self::gc_swiss_knife_node::{GcSwissKnifeNode, GcSwissKnifeNodeClass, NONE_GC_SWISS_KNIFE_NODE};
+pub use self::gc_swiss_knife_node::{
+	GcSwissKnifeNode, GcSwissKnifeNodeClass, NONE_GC_SWISS_KNIFE_NODE,
+};
 
 mod gc_value_indexed_node;
-pub use self::gc_value_indexed_node::{GcValueIndexedNode, GcValueIndexedNodeClass, NONE_GC_VALUE_INDEXED_NODE};
 pub use self::gc_value_indexed_node::GcValueIndexedNodeExt;
+pub use self::gc_value_indexed_node::{
+	GcValueIndexedNode, GcValueIndexedNodeClass, NONE_GC_VALUE_INDEXED_NODE,
+};
 
 mod gv_device;
-pub use self::gv_device::{GvDevice, GvDeviceClass, NONE_GV_DEVICE};
 pub use self::gv_device::GvDeviceExt;
+pub use self::gv_device::{GvDevice, GvDeviceClass, NONE_GV_DEVICE};
 
 mod gv_fake_camera;
-pub use self::gv_fake_camera::{GvFakeCamera, GvFakeCameraClass, NONE_GV_FAKE_CAMERA};
 pub use self::gv_fake_camera::GvFakeCameraExt;
+pub use self::gv_fake_camera::{GvFakeCamera, GvFakeCameraClass, NONE_GV_FAKE_CAMERA};
 
 mod gv_interface;
 pub use self::gv_interface::{GvInterface, GvInterfaceClass, NONE_GV_INTERFACE};
 
 mod gv_stream;
-pub use self::gv_stream::{GvStream, GvStreamClass, NONE_GV_STREAM};
 pub use self::gv_stream::GvStreamExt;
+pub use self::gv_stream::{GvStream, GvStreamClass, NONE_GV_STREAM};
 
 mod interface;
-pub use self::interface::{Interface, InterfaceClass, NONE_INTERFACE};
 pub use self::interface::InterfaceExt;
+pub use self::interface::{Interface, InterfaceClass, NONE_INTERFACE};
 
 mod stream;
-pub use self::stream::{Stream, StreamClass, NONE_STREAM};
 pub use self::stream::StreamExt;
+pub use self::stream::{Stream, StreamClass, NONE_STREAM};
 
 mod uv_device;
 pub use self::uv_device::{UvDevice, UvDeviceClass, NONE_UV_DEVICE};
@@ -218,8 +244,8 @@ mod uv_stream;
 pub use self::uv_stream::{UvStream, UvStreamClass, NONE_UV_STREAM};
 
 mod xml_schema;
-pub use self::xml_schema::{XmlSchema, XmlSchemaClass, NONE_XML_SCHEMA};
 pub use self::xml_schema::XmlSchemaExt;
+pub use self::xml_schema::{XmlSchema, XmlSchemaClass, NONE_XML_SCHEMA};
 
 mod enums;
 pub use self::enums::AcquisitionMode;
@@ -246,40 +272,40 @@ pub use self::alias::PixelFormat;
 
 #[doc(hidden)]
 pub mod traits {
-    pub use super::BufferExt;
-    pub use super::CameraExt;
-    pub use super::DeviceExt;
-    pub use super::DomCharacterDataExt;
-    pub use super::DomDocumentExt;
-    pub use super::DomElementExt;
-    pub use super::DomNamedNodeMapExt;
-    pub use super::DomNodeExt;
-    pub use super::DomNodeListExt;
-    pub use super::EvaluatorExt;
-    pub use super::FakeCameraExt;
-    pub use super::FakeDeviceExt;
-    pub use super::GcExt;
-    pub use super::GcBooleanExt;
-    pub use super::GcCategoryExt;
-    pub use super::GcCommandExt;
-    pub use super::GcEnumEntryExt;
-    pub use super::GcEnumerationExt;
-    pub use super::GcFeatureNodeExt;
-    pub use super::GcFloatExt;
-    pub use super::GcIndexNodeExt;
-    pub use super::GcIntegerExt;
-    pub use super::GcNodeExt;
-    pub use super::GcPortExt;
-    pub use super::GcPropertyNodeExt;
-    pub use super::GcRegisterExt;
-    pub use super::GcRegisterDescriptionNodeExt;
-    pub use super::GcSelectorExt;
-    pub use super::GcStringExt;
-    pub use super::GcValueIndexedNodeExt;
-    pub use super::GvDeviceExt;
-    pub use super::GvFakeCameraExt;
-    pub use super::GvStreamExt;
-    pub use super::InterfaceExt;
-    pub use super::StreamExt;
-    pub use super::XmlSchemaExt;
+	pub use super::BufferExt;
+	pub use super::CameraExt;
+	pub use super::DeviceExt;
+	pub use super::DomCharacterDataExt;
+	pub use super::DomDocumentExt;
+	pub use super::DomElementExt;
+	pub use super::DomNamedNodeMapExt;
+	pub use super::DomNodeExt;
+	pub use super::DomNodeListExt;
+	pub use super::EvaluatorExt;
+	pub use super::FakeCameraExt;
+	pub use super::FakeDeviceExt;
+	pub use super::GcBooleanExt;
+	pub use super::GcCategoryExt;
+	pub use super::GcCommandExt;
+	pub use super::GcEnumEntryExt;
+	pub use super::GcEnumerationExt;
+	pub use super::GcExt;
+	pub use super::GcFeatureNodeExt;
+	pub use super::GcFloatExt;
+	pub use super::GcIndexNodeExt;
+	pub use super::GcIntegerExt;
+	pub use super::GcNodeExt;
+	pub use super::GcPortExt;
+	pub use super::GcPropertyNodeExt;
+	pub use super::GcRegisterDescriptionNodeExt;
+	pub use super::GcRegisterExt;
+	pub use super::GcSelectorExt;
+	pub use super::GcStringExt;
+	pub use super::GcValueIndexedNodeExt;
+	pub use super::GvDeviceExt;
+	pub use super::GvFakeCameraExt;
+	pub use super::GvStreamExt;
+	pub use super::InterfaceExt;
+	pub use super::StreamExt;
+	pub use super::XmlSchemaExt;
 }

@@ -2,10 +2,6 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use DomElement;
-use DomNode;
-use GcFeatureNode;
-use GcNode;
 use aravis_sys;
 use glib;
 use glib::object::Cast;
@@ -13,48 +9,55 @@ use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
 use std::ptr;
+use DomElement;
+use DomNode;
+use GcFeatureNode;
+use GcNode;
 
 glib_wrapper! {
-    pub struct GcEnumEntry(Object<aravis_sys::ArvGcEnumEntry, aravis_sys::ArvGcEnumEntryClass, GcEnumEntryClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
+	pub struct GcEnumEntry(Object<aravis_sys::ArvGcEnumEntry, aravis_sys::ArvGcEnumEntryClass, GcEnumEntryClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_enum_entry_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_enum_entry_get_type(),
+	}
 }
 
 impl GcEnumEntry {
-    pub fn new() -> GcEnumEntry {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_enum_entry_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcEnumEntry {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_enum_entry_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcEnumEntry {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_ENUM_ENTRY: Option<&GcEnumEntry> = None;
 
 pub trait GcEnumEntryExt: 'static {
-    fn get_value(&self) -> Result<i64, glib::Error>;
+	fn get_value(&self) -> Result<i64, glib::Error>;
 }
 
 impl<O: IsA<GcEnumEntry>> GcEnumEntryExt for O {
-    fn get_value(&self) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_enum_entry_get_value(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_value(&self) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_gc_enum_entry_get_value(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 }
 
 impl fmt::Display for GcEnumEntry {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcEnumEntry")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcEnumEntry")
+	}
 }

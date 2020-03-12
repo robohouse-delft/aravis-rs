@@ -1,12 +1,11 @@
+use crate::pixel_formats;
 use crate::Buffer;
 use crate::BufferExt;
-use crate::pixel_formats;
 
-use glib::IsA;
 use glib::translate::ToGlibPtr;
+use glib::IsA;
 
 use std::ffi::c_void;
-
 
 pub trait BufferExtManual {
 	/// Get a pointer to the buffer data and the length of the buffer.
@@ -31,7 +30,8 @@ impl Buffer {
 	/// The resulting buffer borrows the data, but it carries no lifetime.
 	/// The user has to ensure the buffer stays valid.
 	pub unsafe fn new_preallocated(data: *mut u8, len: usize) -> Self {
-		let buffer = aravis_sys::arv_buffer_new_full(len, data as *mut c_void, std::ptr::null_mut(), None);
+		let buffer =
+			aravis_sys::arv_buffer_new_full(len, data as *mut c_void, std::ptr::null_mut(), None);
 		glib::translate::from_glib_full(buffer)
 	}
 }
@@ -71,7 +71,10 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 	fn get_data(&self) -> (*mut u8, usize) {
 		unsafe {
 			let mut size = 0usize;
-			let data = aravis_sys::arv_buffer_get_data(self.as_ref().to_glib_none().0, &mut size as *mut usize);
+			let data = aravis_sys::arv_buffer_get_data(
+				self.as_ref().to_glib_none().0,
+				&mut size as *mut usize,
+			);
 			(data as *mut u8, size)
 		}
 	}
@@ -101,18 +104,31 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 			return Err(ImageError::InvalidPayloadType(payload));
 		}
 
-		let width  = self.get_image_width() as u32;
+		let width = self.get_image_width() as u32;
 		let height = self.get_image_height() as u32;
 		let format = self.get_image_pixel_format();
 
 		match format {
-			pixel_formats::RGB_8_PACKED => return Ok(DynamicImage::ImageRgb8(ImageBuffer::from_raw(width, height, data).unwrap())),
-			pixel_formats::BGR_8_PACKED => return Ok(DynamicImage::ImageBgr8(ImageBuffer::from_raw(width, height, data).unwrap())),
-			pixel_formats::MONO_8       => return Ok(DynamicImage::ImageLuma8(ImageBuffer::from_raw(width, height, data).unwrap())),
+			pixel_formats::RGB_8_PACKED => {
+				return Ok(DynamicImage::ImageRgb8(
+					ImageBuffer::from_raw(width, height, data).unwrap(),
+				))
+			}
+			pixel_formats::BGR_8_PACKED => {
+				return Ok(DynamicImage::ImageBgr8(
+					ImageBuffer::from_raw(width, height, data).unwrap(),
+				))
+			}
+			pixel_formats::MONO_8 => {
+				return Ok(DynamicImage::ImageLuma8(
+					ImageBuffer::from_raw(width, height, data).unwrap(),
+				))
+			}
 			_ => (),
 		};
 
-		#[cfg(feature = "bayer")] {
+		#[cfg(feature = "bayer")]
+		{
 			if let Some(filter) = debayer::filter(format) {
 				let start = std::time::Instant::now();
 				let result = debayer::debayer(width, height, filter, &data);
@@ -127,9 +143,9 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 
 #[cfg(feature = "bayer")]
 mod debayer {
+	use crate::pixel_formats;
 	use crate::ImageError;
 	use crate::PixelFormat;
-	use crate::pixel_formats;
 	use image::DynamicImage;
 	use image::ImageBuffer;
 
@@ -143,11 +159,30 @@ mod debayer {
 		}
 	}
 
-	pub fn debayer(width: u32, height: u32, filter: bayer::CFA, mut data: &[u8]) -> Result<DynamicImage, ImageError> {
+	pub fn debayer(
+		width: u32,
+		height: u32,
+		filter: bayer::CFA,
+		mut data: &[u8],
+	) -> Result<DynamicImage, ImageError> {
 		let mut buffer = vec![0u8; width as usize * height as usize * 3];
-		let mut dest = bayer::RasterMut::new(width as usize, height as usize, bayer::RasterDepth::Depth8, &mut buffer);
-		bayer::run_demosaic(&mut data, bayer::BayerDepth::Depth8, filter, bayer::Demosaic::Linear, &mut dest).unwrap();
-		Ok(DynamicImage::ImageRgb8(ImageBuffer::from_raw(width, height, buffer).unwrap()))
+		let mut dest = bayer::RasterMut::new(
+			width as usize,
+			height as usize,
+			bayer::RasterDepth::Depth8,
+			&mut buffer,
+		);
+		bayer::run_demosaic(
+			&mut data,
+			bayer::BayerDepth::Depth8,
+			filter,
+			bayer::Demosaic::Linear,
+			&mut dest,
+		)
+		.unwrap();
+		Ok(DynamicImage::ImageRgb8(
+			ImageBuffer::from_raw(width, height, buffer).unwrap(),
+		))
 	}
 }
 
@@ -158,8 +193,8 @@ unsafe fn box_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
 impl std::fmt::Display for ImageError {
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
 		match self {
-			Self::InvalidStatus(x)          => write!(f, "invalid buffer status: {}", x),
-			Self::InvalidPayloadType(x)     => write!(f, "invalid buffer payload type: {}", x),
+			Self::InvalidStatus(x) => write!(f, "invalid buffer status: {}", x),
+			Self::InvalidPayloadType(x) => write!(f, "invalid buffer payload type: {}", x),
 			Self::UnsupportedPixelFormat(x) => write!(f, "unsupported pixel format: {}", x),
 		}
 	}

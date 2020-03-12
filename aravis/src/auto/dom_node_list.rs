@@ -2,44 +2,45 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use DomNode;
 use aravis_sys;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
+use DomNode;
 
 glib_wrapper! {
-    pub struct DomNodeList(Object<aravis_sys::ArvDomNodeList, aravis_sys::ArvDomNodeListClass, DomNodeListClass>);
+	pub struct DomNodeList(Object<aravis_sys::ArvDomNodeList, aravis_sys::ArvDomNodeListClass, DomNodeListClass>);
 
-    match fn {
-        get_type => || aravis_sys::arv_dom_node_list_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_dom_node_list_get_type(),
+	}
 }
 
 pub const NONE_DOM_NODE_LIST: Option<&DomNodeList> = None;
 
 pub trait DomNodeListExt: 'static {
-    fn get_item(&self, index: u32) -> Option<DomNode>;
+	fn get_item(&self, index: u32) -> Option<DomNode>;
 
-    fn get_length(&self) -> u32;
+	fn get_length(&self) -> u32;
 }
 
 impl<O: IsA<DomNodeList>> DomNodeListExt for O {
-    fn get_item(&self, index: u32) -> Option<DomNode> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_dom_node_list_get_item(self.as_ref().to_glib_none().0, index))
-        }
-    }
+	fn get_item(&self, index: u32) -> Option<DomNode> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_dom_node_list_get_item(
+				self.as_ref().to_glib_none().0,
+				index,
+			))
+		}
+	}
 
-    fn get_length(&self) -> u32 {
-        unsafe {
-            aravis_sys::arv_dom_node_list_get_length(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_length(&self) -> u32 {
+		unsafe { aravis_sys::arv_dom_node_list_get_length(self.as_ref().to_glib_none().0) }
+	}
 }
 
 impl fmt::Display for DomNodeList {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "DomNodeList")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "DomNodeList")
+	}
 }

@@ -2,34 +2,35 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use DomCharacterData;
-use DomNode;
 use aravis_sys;
 use glib::object::Cast;
 use glib::translate::*;
 use std::fmt;
+use DomCharacterData;
+use DomNode;
 
 glib_wrapper! {
-    pub struct DomText(Object<aravis_sys::ArvDomText, aravis_sys::ArvDomTextClass, DomTextClass>) @extends DomCharacterData, DomNode;
+	pub struct DomText(Object<aravis_sys::ArvDomText, aravis_sys::ArvDomTextClass, DomTextClass>) @extends DomCharacterData, DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_dom_text_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_dom_text_get_type(),
+	}
 }
 
 impl DomText {
-    pub fn new(data: &str) -> DomText {
-        assert_initialized_main_thread!();
-        unsafe {
-            DomNode::from_glib_full(aravis_sys::arv_dom_text_new(data.to_glib_none().0)).unsafe_cast()
-        }
-    }
+	pub fn new(data: &str) -> DomText {
+		assert_initialized_main_thread!();
+		unsafe {
+			DomNode::from_glib_full(aravis_sys::arv_dom_text_new(data.to_glib_none().0))
+				.unsafe_cast()
+		}
+	}
 }
 
 pub const NONE_DOM_TEXT: Option<&DomText> = None;
 
 impl fmt::Display for DomText {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "DomText")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "DomText")
+	}
 }

@@ -2,6 +2,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib::object::Cast;
+use glib::translate::*;
+use std::fmt;
 use DomElement;
 use DomNode;
 use GcFeatureNode;
@@ -9,38 +13,32 @@ use GcNode;
 use GcRegister;
 use GcRegisterNode;
 use GcString;
-use aravis_sys;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
 
 glib_wrapper! {
-    pub struct GcStringRegNode(Object<aravis_sys::ArvGcStringRegNode, aravis_sys::ArvGcStringRegNodeClass, GcStringRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcString;
+	pub struct GcStringRegNode(Object<aravis_sys::ArvGcStringRegNode, aravis_sys::ArvGcStringRegNodeClass, GcStringRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcString;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_string_reg_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_string_reg_node_get_type(),
+	}
 }
 
 impl GcStringRegNode {
-    pub fn new() -> GcStringRegNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_string_reg_node_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcStringRegNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_string_reg_node_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcStringRegNode {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_STRING_REG_NODE: Option<&GcStringRegNode> = None;
 
 impl fmt::Display for GcStringRegNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcStringRegNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcStringRegNode")
+	}
 }

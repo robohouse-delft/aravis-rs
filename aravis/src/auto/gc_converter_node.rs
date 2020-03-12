@@ -2,44 +2,42 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib::object::Cast;
+use glib::translate::*;
+use std::fmt;
 use DomElement;
 use DomNode;
 use GcConverter;
 use GcFeatureNode;
 use GcFloat;
 use GcNode;
-use aravis_sys;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
 
 glib_wrapper! {
-    pub struct GcConverterNode(Object<aravis_sys::ArvGcConverterNode, aravis_sys::ArvGcConverterNodeClass, GcConverterNodeClass>) @extends GcConverter, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcFloat;
+	pub struct GcConverterNode(Object<aravis_sys::ArvGcConverterNode, aravis_sys::ArvGcConverterNodeClass, GcConverterNodeClass>) @extends GcConverter, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcFloat;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_converter_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_converter_node_get_type(),
+	}
 }
 
 impl GcConverterNode {
-    pub fn new() -> GcConverterNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_converter_node_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcConverterNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_converter_node_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcConverterNode {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_CONVERTER_NODE: Option<&GcConverterNode> = None;
 
 impl fmt::Display for GcConverterNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcConverterNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcConverterNode")
+	}
 }

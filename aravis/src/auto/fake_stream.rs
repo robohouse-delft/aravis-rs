@@ -2,17 +2,17 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use Stream;
 use aravis_sys;
 use glib::translate::*;
 use std::fmt;
+use Stream;
 
 glib_wrapper! {
-    pub struct FakeStream(Object<aravis_sys::ArvFakeStream, aravis_sys::ArvFakeStreamClass, FakeStreamClass>) @extends Stream;
+	pub struct FakeStream(Object<aravis_sys::ArvFakeStream, aravis_sys::ArvFakeStreamClass, FakeStreamClass>) @extends Stream;
 
-    match fn {
-        get_type => || aravis_sys::arv_fake_stream_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_fake_stream_get_type(),
+	}
 }
 
 impl FakeStream {}
@@ -20,7 +20,7 @@ impl FakeStream {}
 pub const NONE_FAKE_STREAM: Option<&FakeStream> = None;
 
 impl fmt::Display for FakeStream {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "FakeStream")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "FakeStream")
+	}
 }

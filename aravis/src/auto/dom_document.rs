@@ -2,154 +2,141 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib;
+use glib::object::IsA;
+use glib::translate::*;
+use glib::GString;
+use std::fmt;
+use std::ptr;
 use DomElement;
 use DomNode;
 use DomText;
-use aravis_sys;
-use gio;
-use glib;
-use glib::GString;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct DomDocument(Object<aravis_sys::ArvDomDocument, aravis_sys::ArvDomDocumentClass, DomDocumentClass>) @extends DomNode;
+	pub struct DomDocument(Object<aravis_sys::ArvDomDocument, aravis_sys::ArvDomDocumentClass, DomDocumentClass>) @extends DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_dom_document_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_dom_document_get_type(),
+	}
 }
 
 impl DomDocument {
-    //pub fn new_from_memory(buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<DomDocument, glib::Error> {
-    //    unsafe { TODO: call aravis_sys:arv_dom_document_new_from_memory() }
-    //}
+	//pub fn new_from_memory(buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<DomDocument, glib::Error> {
+	//    unsafe { TODO: call aravis_sys:arv_dom_document_new_from_memory() }
+	//}
 
-    pub fn new_from_path(path: &str) -> Result<DomDocument, glib::Error> {
-        assert_initialized_main_thread!();
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_dom_document_new_from_path(path.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	pub fn new_from_path(path: &str) -> Result<DomDocument, glib::Error> {
+		assert_initialized_main_thread!();
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_dom_document_new_from_path(path.to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib_full(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    pub fn new_from_url(url: &str) -> Result<DomDocument, glib::Error> {
-        assert_initialized_main_thread!();
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_dom_document_new_from_url(url.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	pub fn new_from_url(url: &str) -> Result<DomDocument, glib::Error> {
+		assert_initialized_main_thread!();
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_dom_document_new_from_url(url.to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib_full(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 }
 
 pub const NONE_DOM_DOCUMENT: Option<&DomDocument> = None;
 
 pub trait DomDocumentExt: 'static {
-    //fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error>;
+	//fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error>;
 
-    fn create_element(&self, tag_name: &str) -> Option<DomElement>;
+	fn create_element(&self, tag_name: &str) -> Option<DomElement>;
 
-    fn create_text_node(&self, data: &str) -> Option<DomText>;
+	fn create_text_node(&self, data: &str) -> Option<DomText>;
 
-    fn get_document_element(&self) -> Option<DomElement>;
+	fn get_document_element(&self) -> Option<DomElement>;
 
-    //fn get_href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer>;
+	//fn get_href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer>;
 
-    fn get_url(&self) -> Option<GString>;
+	fn get_url(&self) -> Option<GString>;
 
-    //fn save_to_memory(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error>;
+	fn set_path(&self, path: &str);
 
-    fn save_to_path(&self, path: &str) -> Result<(), glib::Error>;
-
-    fn save_to_stream<P: IsA<gio::OutputStream>>(&self, stream: &P) -> Result<(), glib::Error>;
-
-    fn save_to_url(&self, path: &str) -> Result<(), glib::Error>;
-
-    fn set_path(&self, path: &str);
-
-    fn set_url(&self, url: &str);
+	fn set_url(&self, url: &str);
 }
 
 impl<O: IsA<DomDocument>> DomDocumentExt for O {
-    //fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error> {
-    //    unsafe { TODO: call aravis_sys:arv_dom_document_append_from_memory() }
-    //}
+	//fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error> {
+	//    unsafe { TODO: call aravis_sys:arv_dom_document_append_from_memory() }
+	//}
 
-    fn create_element(&self, tag_name: &str) -> Option<DomElement> {
-        unsafe {
-            from_glib_full(aravis_sys::arv_dom_document_create_element(self.as_ref().to_glib_none().0, tag_name.to_glib_none().0))
-        }
-    }
+	fn create_element(&self, tag_name: &str) -> Option<DomElement> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_dom_document_create_element(
+				self.as_ref().to_glib_none().0,
+				tag_name.to_glib_none().0,
+			))
+		}
+	}
 
-    fn create_text_node(&self, data: &str) -> Option<DomText> {
-        unsafe {
-            from_glib_full(aravis_sys::arv_dom_document_create_text_node(self.as_ref().to_glib_none().0, data.to_glib_none().0))
-        }
-    }
+	fn create_text_node(&self, data: &str) -> Option<DomText> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_dom_document_create_text_node(
+				self.as_ref().to_glib_none().0,
+				data.to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_document_element(&self) -> Option<DomElement> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_dom_document_get_document_element(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_document_element(&self) -> Option<DomElement> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_dom_document_get_document_element(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    //fn get_href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer> {
-    //    unsafe { TODO: call aravis_sys:arv_dom_document_get_href_data() }
-    //}
+	//fn get_href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer> {
+	//    unsafe { TODO: call aravis_sys:arv_dom_document_get_href_data() }
+	//}
 
-    fn get_url(&self) -> Option<GString> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_dom_document_get_url(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_url(&self) -> Option<GString> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_dom_document_get_url(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    //fn save_to_memory(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error> {
-    //    unsafe { TODO: call aravis_sys:arv_dom_document_save_to_memory() }
-    //}
+	fn set_path(&self, path: &str) {
+		unsafe {
+			aravis_sys::arv_dom_document_set_path(
+				self.as_ref().to_glib_none().0,
+				path.to_glib_none().0,
+			);
+		}
+	}
 
-    fn save_to_path(&self, path: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_dom_document_save_to_path(self.as_ref().to_glib_none().0, path.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn save_to_stream<P: IsA<gio::OutputStream>>(&self, stream: &P) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_dom_document_save_to_stream(self.as_ref().to_glib_none().0, stream.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn save_to_url(&self, path: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_dom_document_save_to_url(self.as_ref().to_glib_none().0, path.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_path(&self, path: &str) {
-        unsafe {
-            aravis_sys::arv_dom_document_set_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
-        }
-    }
-
-    fn set_url(&self, url: &str) {
-        unsafe {
-            aravis_sys::arv_dom_document_set_url(self.as_ref().to_glib_none().0, url.to_glib_none().0);
-        }
-    }
+	fn set_url(&self, url: &str) {
+		unsafe {
+			aravis_sys::arv_dom_document_set_url(
+				self.as_ref().to_glib_none().0,
+				url.to_glib_none().0,
+			);
+		}
+	}
 }
 
 impl fmt::Display for DomDocument {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "DomDocument")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "DomDocument")
+	}
 }

@@ -2,42 +2,40 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use DomElement;
-use DomNode;
-use GcNode;
-use GcPropertyNode;
 use aravis_sys;
 use glib::object::Cast;
 use glib::translate::*;
 use std::fmt;
+use DomElement;
+use DomNode;
+use GcNode;
+use GcPropertyNode;
 
 glib_wrapper! {
-    pub struct GcInvalidatorNode(Object<aravis_sys::ArvGcInvalidatorNode, aravis_sys::ArvGcInvalidatorNodeClass, GcInvalidatorNodeClass>) @extends GcPropertyNode, GcNode, DomElement, DomNode;
+	pub struct GcInvalidatorNode(Object<aravis_sys::ArvGcInvalidatorNode, aravis_sys::ArvGcInvalidatorNodeClass, GcInvalidatorNodeClass>) @extends GcPropertyNode, GcNode, DomElement, DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_invalidator_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_invalidator_node_get_type(),
+	}
 }
 
 impl GcInvalidatorNode {
-    pub fn new() -> GcInvalidatorNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_invalidator_node_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcInvalidatorNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_invalidator_node_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcInvalidatorNode {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_INVALIDATOR_NODE: Option<&GcInvalidatorNode> = None;
 
 impl fmt::Display for GcInvalidatorNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcInvalidatorNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcInvalidatorNode")
+	}
 }

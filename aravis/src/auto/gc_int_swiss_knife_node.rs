@@ -2,44 +2,44 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib::object::Cast;
+use glib::translate::*;
+use std::fmt;
 use DomElement;
 use DomNode;
 use GcFeatureNode;
 use GcInteger;
 use GcNode;
 use GcSwissKnife;
-use aravis_sys;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
 
 glib_wrapper! {
-    pub struct GcIntSwissKnifeNode(Object<aravis_sys::ArvGcIntSwissKnifeNode, aravis_sys::ArvGcIntSwissKnifeNodeClass, GcIntSwissKnifeNodeClass>) @extends GcSwissKnife, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger;
+	pub struct GcIntSwissKnifeNode(Object<aravis_sys::ArvGcIntSwissKnifeNode, aravis_sys::ArvGcIntSwissKnifeNodeClass, GcIntSwissKnifeNodeClass>) @extends GcSwissKnife, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_int_swiss_knife_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_int_swiss_knife_node_get_type(),
+	}
 }
 
 impl GcIntSwissKnifeNode {
-    pub fn new() -> GcIntSwissKnifeNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_int_swiss_knife_node_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcIntSwissKnifeNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_int_swiss_knife_node_new()).unsafe_cast()
+		}
+	}
 }
 
 impl Default for GcIntSwissKnifeNode {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_INT_SWISS_KNIFE_NODE: Option<&GcIntSwissKnifeNode> = None;
 
 impl fmt::Display for GcIntSwissKnifeNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcIntSwissKnifeNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcIntSwissKnifeNode")
+	}
 }

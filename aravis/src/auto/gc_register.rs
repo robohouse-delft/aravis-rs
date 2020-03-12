@@ -10,53 +10,63 @@ use std::fmt;
 use std::ptr;
 
 glib_wrapper! {
-    pub struct GcRegister(Interface<aravis_sys::ArvGcRegister>);
+	pub struct GcRegister(Interface<aravis_sys::ArvGcRegister>);
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_register_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_register_get_type(),
+	}
 }
 
 pub const NONE_GC_REGISTER: Option<&GcRegister> = None;
 
 pub trait GcRegisterExt: 'static {
-    //fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
+	//fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
 
-    fn get_address(&self) -> Result<u64, glib::Error>;
+	fn get_address(&self) -> Result<u64, glib::Error>;
 
-    fn get_length(&self) -> Result<u64, glib::Error>;
+	fn get_length(&self) -> Result<u64, glib::Error>;
 
-    //fn set(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
+	//fn set(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<GcRegister>> GcRegisterExt for O {
-    //fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error> {
-    //    unsafe { TODO: call aravis_sys:arv_gc_register_get() }
-    //}
+	//fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error> {
+	//    unsafe { TODO: call aravis_sys:arv_gc_register_get() }
+	//}
 
-    fn get_address(&self) -> Result<u64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_register_get_address(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_address(&self) -> Result<u64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_gc_register_get_address(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_length(&self) -> Result<u64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_register_get_length(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_length(&self) -> Result<u64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_gc_register_get_length(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    //fn set(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error> {
-    //    unsafe { TODO: call aravis_sys:arv_gc_register_set() }
-    //}
+	//fn set(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error> {
+	//    unsafe { TODO: call aravis_sys:arv_gc_register_set() }
+	//}
 }
 
 impl fmt::Display for GcRegister {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcRegister")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcRegister")
+	}
 }

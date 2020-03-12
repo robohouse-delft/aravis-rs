@@ -2,159 +2,207 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use Buffer;
 use aravis_sys;
 use glib::object::Cast;
 use glib::object::IsA;
-use glib::signal::SignalHandlerId;
 use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
 use std::mem::transmute;
+use Buffer;
 
 glib_wrapper! {
-    pub struct Stream(Object<aravis_sys::ArvStream, aravis_sys::ArvStreamClass, StreamClass>);
+	pub struct Stream(Object<aravis_sys::ArvStream, aravis_sys::ArvStreamClass, StreamClass>);
 
-    match fn {
-        get_type => || aravis_sys::arv_stream_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_stream_get_type(),
+	}
 }
 
 pub const NONE_STREAM: Option<&Stream> = None;
 
 pub trait StreamExt: 'static {
-    fn get_emit_signals(&self) -> bool;
+	fn get_emit_signals(&self) -> bool;
 
-    fn get_n_buffers(&self) -> (i32, i32);
+	fn get_n_buffers(&self) -> (i32, i32);
 
-    fn get_statistics(&self) -> (u64, u64, u64);
+	fn get_statistics(&self) -> (u64, u64, u64);
 
-    fn pop_buffer(&self) -> Option<Buffer>;
+	fn pop_buffer(&self) -> Option<Buffer>;
 
-    fn push_buffer<P: IsA<Buffer>>(&self, buffer: &P);
+	fn push_buffer<P: IsA<Buffer>>(&self, buffer: &P);
 
-    fn set_emit_signals(&self, emit_signals: bool);
+	fn set_emit_signals(&self, emit_signals: bool);
 
-    fn start_thread(&self);
+	fn start_thread(&self);
 
-    fn stop_thread(&self, delete_buffers: bool) -> u32;
+	fn stop_thread(&self, delete_buffers: bool) -> u32;
 
-    fn timeout_pop_buffer(&self, timeout: u64) -> Option<Buffer>;
+	fn timeout_pop_buffer(&self, timeout: u64) -> Option<Buffer>;
 
-    fn try_pop_buffer(&self) -> Option<Buffer>;
+	fn try_pop_buffer(&self) -> Option<Buffer>;
 
-    fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    fn connect_property_emit_signals_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	fn connect_property_emit_signals_notify<F: Fn(&Self) + 'static>(&self, f: F)
+		-> SignalHandlerId;
 }
 
 impl<O: IsA<Stream>> StreamExt for O {
-    fn get_emit_signals(&self) -> bool {
-        unsafe {
-            from_glib(aravis_sys::arv_stream_get_emit_signals(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_emit_signals(&self) -> bool {
+		unsafe {
+			from_glib(aravis_sys::arv_stream_get_emit_signals(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_n_buffers(&self) -> (i32, i32) {
-        unsafe {
-            let mut n_input_buffers = mem::MaybeUninit::uninit();
-            let mut n_output_buffers = mem::MaybeUninit::uninit();
-            aravis_sys::arv_stream_get_n_buffers(self.as_ref().to_glib_none().0, n_input_buffers.as_mut_ptr(), n_output_buffers.as_mut_ptr());
-            let n_input_buffers = n_input_buffers.assume_init();
-            let n_output_buffers = n_output_buffers.assume_init();
-            (n_input_buffers, n_output_buffers)
-        }
-    }
+	fn get_n_buffers(&self) -> (i32, i32) {
+		unsafe {
+			let mut n_input_buffers = mem::MaybeUninit::uninit();
+			let mut n_output_buffers = mem::MaybeUninit::uninit();
+			aravis_sys::arv_stream_get_n_buffers(
+				self.as_ref().to_glib_none().0,
+				n_input_buffers.as_mut_ptr(),
+				n_output_buffers.as_mut_ptr(),
+			);
+			let n_input_buffers = n_input_buffers.assume_init();
+			let n_output_buffers = n_output_buffers.assume_init();
+			(n_input_buffers, n_output_buffers)
+		}
+	}
 
-    fn get_statistics(&self) -> (u64, u64, u64) {
-        unsafe {
-            let mut n_completed_buffers = mem::MaybeUninit::uninit();
-            let mut n_failures = mem::MaybeUninit::uninit();
-            let mut n_underruns = mem::MaybeUninit::uninit();
-            aravis_sys::arv_stream_get_statistics(self.as_ref().to_glib_none().0, n_completed_buffers.as_mut_ptr(), n_failures.as_mut_ptr(), n_underruns.as_mut_ptr());
-            let n_completed_buffers = n_completed_buffers.assume_init();
-            let n_failures = n_failures.assume_init();
-            let n_underruns = n_underruns.assume_init();
-            (n_completed_buffers, n_failures, n_underruns)
-        }
-    }
+	fn get_statistics(&self) -> (u64, u64, u64) {
+		unsafe {
+			let mut n_completed_buffers = mem::MaybeUninit::uninit();
+			let mut n_failures = mem::MaybeUninit::uninit();
+			let mut n_underruns = mem::MaybeUninit::uninit();
+			aravis_sys::arv_stream_get_statistics(
+				self.as_ref().to_glib_none().0,
+				n_completed_buffers.as_mut_ptr(),
+				n_failures.as_mut_ptr(),
+				n_underruns.as_mut_ptr(),
+			);
+			let n_completed_buffers = n_completed_buffers.assume_init();
+			let n_failures = n_failures.assume_init();
+			let n_underruns = n_underruns.assume_init();
+			(n_completed_buffers, n_failures, n_underruns)
+		}
+	}
 
-    fn pop_buffer(&self) -> Option<Buffer> {
-        unsafe {
-            from_glib_full(aravis_sys::arv_stream_pop_buffer(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn pop_buffer(&self) -> Option<Buffer> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_stream_pop_buffer(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn push_buffer<P: IsA<Buffer>>(&self, buffer: &P) {
-        unsafe {
-            aravis_sys::arv_stream_push_buffer(self.as_ref().to_glib_none().0, buffer.as_ref().to_glib_full());
-        }
-    }
+	fn push_buffer<P: IsA<Buffer>>(&self, buffer: &P) {
+		unsafe {
+			aravis_sys::arv_stream_push_buffer(
+				self.as_ref().to_glib_none().0,
+				buffer.as_ref().to_glib_full(),
+			);
+		}
+	}
 
-    fn set_emit_signals(&self, emit_signals: bool) {
-        unsafe {
-            aravis_sys::arv_stream_set_emit_signals(self.as_ref().to_glib_none().0, emit_signals.to_glib());
-        }
-    }
+	fn set_emit_signals(&self, emit_signals: bool) {
+		unsafe {
+			aravis_sys::arv_stream_set_emit_signals(
+				self.as_ref().to_glib_none().0,
+				emit_signals.to_glib(),
+			);
+		}
+	}
 
-    fn start_thread(&self) {
-        unsafe {
-            aravis_sys::arv_stream_start_thread(self.as_ref().to_glib_none().0);
-        }
-    }
+	fn start_thread(&self) {
+		unsafe {
+			aravis_sys::arv_stream_start_thread(self.as_ref().to_glib_none().0);
+		}
+	}
 
-    fn stop_thread(&self, delete_buffers: bool) -> u32 {
-        unsafe {
-            aravis_sys::arv_stream_stop_thread(self.as_ref().to_glib_none().0, delete_buffers.to_glib())
-        }
-    }
+	fn stop_thread(&self, delete_buffers: bool) -> u32 {
+		unsafe {
+			aravis_sys::arv_stream_stop_thread(
+				self.as_ref().to_glib_none().0,
+				delete_buffers.to_glib(),
+			)
+		}
+	}
 
-    fn timeout_pop_buffer(&self, timeout: u64) -> Option<Buffer> {
-        unsafe {
-            from_glib_full(aravis_sys::arv_stream_timeout_pop_buffer(self.as_ref().to_glib_none().0, timeout))
-        }
-    }
+	fn timeout_pop_buffer(&self, timeout: u64) -> Option<Buffer> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_stream_timeout_pop_buffer(
+				self.as_ref().to_glib_none().0,
+				timeout,
+			))
+		}
+	}
 
-    fn try_pop_buffer(&self) -> Option<Buffer> {
-        unsafe {
-            from_glib_full(aravis_sys::arv_stream_try_pop_buffer(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn try_pop_buffer(&self) -> Option<Buffer> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_stream_try_pop_buffer(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn new_buffer_trampoline<P, F: Fn(&P) + 'static>(this: *mut aravis_sys::ArvStream, f: glib_sys::gpointer)
-            where P: IsA<Stream>
-        {
-            let f: &F = &*(f as *const F);
-            f(&Stream::from_glib_borrow(this).unsafe_cast())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"new-buffer\0".as_ptr() as *const _,
-                Some(transmute(new_buffer_trampoline::<Self, F> as usize)), Box_::into_raw(f))
-        }
-    }
+	fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+		unsafe extern "C" fn new_buffer_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut aravis_sys::ArvStream,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<Stream>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&Stream::from_glib_borrow(this).unsafe_cast())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"new-buffer\0".as_ptr() as *const _,
+				Some(transmute(new_buffer_trampoline::<Self, F> as usize)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 
-    fn connect_property_emit_signals_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_emit_signals_trampoline<P, F: Fn(&P) + 'static>(this: *mut aravis_sys::ArvStream, _param_spec: glib_sys::gpointer, f: glib_sys::gpointer)
-            where P: IsA<Stream>
-        {
-            let f: &F = &*(f as *const F);
-            f(&Stream::from_glib_borrow(this).unsafe_cast())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(self.as_ptr() as *mut _, b"notify::emit-signals\0".as_ptr() as *const _,
-                Some(transmute(notify_emit_signals_trampoline::<Self, F> as usize)), Box_::into_raw(f))
-        }
-    }
+	fn connect_property_emit_signals_notify<F: Fn(&Self) + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId {
+		unsafe extern "C" fn notify_emit_signals_trampoline<P, F: Fn(&P) + 'static>(
+			this: *mut aravis_sys::ArvStream,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<Stream>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&Stream::from_glib_borrow(this).unsafe_cast())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::emit-signals\0".as_ptr() as *const _,
+				Some(transmute(
+					notify_emit_signals_trampoline::<Self, F> as usize,
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
 }
 
 impl fmt::Display for Stream {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Stream")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "Stream")
+	}
 }

@@ -2,17 +2,17 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use Stream;
 use aravis_sys;
 use glib::translate::*;
 use std::fmt;
+use Stream;
 
 glib_wrapper! {
-    pub struct UvStream(Object<aravis_sys::ArvUvStream, aravis_sys::ArvUvStreamClass, UvStreamClass>) @extends Stream;
+	pub struct UvStream(Object<aravis_sys::ArvUvStream, aravis_sys::ArvUvStreamClass, UvStreamClass>) @extends Stream;
 
-    match fn {
-        get_type => || aravis_sys::arv_uv_stream_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_uv_stream_get_type(),
+	}
 }
 
 impl UvStream {}
@@ -20,7 +20,7 @@ impl UvStream {}
 pub const NONE_UV_STREAM: Option<&UvStream> = None;
 
 impl fmt::Display for UvStream {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "UvStream")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "UvStream")
+	}
 }

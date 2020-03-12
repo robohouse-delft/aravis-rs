@@ -2,6 +2,15 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib;
+use glib::object::Cast;
+use glib::object::IsA;
+use glib::translate::*;
+use glib::GString;
+use std::fmt;
+use std::mem;
+use std::ptr;
 use DomElement;
 use DomNode;
 use GcFeatureNode;
@@ -9,128 +18,182 @@ use GcInteger;
 use GcNode;
 use GcSelector;
 use GcString;
-use aravis_sys;
-use glib;
-use glib::GString;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct GcEnumeration(Object<aravis_sys::ArvGcEnumeration, aravis_sys::ArvGcEnumerationClass, GcEnumerationClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger, GcSelector, GcString;
+	pub struct GcEnumeration(Object<aravis_sys::ArvGcEnumeration, aravis_sys::ArvGcEnumerationClass, GcEnumerationClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger, GcSelector, GcString;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_enumeration_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_enumeration_get_type(),
+	}
 }
 
 impl GcEnumeration {
-    pub fn new() -> GcEnumeration {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_enumeration_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcEnumeration {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_enumeration_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcEnumeration {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_ENUMERATION: Option<&GcEnumeration> = None;
 
 pub trait GcEnumerationExt: 'static {
-    fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_available_int_values(&self) -> Result<Vec<i64>, glib::Error>;
+	fn get_available_int_values(&self) -> Result<Vec<i64>, glib::Error>;
 
-    fn get_available_string_values(&self) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_string_values(&self) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_entries(&self) -> Vec<GcFeatureNode>;
+	fn get_entries(&self) -> Vec<GcFeatureNode>;
 
-    fn get_int_value(&self) -> Result<i64, glib::Error>;
+	fn get_int_value(&self) -> Result<i64, glib::Error>;
 
-    fn get_string_value(&self) -> Result<GString, glib::Error>;
+	fn get_string_value(&self) -> Result<GString, glib::Error>;
 
-    fn set_int_value(&self, value: i64) -> Result<(), glib::Error>;
+	fn set_int_value(&self, value: i64) -> Result<(), glib::Error>;
 
-    fn set_string_value(&self, value: &str) -> Result<(), glib::Error>;
+	fn set_string_value(&self, value: &str) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<GcEnumeration>> GcEnumerationExt for O {
-    fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_values = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_enumeration_get_available_display_names(self.as_ref().to_glib_none().0, n_values.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_values.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_enumeration_get_available_display_names(
+				self.as_ref().to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
-        unsafe {
-            let mut n_values = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_enumeration_get_available_int_values(self.as_ref().to_glib_none().0, n_values.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_full_num(ret, n_values.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_enumeration_get_available_int_values(
+				self.as_ref().to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_full_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_available_string_values(&self) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_values = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_enumeration_get_available_string_values(self.as_ref().to_glib_none().0, n_values.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_values.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_available_string_values(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_enumeration_get_available_string_values(
+				self.as_ref().to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_entries(&self) -> Vec<GcFeatureNode> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_none(aravis_sys::arv_gc_enumeration_get_entries(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_entries(&self) -> Vec<GcFeatureNode> {
+		unsafe {
+			FromGlibPtrContainer::from_glib_none(aravis_sys::arv_gc_enumeration_get_entries(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_int_value(&self) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_enumeration_get_int_value(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_int_value(&self) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_enumeration_get_int_value(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_string_value(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_enumeration_get_string_value(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_string_value(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_enumeration_get_string_value(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn set_int_value(&self, value: i64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_gc_enumeration_set_int_value(self.as_ref().to_glib_none().0, value, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn set_int_value(&self, value: i64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_gc_enumeration_set_int_value(
+				self.as_ref().to_glib_none().0,
+				value,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn set_string_value(&self, value: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_gc_enumeration_set_string_value(self.as_ref().to_glib_none().0, value.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn set_string_value(&self, value: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_gc_enumeration_set_string_value(
+				self.as_ref().to_glib_none().0,
+				value.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 }
 
 impl fmt::Display for GcEnumeration {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcEnumeration")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcEnumeration")
+	}
 }

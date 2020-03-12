@@ -11,12 +11,12 @@ extern crate gobject_sys;
 extern crate image;
 
 macro_rules! assert_initialized_main_thread {
-    () => {};
+	() => {};
 }
 
 /// No-op.
 macro_rules! skip_assert_initialized {
-    () => {};
+	() => {};
 }
 
 mod auto;
@@ -26,6 +26,6 @@ mod manual;
 pub use manual::*;
 
 pub mod prelude {
-    pub use auto::traits::*;
-    pub use manual::traits::*;
+	pub use auto::traits::*;
+	pub use manual::traits::*;
 }

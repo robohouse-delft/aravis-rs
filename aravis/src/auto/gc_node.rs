@@ -2,38 +2,40 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use DomElement;
-use DomNode;
-use Gc;
 use aravis_sys;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
+use DomElement;
+use DomNode;
+use Gc;
 
 glib_wrapper! {
-    pub struct GcNode(Object<aravis_sys::ArvGcNode, aravis_sys::ArvGcNodeClass, GcNodeClass>) @extends DomElement, DomNode;
+	pub struct GcNode(Object<aravis_sys::ArvGcNode, aravis_sys::ArvGcNodeClass, GcNodeClass>) @extends DomElement, DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_node_get_type(),
+	}
 }
 
 pub const NONE_GC_NODE: Option<&GcNode> = None;
 
 pub trait GcNodeExt: 'static {
-    fn get_genicam(&self) -> Option<Gc>;
+	fn get_genicam(&self) -> Option<Gc>;
 }
 
 impl<O: IsA<GcNode>> GcNodeExt for O {
-    fn get_genicam(&self) -> Option<Gc> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_gc_node_get_genicam(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_genicam(&self) -> Option<Gc> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_gc_node_get_genicam(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 }
 
 impl fmt::Display for GcNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcNode")
+	}
 }

@@ -2,1132 +2,1908 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib;
+use glib::object::IsA;
+use glib::translate::*;
+use glib::GString;
+use std::fmt;
+use std::mem;
+use std::ptr;
 use AcquisitionMode;
 use Auto;
 use Buffer;
 use Device;
 use GvStreamOption;
 use PixelFormat;
-use aravis_sys;
-use glib;
-use glib::GString;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::mem;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct Camera(Object<aravis_sys::ArvCamera, aravis_sys::ArvCameraClass, CameraClass>);
+	pub struct Camera(Object<aravis_sys::ArvCamera, aravis_sys::ArvCameraClass, CameraClass>);
 
-    match fn {
-        get_type => || aravis_sys::arv_camera_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_camera_get_type(),
+	}
 }
 
 impl Camera {
-    pub fn new(name: Option<&str>) -> Option<Camera> {
-        assert_initialized_main_thread!();
-        unsafe {
-            from_glib_full(aravis_sys::arv_camera_new(name.to_glib_none().0))
-        }
-    }
+	pub fn new(name: Option<&str>) -> Option<Camera> {
+		assert_initialized_main_thread!();
+		unsafe { from_glib_full(aravis_sys::arv_camera_new(name.to_glib_none().0)) }
+	}
 }
 
 pub const NONE_CAMERA: Option<&Camera> = None;
 
 pub trait CameraExt: 'static {
-    fn abort_acquisition(&self) -> Result<(), glib::Error>;
+	fn abort_acquisition(&self) -> Result<(), glib::Error>;
 
-    fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error>;
+	fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error>;
 
-    fn check_status(&self) -> Result<(), glib::Error>;
+	fn check_status(&self) -> Result<(), glib::Error>;
 
-    fn clear_triggers(&self) -> Result<(), glib::Error>;
+	fn clear_triggers(&self) -> Result<(), glib::Error>;
 
-    //fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
+	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 
-    fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
+	fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
 
-    fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error>;
+	fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error>;
 
-    fn get_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error>;
+	fn get_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error>;
 
-    fn get_available_enumerations_as_display_names(&self, feature: &str) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_enumerations_as_display_names(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_available_enumerations_as_strings(&self, feature: &str) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_enumerations_as_strings(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error>;
+	fn get_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error>;
 
-    fn get_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_available_triggers(&self) -> Result<Vec<GString>, glib::Error>;
+	fn get_available_triggers(&self) -> Result<Vec<GString>, glib::Error>;
 
-    fn get_binning(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_binning(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error>;
+	fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error>;
 
-    fn get_chunk_mode(&self) -> Result<(), glib::Error>;
+	fn get_chunk_mode(&self) -> Result<(), glib::Error>;
 
-    fn get_chunk_state(&self, chunk: &str) -> Result<(), glib::Error>;
+	fn get_chunk_state(&self, chunk: &str) -> Result<(), glib::Error>;
 
-    fn get_device(&self) -> Option<Device>;
+	fn get_device(&self) -> Option<Device>;
 
-    fn get_device_id(&self) -> Result<GString, glib::Error>;
+	fn get_device_id(&self) -> Result<GString, glib::Error>;
 
-    fn get_exposure_time(&self) -> Result<f64, glib::Error>;
+	fn get_exposure_time(&self) -> Result<f64, glib::Error>;
 
-    fn get_exposure_time_auto(&self) -> Result<Auto, glib::Error>;
+	fn get_exposure_time_auto(&self) -> Result<Auto, glib::Error>;
 
-    fn get_exposure_time_bounds(&self) -> Result<(f64, f64), glib::Error>;
+	fn get_exposure_time_bounds(&self) -> Result<(f64, f64), glib::Error>;
 
-    fn get_float(&self, feature: &str) -> Result<f64, glib::Error>;
+	fn get_float(&self, feature: &str) -> Result<f64, glib::Error>;
 
-    fn get_float_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error>;
+	fn get_float_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error>;
 
-    fn get_frame_count(&self) -> Result<i64, glib::Error>;
+	fn get_frame_count(&self) -> Result<i64, glib::Error>;
 
-    fn get_frame_count_bounds(&self) -> Result<(i64, i64), glib::Error>;
+	fn get_frame_count_bounds(&self) -> Result<(i64, i64), glib::Error>;
 
-    fn get_frame_rate(&self) -> Result<f64, glib::Error>;
+	fn get_frame_rate(&self) -> Result<f64, glib::Error>;
 
-    fn get_frame_rate_bounds(&self) -> Result<(f64, f64), glib::Error>;
+	fn get_frame_rate_bounds(&self) -> Result<(f64, f64), glib::Error>;
 
-    fn get_gain(&self) -> Result<f64, glib::Error>;
+	fn get_gain(&self) -> Result<f64, glib::Error>;
 
-    fn get_gain_auto(&self) -> Result<Auto, glib::Error>;
+	fn get_gain_auto(&self) -> Result<Auto, glib::Error>;
 
-    fn get_gain_bounds(&self) -> Result<(f64, f64), glib::Error>;
+	fn get_gain_bounds(&self) -> Result<(f64, f64), glib::Error>;
 
-    fn get_height_bounds(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_height_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_height_increment(&self) -> Result<i32, glib::Error>;
+	fn get_height_increment(&self) -> Result<i32, glib::Error>;
 
-    fn get_integer(&self, feature: &str) -> Result<i64, glib::Error>;
+	fn get_integer(&self, feature: &str) -> Result<i64, glib::Error>;
 
-    fn get_integer_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error>;
+	fn get_integer_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error>;
 
-    fn get_integer_increment(&self, feature: &str) -> Result<i64, glib::Error>;
+	fn get_integer_increment(&self, feature: &str) -> Result<i64, glib::Error>;
 
-    fn get_model_name(&self) -> Result<GString, glib::Error>;
+	fn get_model_name(&self) -> Result<GString, glib::Error>;
 
-    fn get_payload(&self) -> Result<(), glib::Error>;
+	fn get_payload(&self) -> Result<(), glib::Error>;
 
-    fn get_pixel_format(&self) -> Result<PixelFormat, glib::Error>;
+	fn get_pixel_format(&self) -> Result<PixelFormat, glib::Error>;
 
-    fn get_pixel_format_as_string(&self) -> Result<GString, glib::Error>;
+	fn get_pixel_format_as_string(&self) -> Result<GString, glib::Error>;
 
-    fn get_region(&self) -> Result<(i32, i32, i32, i32), glib::Error>;
+	fn get_region(&self) -> Result<(i32, i32, i32, i32), glib::Error>;
 
-    fn get_sensor_size(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_sensor_size(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_string(&self, feature: &str) -> Result<GString, glib::Error>;
+	fn get_string(&self, feature: &str) -> Result<GString, glib::Error>;
 
-    fn get_trigger_source(&self) -> Result<GString, glib::Error>;
+	fn get_trigger_source(&self) -> Result<GString, glib::Error>;
 
-    fn get_vendor_name(&self) -> Result<GString, glib::Error>;
+	fn get_vendor_name(&self) -> Result<GString, glib::Error>;
 
-    fn get_width_bounds(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_width_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_width_increment(&self) -> Result<i32, glib::Error>;
+	fn get_width_increment(&self) -> Result<i32, glib::Error>;
 
-    fn get_x_binning_bounds(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_x_binning_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_x_binning_increment(&self) -> Result<i32, glib::Error>;
+	fn get_x_binning_increment(&self) -> Result<i32, glib::Error>;
 
-    fn get_x_offset_bounds(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_x_offset_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_x_offset_increment(&self) -> Result<i32, glib::Error>;
+	fn get_x_offset_increment(&self) -> Result<i32, glib::Error>;
 
-    fn get_y_binning_bounds(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_y_binning_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_y_binning_increment(&self) -> Result<i32, glib::Error>;
+	fn get_y_binning_increment(&self) -> Result<i32, glib::Error>;
 
-    fn get_y_offset_bounds(&self) -> Result<(i32, i32), glib::Error>;
+	fn get_y_offset_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
-    fn get_y_offset_increment(&self) -> Result<i32, glib::Error>;
+	fn get_y_offset_increment(&self) -> Result<i32, glib::Error>;
 
-    fn gv_auto_packet_size(&self) -> Result<(), glib::Error>;
+	fn gv_auto_packet_size(&self) -> Result<(), glib::Error>;
 
-    fn gv_get_current_stream_channel(&self) -> Result<i32, glib::Error>;
+	fn gv_get_current_stream_channel(&self) -> Result<i32, glib::Error>;
 
-    fn gv_get_n_stream_channels(&self) -> Result<i32, glib::Error>;
+	fn gv_get_n_stream_channels(&self) -> Result<i32, glib::Error>;
 
-    fn gv_get_packet_delay(&self) -> Result<i64, glib::Error>;
+	fn gv_get_packet_delay(&self) -> Result<i64, glib::Error>;
 
-    fn gv_get_packet_size(&self) -> Result<(), glib::Error>;
+	fn gv_get_packet_size(&self) -> Result<(), glib::Error>;
 
-    fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error>;
+	fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error>;
 
-    fn gv_set_packet_delay(&self, delay_ns: i64) -> Result<(), glib::Error>;
+	fn gv_set_packet_delay(&self, delay_ns: i64) -> Result<(), glib::Error>;
 
-    fn gv_set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
+	fn gv_set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
 
-    fn gv_set_stream_options(&self, options: GvStreamOption);
+	fn gv_set_stream_options(&self, options: GvStreamOption);
 
-    fn is_binning_available(&self) -> Result<(), glib::Error>;
+	fn is_binning_available(&self) -> Result<(), glib::Error>;
 
-    fn is_exposure_auto_available(&self) -> Result<(), glib::Error>;
+	fn is_exposure_auto_available(&self) -> Result<(), glib::Error>;
 
-    fn is_exposure_time_available(&self) -> Result<(), glib::Error>;
+	fn is_exposure_time_available(&self) -> Result<(), glib::Error>;
 
-    fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error>;
+	fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error>;
 
-    fn is_frame_rate_available(&self) -> Result<(), glib::Error>;
+	fn is_frame_rate_available(&self) -> Result<(), glib::Error>;
 
-    fn is_gain_auto_available(&self) -> Result<(), glib::Error>;
+	fn is_gain_auto_available(&self) -> Result<(), glib::Error>;
 
-    fn is_gain_available(&self) -> Result<(), glib::Error>;
+	fn is_gain_available(&self) -> Result<(), glib::Error>;
 
-    fn is_gv_device(&self) -> bool;
+	fn is_gv_device(&self) -> bool;
 
-    fn is_uv_device(&self) -> bool;
+	fn is_uv_device(&self) -> bool;
 
-    fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error>;
+	fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error>;
 
-    fn set_binning(&self, dx: i32, dy: i32) -> Result<(), glib::Error>;
+	fn set_binning(&self, dx: i32, dy: i32) -> Result<(), glib::Error>;
 
-    fn set_boolean(&self, feature: &str, value: bool) -> Result<(), glib::Error>;
+	fn set_boolean(&self, feature: &str, value: bool) -> Result<(), glib::Error>;
 
-    fn set_chunk_mode(&self, is_active: bool) -> Result<(), glib::Error>;
+	fn set_chunk_mode(&self, is_active: bool) -> Result<(), glib::Error>;
 
-    fn set_chunk_state(&self, chunk: &str, is_enabled: bool) -> Result<(), glib::Error>;
+	fn set_chunk_state(&self, chunk: &str, is_enabled: bool) -> Result<(), glib::Error>;
 
-    fn set_chunks(&self, chunk_list: &str) -> Result<(), glib::Error>;
+	fn set_chunks(&self, chunk_list: &str) -> Result<(), glib::Error>;
 
-    fn set_exposure_time(&self, exposure_time_us: f64) -> Result<(), glib::Error>;
+	fn set_exposure_time(&self, exposure_time_us: f64) -> Result<(), glib::Error>;
 
-    fn set_exposure_time_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
+	fn set_exposure_time_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
 
-    fn set_float(&self, feature: &str, value: f64) -> Result<(), glib::Error>;
+	fn set_float(&self, feature: &str, value: f64) -> Result<(), glib::Error>;
 
-    fn set_frame_count(&self, frame_count: i64) -> Result<(), glib::Error>;
+	fn set_frame_count(&self, frame_count: i64) -> Result<(), glib::Error>;
 
-    fn set_frame_rate(&self, frame_rate: f64) -> Result<(), glib::Error>;
+	fn set_frame_rate(&self, frame_rate: f64) -> Result<(), glib::Error>;
 
-    fn set_gain(&self, gain: f64) -> Result<(), glib::Error>;
+	fn set_gain(&self, gain: f64) -> Result<(), glib::Error>;
 
-    fn set_gain_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
+	fn set_gain_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
 
-    fn set_integer(&self, feature: &str, value: i64) -> Result<(), glib::Error>;
+	fn set_integer(&self, feature: &str, value: i64) -> Result<(), glib::Error>;
 
-    fn set_pixel_format(&self, format: PixelFormat) -> Result<(), glib::Error>;
+	fn set_pixel_format(&self, format: PixelFormat) -> Result<(), glib::Error>;
 
-    fn set_pixel_format_from_string(&self, format: &str) -> Result<(), glib::Error>;
+	fn set_pixel_format_from_string(&self, format: &str) -> Result<(), glib::Error>;
 
-    fn set_region(&self, x: i32, y: i32, width: i32, height: i32) -> Result<(), glib::Error>;
+	fn set_region(&self, x: i32, y: i32, width: i32, height: i32) -> Result<(), glib::Error>;
 
-    fn set_string(&self, feature: &str, value: &str) -> Result<(), glib::Error>;
+	fn set_string(&self, feature: &str, value: &str) -> Result<(), glib::Error>;
 
-    fn set_trigger(&self, source: &str) -> Result<(), glib::Error>;
+	fn set_trigger(&self, source: &str) -> Result<(), glib::Error>;
 
-    fn set_trigger_source(&self, source: &str) -> Result<(), glib::Error>;
+	fn set_trigger_source(&self, source: &str) -> Result<(), glib::Error>;
 
-    fn software_trigger(&self) -> Result<(), glib::Error>;
+	fn software_trigger(&self) -> Result<(), glib::Error>;
 
-    fn start_acquisition(&self) -> Result<(), glib::Error>;
+	fn start_acquisition(&self) -> Result<(), glib::Error>;
 
-    fn stop_acquisition(&self) -> Result<(), glib::Error>;
+	fn stop_acquisition(&self) -> Result<(), glib::Error>;
 
-    fn uv_get_bandwidth(&self) -> Result<(), glib::Error>;
+	fn uv_get_bandwidth(&self) -> Result<(), glib::Error>;
 
-    fn uv_get_bandwidth_bounds(&self) -> Result<(u32, u32), glib::Error>;
+	fn uv_get_bandwidth_bounds(&self) -> Result<(u32, u32), glib::Error>;
 
-    fn uv_is_bandwidth_control_available(&self) -> Result<(), glib::Error>;
+	fn uv_is_bandwidth_control_available(&self) -> Result<(), glib::Error>;
 
-    fn uv_set_bandwidth(&self, bandwidth: u32) -> Result<(), glib::Error>;
+	fn uv_set_bandwidth(&self, bandwidth: u32) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<Camera>> CameraExt for O {
-    fn abort_acquisition(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_abort_acquisition(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_acquisition(self.as_ref().to_glib_none().0, timeout, &mut error);
-            if error.is_null() { Ok(from_glib_full(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn check_status(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_check_status(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn clear_triggers(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_clear_triggers(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    //fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
-    //    unsafe { TODO: call aravis_sys:arv_camera_create_chunk_parser() }
-    //}
-
-    fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_execute_command(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_acquisition_mode(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error> {
-        unsafe {
-            let mut n_values = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_enumerations(self.as_ref().to_glib_none().0, feature.to_glib_none().0, n_values.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_values.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_enumerations_as_display_names(&self, feature: &str) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_values = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_enumerations_as_display_names(self.as_ref().to_glib_none().0, feature.to_glib_none().0, n_values.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_values.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_enumerations_as_strings(&self, feature: &str) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_values = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_enumerations_as_strings(self.as_ref().to_glib_none().0, feature.to_glib_none().0, n_values.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_values.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error> {
-        unsafe {
-            let mut n_pixel_formats = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_pixel_formats(self.as_ref().to_glib_none().0, n_pixel_formats.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_pixel_formats.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_pixel_formats = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_pixel_formats_as_display_names(self.as_ref().to_glib_none().0, n_pixel_formats.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_pixel_formats.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_pixel_formats = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_pixel_formats_as_strings(self.as_ref().to_glib_none().0, n_pixel_formats.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_pixel_formats.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_sources = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_trigger_sources(self.as_ref().to_glib_none().0, n_sources.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_sources.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_available_triggers(&self) -> Result<Vec<GString>, glib::Error> {
-        unsafe {
-            let mut n_triggers = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_available_triggers(self.as_ref().to_glib_none().0, n_triggers.as_mut_ptr(), &mut error);
-            if error.is_null() { Ok(FromGlibContainer::from_glib_container_num(ret, n_triggers.assume_init() as usize)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_binning(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut dx = mem::MaybeUninit::uninit();
-            let mut dy = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_binning(self.as_ref().to_glib_none().0, dx.as_mut_ptr(), dy.as_mut_ptr(), &mut error);
-            let dx = dx.assume_init();
-            let dy = dy.assume_init();
-            if error.is_null() { Ok((dx, dy)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error> {
-        unsafe {
-            let mut value = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_boolean_gi(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value.as_mut_ptr(), &mut error);
-            let value = value.assume_init();
-            if error.is_null() { Ok(from_glib(value)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_chunk_mode(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_chunk_mode(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_chunk_state(&self, chunk: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_chunk_state(self.as_ref().to_glib_none().0, chunk.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_device(&self) -> Option<Device> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_camera_get_device(self.as_ref().to_glib_none().0))
-        }
-    }
-
-    fn get_device_id(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_device_id(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_exposure_time(&self) -> Result<f64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_exposure_time(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_exposure_time_auto(&self) -> Result<Auto, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_exposure_time_auto(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_exposure_time_bounds(&self) -> Result<(f64, f64), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_exposure_time_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_float(&self, feature: &str) -> Result<f64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_float(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_float_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_float_bounds(self.as_ref().to_glib_none().0, feature.to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_frame_count(&self) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_frame_count(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_frame_count_bounds(&self) -> Result<(i64, i64), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_frame_count_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_frame_rate(&self) -> Result<f64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_frame_rate(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_frame_rate_bounds(&self) -> Result<(f64, f64), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_frame_rate_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_gain(&self) -> Result<f64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_gain(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_gain_auto(&self) -> Result<Auto, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_gain_auto(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_gain_bounds(&self) -> Result<(f64, f64), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_gain_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_height_bounds(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_height_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_height_increment(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_height_increment(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_integer(&self, feature: &str) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_integer(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_integer_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_integer_bounds(self.as_ref().to_glib_none().0, feature.to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_integer_increment(&self, feature: &str) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_integer_increment(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_model_name(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_model_name(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_payload(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_payload(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_pixel_format(&self) -> Result<PixelFormat, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_pixel_format(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_pixel_format_as_string(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_pixel_format_as_string(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_region(&self) -> Result<(i32, i32, i32, i32), glib::Error> {
-        unsafe {
-            let mut x = mem::MaybeUninit::uninit();
-            let mut y = mem::MaybeUninit::uninit();
-            let mut width = mem::MaybeUninit::uninit();
-            let mut height = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_region(self.as_ref().to_glib_none().0, x.as_mut_ptr(), y.as_mut_ptr(), width.as_mut_ptr(), height.as_mut_ptr(), &mut error);
-            let x = x.assume_init();
-            let y = y.assume_init();
-            let width = width.assume_init();
-            let height = height.assume_init();
-            if error.is_null() { Ok((x, y, width, height)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_sensor_size(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut width = mem::MaybeUninit::uninit();
-            let mut height = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_sensor_size(self.as_ref().to_glib_none().0, width.as_mut_ptr(), height.as_mut_ptr(), &mut error);
-            let width = width.assume_init();
-            let height = height.assume_init();
-            if error.is_null() { Ok((width, height)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_string(&self, feature: &str) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_string(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_trigger_source(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_trigger_source(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_vendor_name(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_vendor_name(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_width_bounds(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_width_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_width_increment(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_width_increment(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_x_binning_bounds(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_x_binning_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_x_binning_increment(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_x_binning_increment(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_x_offset_bounds(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_x_offset_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_x_offset_increment(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_x_offset_increment(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_y_binning_bounds(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_y_binning_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_y_binning_increment(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_y_binning_increment(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_y_offset_bounds(&self) -> Result<(i32, i32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_get_y_offset_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn get_y_offset_increment(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_get_y_offset_increment(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_auto_packet_size(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_gv_auto_packet_size(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_get_current_stream_channel(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_gv_get_current_stream_channel(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_get_n_stream_channels(&self) -> Result<i32, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_gv_get_n_stream_channels(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_get_packet_delay(&self) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_camera_gv_get_packet_delay(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_get_packet_size(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_gv_get_packet_size(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_gv_select_stream_channel(self.as_ref().to_glib_none().0, channel_id, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_set_packet_delay(&self, delay_ns: i64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_gv_set_packet_delay(self.as_ref().to_glib_none().0, delay_ns, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_gv_set_packet_size(self.as_ref().to_glib_none().0, packet_size, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn gv_set_stream_options(&self, options: GvStreamOption) {
-        unsafe {
-            aravis_sys::arv_camera_gv_set_stream_options(self.as_ref().to_glib_none().0, options.to_glib());
-        }
-    }
-
-    fn is_binning_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_binning_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_exposure_auto_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_exposure_auto_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_exposure_time_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_exposure_time_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_feature_available(self.as_ref().to_glib_none().0, feature.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_frame_rate_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_frame_rate_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_gain_auto_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_gain_auto_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_gain_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_is_gain_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn is_gv_device(&self) -> bool {
-        unsafe {
-            from_glib(aravis_sys::arv_camera_is_gv_device(self.as_ref().to_glib_none().0))
-        }
-    }
-
-    fn is_uv_device(&self) -> bool {
-        unsafe {
-            from_glib(aravis_sys::arv_camera_is_uv_device(self.as_ref().to_glib_none().0))
-        }
-    }
-
-    fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_acquisition_mode(self.as_ref().to_glib_none().0, value.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_binning(&self, dx: i32, dy: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_binning(self.as_ref().to_glib_none().0, dx, dy, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_boolean(&self, feature: &str, value: bool) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_boolean(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_chunk_mode(&self, is_active: bool) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_chunk_mode(self.as_ref().to_glib_none().0, is_active.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_chunk_state(&self, chunk: &str, is_enabled: bool) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_chunk_state(self.as_ref().to_glib_none().0, chunk.to_glib_none().0, is_enabled.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_chunks(&self, chunk_list: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_chunks(self.as_ref().to_glib_none().0, chunk_list.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_exposure_time(&self, exposure_time_us: f64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_exposure_time(self.as_ref().to_glib_none().0, exposure_time_us, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_exposure_time_auto(&self, auto_mode: Auto) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_exposure_time_auto(self.as_ref().to_glib_none().0, auto_mode.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_float(&self, feature: &str, value: f64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_float(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_frame_count(&self, frame_count: i64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_frame_count(self.as_ref().to_glib_none().0, frame_count, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_frame_rate(&self, frame_rate: f64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_frame_rate(self.as_ref().to_glib_none().0, frame_rate, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_gain(&self, gain: f64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_gain(self.as_ref().to_glib_none().0, gain, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_gain_auto(&self, auto_mode: Auto) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_gain_auto(self.as_ref().to_glib_none().0, auto_mode.to_glib(), &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_integer(&self, feature: &str, value: i64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_integer(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_pixel_format(&self, format: PixelFormat) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_pixel_format(self.as_ref().to_glib_none().0, format, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_pixel_format_from_string(&self, format: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_pixel_format_from_string(self.as_ref().to_glib_none().0, format.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_region(&self, x: i32, y: i32, width: i32, height: i32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_region(self.as_ref().to_glib_none().0, x, y, width, height, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_string(&self, feature: &str, value: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_string(self.as_ref().to_glib_none().0, feature.to_glib_none().0, value.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_trigger(&self, source: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_trigger(self.as_ref().to_glib_none().0, source.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn set_trigger_source(&self, source: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_set_trigger_source(self.as_ref().to_glib_none().0, source.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn software_trigger(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_software_trigger(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn start_acquisition(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_start_acquisition(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn stop_acquisition(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_stop_acquisition(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn uv_get_bandwidth(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_uv_get_bandwidth(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn uv_get_bandwidth_bounds(&self) -> Result<(u32, u32), glib::Error> {
-        unsafe {
-            let mut min = mem::MaybeUninit::uninit();
-            let mut max = mem::MaybeUninit::uninit();
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_uv_get_bandwidth_bounds(self.as_ref().to_glib_none().0, min.as_mut_ptr(), max.as_mut_ptr(), &mut error);
-            let min = min.assume_init();
-            let max = max.assume_init();
-            if error.is_null() { Ok((min, max)) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn uv_is_bandwidth_control_available(&self) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_uv_is_bandwidth_control_available(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
-
-    fn uv_set_bandwidth(&self, bandwidth: u32) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_camera_uv_set_bandwidth(self.as_ref().to_glib_none().0, bandwidth, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn abort_acquisition(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_abort_acquisition(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_acquisition(
+				self.as_ref().to_glib_none().0,
+				timeout,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_full(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn check_status(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_check_status(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn clear_triggers(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_camera_clear_triggers(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
+	//    unsafe { TODO: call aravis_sys:arv_camera_create_chunk_parser() }
+	//}
+
+	fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_execute_command(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_acquisition_mode(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_enumerations(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_enumerations_as_display_names(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_enumerations_as_display_names(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_enumerations_as_strings(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_enumerations_as_strings(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error> {
+		unsafe {
+			let mut n_pixel_formats = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_pixel_formats(
+				self.as_ref().to_glib_none().0,
+				n_pixel_formats.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_pixel_formats.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_pixel_formats = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_pixel_formats_as_display_names(
+				self.as_ref().to_glib_none().0,
+				n_pixel_formats.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_pixel_formats.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_pixel_formats = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_pixel_formats_as_strings(
+				self.as_ref().to_glib_none().0,
+				n_pixel_formats.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_pixel_formats.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_sources = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_trigger_sources(
+				self.as_ref().to_glib_none().0,
+				n_sources.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_sources.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_available_triggers(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_triggers = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_available_triggers(
+				self.as_ref().to_glib_none().0,
+				n_triggers.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_triggers.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_binning(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut dx = mem::MaybeUninit::uninit();
+			let mut dy = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_binning(
+				self.as_ref().to_glib_none().0,
+				dx.as_mut_ptr(),
+				dy.as_mut_ptr(),
+				&mut error,
+			);
+			let dx = dx.assume_init();
+			let dy = dy.assume_init();
+			if error.is_null() {
+				Ok((dx, dy))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error> {
+		unsafe {
+			let mut value = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_boolean_gi(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				value.as_mut_ptr(),
+				&mut error,
+			);
+			let value = value.assume_init();
+			if error.is_null() {
+				Ok(from_glib(value))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_chunk_mode(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_camera_get_chunk_mode(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_chunk_state(&self, chunk: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_chunk_state(
+				self.as_ref().to_glib_none().0,
+				chunk.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_device(&self) -> Option<Device> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_camera_get_device(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
+	fn get_device_id(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_device_id(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_exposure_time(&self) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_exposure_time(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_exposure_time_auto(&self) -> Result<Auto, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_exposure_time_auto(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_exposure_time_bounds(&self) -> Result<(f64, f64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_exposure_time_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_float(&self, feature: &str) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_float(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_float_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_float_bounds(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_frame_count(&self) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_frame_count(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_frame_count_bounds(&self) -> Result<(i64, i64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_frame_count_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_frame_rate(&self) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_frame_rate(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_frame_rate_bounds(&self) -> Result<(f64, f64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_frame_rate_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_gain(&self) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_gain(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_gain_auto(&self) -> Result<Auto, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_gain_auto(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_gain_bounds(&self) -> Result<(f64, f64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_gain_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_height_bounds(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_height_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_height_increment(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_height_increment(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_integer(&self, feature: &str) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_integer(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_integer_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_integer_bounds(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_integer_increment(&self, feature: &str) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_integer_increment(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_model_name(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_model_name(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_payload(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_payload(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_pixel_format(&self) -> Result<PixelFormat, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_pixel_format(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_pixel_format_as_string(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_pixel_format_as_string(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_region(&self) -> Result<(i32, i32, i32, i32), glib::Error> {
+		unsafe {
+			let mut x = mem::MaybeUninit::uninit();
+			let mut y = mem::MaybeUninit::uninit();
+			let mut width = mem::MaybeUninit::uninit();
+			let mut height = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_region(
+				self.as_ref().to_glib_none().0,
+				x.as_mut_ptr(),
+				y.as_mut_ptr(),
+				width.as_mut_ptr(),
+				height.as_mut_ptr(),
+				&mut error,
+			);
+			let x = x.assume_init();
+			let y = y.assume_init();
+			let width = width.assume_init();
+			let height = height.assume_init();
+			if error.is_null() {
+				Ok((x, y, width, height))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_sensor_size(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut width = mem::MaybeUninit::uninit();
+			let mut height = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_sensor_size(
+				self.as_ref().to_glib_none().0,
+				width.as_mut_ptr(),
+				height.as_mut_ptr(),
+				&mut error,
+			);
+			let width = width.assume_init();
+			let height = height.assume_init();
+			if error.is_null() {
+				Ok((width, height))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_string(&self, feature: &str) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_string(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_trigger_source(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_trigger_source(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_vendor_name(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				aravis_sys::arv_camera_get_vendor_name(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_width_bounds(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_width_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_width_increment(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_width_increment(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_x_binning_bounds(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_x_binning_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_x_binning_increment(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_x_binning_increment(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_x_offset_bounds(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_x_offset_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_x_offset_increment(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_x_offset_increment(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_y_binning_bounds(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_y_binning_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_y_binning_increment(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_y_binning_increment(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_y_offset_bounds(&self) -> Result<(i32, i32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_get_y_offset_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_y_offset_increment(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_get_y_offset_increment(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_auto_packet_size(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_gv_auto_packet_size(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_get_current_stream_channel(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_gv_get_current_stream_channel(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_get_n_stream_channels(&self) -> Result<i32, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_gv_get_n_stream_channels(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_get_packet_delay(&self) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_gv_get_packet_delay(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_get_packet_size(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_gv_get_packet_size(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_gv_select_stream_channel(
+				self.as_ref().to_glib_none().0,
+				channel_id,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_set_packet_delay(&self, delay_ns: i64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_gv_set_packet_delay(
+				self.as_ref().to_glib_none().0,
+				delay_ns,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_gv_set_packet_size(
+				self.as_ref().to_glib_none().0,
+				packet_size,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn gv_set_stream_options(&self, options: GvStreamOption) {
+		unsafe {
+			aravis_sys::arv_camera_gv_set_stream_options(
+				self.as_ref().to_glib_none().0,
+				options.to_glib(),
+			);
+		}
+	}
+
+	fn is_binning_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_binning_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_exposure_auto_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_exposure_auto_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_exposure_time_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_exposure_time_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_feature_available(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_frame_rate_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_frame_rate_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_gain_auto_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_gain_auto_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_gain_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_is_gain_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn is_gv_device(&self) -> bool {
+		unsafe {
+			from_glib(aravis_sys::arv_camera_is_gv_device(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
+	fn is_uv_device(&self) -> bool {
+		unsafe {
+			from_glib(aravis_sys::arv_camera_is_uv_device(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
+	fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_acquisition_mode(
+				self.as_ref().to_glib_none().0,
+				value.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_binning(&self, dx: i32, dy: i32) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_binning(
+				self.as_ref().to_glib_none().0,
+				dx,
+				dy,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_boolean(&self, feature: &str, value: bool) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_boolean(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				value.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_chunk_mode(&self, is_active: bool) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_chunk_mode(
+				self.as_ref().to_glib_none().0,
+				is_active.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_chunk_state(&self, chunk: &str, is_enabled: bool) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_chunk_state(
+				self.as_ref().to_glib_none().0,
+				chunk.to_glib_none().0,
+				is_enabled.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_chunks(&self, chunk_list: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_chunks(
+				self.as_ref().to_glib_none().0,
+				chunk_list.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_exposure_time(&self, exposure_time_us: f64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_exposure_time(
+				self.as_ref().to_glib_none().0,
+				exposure_time_us,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_exposure_time_auto(&self, auto_mode: Auto) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_exposure_time_auto(
+				self.as_ref().to_glib_none().0,
+				auto_mode.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_float(&self, feature: &str, value: f64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_float(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				value,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_frame_count(&self, frame_count: i64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_frame_count(
+				self.as_ref().to_glib_none().0,
+				frame_count,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_frame_rate(&self, frame_rate: f64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_frame_rate(
+				self.as_ref().to_glib_none().0,
+				frame_rate,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_gain(&self, gain: f64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_camera_set_gain(self.as_ref().to_glib_none().0, gain, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_gain_auto(&self, auto_mode: Auto) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_gain_auto(
+				self.as_ref().to_glib_none().0,
+				auto_mode.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_integer(&self, feature: &str, value: i64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_integer(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				value,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_pixel_format(&self, format: PixelFormat) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_pixel_format(
+				self.as_ref().to_glib_none().0,
+				format,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_pixel_format_from_string(&self, format: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_pixel_format_from_string(
+				self.as_ref().to_glib_none().0,
+				format.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_region(&self, x: i32, y: i32, width: i32, height: i32) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_region(
+				self.as_ref().to_glib_none().0,
+				x,
+				y,
+				width,
+				height,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_string(&self, feature: &str, value: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_string(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				value.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_trigger(&self, source: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_trigger(
+				self.as_ref().to_glib_none().0,
+				source.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_trigger_source(&self, source: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_set_trigger_source(
+				self.as_ref().to_glib_none().0,
+				source.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn software_trigger(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_camera_software_trigger(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn start_acquisition(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_start_acquisition(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn stop_acquisition(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_camera_stop_acquisition(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn uv_get_bandwidth(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_camera_uv_get_bandwidth(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn uv_get_bandwidth_bounds(&self) -> Result<(u32, u32), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_uv_get_bandwidth_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn uv_is_bandwidth_control_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_uv_is_bandwidth_control_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn uv_set_bandwidth(&self, bandwidth: u32) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_camera_uv_set_bandwidth(
+				self.as_ref().to_glib_none().0,
+				bandwidth,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 }
 
 impl fmt::Display for Camera {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Camera")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "Camera")
+	}
 }

@@ -2,6 +2,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib::object::Cast;
+use glib::translate::*;
+use std::fmt;
 use DomElement;
 use DomNode;
 use GcFeatureNode;
@@ -9,38 +13,32 @@ use GcFloat;
 use GcNode;
 use GcRegister;
 use GcRegisterNode;
-use aravis_sys;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
 
 glib_wrapper! {
-    pub struct GcFloatRegNode(Object<aravis_sys::ArvGcFloatRegNode, aravis_sys::ArvGcFloatRegNodeClass, GcFloatRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcFloat;
+	pub struct GcFloatRegNode(Object<aravis_sys::ArvGcFloatRegNode, aravis_sys::ArvGcFloatRegNodeClass, GcFloatRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcFloat;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_float_reg_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_float_reg_node_get_type(),
+	}
 }
 
 impl GcFloatRegNode {
-    pub fn new() -> GcFloatRegNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_float_reg_node_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcFloatRegNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_float_reg_node_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcFloatRegNode {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_FLOAT_REG_NODE: Option<&GcFloatRegNode> = None;
 
 impl fmt::Display for GcFloatRegNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcFloatRegNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcFloatRegNode")
+	}
 }

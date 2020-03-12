@@ -2,6 +2,14 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib;
+use glib::object::Cast;
+use glib::object::IsA;
+use glib::translate::*;
+use glib::GString;
+use std::fmt;
+use std::ptr;
 use DomElement;
 use DomNode;
 use GcAccessMode;
@@ -9,494 +17,562 @@ use GcCachable;
 use GcNode;
 use GcPropertyNodeType;
 use GcSignedness;
-use aravis_sys;
-use glib;
-use glib::GString;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
 
 glib_wrapper! {
-    pub struct GcPropertyNode(Object<aravis_sys::ArvGcPropertyNode, aravis_sys::ArvGcPropertyNodeClass, GcPropertyNodeClass>) @extends GcNode, DomElement, DomNode;
+	pub struct GcPropertyNode(Object<aravis_sys::ArvGcPropertyNode, aravis_sys::ArvGcPropertyNodeClass, GcPropertyNodeClass>) @extends GcNode, DomElement, DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_property_node_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_property_node_get_type(),
+	}
 }
 
 impl GcPropertyNode {
-    pub fn new_access_mode() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_access_mode()).unsafe_cast()
-        }
-    }
+	pub fn new_access_mode() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_access_mode()).unsafe_cast()
+		}
+	}
 
-    pub fn new_address() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_address()).unsafe_cast()
-        }
-    }
+	pub fn new_address() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_address()).unsafe_cast()
+		}
+	}
 
-    pub fn new_bit() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_bit()).unsafe_cast()
-        }
-    }
+	pub fn new_bit() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_bit()).unsafe_cast() }
+	}
 
-    pub fn new_cachable() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_cachable()).unsafe_cast()
-        }
-    }
+	pub fn new_cachable() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_cachable()).unsafe_cast()
+		}
+	}
 
-    pub fn new_chunk_id() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_chunk_id()).unsafe_cast()
-        }
-    }
+	pub fn new_chunk_id() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_chunk_id()).unsafe_cast()
+		}
+	}
 
-    pub fn new_command_value() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_command_value()).unsafe_cast()
-        }
-    }
+	pub fn new_command_value() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_command_value())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_constant() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_constant()).unsafe_cast()
-        }
-    }
+	pub fn new_constant() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_constant()).unsafe_cast()
+		}
+	}
 
-    pub fn new_description() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_description()).unsafe_cast()
-        }
-    }
+	pub fn new_description() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_description()).unsafe_cast()
+		}
+	}
 
-    pub fn new_display_name() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_display_name()).unsafe_cast()
-        }
-    }
+	pub fn new_display_name() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_display_name())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_endianess() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_endianess()).unsafe_cast()
-        }
-    }
+	pub fn new_endianess() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_endianess()).unsafe_cast()
+		}
+	}
 
-    pub fn new_event_id() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_event_id()).unsafe_cast()
-        }
-    }
+	pub fn new_event_id() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_event_id()).unsafe_cast()
+		}
+	}
 
-    pub fn new_expression() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_expression()).unsafe_cast()
-        }
-    }
+	pub fn new_expression() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_expression()).unsafe_cast()
+		}
+	}
 
-    pub fn new_formula() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_formula()).unsafe_cast()
-        }
-    }
+	pub fn new_formula() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_formula()).unsafe_cast()
+		}
+	}
 
-    pub fn new_formula_from() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_formula_from()).unsafe_cast()
-        }
-    }
+	pub fn new_formula_from() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_formula_from())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_formula_to() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_formula_to()).unsafe_cast()
-        }
-    }
+	pub fn new_formula_to() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_formula_to()).unsafe_cast()
+		}
+	}
 
-    pub fn new_imposed_access_mode() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_imposed_access_mode()).unsafe_cast()
-        }
-    }
+	pub fn new_imposed_access_mode() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_imposed_access_mode())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_increment() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_increment()).unsafe_cast()
-        }
-    }
+	pub fn new_increment() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_increment()).unsafe_cast()
+		}
+	}
 
-    pub fn new_is_linear() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_is_linear()).unsafe_cast()
-        }
-    }
+	pub fn new_is_linear() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_is_linear()).unsafe_cast()
+		}
+	}
 
-    pub fn new_length() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_length()).unsafe_cast()
-        }
-    }
+	pub fn new_length() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_length()).unsafe_cast()
+		}
+	}
 
-    pub fn new_lsb() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_lsb()).unsafe_cast()
-        }
-    }
+	pub fn new_lsb() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_lsb()).unsafe_cast() }
+	}
 
-    pub fn new_maximum() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_maximum()).unsafe_cast()
-        }
-    }
+	pub fn new_maximum() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_maximum()).unsafe_cast()
+		}
+	}
 
-    pub fn new_minimum() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_minimum()).unsafe_cast()
-        }
-    }
+	pub fn new_minimum() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_minimum()).unsafe_cast()
+		}
+	}
 
-    pub fn new_msb() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_msb()).unsafe_cast()
-        }
-    }
+	pub fn new_msb() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_msb()).unsafe_cast() }
+	}
 
-    pub fn new_off_value() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_off_value()).unsafe_cast()
-        }
-    }
+	pub fn new_off_value() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_off_value()).unsafe_cast()
+		}
+	}
 
-    pub fn new_on_value() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_on_value()).unsafe_cast()
-        }
-    }
+	pub fn new_on_value() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_on_value()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_address() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_address()).unsafe_cast()
-        }
-    }
+	pub fn new_p_address() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_address()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_command_value() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_command_value()).unsafe_cast()
-        }
-    }
+	pub fn new_p_command_value() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_command_value())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_p_feature() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_feature()).unsafe_cast()
-        }
-    }
+	pub fn new_p_feature() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_feature()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_increment() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_increment()).unsafe_cast()
-        }
-    }
+	pub fn new_p_increment() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_increment()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_is_available() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_is_available()).unsafe_cast()
-        }
-    }
+	pub fn new_p_is_available() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_is_available())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_p_is_implemented() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_is_implemented()).unsafe_cast()
-        }
-    }
+	pub fn new_p_is_implemented() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_is_implemented())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_p_is_locked() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_is_locked()).unsafe_cast()
-        }
-    }
+	pub fn new_p_is_locked() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_is_locked()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_length() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_length()).unsafe_cast()
-        }
-    }
+	pub fn new_p_length() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_length()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_maximum() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_maximum()).unsafe_cast()
-        }
-    }
+	pub fn new_p_maximum() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_maximum()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_minimum() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_minimum()).unsafe_cast()
-        }
-    }
+	pub fn new_p_minimum() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_minimum()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_port() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_port()).unsafe_cast()
-        }
-    }
+	pub fn new_p_port() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_port()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_selected() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_selected()).unsafe_cast()
-        }
-    }
+	pub fn new_p_selected() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_selected()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_value() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_value()).unsafe_cast()
-        }
-    }
+	pub fn new_p_value() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_value()).unsafe_cast()
+		}
+	}
 
-    pub fn new_p_value_default() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_value_default()).unsafe_cast()
-        }
-    }
+	pub fn new_p_value_default() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_value_default())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_p_variable() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_variable()).unsafe_cast()
-        }
-    }
+	pub fn new_p_variable() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_p_variable()).unsafe_cast()
+		}
+	}
 
-    pub fn new_polling_time() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_polling_time()).unsafe_cast()
-        }
-    }
+	pub fn new_polling_time() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_polling_time())
+				.unsafe_cast()
+		}
+	}
 
-    pub fn new_sign() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_sign()).unsafe_cast()
-        }
-    }
+	pub fn new_sign() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_sign()).unsafe_cast() }
+	}
 
-    pub fn new_slope() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_slope()).unsafe_cast()
-        }
-    }
+	pub fn new_slope() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_slope()).unsafe_cast()
+		}
+	}
 
-    pub fn new_tooltip() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_tooltip()).unsafe_cast()
-        }
-    }
+	pub fn new_tooltip() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_tooltip()).unsafe_cast()
+		}
+	}
 
-    pub fn new_unit() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_unit()).unsafe_cast()
-        }
-    }
+	pub fn new_unit() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_unit()).unsafe_cast() }
+	}
 
-    pub fn new_value() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_value()).unsafe_cast()
-        }
-    }
+	pub fn new_value() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_value()).unsafe_cast()
+		}
+	}
 
-    pub fn new_value_default() -> GcPropertyNode {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_value_default()).unsafe_cast()
-        }
-    }
+	pub fn new_value_default() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_value_default())
+				.unsafe_cast()
+		}
+	}
+
+	pub fn new_visibility() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_visibility()).unsafe_cast()
+		}
+	}
 }
 
 pub const NONE_GC_PROPERTY_NODE: Option<&GcPropertyNode> = None;
 
 pub trait GcPropertyNodeExt: 'static {
-    fn get_access_mode(&self, default_value: GcAccessMode) -> GcAccessMode;
+	fn get_access_mode(&self, default_value: GcAccessMode) -> GcAccessMode;
 
-    fn get_cachable(&self, default_value: GcCachable) -> GcCachable;
+	fn get_cachable(&self, default_value: GcCachable) -> GcCachable;
 
-    fn get_double(&self) -> Result<f64, glib::Error>;
+	fn get_double(&self) -> Result<f64, glib::Error>;
 
-    fn get_endianess(&self, default_value: u32) -> u32;
+	fn get_endianess(&self, default_value: u32) -> u32;
 
-    fn get_int64(&self) -> Result<i64, glib::Error>;
+	fn get_int64(&self) -> Result<i64, glib::Error>;
 
-    fn get_linked_node(&self) -> Option<GcNode>;
+	fn get_linked_node(&self) -> Option<GcNode>;
 
-    fn get_lsb(&self, default_value: u32) -> u32;
+	fn get_lsb(&self, default_value: u32) -> u32;
 
-    fn get_msb(&self, default_value: u32) -> u32;
+	fn get_msb(&self, default_value: u32) -> u32;
 
-    fn get_name(&self) -> Option<GString>;
+	fn get_name(&self) -> Option<GString>;
 
-    fn get_node_type(&self) -> GcPropertyNodeType;
+	fn get_node_type(&self) -> GcPropertyNodeType;
 
-    fn get_sign(&self, default_value: GcSignedness) -> GcSignedness;
+	fn get_sign(&self, default_value: GcSignedness) -> GcSignedness;
 
-    fn get_string(&self) -> Result<GString, glib::Error>;
+	fn get_string(&self) -> Result<GString, glib::Error>;
 
-    fn set_double(&self, v_double: f64) -> Result<(), glib::Error>;
+	//fn get_visibility(&self, default_value: /*Ignored*/GcVisibility) -> /*Ignored*/GcVisibility;
 
-    fn set_int64(&self, v_int64: i64) -> Result<(), glib::Error>;
+	fn set_double(&self, v_double: f64) -> Result<(), glib::Error>;
 
-    fn set_string(&self, string: &str) -> Result<(), glib::Error>;
+	fn set_int64(&self, v_int64: i64) -> Result<(), glib::Error>;
+
+	fn set_string(&self, string: &str) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
-    fn get_access_mode(&self, default_value: GcAccessMode) -> GcAccessMode {
-        unsafe {
-            from_glib(aravis_sys::arv_gc_property_node_get_access_mode(self.as_ref().to_glib_none().0, default_value.to_glib()))
-        }
-    }
+	fn get_access_mode(&self, default_value: GcAccessMode) -> GcAccessMode {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_access_mode(
+				self.as_ref().to_glib_none().0,
+				default_value.to_glib(),
+			))
+		}
+	}
 
-    fn get_cachable(&self, default_value: GcCachable) -> GcCachable {
-        unsafe {
-            from_glib(aravis_sys::arv_gc_property_node_get_cachable(self.as_ref().to_glib_none().0, default_value.to_glib()))
-        }
-    }
+	fn get_cachable(&self, default_value: GcCachable) -> GcCachable {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_cachable(
+				self.as_ref().to_glib_none().0,
+				default_value.to_glib(),
+			))
+		}
+	}
 
-    fn get_double(&self) -> Result<f64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_property_node_get_double(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_double(&self) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_property_node_get_double(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_endianess(&self, default_value: u32) -> u32 {
-        unsafe {
-            aravis_sys::arv_gc_property_node_get_endianess(self.as_ref().to_glib_none().0, default_value)
-        }
-    }
+	fn get_endianess(&self, default_value: u32) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_property_node_get_endianess(
+				self.as_ref().to_glib_none().0,
+				default_value,
+			)
+		}
+	}
 
-    fn get_int64(&self) -> Result<i64, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_property_node_get_int64(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(ret) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_int64(&self) -> Result<i64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_property_node_get_int64(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn get_linked_node(&self) -> Option<GcNode> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_gc_property_node_get_linked_node(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_linked_node(&self) -> Option<GcNode> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_gc_property_node_get_linked_node(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_lsb(&self, default_value: u32) -> u32 {
-        unsafe {
-            aravis_sys::arv_gc_property_node_get_lsb(self.as_ref().to_glib_none().0, default_value)
-        }
-    }
+	fn get_lsb(&self, default_value: u32) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_property_node_get_lsb(self.as_ref().to_glib_none().0, default_value)
+		}
+	}
 
-    fn get_msb(&self, default_value: u32) -> u32 {
-        unsafe {
-            aravis_sys::arv_gc_property_node_get_msb(self.as_ref().to_glib_none().0, default_value)
-        }
-    }
+	fn get_msb(&self, default_value: u32) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_property_node_get_msb(self.as_ref().to_glib_none().0, default_value)
+		}
+	}
 
-    fn get_name(&self) -> Option<GString> {
-        unsafe {
-            from_glib_none(aravis_sys::arv_gc_property_node_get_name(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_name(&self) -> Option<GString> {
+		unsafe {
+			from_glib_none(aravis_sys::arv_gc_property_node_get_name(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_node_type(&self) -> GcPropertyNodeType {
-        unsafe {
-            from_glib(aravis_sys::arv_gc_property_node_get_node_type(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_node_type(&self) -> GcPropertyNodeType {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_node_type(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_sign(&self, default_value: GcSignedness) -> GcSignedness {
-        unsafe {
-            from_glib(aravis_sys::arv_gc_property_node_get_sign(self.as_ref().to_glib_none().0, default_value.to_glib()))
-        }
-    }
+	fn get_sign(&self, default_value: GcSignedness) -> GcSignedness {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_sign(
+				self.as_ref().to_glib_none().0,
+				default_value.to_glib(),
+			))
+		}
+	}
 
-    fn get_string(&self) -> Result<GString, glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let ret = aravis_sys::arv_gc_property_node_get_string(self.as_ref().to_glib_none().0, &mut error);
-            if error.is_null() { Ok(from_glib_none(ret)) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn get_string(&self) -> Result<GString, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gc_property_node_get_string(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_none(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn set_double(&self, v_double: f64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_gc_property_node_set_double(self.as_ref().to_glib_none().0, v_double, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
+	//fn get_visibility(&self, default_value: /*Ignored*/GcVisibility) -> /*Ignored*/GcVisibility {
+	//    unsafe { TODO: call aravis_sys:arv_gc_property_node_get_visibility() }
+	//}
 
-    fn set_int64(&self, v_int64: i64) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_gc_property_node_set_int64(self.as_ref().to_glib_none().0, v_int64, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn set_double(&self, v_double: f64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_gc_property_node_set_double(
+				self.as_ref().to_glib_none().0,
+				v_double,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
-    fn set_string(&self, string: &str) -> Result<(), glib::Error> {
-        unsafe {
-            let mut error = ptr::null_mut();
-            let _ = aravis_sys::arv_gc_property_node_set_string(self.as_ref().to_glib_none().0, string.to_glib_none().0, &mut error);
-            if error.is_null() { Ok(()) } else { Err(from_glib_full(error)) }
-        }
-    }
+	fn set_int64(&self, v_int64: i64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_gc_property_node_set_int64(
+				self.as_ref().to_glib_none().0,
+				v_int64,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_string(&self, string: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_gc_property_node_set_string(
+				self.as_ref().to_glib_none().0,
+				string.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 }
 
 impl fmt::Display for GcPropertyNode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcPropertyNode")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcPropertyNode")
+	}
 }

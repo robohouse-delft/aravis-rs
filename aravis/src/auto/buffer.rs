@@ -2,181 +2,185 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
-use BufferPayloadType;
-use BufferStatus;
-use PixelFormat;
 use aravis_sys;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
 use std::mem;
+use BufferPayloadType;
+use BufferStatus;
+use PixelFormat;
 
 glib_wrapper! {
-    pub struct Buffer(Object<aravis_sys::ArvBuffer, aravis_sys::ArvBufferClass, BufferClass>);
+	pub struct Buffer(Object<aravis_sys::ArvBuffer, aravis_sys::ArvBufferClass, BufferClass>);
 
-    match fn {
-        get_type => || aravis_sys::arv_buffer_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_buffer_get_type(),
+	}
 }
 
 impl Buffer {
-    //pub fn new(size: usize, preallocated: /*Unimplemented*/Option<Fundamental: Pointer>) -> Buffer {
-    //    unsafe { TODO: call aravis_sys:arv_buffer_new() }
-    //}
+	//pub fn new(size: usize, preallocated: /*Unimplemented*/Option<Fundamental: Pointer>) -> Buffer {
+	//    unsafe { TODO: call aravis_sys:arv_buffer_new() }
+	//}
 
-    pub fn new_allocate(size: usize) -> Buffer {
-        assert_initialized_main_thread!();
-        unsafe {
-            from_glib_full(aravis_sys::arv_buffer_new_allocate(size))
-        }
-    }
+	pub fn new_allocate(size: usize) -> Buffer {
+		assert_initialized_main_thread!();
+		unsafe { from_glib_full(aravis_sys::arv_buffer_new_allocate(size)) }
+	}
 }
 
 pub const NONE_BUFFER: Option<&Buffer> = None;
 
 pub trait BufferExt: 'static {
-    fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
+	fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
 
-    fn get_frame_id(&self) -> u32;
+	fn get_frame_id(&self) -> u32;
 
-    fn get_image_height(&self) -> i32;
+	fn get_image_height(&self) -> i32;
 
-    fn get_image_pixel_format(&self) -> PixelFormat;
+	fn get_image_pixel_format(&self) -> PixelFormat;
 
-    fn get_image_region(&self) -> (i32, i32, i32, i32);
+	fn get_image_region(&self) -> (i32, i32, i32, i32);
 
-    fn get_image_width(&self) -> i32;
+	fn get_image_width(&self) -> i32;
 
-    fn get_image_x(&self) -> i32;
+	fn get_image_x(&self) -> i32;
 
-    fn get_image_y(&self) -> i32;
+	fn get_image_y(&self) -> i32;
 
-    fn get_payload_type(&self) -> BufferPayloadType;
+	fn get_payload_type(&self) -> BufferPayloadType;
 
-    fn get_status(&self) -> BufferStatus;
+	fn get_status(&self) -> BufferStatus;
 
-    fn get_system_timestamp(&self) -> u64;
+	fn get_system_timestamp(&self) -> u64;
 
-    fn get_timestamp(&self) -> u64;
+	fn get_timestamp(&self) -> u64;
 
-    //fn get_user_data(&self) -> /*Unimplemented*/Option<Fundamental: Pointer>;
+	//fn get_user_data(&self) -> /*Unimplemented*/Option<Fundamental: Pointer>;
 
-    fn has_chunks(&self) -> bool;
+	fn has_chunks(&self) -> bool;
 
-    fn set_system_timestamp(&self, timestamp_ns: u64);
+	fn set_system_timestamp(&self, timestamp_ns: u64);
 
-    fn set_timestamp(&self, timestamp_ns: u64);
+	fn set_timestamp(&self, timestamp_ns: u64);
 }
 
 impl<O: IsA<Buffer>> BufferExt for O {
-    fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8> {
-        unsafe {
-            let mut size = mem::MaybeUninit::uninit();
-            let ret = FromGlibContainer::from_glib_none_num(aravis_sys::arv_buffer_get_chunk_data(self.as_ref().to_glib_none().0, chunk_id, size.as_mut_ptr()), size.assume_init() as usize);
-            ret
-        }
-    }
+	fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8> {
+		unsafe {
+			let mut size = mem::MaybeUninit::uninit();
+			let ret = FromGlibContainer::from_glib_none_num(
+				aravis_sys::arv_buffer_get_chunk_data(
+					self.as_ref().to_glib_none().0,
+					chunk_id,
+					size.as_mut_ptr(),
+				),
+				size.assume_init() as usize,
+			);
+			ret
+		}
+	}
 
-    fn get_frame_id(&self) -> u32 {
-        unsafe {
-            aravis_sys::arv_buffer_get_frame_id(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_frame_id(&self) -> u32 {
+		unsafe { aravis_sys::arv_buffer_get_frame_id(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_image_height(&self) -> i32 {
-        unsafe {
-            aravis_sys::arv_buffer_get_image_height(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_image_height(&self) -> i32 {
+		unsafe { aravis_sys::arv_buffer_get_image_height(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_image_pixel_format(&self) -> PixelFormat {
-        unsafe {
-            aravis_sys::arv_buffer_get_image_pixel_format(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_image_pixel_format(&self) -> PixelFormat {
+		unsafe { aravis_sys::arv_buffer_get_image_pixel_format(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_image_region(&self) -> (i32, i32, i32, i32) {
-        unsafe {
-            let mut x = mem::MaybeUninit::uninit();
-            let mut y = mem::MaybeUninit::uninit();
-            let mut width = mem::MaybeUninit::uninit();
-            let mut height = mem::MaybeUninit::uninit();
-            aravis_sys::arv_buffer_get_image_region(self.as_ref().to_glib_none().0, x.as_mut_ptr(), y.as_mut_ptr(), width.as_mut_ptr(), height.as_mut_ptr());
-            let x = x.assume_init();
-            let y = y.assume_init();
-            let width = width.assume_init();
-            let height = height.assume_init();
-            (x, y, width, height)
-        }
-    }
+	fn get_image_region(&self) -> (i32, i32, i32, i32) {
+		unsafe {
+			let mut x = mem::MaybeUninit::uninit();
+			let mut y = mem::MaybeUninit::uninit();
+			let mut width = mem::MaybeUninit::uninit();
+			let mut height = mem::MaybeUninit::uninit();
+			aravis_sys::arv_buffer_get_image_region(
+				self.as_ref().to_glib_none().0,
+				x.as_mut_ptr(),
+				y.as_mut_ptr(),
+				width.as_mut_ptr(),
+				height.as_mut_ptr(),
+			);
+			let x = x.assume_init();
+			let y = y.assume_init();
+			let width = width.assume_init();
+			let height = height.assume_init();
+			(x, y, width, height)
+		}
+	}
 
-    fn get_image_width(&self) -> i32 {
-        unsafe {
-            aravis_sys::arv_buffer_get_image_width(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_image_width(&self) -> i32 {
+		unsafe { aravis_sys::arv_buffer_get_image_width(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_image_x(&self) -> i32 {
-        unsafe {
-            aravis_sys::arv_buffer_get_image_x(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_image_x(&self) -> i32 {
+		unsafe { aravis_sys::arv_buffer_get_image_x(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_image_y(&self) -> i32 {
-        unsafe {
-            aravis_sys::arv_buffer_get_image_y(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_image_y(&self) -> i32 {
+		unsafe { aravis_sys::arv_buffer_get_image_y(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_payload_type(&self) -> BufferPayloadType {
-        unsafe {
-            from_glib(aravis_sys::arv_buffer_get_payload_type(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_payload_type(&self) -> BufferPayloadType {
+		unsafe {
+			from_glib(aravis_sys::arv_buffer_get_payload_type(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_status(&self) -> BufferStatus {
-        unsafe {
-            from_glib(aravis_sys::arv_buffer_get_status(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_status(&self) -> BufferStatus {
+		unsafe {
+			from_glib(aravis_sys::arv_buffer_get_status(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn get_system_timestamp(&self) -> u64 {
-        unsafe {
-            aravis_sys::arv_buffer_get_system_timestamp(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_system_timestamp(&self) -> u64 {
+		unsafe { aravis_sys::arv_buffer_get_system_timestamp(self.as_ref().to_glib_none().0) }
+	}
 
-    fn get_timestamp(&self) -> u64 {
-        unsafe {
-            aravis_sys::arv_buffer_get_timestamp(self.as_ref().to_glib_none().0)
-        }
-    }
+	fn get_timestamp(&self) -> u64 {
+		unsafe { aravis_sys::arv_buffer_get_timestamp(self.as_ref().to_glib_none().0) }
+	}
 
-    //fn get_user_data(&self) -> /*Unimplemented*/Option<Fundamental: Pointer> {
-    //    unsafe { TODO: call aravis_sys:arv_buffer_get_user_data() }
-    //}
+	//fn get_user_data(&self) -> /*Unimplemented*/Option<Fundamental: Pointer> {
+	//    unsafe { TODO: call aravis_sys:arv_buffer_get_user_data() }
+	//}
 
-    fn has_chunks(&self) -> bool {
-        unsafe {
-            from_glib(aravis_sys::arv_buffer_has_chunks(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn has_chunks(&self) -> bool {
+		unsafe {
+			from_glib(aravis_sys::arv_buffer_has_chunks(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
-    fn set_system_timestamp(&self, timestamp_ns: u64) {
-        unsafe {
-            aravis_sys::arv_buffer_set_system_timestamp(self.as_ref().to_glib_none().0, timestamp_ns);
-        }
-    }
+	fn set_system_timestamp(&self, timestamp_ns: u64) {
+		unsafe {
+			aravis_sys::arv_buffer_set_system_timestamp(
+				self.as_ref().to_glib_none().0,
+				timestamp_ns,
+			);
+		}
+	}
 
-    fn set_timestamp(&self, timestamp_ns: u64) {
-        unsafe {
-            aravis_sys::arv_buffer_set_timestamp(self.as_ref().to_glib_none().0, timestamp_ns);
-        }
-    }
+	fn set_timestamp(&self, timestamp_ns: u64) {
+		unsafe {
+			aravis_sys::arv_buffer_set_timestamp(self.as_ref().to_glib_none().0, timestamp_ns);
+		}
+	}
 }
 
 impl fmt::Display for Buffer {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Buffer")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "Buffer")
+	}
 }

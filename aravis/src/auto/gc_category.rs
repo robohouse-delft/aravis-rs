@@ -2,56 +2,56 @@
 // from gir-files (https://github.com/gtk-rs/gir-files)
 // DO NOT EDIT
 
+use aravis_sys;
+use glib::object::Cast;
+use glib::object::IsA;
+use glib::translate::*;
+use glib::GString;
+use std::fmt;
 use DomElement;
 use DomNode;
 use GcFeatureNode;
 use GcNode;
-use aravis_sys;
-use glib::GString;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
 
 glib_wrapper! {
-    pub struct GcCategory(Object<aravis_sys::ArvGcCategory, aravis_sys::ArvGcCategoryClass, GcCategoryClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
+	pub struct GcCategory(Object<aravis_sys::ArvGcCategory, aravis_sys::ArvGcCategoryClass, GcCategoryClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
-    match fn {
-        get_type => || aravis_sys::arv_gc_category_get_type(),
-    }
+	match fn {
+		get_type => || aravis_sys::arv_gc_category_get_type(),
+	}
 }
 
 impl GcCategory {
-    pub fn new() -> GcCategory {
-        assert_initialized_main_thread!();
-        unsafe {
-            GcNode::from_glib_full(aravis_sys::arv_gc_category_new()).unsafe_cast()
-        }
-    }
+	pub fn new() -> GcCategory {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_category_new()).unsafe_cast() }
+	}
 }
 
 impl Default for GcCategory {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 pub const NONE_GC_CATEGORY: Option<&GcCategory> = None;
 
 pub trait GcCategoryExt: 'static {
-    fn get_features(&self) -> Vec<GString>;
+	fn get_features(&self) -> Vec<GString>;
 }
 
 impl<O: IsA<GcCategory>> GcCategoryExt for O {
-    fn get_features(&self) -> Vec<GString> {
-        unsafe {
-            FromGlibPtrContainer::from_glib_none(aravis_sys::arv_gc_category_get_features(self.as_ref().to_glib_none().0))
-        }
-    }
+	fn get_features(&self) -> Vec<GString> {
+		unsafe {
+			FromGlibPtrContainer::from_glib_none(aravis_sys::arv_gc_category_get_features(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 }
 
 impl fmt::Display for GcCategory {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "GcCategory")
-    }
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(f, "GcCategory")
+	}
 }
