@@ -36,11 +36,11 @@ pub trait GcFeatureNodeExt: 'static {
 
 	//fn get_visibility(&self) -> /*Ignored*/GcVisibility;
 
-	fn is_available(&self) -> Result<(), glib::Error>;
+	fn is_available(&self) -> Result<bool, glib::Error>;
 
-	fn is_implemented(&self) -> Result<(), glib::Error>;
+	fn is_implemented(&self) -> Result<bool, glib::Error>;
 
-	fn is_locked(&self) -> Result<(), glib::Error>;
+	fn is_locked(&self) -> Result<bool, glib::Error>;
 
 	fn set_value_from_string(&self, string: &str) -> Result<(), glib::Error>;
 }
@@ -97,45 +97,45 @@ impl<O: IsA<GcFeatureNode>> GcFeatureNodeExt for O {
 	//    unsafe { TODO: call aravis_sys:arv_gc_feature_node_get_visibility() }
 	//}
 
-	fn is_available(&self) -> Result<(), glib::Error> {
+	fn is_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_gc_feature_node_is_available(
+			let ret = aravis_sys::arv_gc_feature_node_is_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_implemented(&self) -> Result<(), glib::Error> {
+	fn is_implemented(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_gc_feature_node_is_implemented(
+			let ret = aravis_sys::arv_gc_feature_node_is_implemented(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_locked(&self) -> Result<(), glib::Error> {
+	fn is_locked(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_gc_feature_node_is_locked(
+			let ret = aravis_sys::arv_gc_feature_node_is_locked(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}

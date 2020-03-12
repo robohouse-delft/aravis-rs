@@ -8,7 +8,6 @@ use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
-use std::mem;
 use std::ptr;
 use DomElement;
 use DomNode;
@@ -47,16 +46,11 @@ pub trait GcBooleanExt: 'static {
 impl<O: IsA<GcBoolean>> GcBooleanExt for O {
 	fn get_value(&self) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut value = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_gc_boolean_get_value_gi(
-				self.as_ref().to_glib_none().0,
-				value.as_mut_ptr(),
-				&mut error,
-			);
-			let value = value.assume_init();
+			let ret =
+				aravis_sys::arv_gc_boolean_get_value(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
-				Ok(from_glib(value))
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}

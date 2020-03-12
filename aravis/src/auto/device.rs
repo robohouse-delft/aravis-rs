@@ -70,11 +70,11 @@ pub trait DeviceExt: 'static {
 
 	fn get_string_feature_value(&self, feature: &str) -> Result<GString, glib::Error>;
 
-	fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error>;
+	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error>;
 
-	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<(), glib::Error>;
+	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error>;
 
-	fn read_register(&self, address: u64) -> Result<u32, glib::Error>;
+	fn read_register(&self, address: u64) -> Result<(bool, u32), glib::Error>;
 
 	fn set_boolean_feature_value(&self, feature: &str, value: bool) -> Result<(), glib::Error>;
 
@@ -86,9 +86,9 @@ pub trait DeviceExt: 'static {
 
 	fn set_string_feature_value(&self, feature: &str, value: &str) -> Result<(), glib::Error>;
 
-	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<(), glib::Error>;
+	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error>;
 
-	fn write_register(&self, address: u64, value: u32) -> Result<(), glib::Error>;
+	fn write_register(&self, address: u64, value: u32) -> Result<bool, glib::Error>;
 
 	fn connect_control_lost<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
@@ -189,17 +189,14 @@ impl<O: IsA<Device>> DeviceExt for O {
 
 	fn get_boolean_feature_value(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut value = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_device_get_boolean_feature_value_gi(
+			let ret = aravis_sys::arv_device_get_boolean_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
-				value.as_mut_ptr(),
 				&mut error,
 			);
-			let value = value.assume_init();
 			if error.is_null() {
-				Ok(from_glib(value))
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -343,31 +340,31 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error> {
+	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_device_is_feature_available(
+			let ret = aravis_sys::arv_device_is_feature_available(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<(), glib::Error> {
+	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error> {
 	//    unsafe { TODO: call aravis_sys:arv_device_read_memory() }
 	//}
 
-	fn read_register(&self, address: u64) -> Result<u32, glib::Error> {
+	fn read_register(&self, address: u64) -> Result<(bool, u32), glib::Error> {
 		unsafe {
 			let mut value = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_device_read_register(
+			let ret = aravis_sys::arv_device_read_register(
 				self.as_ref().to_glib_none().0,
 				address,
 				value.as_mut_ptr(),
@@ -375,7 +372,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 			);
 			let value = value.assume_init();
 			if error.is_null() {
-				Ok(value)
+				Ok((from_glib(ret), value))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -459,21 +456,21 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<(), glib::Error> {
+	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error> {
 	//    unsafe { TODO: call aravis_sys:arv_device_write_memory() }
 	//}
 
-	fn write_register(&self, address: u64, value: u32) -> Result<(), glib::Error> {
+	fn write_register(&self, address: u64, value: u32) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_device_write_register(
+			let ret = aravis_sys::arv_device_write_register(
 				self.as_ref().to_glib_none().0,
 				address,
 				value,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}

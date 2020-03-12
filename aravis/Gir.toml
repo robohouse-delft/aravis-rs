@@ -47,7 +47,7 @@ generate = [
 	"Aravis.GcEnumEntry",
 	"Aravis.GcEnumeration",
 	"Aravis.GcError",
-	"Aravis.GcFeatureNode",
+	#"Aravis.GcFeatureNode",
 	"Aravis.GcFloat",
 	"Aravis.GcFloatNode",
 	"Aravis.GcFloatRegNode",
@@ -78,7 +78,7 @@ generate = [
 	"Aravis.GcSwissKnife",
 	"Aravis.GcSwissKnifeNode",
 	"Aravis.GcValueIndexedNode",
-	"Aravis.GvDevice",
+	#"Aravis.GvDevice",
 	"Aravis.GvFakeCamera",
 	"Aravis.GvInterface",
 	"Aravis.GvStream",
@@ -630,11 +630,57 @@ status = "generate"
 	name = "create_stream"
 	ignore = true
 	[[object.function]]
+	name = "gv_get_packet_size"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "check_status"
+	return = { use_return_for_result = true }
+	[[object.function]]
 	name = "get_boolean"
-	ignore = true
+	return = { use_return_for_result = true }
 	[[object.function]]
 	name = "get_boolean_gi"
-	rename = "get_boolean"
+	ignore = true
+	[[object.function]]
+	name = "get_chunk_mode"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "get_chunk_state"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "get_payload"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "gv_get_packet_size"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_binning_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_exposure_auto_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_exposure_time_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_feature_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_frame_rate_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_gain_auto_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_gain_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "uv_get_bandwidth"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "name"
+	return = { use_return_for_result = true }
+
 
 [[object]]
 name = "Aravis.Device"
@@ -644,10 +690,25 @@ status = "generate"
 	ignore = true
 	[[object.function]]
 	name = "get_boolean_feature_value"
-	ignore = true
+	return = { use_return_for_result = true }
 	[[object.function]]
 	name = "get_boolean_feature_value_gi"
-	rename = "get_boolean_feature_value"
+	ignore = true
+	[[object.function]]
+	name = "is_feature_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "read_memory"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "read_register"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "write_memory"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "write_register"
+	return = { use_return_for_result = true }
 
 [[object]]
 name = "Aravis.FakeCamera"
@@ -661,7 +722,27 @@ name = "Aravis.GcBoolean"
 status = "generate"
 	[[object.function]]
 	name = "get_value"
-	ignore = true
+	return = { use_return_for_result = true }
 	[[object.function]]
 	name = "get_value_gi"
-	rename = "get_value"
+	ignore = true
+
+[[object]]
+name = "Aravis.GcFeatureNode"
+status = "generate"
+	[[object.function]]
+	name = "is_available"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_implemented"
+	return = { use_return_for_result = true }
+	[[object.function]]
+	name = "is_locked"
+	return = { use_return_for_result = true }
+
+[[object]]
+name = "Aravis.GvDevice"
+status = "generate"
+	[[object.function]]
+	name = "get_packet_size"
+	return = { use_return_for_result = true }

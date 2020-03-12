@@ -39,7 +39,7 @@ pub trait CameraExt: 'static {
 
 	fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error>;
 
-	fn check_status(&self) -> Result<(), glib::Error>;
+	fn check_status(&self) -> Result<bool, glib::Error>;
 
 	fn clear_triggers(&self) -> Result<(), glib::Error>;
 
@@ -75,9 +75,9 @@ pub trait CameraExt: 'static {
 
 	fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error>;
 
-	fn get_chunk_mode(&self) -> Result<(), glib::Error>;
+	fn get_chunk_mode(&self) -> Result<bool, glib::Error>;
 
-	fn get_chunk_state(&self, chunk: &str) -> Result<(), glib::Error>;
+	fn get_chunk_state(&self, chunk: &str) -> Result<bool, glib::Error>;
 
 	fn get_device(&self) -> Option<Device>;
 
@@ -119,7 +119,7 @@ pub trait CameraExt: 'static {
 
 	fn get_model_name(&self) -> Result<GString, glib::Error>;
 
-	fn get_payload(&self) -> Result<(), glib::Error>;
+	fn get_payload(&self) -> Result<u32, glib::Error>;
 
 	fn get_pixel_format(&self) -> Result<PixelFormat, glib::Error>;
 
@@ -163,7 +163,7 @@ pub trait CameraExt: 'static {
 
 	fn gv_get_packet_delay(&self) -> Result<i64, glib::Error>;
 
-	fn gv_get_packet_size(&self) -> Result<(), glib::Error>;
+	fn gv_get_packet_size(&self) -> Result<u32, glib::Error>;
 
 	fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error>;
 
@@ -173,19 +173,19 @@ pub trait CameraExt: 'static {
 
 	fn gv_set_stream_options(&self, options: GvStreamOption);
 
-	fn is_binning_available(&self) -> Result<(), glib::Error>;
+	fn is_binning_available(&self) -> Result<bool, glib::Error>;
 
-	fn is_exposure_auto_available(&self) -> Result<(), glib::Error>;
+	fn is_exposure_auto_available(&self) -> Result<bool, glib::Error>;
 
-	fn is_exposure_time_available(&self) -> Result<(), glib::Error>;
+	fn is_exposure_time_available(&self) -> Result<bool, glib::Error>;
 
-	fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error>;
+	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error>;
 
-	fn is_frame_rate_available(&self) -> Result<(), glib::Error>;
+	fn is_frame_rate_available(&self) -> Result<bool, glib::Error>;
 
-	fn is_gain_auto_available(&self) -> Result<(), glib::Error>;
+	fn is_gain_auto_available(&self) -> Result<bool, glib::Error>;
 
-	fn is_gain_available(&self) -> Result<(), glib::Error>;
+	fn is_gain_available(&self) -> Result<bool, glib::Error>;
 
 	fn is_gv_device(&self) -> bool;
 
@@ -237,7 +237,7 @@ pub trait CameraExt: 'static {
 
 	fn stop_acquisition(&self) -> Result<(), glib::Error>;
 
-	fn uv_get_bandwidth(&self) -> Result<(), glib::Error>;
+	fn uv_get_bandwidth(&self) -> Result<u32, glib::Error>;
 
 	fn uv_get_bandwidth_bounds(&self) -> Result<(u32, u32), glib::Error>;
 
@@ -278,12 +278,13 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	fn check_status(&self) -> Result<(), glib::Error> {
+	fn check_status(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_check_status(self.as_ref().to_glib_none().0, &mut error);
+			let ret =
+				aravis_sys::arv_camera_check_status(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -530,46 +531,43 @@ impl<O: IsA<Camera>> CameraExt for O {
 
 	fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut value = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_get_boolean_gi(
+			let ret = aravis_sys::arv_camera_get_boolean(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
-				value.as_mut_ptr(),
 				&mut error,
 			);
-			let value = value.assume_init();
 			if error.is_null() {
-				Ok(from_glib(value))
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn get_chunk_mode(&self) -> Result<(), glib::Error> {
+	fn get_chunk_mode(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ =
+			let ret =
 				aravis_sys::arv_camera_get_chunk_mode(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn get_chunk_state(&self, chunk: &str) -> Result<(), glib::Error> {
+	fn get_chunk_state(&self, chunk: &str) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_get_chunk_state(
+			let ret = aravis_sys::arv_camera_get_chunk_state(
 				self.as_ref().to_glib_none().0,
 				chunk.to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -903,12 +901,13 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	fn get_payload(&self) -> Result<(), glib::Error> {
+	fn get_payload(&self) -> Result<u32, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_get_payload(self.as_ref().to_glib_none().0, &mut error);
+			let ret =
+				aravis_sys::arv_camera_get_payload(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
-				Ok(())
+				Ok(ret)
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -1275,15 +1274,15 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	fn gv_get_packet_size(&self) -> Result<(), glib::Error> {
+	fn gv_get_packet_size(&self) -> Result<u32, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_gv_get_packet_size(
+			let ret = aravis_sys::arv_camera_gv_get_packet_size(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(ret)
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -1347,106 +1346,106 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	fn is_binning_available(&self) -> Result<(), glib::Error> {
+	fn is_binning_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_binning_available(
+			let ret = aravis_sys::arv_camera_is_binning_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_exposure_auto_available(&self) -> Result<(), glib::Error> {
+	fn is_exposure_auto_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_exposure_auto_available(
+			let ret = aravis_sys::arv_camera_is_exposure_auto_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_exposure_time_available(&self) -> Result<(), glib::Error> {
+	fn is_exposure_time_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_exposure_time_available(
+			let ret = aravis_sys::arv_camera_is_exposure_time_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_feature_available(&self, feature: &str) -> Result<(), glib::Error> {
+	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_feature_available(
+			let ret = aravis_sys::arv_camera_is_feature_available(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_frame_rate_available(&self) -> Result<(), glib::Error> {
+	fn is_frame_rate_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_frame_rate_available(
+			let ret = aravis_sys::arv_camera_is_frame_rate_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_gain_auto_available(&self) -> Result<(), glib::Error> {
+	fn is_gain_auto_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_gain_auto_available(
+			let ret = aravis_sys::arv_camera_is_gain_auto_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	fn is_gain_available(&self) -> Result<(), glib::Error> {
+	fn is_gain_available(&self) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_camera_is_gain_available(
+			let ret = aravis_sys::arv_camera_is_gain_available(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -1836,13 +1835,13 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	fn uv_get_bandwidth(&self) -> Result<(), glib::Error> {
+	fn uv_get_bandwidth(&self) -> Result<u32, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ =
+			let ret =
 				aravis_sys::arv_camera_uv_get_bandwidth(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
-				Ok(())
+				Ok(ret)
 			} else {
 				Err(from_glib_full(error))
 			}

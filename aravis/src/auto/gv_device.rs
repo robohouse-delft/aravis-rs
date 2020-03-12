@@ -46,7 +46,7 @@ pub trait GvDeviceExt: 'static {
 
 	fn get_interface_address(&self) -> Option<gio::SocketAddress>;
 
-	fn get_packet_size(&self) -> Result<(), glib::Error>;
+	fn get_packet_size(&self) -> Result<u32, glib::Error>;
 
 	fn get_stream_options(&self) -> GvStreamOption;
 
@@ -89,15 +89,15 @@ impl<O: IsA<GvDevice>> GvDeviceExt for O {
 		}
 	}
 
-	fn get_packet_size(&self) -> Result<(), glib::Error> {
+	fn get_packet_size(&self) -> Result<u32, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_gv_device_get_packet_size(
+			let ret = aravis_sys::arv_gv_device_get_packet_size(
 				self.as_ref().to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {
-				Ok(())
+				Ok(ret)
 			} else {
 				Err(from_glib_full(error))
 			}
