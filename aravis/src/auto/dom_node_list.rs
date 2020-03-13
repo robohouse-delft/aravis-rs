@@ -18,6 +18,11 @@ glib_wrapper! {
 
 pub const NONE_DOM_NODE_LIST: Option<&DomNodeList> = None;
 
+/// Trait containing all `DomNodeList` methods.
+///
+/// # Implementors
+///
+/// [`DomNodeList`](struct.DomNodeList.html)
 pub trait DomNodeListExt: 'static {
 	fn get_item(&self, index: u32) -> Option<DomNode>;
 

@@ -21,6 +21,11 @@ glib_wrapper! {
 
 pub const NONE_DOM_NODE: Option<&DomNode> = None;
 
+/// Trait containing all `DomNode` methods.
+///
+/// # Implementors
+///
+/// [`DomCharacterData`](struct.DomCharacterData.html), [`DomDocumentFragment`](struct.DomDocumentFragment.html), [`DomDocument`](struct.DomDocument.html), [`DomElement`](struct.DomElement.html), [`DomNode`](struct.DomNode.html)
 pub trait DomNodeExt: 'static {
 	fn append_child<P: IsA<DomNode>>(&self, new_child: &P) -> Option<DomNode>;
 

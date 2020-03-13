@@ -26,6 +26,14 @@ glib_wrapper! {
 }
 
 impl Camera {
+	/// Creates a new `Camera`. If `name` is null, it will instantiate the
+	/// first available camera.
+	/// ## `name`
+	/// name of the camera.
+	///
+	/// # Returns
+	///
+	/// a new `Camera`.
 	pub fn new(name: Option<&str>) -> Option<Camera> {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_full(aravis_sys::arv_camera_new(name.to_glib_none().0)) }
@@ -34,6 +42,11 @@ impl Camera {
 
 pub const NONE_CAMERA: Option<&Camera> = None;
 
+/// Trait containing all `Camera` methods.
+///
+/// # Implementors
+///
+/// [`Camera`](struct.Camera.html)
 pub trait CameraExt: 'static {
 	fn abort_acquisition(&self) -> Result<(), glib::Error>;
 

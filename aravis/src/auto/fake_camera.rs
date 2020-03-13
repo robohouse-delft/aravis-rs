@@ -42,6 +42,11 @@ impl FakeCamera {
 
 pub const NONE_FAKE_CAMERA: Option<&FakeCamera> = None;
 
+/// Trait containing all `FakeCamera` methods.
+///
+/// # Implementors
+///
+/// [`FakeCamera`](struct.FakeCamera.html)
 pub trait FakeCameraExt: 'static {
 	fn fill_buffer<P: IsA<Buffer>>(&self, buffer: &P) -> u32;
 

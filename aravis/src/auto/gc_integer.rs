@@ -20,6 +20,11 @@ glib_wrapper! {
 
 pub const NONE_GC_INTEGER: Option<&GcInteger> = None;
 
+/// Trait containing all `GcInteger` methods.
+///
+/// # Implementors
+///
+/// [`GcEnumeration`](struct.GcEnumeration.html), [`GcIntConverterNode`](struct.GcIntConverterNode.html), [`GcIntRegNode`](struct.GcIntRegNode.html), [`GcIntSwissKnifeNode`](struct.GcIntSwissKnifeNode.html), [`GcIntegerNode`](struct.GcIntegerNode.html), [`GcInteger`](struct.GcInteger.html), [`GcMaskedIntRegNode`](struct.GcMaskedIntRegNode.html), [`GcStructEntryNode`](struct.GcStructEntryNode.html)
 pub trait GcIntegerExt: 'static {
 	fn get_inc(&self) -> Result<i64, glib::Error>;
 

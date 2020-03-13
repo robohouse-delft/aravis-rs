@@ -20,6 +20,11 @@ glib_wrapper! {
 
 pub const NONE_GC_FLOAT: Option<&GcFloat> = None;
 
+/// Trait containing all `GcFloat` methods.
+///
+/// # Implementors
+///
+/// [`GcConverterNode`](struct.GcConverterNode.html), [`GcFloatNode`](struct.GcFloatNode.html), [`GcFloatRegNode`](struct.GcFloatRegNode.html), [`GcFloat`](struct.GcFloat.html), [`GcSwissKnifeNode`](struct.GcSwissKnifeNode.html)
 pub trait GcFloatExt: 'static {
 	fn get_inc(&self) -> Result<f64, glib::Error>;
 

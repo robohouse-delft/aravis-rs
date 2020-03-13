@@ -37,6 +37,11 @@ impl Default for GcCommand {
 
 pub const NONE_GC_COMMAND: Option<&GcCommand> = None;
 
+/// Trait containing all `GcCommand` methods.
+///
+/// # Implementors
+///
+/// [`GcCommand`](struct.GcCommand.html)
 pub trait GcCommandExt: 'static {
 	fn execute(&self) -> Result<(), glib::Error>;
 }

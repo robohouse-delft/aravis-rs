@@ -30,6 +30,11 @@ glib_wrapper! {
 
 pub const NONE_GV_STREAM: Option<&GvStream> = None;
 
+/// Trait containing all `GvStream` methods.
+///
+/// # Implementors
+///
+/// [`GvStream`](struct.GvStream.html)
 pub trait GvStreamExt: 'static {
 	fn get_port(&self) -> u16;
 

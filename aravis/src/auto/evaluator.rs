@@ -19,6 +19,13 @@ glib_wrapper! {
 }
 
 impl Evaluator {
+	/// Creates a new `Evaluator` object. The syntax is described in the genicam standard specification.
+	/// ## `expression`
+	/// an evaluator expression
+	///
+	/// # Returns
+	///
+	/// a new `Evaluator` object.
 	pub fn new(expression: Option<&str>) -> Evaluator {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_full(aravis_sys::arv_evaluator_new(expression.to_glib_none().0)) }
@@ -27,6 +34,11 @@ impl Evaluator {
 
 pub const NONE_EVALUATOR: Option<&Evaluator> = None;
 
+/// Trait containing all `Evaluator` methods.
+///
+/// # Implementors
+///
+/// [`Evaluator`](struct.Evaluator.html)
 pub trait EvaluatorExt: 'static {
 	fn evaluate_as_double(&self) -> Result<f64, glib::Error>;
 

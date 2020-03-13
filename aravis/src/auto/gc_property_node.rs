@@ -366,6 +366,11 @@ impl GcPropertyNode {
 
 pub const NONE_GC_PROPERTY_NODE: Option<&GcPropertyNode> = None;
 
+/// Trait containing all `GcPropertyNode` methods.
+///
+/// # Implementors
+///
+/// [`GcIndexNode`](struct.GcIndexNode.html), [`GcInvalidatorNode`](struct.GcInvalidatorNode.html), [`GcPropertyNode`](struct.GcPropertyNode.html), [`GcValueIndexedNode`](struct.GcValueIndexedNode.html)
 pub trait GcPropertyNodeExt: 'static {
 	fn get_access_mode(&self, default_value: GcAccessMode) -> GcAccessMode;
 

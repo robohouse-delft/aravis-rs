@@ -18,6 +18,11 @@ glib_wrapper! {
 
 pub const NONE_GC_SELECTOR: Option<&GcSelector> = None;
 
+/// Trait containing all `GcSelector` methods.
+///
+/// # Implementors
+///
+/// [`GcEnumeration`](struct.GcEnumeration.html), [`GcIntRegNode`](struct.GcIntRegNode.html), [`GcIntegerNode`](struct.GcIntegerNode.html), [`GcMaskedIntRegNode`](struct.GcMaskedIntRegNode.html), [`GcSelector`](struct.GcSelector.html)
 pub trait GcSelectorExt: 'static {
 	fn get_selected_features(&self) -> Vec<GcFeatureNode>;
 

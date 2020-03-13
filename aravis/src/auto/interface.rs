@@ -19,6 +19,11 @@ glib_wrapper! {
 
 pub const NONE_INTERFACE: Option<&Interface> = None;
 
+/// Trait containing all `Interface` methods.
+///
+/// # Implementors
+///
+/// [`FakeInterface`](struct.FakeInterface.html), [`GvInterface`](struct.GvInterface.html), [`Interface`](struct.Interface.html), [`UvInterface`](struct.UvInterface.html)
 pub trait InterfaceExt: 'static {
 	fn get_device_address(&self, index: u32) -> Option<GString>;
 

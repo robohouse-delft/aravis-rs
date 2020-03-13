@@ -20,6 +20,11 @@ glib_wrapper! {
 
 pub const NONE_GC_STRING: Option<&GcString> = None;
 
+/// Trait containing all `GcString` methods.
+///
+/// # Implementors
+///
+/// [`GcEnumeration`](struct.GcEnumeration.html), [`GcStringRegNode`](struct.GcStringRegNode.html), [`GcString`](struct.GcString.html)
 pub trait GcStringExt: 'static {
 	fn get_max_length(&self) -> Result<i64, glib::Error>;
 

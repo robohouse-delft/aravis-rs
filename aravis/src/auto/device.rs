@@ -30,6 +30,11 @@ glib_wrapper! {
 
 pub const NONE_DEVICE: Option<&Device> = None;
 
+/// Trait containing all `Device` methods.
+///
+/// # Implementors
+///
+/// [`Device`](struct.Device.html), [`FakeDevice`](struct.FakeDevice.html), [`GvDevice`](struct.GvDevice.html), [`UvDevice`](struct.UvDevice.html)
 pub trait DeviceExt: 'static {
 	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 

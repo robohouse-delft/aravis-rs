@@ -22,6 +22,10 @@ glib_wrapper! {
 }
 
 impl GcStructRegNode {
+	///
+	/// # Returns
+	///
+	/// a new StructReg `GcNode`
 	pub fn new() -> GcStructRegNode {
 		assert_initialized_main_thread!();
 		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_struct_reg_node_new()).unsafe_cast() }

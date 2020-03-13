@@ -35,6 +35,11 @@ impl Default for GcValueIndexedNode {
 
 pub const NONE_GC_VALUE_INDEXED_NODE: Option<&GcValueIndexedNode> = None;
 
+/// Trait containing all `GcValueIndexedNode` methods.
+///
+/// # Implementors
+///
+/// [`GcValueIndexedNode`](struct.GcValueIndexedNode.html)
 pub trait GcValueIndexedNodeExt: 'static {
 	fn get_index(&self) -> i64;
 }

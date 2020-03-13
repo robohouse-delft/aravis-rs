@@ -25,6 +25,14 @@ glib_wrapper! {
 }
 
 impl GvFakeCamera {
+	/// ## `interface_name`
+	/// listening network interface ('lo' by default)
+	/// ## `serial_number`
+	/// fake device serial number ('GV01' by default)
+	///
+	/// # Returns
+	///
+	/// a new `GvFakeCamera`
 	pub fn new(interface_name: Option<&str>, serial_number: Option<&str>) -> GvFakeCamera {
 		assert_initialized_main_thread!();
 		unsafe {
@@ -35,6 +43,16 @@ impl GvFakeCamera {
 		}
 	}
 
+	/// ## `interface_name`
+	/// listening network interface, default is lo
+	/// ## `serial_number`
+	/// fake device serial number, default is GV01
+	/// ## `genicam_filename`
+	/// path to alternative genicam data
+	///
+	/// # Returns
+	///
+	/// a new `GvFakeCamera`
 	pub fn new_full(
 		interface_name: Option<&str>,
 		serial_number: Option<&str>,
@@ -53,6 +71,11 @@ impl GvFakeCamera {
 
 pub const NONE_GV_FAKE_CAMERA: Option<&GvFakeCamera> = None;
 
+/// Trait containing all `GvFakeCamera` methods.
+///
+/// # Implementors
+///
+/// [`GvFakeCamera`](struct.GvFakeCamera.html)
 pub trait GvFakeCameraExt: 'static {
 	fn get_fake_camera(&self) -> Option<FakeCamera>;
 

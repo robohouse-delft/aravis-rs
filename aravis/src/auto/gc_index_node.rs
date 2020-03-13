@@ -37,6 +37,11 @@ impl Default for GcIndexNode {
 
 pub const NONE_GC_INDEX_NODE: Option<&GcIndexNode> = None;
 
+/// Trait containing all `GcIndexNode` methods.
+///
+/// # Implementors
+///
+/// [`GcIndexNode`](struct.GcIndexNode.html)
 pub trait GcIndexNodeExt: 'static {
 	fn get_index(&self, default_offset: i64) -> Result<i64, glib::Error>;
 }

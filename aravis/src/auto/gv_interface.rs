@@ -16,6 +16,11 @@ glib_wrapper! {
 }
 
 impl GvInterface {
+	/// Gets the unique instance of the GV interface.
+	///
+	/// # Returns
+	///
+	/// a `Interface` singleton.
 	pub fn get_instance() -> Option<Interface> {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_none(aravis_sys::arv_gv_interface_get_instance()) }

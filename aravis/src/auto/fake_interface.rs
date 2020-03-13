@@ -16,6 +16,11 @@ glib_wrapper! {
 }
 
 impl FakeInterface {
+	/// Gets the unique instance of the fake interface.
+	///
+	/// # Returns
+	///
+	/// a `Interface` singleton.
 	pub fn get_instance() -> Option<Interface> {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_none(aravis_sys::arv_fake_interface_get_instance()) }

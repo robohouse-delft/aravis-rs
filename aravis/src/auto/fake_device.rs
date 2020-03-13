@@ -32,6 +32,11 @@ impl FakeDevice {
 
 pub const NONE_FAKE_DEVICE: Option<&FakeDevice> = None;
 
+/// Trait containing all `FakeDevice` methods.
+///
+/// # Implementors
+///
+/// [`FakeDevice`](struct.FakeDevice.html)
 pub trait FakeDeviceExt: 'static {
 	fn get_fake_camera(&self) -> Option<FakeCamera>;
 }

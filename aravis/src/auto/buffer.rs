@@ -24,6 +24,15 @@ impl Buffer {
 	//    unsafe { TODO: call aravis_sys:arv_buffer_new() }
 	//}
 
+	/// Creates a new buffer for the storage of the video stream images.
+	/// The data space is allocated by this function, and will
+	/// be freed when the buffer is destroyed.
+	/// ## `size`
+	/// payload size
+	///
+	/// # Returns
+	///
+	/// a new `Buffer` object
 	pub fn new_allocate(size: usize) -> Buffer {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_full(aravis_sys::arv_buffer_new_allocate(size)) }
@@ -32,6 +41,11 @@ impl Buffer {
 
 pub const NONE_BUFFER: Option<&Buffer> = None;
 
+/// Trait containing all `Buffer` methods.
+///
+/// # Implementors
+///
+/// [`Buffer`](struct.Buffer.html)
 pub trait BufferExt: 'static {
 	fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
 

@@ -37,6 +37,11 @@ impl Default for GcBoolean {
 
 pub const NONE_GC_BOOLEAN: Option<&GcBoolean> = None;
 
+/// Trait containing all `GcBoolean` methods.
+///
+/// # Implementors
+///
+/// [`GcBoolean`](struct.GcBoolean.html)
 pub trait GcBooleanExt: 'static {
 	fn get_value(&self) -> Result<bool, glib::Error>;
 

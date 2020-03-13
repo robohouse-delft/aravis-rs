@@ -19,6 +19,11 @@ glib_wrapper! {
 
 pub const NONE_DOM_CHARACTER_DATA: Option<&DomCharacterData> = None;
 
+/// Trait containing all `DomCharacterData` methods.
+///
+/// # Implementors
+///
+/// [`DomCharacterData`](struct.DomCharacterData.html), [`DomText`](struct.DomText.html)
 pub trait DomCharacterDataExt: 'static {
 	fn get_data(&self) -> Option<GString>;
 

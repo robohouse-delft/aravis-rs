@@ -35,6 +35,11 @@ impl Default for GcPort {
 
 pub const NONE_GC_PORT: Option<&GcPort> = None;
 
+/// Trait containing all `GcPort` methods.
+///
+/// # Implementors
+///
+/// [`GcPort`](struct.GcPort.html)
 pub trait GcPortExt: 'static {
 	//fn read(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, address: u64, length: u64) -> Result<(), glib::Error>;
 

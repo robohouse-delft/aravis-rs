@@ -37,6 +37,11 @@ impl Default for GcRegisterDescriptionNode {
 
 pub const NONE_GC_REGISTER_DESCRIPTION_NODE: Option<&GcRegisterDescriptionNode> = None;
 
+/// Trait containing all `GcRegisterDescriptionNode` methods.
+///
+/// # Implementors
+///
+/// [`GcRegisterDescriptionNode`](struct.GcRegisterDescriptionNode.html)
 pub trait GcRegisterDescriptionNodeExt: 'static {
 	fn check_schema_version(
 		&self,

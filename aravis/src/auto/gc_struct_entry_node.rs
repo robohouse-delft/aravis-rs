@@ -22,6 +22,10 @@ glib_wrapper! {
 }
 
 impl GcStructEntryNode {
+	///
+	/// # Returns
+	///
+	/// a newly created `GcStructEntryNode`.
 	pub fn new() -> GcStructEntryNode {
 		assert_initialized_main_thread!();
 		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_struct_entry_node_new()).unsafe_cast() }

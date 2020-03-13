@@ -37,6 +37,11 @@ impl Default for GcEnumEntry {
 
 pub const NONE_GC_ENUM_ENTRY: Option<&GcEnumEntry> = None;
 
+/// Trait containing all `GcEnumEntry` methods.
+///
+/// # Implementors
+///
+/// [`GcEnumEntry`](struct.GcEnumEntry.html)
 pub trait GcEnumEntryExt: 'static {
 	fn get_value(&self) -> Result<i64, glib::Error>;
 }

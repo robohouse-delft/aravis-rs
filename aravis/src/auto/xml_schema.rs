@@ -38,6 +38,11 @@ impl XmlSchema {
 
 pub const NONE_XML_SCHEMA: Option<&XmlSchema> = None;
 
+/// Trait containing all `XmlSchema` methods.
+///
+/// # Implementors
+///
+/// [`XmlSchema`](struct.XmlSchema.html)
 pub trait XmlSchemaExt: 'static {
 	//fn validate(&self, xml: /*Unimplemented*/Option<Fundamental: Pointer>, size: usize, line: i32, column: i32) -> Result<(), glib::Error>;
 }

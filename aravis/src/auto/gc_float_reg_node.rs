@@ -23,6 +23,10 @@ glib_wrapper! {
 }
 
 impl GcFloatRegNode {
+	///
+	/// # Returns
+	///
+	/// a new FloatReg node
 	pub fn new() -> GcFloatRegNode {
 		assert_initialized_main_thread!();
 		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_float_reg_node_new()).unsafe_cast() }

@@ -20,6 +20,11 @@ glib_wrapper! {
 
 pub const NONE_GC_NODE: Option<&GcNode> = None;
 
+/// Trait containing all `GcNode` methods.
+///
+/// # Implementors
+///
+/// [`GcFeatureNode`](struct.GcFeatureNode.html), [`GcNode`](struct.GcNode.html), [`GcPropertyNode`](struct.GcPropertyNode.html)
 pub trait GcNodeExt: 'static {
 	fn get_genicam(&self) -> Option<Gc>;
 }

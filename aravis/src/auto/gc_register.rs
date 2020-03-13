@@ -19,6 +19,11 @@ glib_wrapper! {
 
 pub const NONE_GC_REGISTER: Option<&GcRegister> = None;
 
+/// Trait containing all `GcRegister` methods.
+///
+/// # Implementors
+///
+/// [`GcFloatRegNode`](struct.GcFloatRegNode.html), [`GcIntRegNode`](struct.GcIntRegNode.html), [`GcMaskedIntRegNode`](struct.GcMaskedIntRegNode.html), [`GcRegisterNode`](struct.GcRegisterNode.html), [`GcRegister`](struct.GcRegister.html), [`GcStringRegNode`](struct.GcStringRegNode.html), [`GcStructEntryNode`](struct.GcStructEntryNode.html), [`GcStructRegNode`](struct.GcStructRegNode.html)
 pub trait GcRegisterExt: 'static {
 	//fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
 

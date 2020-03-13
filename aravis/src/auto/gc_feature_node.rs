@@ -23,6 +23,11 @@ glib_wrapper! {
 
 pub const NONE_GC_FEATURE_NODE: Option<&GcFeatureNode> = None;
 
+/// Trait containing all `GcFeatureNode` methods.
+///
+/// # Implementors
+///
+/// [`GcBoolean`](struct.GcBoolean.html), [`GcCategory`](struct.GcCategory.html), [`GcCommand`](struct.GcCommand.html), [`GcConverter`](struct.GcConverter.html), [`GcEnumEntry`](struct.GcEnumEntry.html), [`GcEnumeration`](struct.GcEnumeration.html), [`GcFeatureNode`](struct.GcFeatureNode.html), [`GcFloatNode`](struct.GcFloatNode.html), [`GcGroupNode`](struct.GcGroupNode.html), [`GcIntegerNode`](struct.GcIntegerNode.html), [`GcPort`](struct.GcPort.html), [`GcRegisterDescriptionNode`](struct.GcRegisterDescriptionNode.html), [`GcRegisterNode`](struct.GcRegisterNode.html), [`GcStructEntryNode`](struct.GcStructEntryNode.html), [`GcSwissKnife`](struct.GcSwissKnife.html)
 pub trait GcFeatureNodeExt: 'static {
 	fn get_description(&self) -> Option<GString>;
 

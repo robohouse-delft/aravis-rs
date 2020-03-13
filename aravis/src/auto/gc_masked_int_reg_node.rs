@@ -24,6 +24,10 @@ glib_wrapper! {
 }
 
 impl GcMaskedIntRegNode {
+	///
+	/// # Returns
+	///
+	/// a new MaskedIntReg node
 	pub fn new() -> GcMaskedIntRegNode {
 		assert_initialized_main_thread!();
 		unsafe {

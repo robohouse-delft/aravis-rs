@@ -19,6 +19,11 @@ glib_wrapper! {
 
 pub const NONE_DOM_ELEMENT: Option<&DomElement> = None;
 
+/// Trait containing all `DomElement` methods.
+///
+/// # Implementors
+///
+/// [`DomElement`](struct.DomElement.html), [`GcNode`](struct.GcNode.html)
 pub trait DomElementExt: 'static {
 	fn get_attribute(&self, name: &str) -> Option<GString>;
 

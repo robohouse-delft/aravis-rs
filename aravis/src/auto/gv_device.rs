@@ -39,6 +39,11 @@ impl GvDevice {
 
 pub const NONE_GV_DEVICE: Option<&GvDevice> = None;
 
+/// Trait containing all `GvDevice` methods.
+///
+/// # Implementors
+///
+/// [`GvDevice`](struct.GvDevice.html)
 pub trait GvDeviceExt: 'static {
 	fn auto_packet_size(&self) -> Result<(), glib::Error>;
 

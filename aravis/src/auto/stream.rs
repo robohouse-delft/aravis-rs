@@ -25,6 +25,11 @@ glib_wrapper! {
 
 pub const NONE_STREAM: Option<&Stream> = None;
 
+/// Trait containing all `Stream` methods.
+///
+/// # Implementors
+///
+/// [`FakeStream`](struct.FakeStream.html), [`GvStream`](struct.GvStream.html), [`Stream`](struct.Stream.html), [`UvStream`](struct.UvStream.html)
 pub trait StreamExt: 'static {
 	fn get_emit_signals(&self) -> bool;
 

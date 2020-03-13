@@ -42,6 +42,11 @@ impl Default for GcEnumeration {
 
 pub const NONE_GC_ENUMERATION: Option<&GcEnumeration> = None;
 
+/// Trait containing all `GcEnumeration` methods.
+///
+/// # Implementors
+///
+/// [`GcEnumeration`](struct.GcEnumeration.html)
 pub trait GcEnumerationExt: 'static {
 	fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error>;
 

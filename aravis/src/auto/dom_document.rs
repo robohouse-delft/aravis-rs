@@ -55,6 +55,11 @@ impl DomDocument {
 
 pub const NONE_DOM_DOCUMENT: Option<&DomDocument> = None;
 
+/// Trait containing all `DomDocument` methods.
+///
+/// # Implementors
+///
+/// [`DomDocument`](struct.DomDocument.html), [`Gc`](struct.Gc.html)
 pub trait DomDocumentExt: 'static {
 	//fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error>;
 

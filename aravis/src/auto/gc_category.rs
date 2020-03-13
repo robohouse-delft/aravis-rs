@@ -36,6 +36,11 @@ impl Default for GcCategory {
 
 pub const NONE_GC_CATEGORY: Option<&GcCategory> = None;
 
+/// Trait containing all `GcCategory` methods.
+///
+/// # Implementors
+///
+/// [`GcCategory`](struct.GcCategory.html)
 pub trait GcCategoryExt: 'static {
 	fn get_features(&self) -> Vec<GString>;
 }

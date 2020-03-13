@@ -48,6 +48,11 @@ impl Gc {
 
 pub const NONE_GC: Option<&Gc> = None;
 
+/// Trait containing all `Gc` methods.
+///
+/// # Implementors
+///
+/// [`Gc`](struct.Gc.html)
 pub trait GcExt: 'static {
 	fn get_buffer(&self) -> Option<Buffer>;
 

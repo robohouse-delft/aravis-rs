@@ -18,6 +18,11 @@ glib_wrapper! {
 
 pub const NONE_DOM_NAMED_NODE_MAP: Option<&DomNamedNodeMap> = None;
 
+/// Trait containing all `DomNamedNodeMap` methods.
+///
+/// # Implementors
+///
+/// [`DomNamedNodeMap`](struct.DomNamedNodeMap.html)
 pub trait DomNamedNodeMapExt: 'static {
 	fn get_item(&self, index: u32) -> Option<DomNode>;
 
