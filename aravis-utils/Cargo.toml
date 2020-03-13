@@ -1,7 +1,13 @@
 [package]
 name = "aravis-utils"
 version = "0.1.1"
-authors = ["Maarten de Vries <maarten@de-vri.es>"]
+description = "command line utilities for interacting with GenICam cameras"
+authors = ["RoboHouse <robohouse@robovalley.com>", "Maarten de Vries <maarten@de-vri.es>"]
+license = "BSD-2-Clause"
+keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
+categories = ["multimedia::video"]
+repository = "https://github.com/robohouse-delft/aravis-rs"
+
 edition = "2018"
 
 [features]
