@@ -1,6 +1,6 @@
 [package]
 name = "aravis-utils"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Maarten de Vries <maarten@de-vri.es>"]
 edition = "2018"
 
@@ -9,7 +9,7 @@ default = ["gui"]
 gui     = ["show-image"]
 
 [dependencies]
-aravis     = {version="0.0.2", path="../aravis" }
+aravis     = {version="0.0.3", path="../aravis" }
 chrono     = "0.4.10"
 env_logger = "0.7.1"
 gio        = "0.7.0"
