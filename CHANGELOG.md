@@ -1,3 +1,6 @@
+aravis v0.2.0 and aravis-utils v0.2.0:
+  * Update to aravis v0.7.99 (current git master)
+
 aravis v0.1.0 and aravis-utils v0.1.2:
   * Update dependencies.
   * Fix clippy warnings.
