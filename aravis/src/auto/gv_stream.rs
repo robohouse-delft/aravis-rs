@@ -126,6 +126,7 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			value
 				.get()
 				.expect("Return Value for property `frame-retention` getter")
+				.unwrap()
 		}
 	}
 
@@ -150,6 +151,7 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			value
 				.get()
 				.expect("Return Value for property `packet-request-ratio` getter")
+				.unwrap()
 		}
 	}
 
@@ -174,6 +176,7 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			value
 				.get()
 				.expect("Return Value for property `packet-resend` getter")
+				.unwrap()
 		}
 	}
 
@@ -198,6 +201,7 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			value
 				.get()
 				.expect("Return Value for property `packet-timeout` getter")
+				.unwrap()
 		}
 	}
 
@@ -222,6 +226,7 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			value
 				.get()
 				.expect("Return Value for property `socket-buffer` getter")
+				.unwrap()
 		}
 	}
 
@@ -246,6 +251,7 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			value
 				.get()
 				.expect("Return Value for property `socket-buffer-size` getter")
+				.unwrap()
 		}
 	}
 
@@ -271,15 +277,15 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			P: IsA<GvStream>,
 		{
 			let f: &F = &*(f as *const F);
-			f(&GvStream::from_glib_borrow(this).unsafe_cast())
+			f(&GvStream::from_glib_borrow(this).unsafe_cast_ref())
 		}
 		unsafe {
 			let f: Box_<F> = Box_::new(f);
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::frame-retention\0".as_ptr() as *const _,
-				Some(transmute(
-					notify_frame_retention_trampoline::<Self, F> as usize,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_frame_retention_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)
@@ -298,15 +304,15 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			P: IsA<GvStream>,
 		{
 			let f: &F = &*(f as *const F);
-			f(&GvStream::from_glib_borrow(this).unsafe_cast())
+			f(&GvStream::from_glib_borrow(this).unsafe_cast_ref())
 		}
 		unsafe {
 			let f: Box_<F> = Box_::new(f);
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::packet-request-ratio\0".as_ptr() as *const _,
-				Some(transmute(
-					notify_packet_request_ratio_trampoline::<Self, F> as usize,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_packet_request_ratio_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)
@@ -325,15 +331,15 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			P: IsA<GvStream>,
 		{
 			let f: &F = &*(f as *const F);
-			f(&GvStream::from_glib_borrow(this).unsafe_cast())
+			f(&GvStream::from_glib_borrow(this).unsafe_cast_ref())
 		}
 		unsafe {
 			let f: Box_<F> = Box_::new(f);
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::packet-resend\0".as_ptr() as *const _,
-				Some(transmute(
-					notify_packet_resend_trampoline::<Self, F> as usize,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_packet_resend_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)
@@ -352,15 +358,15 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			P: IsA<GvStream>,
 		{
 			let f: &F = &*(f as *const F);
-			f(&GvStream::from_glib_borrow(this).unsafe_cast())
+			f(&GvStream::from_glib_borrow(this).unsafe_cast_ref())
 		}
 		unsafe {
 			let f: Box_<F> = Box_::new(f);
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::packet-timeout\0".as_ptr() as *const _,
-				Some(transmute(
-					notify_packet_timeout_trampoline::<Self, F> as usize,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_packet_timeout_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)
@@ -379,15 +385,15 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			P: IsA<GvStream>,
 		{
 			let f: &F = &*(f as *const F);
-			f(&GvStream::from_glib_borrow(this).unsafe_cast())
+			f(&GvStream::from_glib_borrow(this).unsafe_cast_ref())
 		}
 		unsafe {
 			let f: Box_<F> = Box_::new(f);
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::socket-buffer\0".as_ptr() as *const _,
-				Some(transmute(
-					notify_socket_buffer_trampoline::<Self, F> as usize,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_socket_buffer_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)
@@ -406,15 +412,15 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 			P: IsA<GvStream>,
 		{
 			let f: &F = &*(f as *const F);
-			f(&GvStream::from_glib_borrow(this).unsafe_cast())
+			f(&GvStream::from_glib_borrow(this).unsafe_cast_ref())
 		}
 		unsafe {
 			let f: Box_<F> = Box_::new(f);
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::socket-buffer-size\0".as_ptr() as *const _,
-				Some(transmute(
-					notify_socket_buffer_size_trampoline::<Self, F> as usize,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_socket_buffer_size_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)

@@ -20,9 +20,9 @@ dox = ["aravis-sys/dox"]
 features = ["dox"]
 
 [dependencies]
-gio = "0.7.0"
+gio = "0.8.1"
 gio-sys = "0.9.0"
-glib = "0.8.2"
+glib = "0.9.3"
 glib-sys = "0.9.0"
 gobject-sys = "0.9.0"
 aravis-sys = { version = "0.0.3", path = "../aravis-sys" }
