@@ -25,12 +25,12 @@ mod test {
 
 	#[test]
 	fn test_bits_per_pixel() {
-		assert_eq!(bits_per_pixel(MONO_8), 8);
-		assert_eq!(bits_per_pixel(RGB_8_PACKED), 24);
-		assert_eq!(bits_per_pixel(BAYER_RG_10), 16);
-		assert_eq!(bits_per_pixel(BAYER_RG_10P), 10);
-		assert_eq!(bits_per_pixel(BAYER_RG_12), 16);
-		assert_eq!(bits_per_pixel(BAYER_RG_12P), 12);
+		assert_eq!(bits_per_pixel(pixel_formats::MONO_8), 8);
+		assert_eq!(bits_per_pixel(pixel_formats::RGB_8_PACKED), 24);
+		assert_eq!(bits_per_pixel(pixel_formats::BAYER_RG_10), 16);
+		assert_eq!(bits_per_pixel(pixel_formats::BAYER_RG_10P), 10);
+		assert_eq!(bits_per_pixel(pixel_formats::BAYER_RG_12), 16);
+		assert_eq!(bits_per_pixel(pixel_formats::BAYER_RG_12P), 12);
 	}
 }
 
