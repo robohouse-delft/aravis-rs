@@ -22,17 +22,31 @@ glib_wrapper! {
 }
 
 impl GvDevice {
+	/// ## `interface_address`
+	/// address of the interface connected to the device
+	/// ## `device_address`
+	/// device address
+	///
+	/// # Returns
+	///
+	/// a newly created `Device` using GigE protocol
 	pub fn new<P: IsA<gio::InetAddress>, Q: IsA<gio::InetAddress>>(
 		interface_address: &P,
 		device_address: &Q,
-	) -> GvDevice {
+	) -> Result<GvDevice, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			Device::from_glib_full(aravis_sys::arv_gv_device_new(
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_gv_device_new(
 				interface_address.as_ref().to_glib_none().0,
 				device_address.as_ref().to_glib_none().0,
-			))
-			.unsafe_cast()
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(Device::from_glib_full(ret).unsafe_cast())
+			} else {
+				Err(from_glib_full(error))
+			}
 		}
 	}
 }

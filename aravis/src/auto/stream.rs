@@ -8,12 +8,16 @@ use glib::object::IsA;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::StaticType;
+use glib::Value;
 use glib_sys;
+use gobject_sys;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use Buffer;
+use Device;
 
 glib_wrapper! {
 	pub struct Stream(Object<aravis_sys::ArvStream, aravis_sys::ArvStreamClass, StreamClass>);
@@ -50,6 +54,12 @@ pub trait StreamExt: 'static {
 	fn timeout_pop_buffer(&self, timeout: u64) -> Option<Buffer>;
 
 	fn try_pop_buffer(&self) -> Option<Buffer>;
+
+	//fn get_property_callback(&self) -> /*Unimplemented*/Fundamental: Pointer;
+
+	//fn get_property_callback_data(&self) -> /*Unimplemented*/Fundamental: Pointer;
+
+	fn get_property_device(&self) -> Option<Device>;
 
 	fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -154,6 +164,36 @@ impl<O: IsA<Stream>> StreamExt for O {
 			from_glib_full(aravis_sys::arv_stream_try_pop_buffer(
 				self.as_ref().to_glib_none().0,
 			))
+		}
+	}
+
+	//fn get_property_callback(&self) -> /*Unimplemented*/Fundamental: Pointer {
+	//    unsafe {
+	//        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+	//        gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"callback\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+	//        value.get().expect("Return Value for property `callback` getter").unwrap()
+	//    }
+	//}
+
+	//fn get_property_callback_data(&self) -> /*Unimplemented*/Fundamental: Pointer {
+	//    unsafe {
+	//        let mut value = Value::from_type(</*Unknown type*/ as StaticType>::static_type());
+	//        gobject_sys::g_object_get_property(self.to_glib_none().0 as *mut gobject_sys::GObject, b"callback-data\0".as_ptr() as *const _, value.to_glib_none_mut().0);
+	//        value.get().expect("Return Value for property `callback-data` getter").unwrap()
+	//    }
+	//}
+
+	fn get_property_device(&self) -> Option<Device> {
+		unsafe {
+			let mut value = Value::from_type(<Device as StaticType>::static_type());
+			gobject_sys::g_object_get_property(
+				self.to_glib_none().0 as *mut gobject_sys::GObject,
+				b"device\0".as_ptr() as *const _,
+				value.to_glib_none_mut().0,
+			);
+			value
+				.get()
+				.expect("Return Value for property `device` getter")
 		}
 	}
 

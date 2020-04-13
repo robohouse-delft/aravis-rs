@@ -16,6 +16,7 @@ use gobject_sys;
 use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum AcquisitionMode {
 	Continuous,
 	SingleFrame,
@@ -91,6 +92,7 @@ impl SetValue for AcquisitionMode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum Auto {
 	Off,
 	Once,
@@ -166,6 +168,7 @@ impl SetValue for Auto {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum BufferPayloadType {
 	Unknown,
 	Image,
@@ -279,6 +282,7 @@ impl SetValue for BufferPayloadType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum BufferStatus {
 	Unknown,
 	Success,
@@ -378,6 +382,7 @@ impl SetValue for BufferStatus {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DebugLevel {
 	None,
 	Warning,
@@ -461,6 +466,7 @@ impl SetValue for DebugLevel {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DomNodeType {
 	ElementNode,
 	AttributeNode,
@@ -576,6 +582,7 @@ impl SetValue for DomNodeType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcAccessMode {
 	Undefined,
 	Ro,
@@ -655,6 +662,7 @@ impl SetValue for GcAccessMode {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcCachable {
 	Undefined,
 	NoCache,
@@ -734,6 +742,7 @@ impl SetValue for GcCachable {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcError {
 	PropertyNotDefined,
 	PvalueNotDefined,
@@ -743,6 +752,7 @@ pub enum GcError {
 	NoDeviceSet,
 	NoEventImplementation,
 	NodeNotFound,
+	EnumEntryNotFound,
 	InvalidLength,
 	ReadOnly,
 	SetFromStringUndefined,
@@ -765,6 +775,7 @@ impl fmt::Display for GcError {
 				GcError::NoDeviceSet => "NoDeviceSet",
 				GcError::NoEventImplementation => "NoEventImplementation",
 				GcError::NodeNotFound => "NodeNotFound",
+				GcError::EnumEntryNotFound => "EnumEntryNotFound",
 				GcError::InvalidLength => "InvalidLength",
 				GcError::ReadOnly => "ReadOnly",
 				GcError::SetFromStringUndefined => "SetFromStringUndefined",
@@ -789,6 +800,7 @@ impl ToGlib for GcError {
 			GcError::NoDeviceSet => aravis_sys::ARV_GC_ERROR_NO_DEVICE_SET,
 			GcError::NoEventImplementation => aravis_sys::ARV_GC_ERROR_NO_EVENT_IMPLEMENTATION,
 			GcError::NodeNotFound => aravis_sys::ARV_GC_ERROR_NODE_NOT_FOUND,
+			GcError::EnumEntryNotFound => aravis_sys::ARV_GC_ERROR_ENUM_ENTRY_NOT_FOUND,
 			GcError::InvalidLength => aravis_sys::ARV_GC_ERROR_INVALID_LENGTH,
 			GcError::ReadOnly => aravis_sys::ARV_GC_ERROR_READ_ONLY,
 			GcError::SetFromStringUndefined => aravis_sys::ARV_GC_ERROR_SET_FROM_STRING_UNDEFINED,
@@ -811,10 +823,11 @@ impl FromGlib<aravis_sys::ArvGcError> for GcError {
 			5 => GcError::NoDeviceSet,
 			6 => GcError::NoEventImplementation,
 			7 => GcError::NodeNotFound,
-			8 => GcError::InvalidLength,
-			9 => GcError::ReadOnly,
-			10 => GcError::SetFromStringUndefined,
-			11 => GcError::GetAsStringUndefined,
+			8 => GcError::EnumEntryNotFound,
+			9 => GcError::InvalidLength,
+			10 => GcError::ReadOnly,
+			11 => GcError::SetFromStringUndefined,
+			12 => GcError::GetAsStringUndefined,
 			value => GcError::__Unknown(value),
 		}
 	}
@@ -841,10 +854,11 @@ impl ErrorDomain for GcError {
 			5 => Some(GcError::NoDeviceSet),
 			6 => Some(GcError::NoEventImplementation),
 			7 => Some(GcError::NodeNotFound),
-			8 => Some(GcError::InvalidLength),
-			9 => Some(GcError::ReadOnly),
-			10 => Some(GcError::SetFromStringUndefined),
-			11 => Some(GcError::GetAsStringUndefined),
+			8 => Some(GcError::EnumEntryNotFound),
+			9 => Some(GcError::InvalidLength),
+			10 => Some(GcError::ReadOnly),
+			11 => Some(GcError::SetFromStringUndefined),
+			12 => Some(GcError::GetAsStringUndefined),
 			value => Some(GcError::__Unknown(value)),
 		}
 	}
@@ -875,6 +889,7 @@ impl SetValue for GcError {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcIsLinear {
 	Undefined,
 	No,
@@ -950,6 +965,7 @@ impl SetValue for GcIsLinear {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcNameSpace {
 	Undefined,
 	Standard,
@@ -1025,6 +1041,7 @@ impl SetValue for GcNameSpace {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcPropertyNodeType {
 	Unknown,
 	Value,
@@ -1316,6 +1333,7 @@ impl SetValue for GcPropertyNodeType {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GcSignedness {
 	Undefined,
 	Signed,
@@ -1391,6 +1409,7 @@ impl SetValue for GcSignedness {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GvStreamOption {
 	None,
 	PacketSocketDisabled,
@@ -1464,6 +1483,7 @@ impl SetValue for GvStreamOption {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GvStreamPacketResend {
 	Never,
 	Always,
@@ -1535,6 +1555,7 @@ impl SetValue for GvStreamPacketResend {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum GvStreamSocketBuffer {
 	Fixed,
 	Auto,
@@ -1606,6 +1627,7 @@ impl SetValue for GvStreamSocketBuffer {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum RegisterCachePolicy {
 	Disable,
 	Enable,
@@ -1681,6 +1703,7 @@ impl SetValue for RegisterCachePolicy {
 }
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum XmlSchemaError {
 	Structure,
 	#[doc(hidden)]

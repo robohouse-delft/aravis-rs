@@ -3,10 +3,12 @@
 // DO NOT EDIT
 
 use aravis_sys;
+use glib;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
+use std::ptr;
 use Device;
 use FakeCamera;
 
@@ -19,13 +21,22 @@ glib_wrapper! {
 }
 
 impl FakeDevice {
-	pub fn new(serial_number: &str) -> FakeDevice {
+	/// ## `serial_number`
+	/// fake device serial number
+	///
+	/// # Returns
+	///
+	/// a newly created `Device` simulating a real device
+	pub fn new(serial_number: &str) -> Result<FakeDevice, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			Device::from_glib_full(aravis_sys::arv_fake_device_new(
-				serial_number.to_glib_none().0,
-			))
-			.unsafe_cast()
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_fake_device_new(serial_number.to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(Device::from_glib_full(ret).unsafe_cast())
+			} else {
+				Err(from_glib_full(error))
+			}
 		}
 	}
 }

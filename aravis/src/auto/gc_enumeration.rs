@@ -48,11 +48,11 @@ pub const NONE_GC_ENUMERATION: Option<&GcEnumeration> = None;
 ///
 /// [`GcEnumeration`](struct.GcEnumeration.html)
 pub trait GcEnumerationExt: 'static {
-	fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error>;
+	fn dup_available_display_names(&self) -> Result<Vec<GString>, glib::Error>;
 
-	fn get_available_int_values(&self) -> Result<Vec<i64>, glib::Error>;
+	fn dup_available_int_values(&self) -> Result<Vec<i64>, glib::Error>;
 
-	fn get_available_string_values(&self) -> Result<Vec<GString>, glib::Error>;
+	fn dup_available_string_values(&self) -> Result<Vec<GString>, glib::Error>;
 
 	fn get_entries(&self) -> Vec<GcFeatureNode>;
 
@@ -66,11 +66,11 @@ pub trait GcEnumerationExt: 'static {
 }
 
 impl<O: IsA<GcEnumeration>> GcEnumerationExt for O {
-	fn get_available_display_names(&self) -> Result<Vec<GString>, glib::Error> {
+	fn dup_available_display_names(&self) -> Result<Vec<GString>, glib::Error> {
 		unsafe {
 			let mut n_values = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_gc_enumeration_get_available_display_names(
+			let ret = aravis_sys::arv_gc_enumeration_dup_available_display_names(
 				self.as_ref().to_glib_none().0,
 				n_values.as_mut_ptr(),
 				&mut error,
@@ -86,11 +86,11 @@ impl<O: IsA<GcEnumeration>> GcEnumerationExt for O {
 		}
 	}
 
-	fn get_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
+	fn dup_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
 		unsafe {
 			let mut n_values = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_gc_enumeration_get_available_int_values(
+			let ret = aravis_sys::arv_gc_enumeration_dup_available_int_values(
 				self.as_ref().to_glib_none().0,
 				n_values.as_mut_ptr(),
 				&mut error,
@@ -106,11 +106,11 @@ impl<O: IsA<GcEnumeration>> GcEnumerationExt for O {
 		}
 	}
 
-	fn get_available_string_values(&self) -> Result<Vec<GString>, glib::Error> {
+	fn dup_available_string_values(&self) -> Result<Vec<GString>, glib::Error> {
 		unsafe {
 			let mut n_values = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_gc_enumeration_get_available_string_values(
+			let ret = aravis_sys::arv_gc_enumeration_dup_available_string_values(
 				self.as_ref().to_glib_none().0,
 				n_values.as_mut_ptr(),
 				&mut error,

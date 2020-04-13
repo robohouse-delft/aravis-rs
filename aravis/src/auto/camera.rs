@@ -34,9 +34,17 @@ impl Camera {
 	/// # Returns
 	///
 	/// a new `Camera`.
-	pub fn new(name: Option<&str>) -> Option<Camera> {
+	pub fn new(name: Option<&str>) -> Result<Camera, glib::Error> {
 		assert_initialized_main_thread!();
-		unsafe { from_glib_full(aravis_sys::arv_camera_new(name.to_glib_none().0)) }
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_new(name.to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib_full(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
 	}
 }
 
@@ -52,37 +60,35 @@ pub trait CameraExt: 'static {
 
 	fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error>;
 
-	fn check_status(&self) -> Result<bool, glib::Error>;
-
 	fn clear_triggers(&self) -> Result<(), glib::Error>;
 
 	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 
+	fn dup_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error>;
+
+	fn dup_available_enumerations_as_display_names(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error>;
+
+	fn dup_available_enumerations_as_strings(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error>;
+
+	fn dup_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error>;
+
+	fn dup_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error>;
+
+	fn dup_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error>;
+
+	fn dup_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error>;
+
+	fn dup_available_triggers(&self) -> Result<Vec<GString>, glib::Error>;
+
 	fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
 
 	fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error>;
-
-	fn get_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error>;
-
-	fn get_available_enumerations_as_display_names(
-		&self,
-		feature: &str,
-	) -> Result<Vec<GString>, glib::Error>;
-
-	fn get_available_enumerations_as_strings(
-		&self,
-		feature: &str,
-	) -> Result<Vec<GString>, glib::Error>;
-
-	fn get_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error>;
-
-	fn get_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error>;
-
-	fn get_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error>;
-
-	fn get_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error>;
-
-	fn get_available_triggers(&self) -> Result<Vec<GString>, glib::Error>;
 
 	fn get_binning(&self) -> Result<(i32, i32), glib::Error>;
 
@@ -291,19 +297,6 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	fn check_status(&self) -> Result<bool, glib::Error> {
-		unsafe {
-			let mut error = ptr::null_mut();
-			let ret =
-				aravis_sys::arv_camera_check_status(self.as_ref().to_glib_none().0, &mut error);
-			if error.is_null() {
-				Ok(from_glib(ret))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
 	fn clear_triggers(&self) -> Result<(), glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -320,6 +313,175 @@ impl<O: IsA<Camera>> CameraExt for O {
 	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
 	//    unsafe { TODO: call aravis_sys:arv_camera_create_chunk_parser() }
 	//}
+
+	fn dup_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_enumerations(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_enumerations_as_display_names(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_enumerations_as_display_names(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_enumerations_as_strings(
+		&self,
+		feature: &str,
+	) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_values = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_enumerations_as_strings(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				n_values.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_values.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error> {
+		unsafe {
+			let mut n_pixel_formats = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_pixel_formats(
+				self.as_ref().to_glib_none().0,
+				n_pixel_formats.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_pixel_formats.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_pixel_formats = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_pixel_formats_as_display_names(
+				self.as_ref().to_glib_none().0,
+				n_pixel_formats.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_pixel_formats.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_pixel_formats = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_pixel_formats_as_strings(
+				self.as_ref().to_glib_none().0,
+				n_pixel_formats.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_pixel_formats.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_sources = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_trigger_sources(
+				self.as_ref().to_glib_none().0,
+				n_sources.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_sources.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn dup_available_triggers(&self) -> Result<Vec<GString>, glib::Error> {
+		unsafe {
+			let mut n_triggers = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_camera_dup_available_triggers(
+				self.as_ref().to_glib_none().0,
+				n_triggers.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(FromGlibContainer::from_glib_container_num(
+					ret,
+					n_triggers.assume_init() as usize,
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
 	fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {
 		unsafe {
@@ -346,175 +508,6 @@ impl<O: IsA<Camera>> CameraExt for O {
 			);
 			if error.is_null() {
 				Ok(from_glib(ret))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error> {
-		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_enumerations(
-				self.as_ref().to_glib_none().0,
-				feature.to_glib_none().0,
-				n_values.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_values.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_enumerations_as_display_names(
-		&self,
-		feature: &str,
-	) -> Result<Vec<GString>, glib::Error> {
-		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_enumerations_as_display_names(
-				self.as_ref().to_glib_none().0,
-				feature.to_glib_none().0,
-				n_values.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_values.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_enumerations_as_strings(
-		&self,
-		feature: &str,
-	) -> Result<Vec<GString>, glib::Error> {
-		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_enumerations_as_strings(
-				self.as_ref().to_glib_none().0,
-				feature.to_glib_none().0,
-				n_values.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_values.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error> {
-		unsafe {
-			let mut n_pixel_formats = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_pixel_formats(
-				self.as_ref().to_glib_none().0,
-				n_pixel_formats.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_pixel_formats.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error> {
-		unsafe {
-			let mut n_pixel_formats = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_pixel_formats_as_display_names(
-				self.as_ref().to_glib_none().0,
-				n_pixel_formats.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_pixel_formats.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error> {
-		unsafe {
-			let mut n_pixel_formats = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_pixel_formats_as_strings(
-				self.as_ref().to_glib_none().0,
-				n_pixel_formats.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_pixel_formats.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error> {
-		unsafe {
-			let mut n_sources = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_trigger_sources(
-				self.as_ref().to_glib_none().0,
-				n_sources.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_sources.assume_init() as usize,
-				))
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_triggers(&self) -> Result<Vec<GString>, glib::Error> {
-		unsafe {
-			let mut n_triggers = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_camera_get_available_triggers(
-				self.as_ref().to_glib_none().0,
-				n_triggers.as_mut_ptr(),
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(FromGlibContainer::from_glib_container_num(
-					ret,
-					n_triggers.assume_init() as usize,
-				))
 			} else {
 				Err(from_glib_full(error))
 			}

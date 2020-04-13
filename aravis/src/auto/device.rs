@@ -38,22 +38,22 @@ pub const NONE_DEVICE: Option<&Device> = None;
 pub trait DeviceExt: 'static {
 	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 
-	fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
-
-	fn get_available_enumeration_feature_values(
+	fn dup_available_enumeration_feature_values(
 		&self,
 		feature: &str,
 	) -> Result<Vec<i64>, glib::Error>;
 
-	fn get_available_enumeration_feature_values_as_display_names(
+	fn dup_available_enumeration_feature_values_as_display_names(
 		&self,
 		feature: &str,
 	) -> Result<Vec<GString>, glib::Error>;
 
-	fn get_available_enumeration_feature_values_as_strings(
+	fn dup_available_enumeration_feature_values_as_strings(
 		&self,
 		feature: &str,
 	) -> Result<Vec<GString>, glib::Error>;
+
+	fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
 
 	fn get_boolean_feature_value(&self, feature: &str) -> Result<bool, glib::Error>;
 
@@ -83,6 +83,8 @@ pub trait DeviceExt: 'static {
 
 	fn set_boolean_feature_value(&self, feature: &str, value: bool) -> Result<(), glib::Error>;
 
+	fn set_features_from_string(&self, string: &str) -> Result<(), glib::Error>;
+
 	fn set_float_feature_value(&self, feature: &str, value: f64) -> Result<(), glib::Error>;
 
 	fn set_integer_feature_value(&self, feature: &str, value: i64) -> Result<(), glib::Error>;
@@ -103,30 +105,14 @@ impl<O: IsA<Device>> DeviceExt for O {
 	//    unsafe { TODO: call aravis_sys:arv_device_create_chunk_parser() }
 	//}
 
-	fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {
-		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = aravis_sys::arv_device_execute_command(
-				self.as_ref().to_glib_none().0,
-				feature.to_glib_none().0,
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(())
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
-
-	fn get_available_enumeration_feature_values(
+	fn dup_available_enumeration_feature_values(
 		&self,
 		feature: &str,
 	) -> Result<Vec<i64>, glib::Error> {
 		unsafe {
 			let mut n_values = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_device_get_available_enumeration_feature_values(
+			let ret = aravis_sys::arv_device_dup_available_enumeration_feature_values(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
 				n_values.as_mut_ptr(),
@@ -143,7 +129,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	fn get_available_enumeration_feature_values_as_display_names(
+	fn dup_available_enumeration_feature_values_as_display_names(
 		&self,
 		feature: &str,
 	) -> Result<Vec<GString>, glib::Error> {
@@ -151,7 +137,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 			let mut n_values = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
 			let ret =
-				aravis_sys::arv_device_get_available_enumeration_feature_values_as_display_names(
+				aravis_sys::arv_device_dup_available_enumeration_feature_values_as_display_names(
 					self.as_ref().to_glib_none().0,
 					feature.to_glib_none().0,
 					n_values.as_mut_ptr(),
@@ -168,14 +154,14 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	fn get_available_enumeration_feature_values_as_strings(
+	fn dup_available_enumeration_feature_values_as_strings(
 		&self,
 		feature: &str,
 	) -> Result<Vec<GString>, glib::Error> {
 		unsafe {
 			let mut n_values = mem::MaybeUninit::uninit();
 			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_device_get_available_enumeration_feature_values_as_strings(
+			let ret = aravis_sys::arv_device_dup_available_enumeration_feature_values_as_strings(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
 				n_values.as_mut_ptr(),
@@ -186,6 +172,22 @@ impl<O: IsA<Device>> DeviceExt for O {
 					ret,
 					n_values.assume_init() as usize,
 				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_device_execute_command(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -391,6 +393,22 @@ impl<O: IsA<Device>> DeviceExt for O {
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
 				value.to_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn set_features_from_string(&self, string: &str) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = aravis_sys::arv_device_set_features_from_string(
+				self.as_ref().to_glib_none().0,
+				string.to_glib_none().0,
 				&mut error,
 			);
 			if error.is_null() {

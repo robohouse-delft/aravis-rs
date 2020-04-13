@@ -3,9 +3,11 @@
 // DO NOT EDIT
 
 use aravis_sys;
+use glib;
 use glib::object::Cast;
 use glib::translate::*;
 use std::fmt;
+use std::ptr;
 use Device;
 
 glib_wrapper! {
@@ -17,15 +19,31 @@ glib_wrapper! {
 }
 
 impl UvDevice {
-	pub fn new(vendor: &str, product: &str, serial_nbr: &str) -> UvDevice {
+	/// ## `vendor`
+	/// USB3 vendor string
+	/// ## `product`
+	/// USB3 product string
+	/// ## `serial_number`
+	/// device serial number
+	///
+	/// # Returns
+	///
+	/// a newly created `Device` using USB3 based protocol
+	pub fn new(vendor: &str, product: &str, serial_number: &str) -> Result<UvDevice, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			Device::from_glib_full(aravis_sys::arv_uv_device_new(
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_uv_device_new(
 				vendor.to_glib_none().0,
 				product.to_glib_none().0,
-				serial_nbr.to_glib_none().0,
-			))
-			.unsafe_cast()
+				serial_number.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(Device::from_glib_full(ret).unsafe_cast())
+			} else {
+				Err(from_glib_full(error))
+			}
 		}
 	}
 }

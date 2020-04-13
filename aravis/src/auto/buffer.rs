@@ -49,7 +49,7 @@ pub const NONE_BUFFER: Option<&Buffer> = None;
 pub trait BufferExt: 'static {
 	fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
 
-	fn get_frame_id(&self) -> u32;
+	fn get_frame_id(&self) -> u64;
 
 	fn get_image_height(&self) -> i32;
 
@@ -96,7 +96,7 @@ impl<O: IsA<Buffer>> BufferExt for O {
 		}
 	}
 
-	fn get_frame_id(&self) -> u32 {
+	fn get_frame_id(&self) -> u64 {
 		unsafe { aravis_sys::arv_buffer_get_frame_id(self.as_ref().to_glib_none().0) }
 	}
 

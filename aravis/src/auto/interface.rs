@@ -3,10 +3,12 @@
 // DO NOT EDIT
 
 use aravis_sys;
+use glib;
 use glib::object::IsA;
 use glib::translate::*;
 use glib::GString;
 use std::fmt;
+use std::ptr;
 use Device;
 
 glib_wrapper! {
@@ -41,7 +43,7 @@ pub trait InterfaceExt: 'static {
 
 	fn get_n_devices(&self) -> u32;
 
-	fn open_device(&self, device_id: Option<&str>) -> Option<Device>;
+	fn open_device(&self, device_id: Option<&str>) -> Result<Device, glib::Error>;
 
 	fn update_device_list(&self);
 }
@@ -114,12 +116,19 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		unsafe { aravis_sys::arv_interface_get_n_devices(self.as_ref().to_glib_none().0) }
 	}
 
-	fn open_device(&self, device_id: Option<&str>) -> Option<Device> {
+	fn open_device(&self, device_id: Option<&str>) -> Result<Device, glib::Error> {
 		unsafe {
-			from_glib_full(aravis_sys::arv_interface_open_device(
+			let mut error = ptr::null_mut();
+			let ret = aravis_sys::arv_interface_open_device(
 				self.as_ref().to_glib_none().0,
 				device_id.to_glib_none().0,
-			))
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib_full(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
 		}
 	}
 

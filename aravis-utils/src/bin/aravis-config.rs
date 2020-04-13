@@ -43,7 +43,7 @@ fn do_main() -> Result<(), String> {
 
 	log::info!("Connecting to camera {}.", options.id);
 	let camera = aravis::Camera::new(Some(&options.id))
-		.ok_or("Failed to connecto to camera.")?;
+		.map_err(|e| format!("failed to connecto to camera: {}", e))?;
 
 	let genicam = camera.get_device().unwrap().get_genicam().unwrap();
 

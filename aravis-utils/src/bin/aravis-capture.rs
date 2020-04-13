@@ -155,7 +155,7 @@ fn run_camera_loop(
 ) -> Result<(), String> {
 	log::info!("Connecting to camera {}.", camera_id);
 	let camera = aravis::Camera::new(Some(&camera_id))
-		.ok_or("Failed to connect to camera")?;
+		.map_err(|e| format!("Failed to connect to camera: {}", e))?;
 	log::info!("Connected.");
 
 	let pixel_format = camera.get_pixel_format()
@@ -163,7 +163,7 @@ fn run_camera_loop(
 	let (_, _, width, height) = camera.get_region().unwrap();
 	let make_buffer = || aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
 
-	let stream = camera.create_stream();
+	let stream = camera.create_stream().map_err(|e| format!("Failed to open stream: {}", e))?;
 	stream.push_buffer(&make_buffer());
 
 	camera.set_acquisition_mode(aravis::AcquisitionMode::Continuous)
