@@ -1,3 +1,6 @@
+v0.3.0:
+  * Use a newtype wrapper for `PixelFormat` with associated constants.
+
 v0.2.1:
   * Target aravis 0.7.5.
 

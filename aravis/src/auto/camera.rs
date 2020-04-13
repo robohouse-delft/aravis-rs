@@ -926,7 +926,7 @@ impl<O: IsA<Camera>> CameraExt for O {
 			let ret =
 				aravis_sys::arv_camera_get_pixel_format(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
-				Ok(ret)
+				Ok(from_glib(ret))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -1705,7 +1705,7 @@ impl<O: IsA<Camera>> CameraExt for O {
 			let mut error = ptr::null_mut();
 			let _ = aravis_sys::arv_camera_set_pixel_format(
 				self.as_ref().to_glib_none().0,
-				format,
+				format.to_glib(),
 				&mut error,
 			);
 			if error.is_null() {

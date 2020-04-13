@@ -86,7 +86,7 @@ generate = [
 	"Aravis.GvStreamPacketResend",
 	"Aravis.GvStreamSocketBuffer",
 	"Aravis.Interface",
-	"Aravis.PixelFormat",
+	#"Aravis.PixelFormat",
 	"Aravis.RegisterCachePolicy",
 	"Aravis.Stream",
 	"Aravis.StreamCallback",
@@ -681,7 +681,6 @@ status = "generate"
 	name = "name"
 	return = { use_return_for_result = true }
 
-
 [[object]]
 name = "Aravis.Device"
 status = "generate"
@@ -746,3 +745,8 @@ status = "generate"
 	[[object.function]]
 	name = "get_packet_size"
 	return = { use_return_for_result = true }
+
+[[object]]
+name = "Aravis.PixelFormat"
+status = "manual"
+conversion_type = "scalar"

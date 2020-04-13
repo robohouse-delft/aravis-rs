@@ -1,6 +1,6 @@
-use crate::pixel_formats;
 use crate::Buffer;
 use crate::BufferExt;
+use crate::PixelFormat;
 
 use glib::translate::ToGlibPtr;
 use glib::IsA;
@@ -40,7 +40,7 @@ impl Buffer {
 pub enum ImageError {
 	InvalidStatus(crate::BufferStatus),
 	InvalidPayloadType(crate::BufferPayloadType),
-	UnsupportedPixelFormat(u32),
+	UnsupportedPixelFormat(PixelFormat),
 }
 
 impl Buffer {
@@ -109,17 +109,17 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 		let format = self.get_image_pixel_format();
 
 		match format {
-			pixel_formats::RGB_8_PACKED => {
+			PixelFormat::RGB_8_PACKED => {
 				return Ok(DynamicImage::ImageRgb8(
 					ImageBuffer::from_raw(width, height, data).unwrap(),
 				))
 			}
-			pixel_formats::BGR_8_PACKED => {
+			PixelFormat::BGR_8_PACKED => {
 				return Ok(DynamicImage::ImageBgr8(
 					ImageBuffer::from_raw(width, height, data).unwrap(),
 				))
 			}
-			pixel_formats::MONO_8 => {
+			PixelFormat::MONO_8 => {
 				return Ok(DynamicImage::ImageLuma8(
 					ImageBuffer::from_raw(width, height, data).unwrap(),
 				))
@@ -143,7 +143,6 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 
 #[cfg(feature = "bayer")]
 mod debayer {
-	use crate::pixel_formats;
 	use crate::ImageError;
 	use crate::PixelFormat;
 	use image::DynamicImage;
@@ -151,10 +150,10 @@ mod debayer {
 
 	pub fn filter(format: PixelFormat) -> Option<bayer::CFA> {
 		match format {
-			pixel_formats::BAYER_BG_8 => Some(bayer::CFA::BGGR),
-			pixel_formats::BAYER_GB_8 => Some(bayer::CFA::GBRG),
-			pixel_formats::BAYER_GR_8 => Some(bayer::CFA::GRBG),
-			pixel_formats::BAYER_RG_8 => Some(bayer::CFA::RGGB),
+			PixelFormat::BAYER_BG_8 => Some(bayer::CFA::BGGR),
+			PixelFormat::BAYER_GB_8 => Some(bayer::CFA::GBRG),
+			PixelFormat::BAYER_GR_8 => Some(bayer::CFA::GRBG),
+			PixelFormat::BAYER_RG_8 => Some(bayer::CFA::RGGB),
 			_ => None,
 		}
 	}
@@ -195,7 +194,7 @@ impl std::fmt::Display for ImageError {
 		match self {
 			Self::InvalidStatus(x) => write!(f, "invalid buffer status: {}", x),
 			Self::InvalidPayloadType(x) => write!(f, "invalid buffer payload type: {}", x),
-			Self::UnsupportedPixelFormat(x) => write!(f, "unsupported pixel format: {}", x),
+			Self::UnsupportedPixelFormat(x) => write!(f, "unsupported pixel format: {}", x.raw()),
 		}
 	}
 }

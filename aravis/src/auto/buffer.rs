@@ -105,7 +105,11 @@ impl<O: IsA<Buffer>> BufferExt for O {
 	}
 
 	fn get_image_pixel_format(&self) -> PixelFormat {
-		unsafe { aravis_sys::arv_buffer_get_image_pixel_format(self.as_ref().to_glib_none().0) }
+		unsafe {
+			from_glib(aravis_sys::arv_buffer_get_image_pixel_format(
+				self.as_ref().to_glib_none().0,
+			))
+		}
 	}
 
 	fn get_image_region(&self) -> (i32, i32, i32, i32) {

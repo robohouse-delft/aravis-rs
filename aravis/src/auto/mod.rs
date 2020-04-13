@@ -267,9 +267,6 @@ pub use self::enums::GvStreamSocketBuffer;
 pub use self::enums::RegisterCachePolicy;
 pub use self::enums::XmlSchemaError;
 
-mod alias;
-pub use self::alias::PixelFormat;
-
 #[doc(hidden)]
 pub mod traits {
 	pub use super::BufferExt;
