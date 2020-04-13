@@ -19,6 +19,7 @@ macro_rules! skip_assert_initialized {
 	() => {};
 }
 
+#[allow(clippy::all)]
 mod auto;
 pub use auto::*;
 

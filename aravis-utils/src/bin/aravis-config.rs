@@ -76,7 +76,7 @@ fn walk_genicam<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, indent: &str) ->
 				walk_genicam(genicam, &feature, &format!("  {}", indent))?;
 			}
 		}
-	} else if let Some(_) = node.dynamic_cast_ref::<aravis::GcCommand>() {
+	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcCommand>() {
 		println!("{}{}: command", indent, feature);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcFloatRegNode>() {
 		println!("{}{}: float {}", indent, feature, node.get_value()?);
@@ -92,7 +92,7 @@ fn walk_genicam<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, indent: &str) ->
 		println!("{}{}: enumeration {}", indent, feature, node.get_string_value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcRegisterNode>() {
 		println!("{}{}: register (0x{:02X}, {})", indent, feature, node.get_address()?, node.get_length()?);
-	} else if let Some(_) = node.dynamic_cast_ref::<aravis::GcSwissKnife>() {
+	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcSwissKnife>() {
 		println!("{}{}: swiss-knife", indent, feature);
 	} else {
 		println!("{:?}", node);
@@ -108,7 +108,7 @@ fn set_feature<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, value: &str) -> R
 	if let Some(node) = node.dynamic_cast_ref::<aravis::GcBoolean>() {
 		let value = value.parse().map_err(|_| "Invalid boolean value.")?;
 		node.set_value(value).map_err(|e| format!("{}", e))?;
-	} else if let Some(_) = node.dynamic_cast_ref::<aravis::GcCategory>() {
+	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcCategory>() {
 		return Err(format!("Can not set feature {}. It is a category.", feature));
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcCommand>() {
 		if value.eq_ignore_ascii_case("execute") {
@@ -130,11 +130,11 @@ fn set_feature<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, value: &str) -> R
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcIntegerNode>() {
 		let value = value.parse().map_err(|_| "Invalid integer value.")?;
 		node.set_value(value).map_err(|e| format!("{}", e))?;
-	} else if let Some(_) = node.dynamic_cast_ref::<aravis::GcEnumeration>() {
+	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcEnumeration>() {
 		return Err(format!("Can not set feature {}. Setting enumeration nodes is unimplemented.", feature));
-	} else if let Some(_) = node.dynamic_cast_ref::<aravis::GcRegisterNode>() {
+	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcRegisterNode>() {
 		return Err(format!("Can not set feature {}. Setting register nodes is unimplemented.", feature));
-	} else if let Some(_) = node.dynamic_cast_ref::<aravis::GcSwissKnife>() {
+	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcSwissKnife>() {
 		return Err(format!("Can not set feature {}. Setting swiss knife nodes is unimplemented.", feature));
 	} else {
 		return Err(format!("Unimplemented node type: {:?}", node));
