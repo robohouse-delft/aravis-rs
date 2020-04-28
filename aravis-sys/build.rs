@@ -31,7 +31,7 @@ fn main() {
 fn find() -> Result<(), Error> {
 	let package_name = "aravis-0.8";
 	let shared_libs = ["aravis-0.8"];
-	let version = { "0.7.99" };
+	let version = { "0.7.5" };
 
 	if let Ok(inc_dir) = env::var("GTK_INCLUDE_DIR") {
 		println!("cargo:include={}", inc_dir);
