@@ -1,6 +1,6 @@
 [package]
 name = "aravis-sys"
-version = "0.2.0"
+version = "0.2.1"
 description = "raw FFI-bindings for Aravis"
 authors = ["RoboHouse <robohouse@robovalley.com>", "Maarten de Vries <maarten@de-vri.es>"]
 license = "BSD-2-Clause"
