@@ -910,13 +910,13 @@ drawback of not exposing all the available features. See #ArvDevice and
                    throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2836">Creates a new #ArvCamera. If @name is null, it will instantiate the
+             line="2838">Creates a new #ArvCamera. If @name is null, it will instantiate the
 first available camera.</doc>
         <source-position filename="../src/arvcamera.h" line="43"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2844">a new #ArvCamera.</doc>
+               line="2846">a new #ArvCamera.</doc>
           <type name="Camera" c:type="ArvCamera*"/>
         </return-value>
         <parameters>
@@ -926,7 +926,7 @@ first available camera.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2838">name of the camera.</doc>
+                 line="2840">name of the camera.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -1005,19 +1005,19 @@ first available camera.</doc>
               version="0.4.0">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2815">Creates a new #ArvChunkParser object, used for the extraction of chunk data from #ArvBuffer.</doc>
+             line="2817">Creates a new #ArvChunkParser object, used for the extraction of chunk data from #ArvBuffer.</doc>
         <source-position filename="../src/arvcamera.h" line="196"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2821">a new #ArvChunkParser.</doc>
+               line="2823">a new #ArvChunkParser.</doc>
           <type name="ChunkParser" c:type="ArvChunkParser*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2817">a #ArvCamera</doc>
+                 line="2819">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1513,19 +1513,19 @@ g_free().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2674">Check wether chunk data mode is active. Please see arv_camera_set_chunk_mode().</doc>
+             line="2676">Check wether chunk data mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <source-position filename="../src/arvcamera.h" line="192"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2681">%TRUE if chunk data mode is active.</doc>
+               line="2683">%TRUE if chunk data mode is active.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2676">a #ArvCamera</doc>
+                 line="2678">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -1536,26 +1536,26 @@ g_free().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2723">Gets state of chunk data. Chunk data are be embedded in #ArvBuffer only
+             line="2725">Gets state of chunk data. Chunk data are be embedded in #ArvBuffer only
 if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <source-position filename="../src/arvcamera.h" line="194"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2732">%TRUE if @chunk is enabled.</doc>
+               line="2734">%TRUE if @chunk is enabled.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2725">a #ArvCamera</doc>
+                 line="2727">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="chunk" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2726">chunk data name</doc>
+                 line="2728">chunk data name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3121,7 +3121,7 @@ feature.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2653">Controls wether chunk data mode is active. When active, chunk data
+             line="2655">Controls wether chunk data mode is active. When active, chunk data
 are appended to image data in #ArvBuffer. A #ArvChunkParser must be used in
 order to extract chunk data.</doc>
         <source-position filename="../src/arvcamera.h" line="191"/>
@@ -3132,13 +3132,13 @@ order to extract chunk data.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2655">a #ArvCamera</doc>
+                 line="2657">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="is_active" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2656">wether to enable chunk data mode</doc>
+                 line="2658">wether to enable chunk data mode</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -3149,7 +3149,7 @@ order to extract chunk data.</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2694">Sets state of a chunk data. Chunk data are be embedded in #ArvBuffer only
+             line="2696">Sets state of a chunk data. Chunk data are be embedded in #ArvBuffer only
 if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
         <source-position filename="../src/arvcamera.h" line="193"/>
         <return-value transfer-ownership="none">
@@ -3159,19 +3159,19 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2696">a #ArvCamera</doc>
+                 line="2698">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="chunk" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2697">chunk data name</doc>
+                 line="2699">chunk data name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="is_enabled" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2698">wether to enable this chunk</doc>
+                 line="2700">wether to enable this chunk</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -3182,7 +3182,7 @@ if chunk mode is active. Please see arv_camera_set_chunk_mode().</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvcamera.c"
-             line="2754">Convenience function for enabling a set of chunk data. Chunk mode is activated, or deactivated
+             line="2756">Convenience function for enabling a set of chunk data. Chunk mode is activated, or deactivated
 if @chunk_list is %NULL or empty. All chunk data not listed are disabled.</doc>
         <source-position filename="../src/arvcamera.h" line="195"/>
         <return-value transfer-ownership="none">
@@ -3192,13 +3192,13 @@ if @chunk_list is %NULL or empty. All chunk data not listed are disabled.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2756">a #ArvCamera</doc>
+                 line="2758">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="chunk_list" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2757">chunk data names, as a comma or space separated list</doc>
+                 line="2759">chunk data names, as a comma or space separated list</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3682,14 +3682,14 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2624">the current bandwidth limit</doc>
+               line="2626">the current bandwidth limit</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2621">a #ArvCamera</doc>
+                 line="2623">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3706,7 +3706,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2639">a #ArvCamera</doc>
+                 line="2641">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="min"
@@ -3715,7 +3715,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2640">minimum bandwidth</doc>
+                 line="2642">minimum bandwidth</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
           <parameter name="max"
@@ -3724,7 +3724,7 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2641">maximum bandwidth</doc>
+                 line="2643">maximum bandwidth</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -3737,14 +3737,14 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvcamera.c"
-               line="2570">wether bandwidth limits are available on this camera</doc>
+               line="2572">wether bandwidth limits are available on this camera</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2567">a #ArvCamera</doc>
+                 line="2569">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
         </parameters>
@@ -3761,13 +3761,13 @@ configured to use a software trigger, using @arv_camera_set_trigger().</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2593">a #ArvCamera</doc>
+                 line="2595">a #ArvCamera</doc>
             <type name="Camera" c:type="ArvCamera*"/>
           </instance-parameter>
           <parameter name="bandwidth" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvcamera.c"
-                 line="2594">Desired bandwith limit in megabits/sec. Set to 0 to disable limit mode.</doc>
+                 line="2596">Desired bandwith limit in megabits/sec. Set to 0 to disable limit mode.</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -7913,7 +7913,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
       <method name="fill_buffer" c:identifier="arv_fake_camera_fill_buffer">
         <doc xml:space="preserve"
              filename="../src/arvfakecamera.c"
-             line="594">Fill a buffer with data from the fake camera.</doc>
+             line="694">Fill a buffer with data from the fake camera.</doc>
         <source-position filename="../src/arvfakecamera.h" line="105"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -7922,13 +7922,13 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="596">a #ArvFakeCamera</doc>
+                 line="696">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
           <parameter name="buffer" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="597">the #ArvBuffer to fill</doc>
+                 line="697">the #ArvBuffer to fill</doc>
             <type name="Buffer" c:type="ArvBuffer*"/>
           </parameter>
           <parameter name="packet_size"
@@ -7939,7 +7939,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="598">the packet size</doc>
+                 line="698">the packet size</doc>
             <type name="guint32" c:type="guint32*"/>
           </parameter>
         </parameters>
@@ -7974,14 +7974,14 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvfakecamera.c"
-               line="745">the genicam XML description of the camera</doc>
+               line="845">the genicam XML description of the camera</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="742">a #ArvFakeCamera</doc>
+                 line="842">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
           <parameter name="size"
@@ -7992,7 +7992,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="743">the size of the returned XML string</doc>
+                 line="843">the size of the returned XML string</doc>
             <type name="gsize" c:type="size_t*"/>
           </parameter>
         </parameters>
@@ -8055,14 +8055,14 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvfakecamera.c"
-               line="681">the data stream #GSocketAddress for this camera</doc>
+               line="781">the data stream #GSocketAddress for this camera</doc>
           <type name="Gio.SocketAddress" c:type="GSocketAddress*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="679">a #ArvFakeCamera</doc>
+                 line="779">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
         </parameters>
@@ -8142,7 +8142,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
               c:identifier="arv_fake_camera_set_fill_pattern">
         <doc xml:space="preserve"
              filename="../src/arvfakecamera.c"
-             line="565">Sets the fill pattern callback for custom test images.</doc>
+             line="665">Sets the fill pattern callback for custom test images.</doc>
         <source-position filename="../src/arvfakecamera.h" line="116"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -8151,7 +8151,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="567">a #ArvFakeCamera</doc>
+                 line="667">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
           <parameter name="fill_pattern_callback"
@@ -8160,7 +8160,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      closure="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="568">callback for image filling</doc>
+                 line="668">callback for image filling</doc>
             <type name="FakeCameraFillPattern"
                   c:type="ArvFakeCameraFillPattern"/>
           </parameter>
@@ -8170,7 +8170,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="569">image filling user data</doc>
+                 line="669">image filling user data</doc>
             <type name="gpointer" c:type="void*"/>
           </parameter>
         </parameters>
@@ -10494,7 +10494,7 @@ types of Genicam nodes.</doc>
       <doc xml:space="preserve"
            filename="../src/arvgcpropertynode.c"
            line="23">#ArvGcPropertyNode provides a base class for the implementation of the different
-types of Genicam property nodes (Value, pValue, Endianess...).</doc>
+types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <source-position filename="../src/arvgcpropertynode.h" line="99"/>
       <constructor name="new_access_mode"
                    c:identifier="arv_gc_property_node_new_access_mode">
@@ -10558,8 +10558,8 @@ types of Genicam property nodes (Value, pValue, Endianess...).</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
-      <constructor name="new_endianess"
-                   c:identifier="arv_gc_property_node_new_endianess">
+      <constructor name="new_endianness"
+                   c:identifier="arv_gc_property_node_new_endianness">
         <source-position filename="../src/arvgcpropertynode.h" line="138"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
@@ -10872,8 +10872,8 @@ types of Genicam property nodes (Value, pValue, Endianess...).</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_endianess"
-              c:identifier="arv_gc_property_node_get_endianess">
+      <method name="get_endianness"
+              c:identifier="arv_gc_property_node_get_endianness">
         <source-position filename="../src/arvgcpropertynode.h" line="159"/>
         <return-value transfer-ownership="none">
           <type name="guint" c:type="guint"/>
@@ -11214,10 +11214,10 @@ types of Genicam property nodes (Value, pValue, Endianess...).</doc>
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_POLLING_TIME"
               glib:nick="polling-time">
       </member>
-      <member name="endianess"
+      <member name="endianness"
               value="25"
-              c:identifier="ARV_GC_PROPERTY_NODE_TYPE_ENDIANESS"
-              glib:nick="endianess">
+              c:identifier="ARV_GC_PROPERTY_NODE_TYPE_ENDIANNESS"
+              glib:nick="endianness">
       </member>
       <member name="sign"
               value="26"
@@ -12774,9 +12774,9 @@ packet size will be set to a default value (1500 bytes).</doc>
            glib:type-struct="InterfaceClass">
       <doc xml:space="preserve"
            filename="../src/arvinterface.c"
-           line="23">#ArvCamera is an abstract base class for camera discovery. It maintains a
-list of the available devices and help to instantiate the corresponding
-#ArvDevice object. If user already knows the device id of the device, he should
+           line="23">#ArvInterface is an abstract base class for camera discovery. It maintains a
+list of the available devices and helps to instantiate the corresponding
+#ArvDevice objects. If the user already knows the device id of the device, he should
 not worry about this class and just use arv_camera_new() or
 arv_open_device().</doc>
       <source-position filename="../src/arvinterface.h" line="45"/>

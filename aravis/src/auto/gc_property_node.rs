@@ -90,10 +90,10 @@ impl GcPropertyNode {
 		}
 	}
 
-	pub fn new_endianess() -> GcPropertyNode {
+	pub fn new_endianness() -> GcPropertyNode {
 		assert_initialized_main_thread!();
 		unsafe {
-			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_endianess()).unsafe_cast()
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_endianness()).unsafe_cast()
 		}
 	}
 
@@ -378,7 +378,7 @@ pub trait GcPropertyNodeExt: 'static {
 
 	fn get_double(&self) -> Result<f64, glib::Error>;
 
-	fn get_endianess(&self, default_value: u32) -> u32;
+	fn get_endianness(&self, default_value: u32) -> u32;
 
 	fn get_int64(&self) -> Result<i64, glib::Error>;
 
@@ -439,9 +439,9 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
-	fn get_endianess(&self, default_value: u32) -> u32 {
+	fn get_endianness(&self, default_value: u32) -> u32 {
 		unsafe {
-			aravis_sys::arv_gc_property_node_get_endianess(
+			aravis_sys::arv_gc_property_node_get_endianness(
 				self.as_ref().to_glib_none().0,
 				default_value,
 			)
