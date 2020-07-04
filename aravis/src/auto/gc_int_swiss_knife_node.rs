@@ -36,6 +36,8 @@ impl Default for GcIntSwissKnifeNode {
 	}
 }
 
+unsafe impl Send for GcIntSwissKnifeNode {}
+
 pub const NONE_GC_INT_SWISS_KNIFE_NODE: Option<&GcIntSwissKnifeNode> = None;
 
 impl fmt::Display for GcIntSwissKnifeNode {

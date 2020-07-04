@@ -16,6 +16,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for DomNodeList {}
+
 pub const NONE_DOM_NODE_LIST: Option<&DomNodeList> = None;
 
 /// Trait containing all `DomNodeList` methods.
@@ -24,6 +26,13 @@ pub const NONE_DOM_NODE_LIST: Option<&DomNodeList> = None;
 ///
 /// [`DomNodeList`](struct.DomNodeList.html)
 pub trait DomNodeListExt: 'static {
+	/// Get one of the item of `self`.
+	/// ## `index`
+	/// item index
+	///
+	/// # Returns
+	///
+	/// item corresponding to index, NULL on error.
 	fn get_item(&self, index: u32) -> Option<DomNode>;
 
 	fn get_length(&self) -> u32;

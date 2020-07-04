@@ -33,6 +33,8 @@ impl Default for GcRegisterNode {
 	}
 }
 
+unsafe impl Send for GcRegisterNode {}
+
 pub const NONE_GC_REGISTER_NODE: Option<&GcRegisterNode> = None;
 
 impl fmt::Display for GcRegisterNode {

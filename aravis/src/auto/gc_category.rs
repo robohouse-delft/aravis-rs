@@ -34,6 +34,8 @@ impl Default for GcCategory {
 	}
 }
 
+unsafe impl Send for GcCategory {}
+
 pub const NONE_GC_CATEGORY: Option<&GcCategory> = None;
 
 /// Trait containing all `GcCategory` methods.
@@ -42,6 +44,11 @@ pub const NONE_GC_CATEGORY: Option<&GcCategory> = None;
 ///
 /// [`GcCategory`](struct.GcCategory.html)
 pub trait GcCategoryExt: 'static {
+	/// Get a list of strings with the name of the features listed in the given category node.
+	///
+	/// # Returns
+	///
+	/// a list of strings.
 	fn get_features(&self) -> Vec<GString>;
 }
 

@@ -28,6 +28,8 @@ impl Default for DomDocumentFragment {
 	}
 }
 
+unsafe impl Send for DomDocumentFragment {}
+
 pub const NONE_DOM_DOCUMENT_FRAGMENT: Option<&DomDocumentFragment> = None;
 
 impl fmt::Display for DomDocumentFragment {

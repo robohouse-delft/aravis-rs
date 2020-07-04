@@ -48,6 +48,8 @@ impl UvDevice {
 	}
 }
 
+unsafe impl Send for UvDevice {}
+
 pub const NONE_UV_DEVICE: Option<&UvDevice> = None;
 
 impl fmt::Display for UvDevice {

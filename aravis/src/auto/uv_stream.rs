@@ -17,6 +17,8 @@ glib_wrapper! {
 
 impl UvStream {}
 
+unsafe impl Send for UvStream {}
+
 pub const NONE_UV_STREAM: Option<&UvStream> = None;
 
 impl fmt::Display for UvStream {

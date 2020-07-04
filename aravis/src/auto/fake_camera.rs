@@ -40,6 +40,8 @@ impl FakeCamera {
 	}
 }
 
+unsafe impl Send for FakeCamera {}
+
 pub const NONE_FAKE_CAMERA: Option<&FakeCamera> = None;
 
 /// Trait containing all `FakeCamera` methods.
@@ -48,24 +50,53 @@ pub const NONE_FAKE_CAMERA: Option<&FakeCamera> = None;
 ///
 /// [`FakeCamera`](struct.FakeCamera.html)
 pub trait FakeCameraExt: 'static {
+	/// Fill a buffer with data from the fake camera.
+	/// ## `buffer`
+	/// the `Buffer` to fill
+	/// ## `packet_size`
+	/// the packet size
 	fn fill_buffer<P: IsA<Buffer>>(&self, buffer: &P) -> u32;
 
 	fn get_acquisition_status(&self) -> u32;
 
 	fn get_control_channel_privilege(&self) -> u32;
 
+	/// ## `size`
+	/// the size of the returned XML string
+	///
+	/// # Returns
+	///
+	/// the genicam XML description of the camera
 	fn get_genicam_xml(&self) -> (GString, usize);
 
 	fn get_heartbeat_timeout(&self) -> u32;
 
 	fn get_payload(&self) -> usize;
 
+	/// ## `next_timestamp_us`
+	/// the timestamp for the next frame in microseconds
+	///
+	/// # Returns
+	///
+	/// the sleep time for the next frame
 	fn get_sleep_time_for_next_frame(&self) -> (u64, u64);
 
+	///
+	/// # Returns
+	///
+	/// the data stream `gio::SocketAddress` for this camera
 	fn get_stream_address(&self) -> Option<gio::SocketAddress>;
 
 	//fn read_memory(&self, address: u32, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> bool;
 
+	/// ## `address`
+	/// the register address
+	/// ## `value`
+	/// the register value
+	///
+	/// # Returns
+	///
+	/// true if the read succeeded, false otherwise
 	fn read_register(&self, address: u32) -> Option<u32>;
 
 	fn set_control_channel_privilege(&self, privilege: u32);

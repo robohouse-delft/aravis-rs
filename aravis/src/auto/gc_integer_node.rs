@@ -34,6 +34,8 @@ impl Default for GcIntegerNode {
 	}
 }
 
+unsafe impl Send for GcIntegerNode {}
+
 pub const NONE_GC_INTEGER_NODE: Option<&GcIntegerNode> = None;
 
 impl fmt::Display for GcIntegerNode {

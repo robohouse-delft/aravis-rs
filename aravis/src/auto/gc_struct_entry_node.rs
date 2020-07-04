@@ -38,6 +38,8 @@ impl Default for GcStructEntryNode {
 	}
 }
 
+unsafe impl Send for GcStructEntryNode {}
+
 pub const NONE_GC_STRUCT_ENTRY_NODE: Option<&GcStructEntryNode> = None;
 
 impl fmt::Display for GcStructEntryNode {

@@ -20,6 +20,8 @@ glib_wrapper! {
 
 impl GcSwissKnife {}
 
+unsafe impl Send for GcSwissKnife {}
+
 pub const NONE_GC_SWISS_KNIFE: Option<&GcSwissKnife> = None;
 
 impl fmt::Display for GcSwissKnife {

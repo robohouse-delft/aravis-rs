@@ -41,6 +41,8 @@ impl FakeDevice {
 	}
 }
 
+unsafe impl Send for FakeDevice {}
+
 pub const NONE_FAKE_DEVICE: Option<&FakeDevice> = None;
 
 /// Trait containing all `FakeDevice` methods.
@@ -49,6 +51,10 @@ pub const NONE_FAKE_DEVICE: Option<&FakeDevice> = None;
 ///
 /// [`FakeDevice`](struct.FakeDevice.html)
 pub trait FakeDeviceExt: 'static {
+	///
+	/// # Returns
+	///
+	/// the `FakeCamera` used by this device instance.
 	fn get_fake_camera(&self) -> Option<FakeCamera>;
 }
 

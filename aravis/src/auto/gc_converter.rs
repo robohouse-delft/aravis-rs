@@ -20,6 +20,8 @@ glib_wrapper! {
 
 impl GcConverter {}
 
+unsafe impl Send for GcConverter {}
+
 pub const NONE_GC_CONVERTER: Option<&GcConverter> = None;
 
 impl fmt::Display for GcConverter {

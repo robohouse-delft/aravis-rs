@@ -39,6 +39,8 @@ impl Default for GcFloatRegNode {
 	}
 }
 
+unsafe impl Send for GcFloatRegNode {}
+
 pub const NONE_GC_FLOAT_REG_NODE: Option<&GcFloatRegNode> = None;
 
 impl fmt::Display for GcFloatRegNode {

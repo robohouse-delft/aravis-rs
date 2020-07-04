@@ -38,6 +38,8 @@ impl Default for GcStructRegNode {
 	}
 }
 
+unsafe impl Send for GcStructRegNode {}
+
 pub const NONE_GC_STRUCT_REG_NODE: Option<&GcStructRegNode> = None;
 
 impl fmt::Display for GcStructRegNode {

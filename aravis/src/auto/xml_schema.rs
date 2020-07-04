@@ -36,6 +36,8 @@ impl XmlSchema {
 	}
 }
 
+unsafe impl Send for XmlSchema {}
+
 pub const NONE_XML_SCHEMA: Option<&XmlSchema> = None;
 
 /// Trait containing all `XmlSchema` methods.

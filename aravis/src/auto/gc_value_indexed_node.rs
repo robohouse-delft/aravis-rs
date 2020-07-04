@@ -33,6 +33,8 @@ impl Default for GcValueIndexedNode {
 	}
 }
 
+unsafe impl Send for GcValueIndexedNode {}
+
 pub const NONE_GC_VALUE_INDEXED_NODE: Option<&GcValueIndexedNode> = None;
 
 /// Trait containing all `GcValueIndexedNode` methods.

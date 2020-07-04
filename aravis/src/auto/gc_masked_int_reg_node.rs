@@ -42,6 +42,8 @@ impl Default for GcMaskedIntRegNode {
 	}
 }
 
+unsafe impl Send for GcMaskedIntRegNode {}
+
 pub const NONE_GC_MASKED_INT_REG_NODE: Option<&GcMaskedIntRegNode> = None;
 
 impl fmt::Display for GcMaskedIntRegNode {

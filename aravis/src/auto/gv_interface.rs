@@ -27,6 +27,8 @@ impl GvInterface {
 	}
 }
 
+unsafe impl Send for GvInterface {}
+
 pub const NONE_GV_INTERFACE: Option<&GvInterface> = None;
 
 impl fmt::Display for GvInterface {

@@ -18,6 +18,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcInteger {}
+
 pub const NONE_GC_INTEGER: Option<&GcInteger> = None;
 
 /// Trait containing all `GcInteger` methods.

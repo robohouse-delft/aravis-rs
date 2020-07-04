@@ -32,6 +32,8 @@ impl Default for GcGroupNode {
 	}
 }
 
+unsafe impl Send for GcGroupNode {}
+
 pub const NONE_GC_GROUP_NODE: Option<&GcGroupNode> = None;
 
 impl fmt::Display for GcGroupNode {

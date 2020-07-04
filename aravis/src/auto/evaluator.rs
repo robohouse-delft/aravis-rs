@@ -32,6 +32,8 @@ impl Evaluator {
 	}
 }
 
+unsafe impl Send for Evaluator {}
+
 pub const NONE_EVALUATOR: Option<&Evaluator> = None;
 
 /// Trait containing all `Evaluator` methods.
@@ -44,12 +46,29 @@ pub trait EvaluatorExt: 'static {
 
 	fn evaluate_as_int64(&self) -> Result<i64, glib::Error>;
 
+	/// ## `name`
+	/// constant name
+	///
+	/// # Returns
+	///
+	/// The formula of the constant corresponding to `name`, `None` if not defined.
 	fn get_constant(&self, name: &str) -> Option<GString>;
 
 	fn get_expression(&self) -> Option<GString>;
 
+	/// ## `name`
+	/// sub-expression name
+	///
+	/// # Returns
+	///
+	/// The formula of the sub-expression corresponding to `name`, `None` if not defined.
 	fn get_sub_expression(&self, name: &str) -> Option<GString>;
 
+	/// Assign a string to a constant. If `constant` == `None`, the constant previously assigned to `name` will be removed.
+	/// ## `name`
+	/// constant name
+	/// ## `constant`
+	/// constant as a string
 	fn set_constant(&self, name: &str, constant: Option<&str>);
 
 	fn set_double_variable(&self, name: &str, v_double: f64);
@@ -58,6 +77,12 @@ pub trait EvaluatorExt: 'static {
 
 	fn set_int64_variable(&self, name: &str, v_int64: i64);
 
+	/// Assign a formula to a sub-expression. If `expression` == `None`, the sub-expression previously assigned to `name` will be removed.
+	/// A sub-expression may not reference another sub-expression.
+	/// ## `name`
+	/// sub-expression name
+	/// ## `expression`
+	/// sub-pexression formula
 	fn set_sub_expression(&self, name: &str, expression: Option<&str>);
 }
 

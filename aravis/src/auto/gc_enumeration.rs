@@ -40,6 +40,8 @@ impl Default for GcEnumeration {
 	}
 }
 
+unsafe impl Send for GcEnumeration {}
+
 pub const NONE_GC_ENUMERATION: Option<&GcEnumeration> = None;
 
 /// Trait containing all `GcEnumeration` methods.
@@ -48,12 +50,38 @@ pub const NONE_GC_ENUMERATION: Option<&GcEnumeration> = None;
 ///
 /// [`GcEnumeration`](struct.GcEnumeration.html)
 pub trait GcEnumerationExt: 'static {
+	/// Create an array of display names of all available entries.
+	/// ## `n_values`
+	/// placeholder for the number of values
+	///
+	/// # Returns
+	///
+	/// an newly created array of const strings, which must freed after use using g_free,
+	/// `None` on error.
 	fn dup_available_display_names(&self) -> Result<Vec<GString>, glib::Error>;
 
+	/// ## `n_values`
+	/// the number of values
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of 64 bit integers, to be freed after use using `g_free`.
 	fn dup_available_int_values(&self) -> Result<Vec<i64>, glib::Error>;
 
+	/// Create an array of all available values of `self`, as strings.
+	/// ## `n_values`
+	/// placeholder for the number of values
+	///
+	/// # Returns
+	///
+	/// an newly created array of const strings, which must freed after use using g_free,
+	/// `None` on error.
 	fn dup_available_string_values(&self) -> Result<Vec<GString>, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the list of enumeration entry nodes.
 	fn get_entries(&self) -> Vec<GcFeatureNode>;
 
 	fn get_int_value(&self) -> Result<i64, glib::Error>;

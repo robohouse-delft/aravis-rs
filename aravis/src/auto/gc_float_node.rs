@@ -33,6 +33,8 @@ impl Default for GcFloatNode {
 	}
 }
 
+unsafe impl Send for GcFloatNode {}
+
 pub const NONE_GC_FLOAT_NODE: Option<&GcFloatNode> = None;
 
 impl fmt::Display for GcFloatNode {

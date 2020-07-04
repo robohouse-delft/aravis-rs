@@ -35,6 +35,8 @@ impl Default for GcRegisterDescriptionNode {
 	}
 }
 
+unsafe impl Send for GcRegisterDescriptionNode {}
+
 pub const NONE_GC_REGISTER_DESCRIPTION_NODE: Option<&GcRegisterDescriptionNode> = None;
 
 /// Trait containing all `GcRegisterDescriptionNode` methods.
@@ -50,6 +52,17 @@ pub trait GcRegisterDescriptionNodeExt: 'static {
 		required_subminor: u32,
 	) -> bool;
 
+	/// Compare the Genicam document version to the given version.
+	/// ## `major`
+	/// major version number
+	/// ## `minor`
+	/// minor version number
+	/// ## `subminor`
+	/// sub mminor version number
+	///
+	/// # Returns
+	///
+	/// -1 if document version is lower than the given version, 0 if equal and 1 if greater.
 	fn compare_schema_version(&self, major: u32, minor: u32, subminor: u32) -> i32;
 }
 

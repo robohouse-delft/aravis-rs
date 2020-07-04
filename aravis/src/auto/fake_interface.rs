@@ -27,6 +27,8 @@ impl FakeInterface {
 	}
 }
 
+unsafe impl Send for FakeInterface {}
+
 pub const NONE_FAKE_INTERFACE: Option<&FakeInterface> = None;
 
 impl fmt::Display for FakeInterface {

@@ -27,6 +27,8 @@ impl UvInterface {
 	}
 }
 
+unsafe impl Send for UvInterface {}
+
 pub const NONE_UV_INTERFACE: Option<&UvInterface> = None;
 
 impl fmt::Display for UvInterface {

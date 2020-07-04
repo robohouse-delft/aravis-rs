@@ -364,6 +364,8 @@ impl GcPropertyNode {
 	}
 }
 
+unsafe impl Send for GcPropertyNode {}
+
 pub const NONE_GC_PROPERTY_NODE: Option<&GcPropertyNode> = None;
 
 /// Trait containing all `GcPropertyNode` methods.
@@ -382,12 +384,20 @@ pub trait GcPropertyNodeExt: 'static {
 
 	fn get_int64(&self) -> Result<i64, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the `GcNode` which `self` points to, `None` if the property is not a pointer.
 	fn get_linked_node(&self) -> Option<GcNode>;
 
 	fn get_lsb(&self, default_value: u32) -> u32;
 
 	fn get_msb(&self, default_value: u32) -> u32;
 
+	///
+	/// # Returns
+	///
+	/// node Name property value.
 	fn get_name(&self) -> Option<GString>;
 
 	fn get_node_type(&self) -> GcPropertyNodeType;

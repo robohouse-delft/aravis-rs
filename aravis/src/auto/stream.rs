@@ -27,6 +27,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for Stream {}
+
 pub const NONE_STREAM: Option<&Stream> = None;
 
 /// Trait containing all `Stream` methods.
@@ -35,24 +37,93 @@ pub const NONE_STREAM: Option<&Stream> = None;
 ///
 /// [`FakeStream`](struct.FakeStream.html), [`GvStream`](struct.GvStream.html), [`Stream`](struct.Stream.html), [`UvStream`](struct.UvStream.html)
 pub trait StreamExt: 'static {
+	/// Check if stream will emit its signals.
+	///
+	/// # Returns
+	///
+	/// `true` if `self` is emiting its signals.
 	fn get_emit_signals(&self) -> bool;
 
+	/// An accessor to the stream buffer queue lengths.
+	/// ## `n_input_buffers`
+	/// input queue length
+	/// ## `n_output_buffers`
+	/// output queue length
 	fn get_n_buffers(&self) -> (i32, i32);
 
+	/// An accessor to the stream statistics.
+	/// ## `n_completed_buffers`
+	/// number of complete received buffers
+	/// ## `n_failures`
+	/// number of reception failures
+	/// ## `n_underruns`
+	/// number of input buffer underruns
 	fn get_statistics(&self) -> (u64, u64, u64);
 
+	/// Pops a buffer from the output queue of `self`. The retrieved buffer
+	/// may contain an invalid image. Caller should check the buffer status before using it.
+	/// This function blocks until a buffer is available.
+	///
+	/// This method is thread safe.
+	///
+	/// # Returns
+	///
+	/// a `Buffer`
 	fn pop_buffer(&self) -> Option<Buffer>;
 
+	/// Pushes a `Buffer` to the `self` thread. The `self` takes ownership of `buffer`,
+	/// and will free all the buffers still in its queues when destroyed.
+	///
+	/// This method is thread safe.
+	/// ## `buffer`
+	/// buffer to push
 	fn push_buffer<P: IsA<Buffer>>(&self, buffer: &P);
 
+	/// Make `self` emit signals. This option is
+	/// by default disabled because signal emission is expensive and unneeded when
+	/// the application prefers to operate in pull mode.
+	/// ## `emit_signals`
+	/// the new state
 	fn set_emit_signals(&self, emit_signals: bool);
 
+	/// Start the stream receiving thread. The thread is automatically started when
+	/// the `Stream` object is instantiated, so this function is only useful if
+	/// the thread was stopped using `StreamExt::stop_thread`.
 	fn start_thread(&self);
 
+	/// Stop the stream receiving thread, and optionally delete all the `Buffer`
+	/// stored in the stream object queues. Main use of this function is to be able
+	/// to quickly change an acquisition parameter that changes the payload size,
+	/// without deleting/recreating the stream object.
+	/// ## `delete_buffers`
+	/// enable buffer deletion
+	///
+	/// # Returns
+	///
+	/// the number of deleted buffers if `delete_buffers` == `true`, 0 otherwise.
 	fn stop_thread(&self, delete_buffers: bool) -> u32;
 
+	/// Pops a buffer from the output queue of `self`, waiting no more than `timeout`. The retrieved buffer
+	/// may contain an invalid image. Caller should check the buffer status before using it.
+	///
+	/// This method is thread safe.
+	/// ## `timeout`
+	/// timeout, in µs
+	///
+	/// # Returns
+	///
+	/// a `Buffer`, NULL if no buffer is available until the timeout occurs.
 	fn timeout_pop_buffer(&self, timeout: u64) -> Option<Buffer>;
 
+	/// Pops a buffer from the output queue of `self`. The retrieved buffer
+	/// may contain an invalid image. Caller should check the buffer status before using it.
+	/// This is the non blocking version of pop_buffer.
+	///
+	/// This method is thread safe.
+	///
+	/// # Returns
+	///
+	/// a `Buffer`, NULL if no buffer is available.
 	fn try_pop_buffer(&self) -> Option<Buffer>;
 
 	//fn get_property_callback(&self) -> /*Unimplemented*/Fundamental: Pointer;
@@ -61,10 +132,21 @@ pub trait StreamExt: 'static {
 
 	fn get_property_device(&self) -> Option<Device>;
 
-	fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+	/// Signal that a new buffer is available.
+	///
+	/// This signal is emited from the stream receive thread and only when the
+	/// "emit-signals" property is `true`.
+	///
+	/// The new buffer can be retrieved with `StreamExt::pop_buffer`.
+	///
+	/// Note that this signal is only emited when the "emit-signals" property is
+	/// set to `true`, which it is not by default for performance reasons.
+	fn connect_new_buffer<F: Fn(&Self) + Send + 'static>(&self, f: F) -> SignalHandlerId;
 
-	fn connect_property_emit_signals_notify<F: Fn(&Self) + 'static>(&self, f: F)
-		-> SignalHandlerId;
+	fn connect_property_emit_signals_notify<F: Fn(&Self) + Send + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId;
 }
 
 impl<O: IsA<Stream>> StreamExt for O {
@@ -197,8 +279,8 @@ impl<O: IsA<Stream>> StreamExt for O {
 		}
 	}
 
-	fn connect_new_buffer<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-		unsafe extern "C" fn new_buffer_trampoline<P, F: Fn(&P) + 'static>(
+	fn connect_new_buffer<F: Fn(&Self) + Send + 'static>(&self, f: F) -> SignalHandlerId {
+		unsafe extern "C" fn new_buffer_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvStream,
 			f: glib_sys::gpointer,
 		) where
@@ -220,11 +302,11 @@ impl<O: IsA<Stream>> StreamExt for O {
 		}
 	}
 
-	fn connect_property_emit_signals_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_emit_signals_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_emit_signals_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_emit_signals_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,

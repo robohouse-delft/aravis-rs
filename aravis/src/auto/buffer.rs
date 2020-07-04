@@ -39,6 +39,8 @@ impl Buffer {
 	}
 }
 
+unsafe impl Send for Buffer {}
+
 pub const NONE_BUFFER: Option<&Buffer> = None;
 
 /// Trait containing all `Buffer` methods.
@@ -47,36 +49,121 @@ pub const NONE_BUFFER: Option<&Buffer> = None;
 ///
 /// [`Buffer`](struct.Buffer.html)
 pub trait BufferExt: 'static {
+	/// Chunk data accessor.
+	/// ## `chunk_id`
+	/// chunk id
+	/// ## `size`
+	/// location to store chunk data size, or `None`
+	///
+	/// # Returns
+	///
+	/// a pointer to the chunk data.
 	fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
 
+	/// Gets the buffer frame id. For GigEVision devices, valid values are in the
+	/// 1..65535 range.
+	///
+	/// # Returns
+	///
+	/// frame id, 0 on error.
 	fn get_frame_id(&self) -> u64;
 
+	/// Gets the image width. This function must only be called on buffer containing a `BufferPayloadType::Image` payload.
+	///
+	/// # Returns
+	///
+	/// image height, in pixels.
 	fn get_image_height(&self) -> i32;
 
+	/// Gets the image pixel format. This function must only be called on buffer containing a `BufferPayloadType::Image` payload.
+	///
+	/// # Returns
+	///
+	/// image pixel format.
 	fn get_image_pixel_format(&self) -> PixelFormat;
 
+	/// Gets the image region. This function must only be called on buffer containing a `BufferPayloadType::Image` payload.
+	/// ## `x`
+	/// image x offset placeholder
+	/// ## `y`
+	/// image y offset placeholder
+	/// ## `width`
+	/// image width placholder
+	/// ## `height`
+	/// image height placeholder
 	fn get_image_region(&self) -> (i32, i32, i32, i32);
 
+	/// Gets the image width. This function must only be called on buffer containing a `BufferPayloadType::Image` payload.
+	///
+	/// # Returns
+	///
+	/// image width, in pixels.
 	fn get_image_width(&self) -> i32;
 
+	/// Gets the image x offset. This function must only be called on buffer containing a `BufferPayloadType::Image` payload.
+	///
+	/// # Returns
+	///
+	/// image x offset, in pixels.
 	fn get_image_x(&self) -> i32;
 
+	/// Gets the image y offset. This function must only be called on buffer containing a `BufferPayloadType::Image` payload.
+	///
+	/// # Returns
+	///
+	/// image y offset, in pixels.
 	fn get_image_y(&self) -> i32;
 
+	/// Gets the buffer payload type.
+	///
+	/// # Returns
+	///
+	/// payload type.
 	fn get_payload_type(&self) -> BufferPayloadType;
 
+	/// Gets the buffer acquisition status.
+	///
+	/// # Returns
+	///
+	/// buffer acquisition status.
 	fn get_status(&self) -> BufferStatus;
 
+	/// Gets the system timestamp for when the frame was received. Expressed in
+	/// nanoseconds.
+	///
+	/// # Returns
+	///
+	/// buffer system timestamp, in nanoseconds.
 	fn get_system_timestamp(&self) -> u64;
 
+	/// Gets the buffer camera timestamp, expressed as nanoseconds. Not all devices
+	/// provide reliable timestamp, which means sometimes its better to rely on the
+	/// buffer completion host local time, or to use
+	/// `BufferExt::get_system_timestamp`.
+	///
+	/// # Returns
+	///
+	/// buffer timestamp, in nanoseconds.
 	fn get_timestamp(&self) -> u64;
 
 	//fn get_user_data(&self) -> /*Unimplemented*/Option<Fundamental: Pointer>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if `self` has a payload type that contains chunk data.
 	fn has_chunks(&self) -> bool;
 
+	/// Sets the system timestamp for when the frame was received. Expressed in
+	/// nanoseconds.
+	/// ## `timestamp_ns`
+	/// a timestamp, expressed as nanoseconds
 	fn set_system_timestamp(&self, timestamp_ns: u64);
 
+	/// Sets the buffer timestamp, which allows to override the timpestamp set by
+	/// the camera, which in some case is incorrect.
+	/// ## `timestamp_ns`
+	/// a timestamp, expressed as nanoseconds
 	fn set_timestamp(&self, timestamp_ns: u64);
 }
 

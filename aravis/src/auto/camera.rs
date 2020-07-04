@@ -48,6 +48,8 @@ impl Camera {
 	}
 }
 
+unsafe impl Send for Camera {}
+
 pub const NONE_CAMERA: Option<&Camera> = None;
 
 /// Trait containing all `Camera` methods.
@@ -56,212 +58,695 @@ pub const NONE_CAMERA: Option<&Camera> = None;
 ///
 /// [`Camera`](struct.Camera.html)
 pub trait CameraExt: 'static {
+	/// Aborts video stream acquisition.
 	fn abort_acquisition(&self) -> Result<(), glib::Error>;
 
+	/// Acquire one image buffer.
+	/// ## `timeout`
+	/// acquisition timeout in µs. Zero means no timeout.
+	///
+	/// # Returns
+	///
+	/// A new `Buffer`, NULL on error. The returned buffer must be freed using `gobject::ObjectExt::unref`.
 	fn acquisition(&self, timeout: u64) -> Result<Buffer, glib::Error>;
 
+	/// Disables all triggers.
 	fn clear_triggers(&self) -> Result<(), glib::Error>;
 
 	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
 
+	/// Get all the available values of `feature`, as 64 bit integers.
+	/// ## `feature`
+	/// feature name
+	/// ## `n_values`
+	/// placeholder for the number of returned values
+	///
+	/// # Returns
+	///
+	/// a newly created array of integers, which must freed after use using g_free, or
+	/// NULL on error.
 	fn dup_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error>;
 
+	/// Get display names of all the available entries of `feature`.
+	/// ## `feature`
+	/// feature name
+	/// ## `n_values`
+	/// placeholder for the number of returned values
+	///
+	/// # Returns
+	///
+	/// a newly created array of const strings, to be freed after use using g_free, or
+	/// `None` on error.
 	fn dup_available_enumerations_as_display_names(
 		&self,
 		feature: &str,
 	) -> Result<Vec<GString>, glib::Error>;
 
+	/// Get all the available values of `feature`, as strings.
+	/// ## `feature`
+	/// feature name
+	/// ## `n_values`
+	/// placeholder for the number of returned values
+	///
+	/// # Returns
+	///
+	/// a newly created array of const strings, which must freed after use using g_free,
+	/// or `None` on error.
 	fn dup_available_enumerations_as_strings(
 		&self,
 		feature: &str,
 	) -> Result<Vec<GString>, glib::Error>;
 
+	/// Retrieves the list of all available pixel formats.
+	/// ## `n_pixel_formats`
+	/// number of different pixel formats
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of `PixelFormat`, to be freed after use with
+	/// `g_free`.
 	fn dup_available_pixel_formats(&self) -> Result<Vec<i64>, glib::Error>;
 
+	/// Retrieves the list of all available pixel formats as display names.
+	/// In general, these human-readable strings cannot be used as settings.
+	/// ## `n_pixel_formats`
+	/// number of different pixel formats
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of string constants, to be freed after use with
+	/// `g_free`.
 	fn dup_available_pixel_formats_as_display_names(&self) -> Result<Vec<GString>, glib::Error>;
 
+	/// Retrieves the list of all available pixel formats as strings.
+	/// ## `n_pixel_formats`
+	/// number of different pixel formats
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of strings, to be freed after use with
+	/// `g_free`.
 	fn dup_available_pixel_formats_as_strings(&self) -> Result<Vec<GString>, glib::Error>;
 
+	/// Gets the list of all available trigger sources.
+	/// ## `n_sources`
+	/// number of sources
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of strings, which must be freed using `g_free`.
 	fn dup_available_trigger_sources(&self) -> Result<Vec<GString>, glib::Error>;
 
+	/// Gets a list of all available triggers: FrameStart, ExposureActive, etc...
+	/// ## `n_triggers`
+	/// number of available triggers
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of strings, which must be freed using `g_free`.
 	fn dup_available_triggers(&self) -> Result<Vec<GString>, glib::Error>;
 
+	/// Execute a Genicam command.
+	/// ## `feature`
+	/// feature name
 	fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// acquisition mode.
 	fn get_acquisition_mode(&self) -> Result<AcquisitionMode, glib::Error>;
 
+	/// Retrieves binning in both directions.
+	/// ## `dx`
+	/// horizontal binning placeholder
+	/// ## `dy`
+	/// vertical binning placeholder
 	fn get_binning(&self) -> Result<(i32, i32), glib::Error>;
 
+	/// ## `feature`
+	/// feature name
+	///
+	/// # Returns
+	///
+	/// the boolean feature value, `false` on error.
 	fn get_boolean(&self, feature: &str) -> Result<bool, glib::Error>;
 
+	/// Check wether chunk data mode is active. Please see `CameraExt::set_chunk_mode`.
+	///
+	/// # Returns
+	///
+	/// `true` if chunk data mode is active.
 	fn get_chunk_mode(&self) -> Result<bool, glib::Error>;
 
+	/// Gets state of chunk data. Chunk data are be embedded in `Buffer` only
+	/// if chunk mode is active. Please see `CameraExt::set_chunk_mode`.
+	/// ## `chunk`
+	/// chunk data name
+	///
+	/// # Returns
+	///
+	/// `true` if `chunk` is enabled.
 	fn get_chunk_state(&self, chunk: &str) -> Result<bool, glib::Error>;
 
+	/// Retrieves the `Device` object for more complete access to camera features.
+	///
+	/// # Returns
+	///
+	/// underlying device object.
 	fn get_device(&self) -> Option<Device>;
 
+	///
+	/// # Returns
+	///
+	/// the camera device ID.
 	fn get_device_id(&self) -> Result<GString, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// current exposure time, in µs.
 	fn get_exposure_time(&self) -> Result<f64, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// auto exposure mode selection
 	fn get_exposure_time_auto(&self) -> Result<Auto, glib::Error>;
 
+	/// Retrieves exposure time bounds, in µs.
+	/// ## `min`
+	/// minimum exposure time
+	/// ## `max`
+	/// maximum exposure time
 	fn get_exposure_time_bounds(&self) -> Result<(f64, f64), glib::Error>;
 
+	/// ## `feature`
+	/// feature name
+	///
+	/// # Returns
+	///
+	/// the float feature value, 0.0 on error.
 	fn get_float(&self, feature: &str) -> Result<f64, glib::Error>;
 
+	/// Retrieves float feature bounds.
+	/// ## `feature`
+	/// feature name
+	/// ## `min`
+	/// minimum feature value
+	/// ## `max`
+	/// maximum feature value
 	fn get_float_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// number of frames to capture in MultiFrame mode.
 	fn get_frame_count(&self) -> Result<i64, glib::Error>;
 
+	/// Retrieves allowed range for frame count.
+	/// ## `min`
+	/// minimal possible frame count
+	/// ## `max`
+	/// maximum possible frame count
 	fn get_frame_count_bounds(&self) -> Result<(i64, i64), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// actual frame rate, in Hz.
 	fn get_frame_rate(&self) -> Result<f64, glib::Error>;
 
+	/// Retrieves allowed range for framerate.
+	///
+	/// Since 0.8.0
+	/// ## `min`
+	/// minimal possible framerate
+	/// ## `max`
+	/// maximum possible framerate
 	fn get_frame_rate_bounds(&self) -> Result<(f64, f64), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the current gain setting.
 	fn get_gain(&self) -> Result<f64, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// auto gain mode selection
 	fn get_gain_auto(&self) -> Result<Auto, glib::Error>;
 
+	/// Retrieves gain bounds.
+	/// ## `min`
+	/// minimum gain
+	/// ## `max`
+	/// maximum gain
 	fn get_gain_bounds(&self) -> Result<(f64, f64), glib::Error>;
 
+	/// Retrieves the valid range for image height.
+	/// ## `min`
+	/// minimum height
+	/// ## `max`
+	/// maximum height
 	fn get_height_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// height value increment.
 	fn get_height_increment(&self) -> Result<i32, glib::Error>;
 
+	/// ## `feature`
+	/// feature name
+	///
+	/// # Returns
+	///
+	/// the integer feature value, 0 on error.
 	fn get_integer(&self, feature: &str) -> Result<i64, glib::Error>;
 
+	/// Retrieves integer feature bounds.
+	/// ## `feature`
+	/// feature name
+	/// ## `min`
+	/// minimum feature value
+	/// ## `max`
+	/// maximum feature value
 	fn get_integer_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error>;
 
+	/// ## `feature`
+	/// feature name
+	///
+	/// # Returns
+	///
+	/// `feature` value increment, or 1 on error.
 	fn get_integer_increment(&self, feature: &str) -> Result<i64, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the camera model name.
 	fn get_model_name(&self) -> Result<GString, glib::Error>;
 
+	/// Retrieves the size needed for the storage of an image. This value is used
+	/// for the creation of the stream buffers.
+	///
+	/// # Returns
+	///
+	/// frame storage size, in bytes.
 	fn get_payload(&self) -> Result<u32, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// pixel format.
 	fn get_pixel_format(&self) -> Result<PixelFormat, glib::Error>;
 
+	/// Retuns: pixel format as string, NULL on error.
 	fn get_pixel_format_as_string(&self) -> Result<GString, glib::Error>;
 
+	/// Retrieves the current region of interest.
+	/// ## `x`
+	/// x offset
+	/// ## `y`
+	/// y_offset
+	/// ## `width`
+	/// region width
+	/// ## `height`
+	/// region height
 	fn get_region(&self) -> Result<(i32, i32, i32, i32), glib::Error>;
 
+	/// ## `width`
+	/// camera sensor width
+	/// ## `height`
+	/// camera sensor height
 	fn get_sensor_size(&self) -> Result<(i32, i32), glib::Error>;
 
+	/// ## `feature`
+	/// feature name
+	///
+	/// # Returns
+	///
+	/// the string feature value, `None` on error.
 	fn get_string(&self, feature: &str) -> Result<GString, glib::Error>;
 
+	/// Gets the trigger source. This function doesn't check if the camera is configured
+	/// to actually use this source as a trigger.
+	///
+	/// # Returns
+	///
+	/// a string containing the trigger source name, NULL on error.
 	fn get_trigger_source(&self) -> Result<GString, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the camera vendor name.
 	fn get_vendor_name(&self) -> Result<GString, glib::Error>;
 
+	/// Retrieves the valid range for image width.
+	/// ## `min`
+	/// minimum width
+	/// ## `max`
+	/// maximum width
 	fn get_width_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// width value increment.
 	fn get_width_increment(&self) -> Result<i32, glib::Error>;
 
+	/// Retrieves the valid range for image horizontal binning.
+	/// ## `min`
+	/// minimum binning
+	/// ## `max`
+	/// maximum binning
 	fn get_x_binning_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// horizontal binning value increment.
 	fn get_x_binning_increment(&self) -> Result<i32, glib::Error>;
 
+	/// Retrieves the valid range for image horizontal offset.
+	/// ## `min`
+	/// minimum offset
+	/// ## `max`
+	/// maximum offset
 	fn get_x_offset_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// horizontal offset value increment.
 	fn get_x_offset_increment(&self) -> Result<i32, glib::Error>;
 
+	/// Retrieves the valid range for image vertical binning.
+	/// ## `min`
+	/// minimum binning
+	/// ## `max`
+	/// maximum binning
 	fn get_y_binning_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// vertical binning value increment.
 	fn get_y_binning_increment(&self) -> Result<i32, glib::Error>;
 
+	/// Retrieves the valid range for image vertical offset.
+	/// ## `min`
+	/// minimum offset
+	/// ## `max`
+	/// maximum offset
 	fn get_y_offset_bounds(&self) -> Result<(i32, i32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// vertical offset value increment.
 	fn get_y_offset_increment(&self) -> Result<i32, glib::Error>;
 
+	/// Automatically determine the biggest packet size that can be used data
+	/// streaming, and set GevSCPSPacketSize value accordingly. This function relies
+	/// on the GevSCPSFireTestPacket feature. If this feature is not available, the
+	/// packet size will be set to a default value (1500 bytes).
+	///
+	/// # Returns
+	///
+	/// The packet size, in bytes.
 	fn gv_auto_packet_size(&self) -> Result<(), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// The current stream channel id.
 	fn gv_get_current_stream_channel(&self) -> Result<i32, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the number of supported stream channels.
 	fn gv_get_n_stream_channels(&self) -> Result<i32, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// The inter packet delay, in nanoseconds.
 	fn gv_get_packet_delay(&self) -> Result<i64, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// The stream packet size, in bytes.
 	fn gv_get_packet_size(&self) -> Result<u32, glib::Error>;
 
+	/// Select the current stream channel.
+	/// ## `channel_id`
+	/// id of the channel to select
 	fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error>;
 
+	/// Configure the inter packet delay to insert between each packet for the current stream
+	/// channel. This can be used as a crude flow-control mechanism if the application or the network
+	/// infrastructure cannot keep up with the packets coming from the device.
+	/// ## `delay_ns`
+	/// inter packet delay, in nanoseconds
 	fn gv_set_packet_delay(&self, delay_ns: i64) -> Result<(), glib::Error>;
 
+	/// Specifies the stream packet size, in bytes, to send on the selected channel for a GVSP transmitter
+	/// or specifies the maximum packet size supported by a GVSP receiver.
+	///
+	/// This does not include data leader and data trailer and the last data packet which might be of
+	/// smaller size (since packet size is not necessarily a multiple of block size for stream channel).
+	/// ## `packet_size`
+	/// packet size, in bytes
 	fn gv_set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
 
+	/// Sets the options used during stream object creation. These options mus be
+	/// set before the call to `Camera::create_stream`.
+	/// ## `options`
+	/// option for stream creation
 	fn gv_set_stream_options(&self, options: GvStreamOption);
 
+	///
+	/// # Returns
+	///
+	/// `true` if Binning feature is available.
 	fn is_binning_available(&self) -> Result<bool, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if Exposure Auto feature is available.
 	fn is_exposure_auto_available(&self) -> Result<bool, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if Exposure Time feature is available.
 	fn is_exposure_time_available(&self) -> Result<bool, glib::Error>;
 
+	/// ## `feature`
+	/// feature name
+	///
+	/// # Returns
+	///
+	/// `true` if feature is available, `false` if not or on error.
 	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if FrameRate feature is available
 	fn is_frame_rate_available(&self) -> Result<bool, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if Gain feature is available.
 	fn is_gain_auto_available(&self) -> Result<bool, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if Gain feature is available.
 	fn is_gain_available(&self) -> Result<bool, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if `self` is a GigEVision device.
 	fn is_gv_device(&self) -> bool;
 
+	///
+	/// # Returns
+	///
+	/// `true` if `self` is a USB3Vision device.
 	fn is_uv_device(&self) -> bool;
 
 	fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error>;
 
+	/// Defines binning in both directions. Not all cameras support this
+	/// feature.
+	/// ## `dx`
+	/// horizontal binning
+	/// ## `dy`
+	/// vertical binning
 	fn set_binning(&self, dx: i32, dy: i32) -> Result<(), glib::Error>;
 
+	/// Set a boolean feature value.
+	/// ## `feature`
+	/// feature name
+	/// ## `value`
+	/// new feature value
 	fn set_boolean(&self, feature: &str, value: bool) -> Result<(), glib::Error>;
 
+	/// Controls wether chunk data mode is active. When active, chunk data
+	/// are appended to image data in `Buffer`. A `ChunkParser` must be used in
+	/// order to extract chunk data.
+	/// ## `is_active`
+	/// wether to enable chunk data mode
 	fn set_chunk_mode(&self, is_active: bool) -> Result<(), glib::Error>;
 
+	/// Sets state of a chunk data. Chunk data are be embedded in `Buffer` only
+	/// if chunk mode is active. Please see `CameraExt::set_chunk_mode`.
+	/// ## `chunk`
+	/// chunk data name
+	/// ## `is_enabled`
+	/// wether to enable this chunk
 	fn set_chunk_state(&self, chunk: &str, is_enabled: bool) -> Result<(), glib::Error>;
 
+	/// Convenience function for enabling a set of chunk data. Chunk mode is activated, or deactivated
+	/// if `chunk_list` is `None` or empty. All chunk data not listed are disabled.
+	/// ## `chunk_list`
+	/// chunk data names, as a comma or space separated list
 	fn set_chunks(&self, chunk_list: &str) -> Result<(), glib::Error>;
 
+	/// Sets exposure time. User should take care to set a value compatible with
+	/// the desired frame rate.
+	/// ## `exposure_time_us`
+	/// exposure time, in µs
 	fn set_exposure_time(&self, exposure_time_us: f64) -> Result<(), glib::Error>;
 
+	/// Configures automatic exposure feature.
+	/// ## `auto_mode`
+	/// auto exposure mode selection
 	fn set_exposure_time_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
 
+	/// Set a float feature value.
+	/// ## `feature`
+	/// feature name
+	/// ## `value`
+	/// new feature value
 	fn set_float(&self, feature: &str, value: f64) -> Result<(), glib::Error>;
 
+	/// Sets the number of frames to capture in MultiFrame mode.
+	/// ## `frame_count`
+	/// number of frames to capture in MultiFrame mode
 	fn set_frame_count(&self, frame_count: i64) -> Result<(), glib::Error>;
 
+	/// Configures a fixed frame rate mode. Once acquisition start is triggered, the video stream will be acquired with the given frame rate. A
+	/// negative or zero `frame_rate` value disables the frame rate limit.
+	/// ## `frame_rate`
+	/// frame rate, in Hz
 	fn set_frame_rate(&self, frame_rate: f64) -> Result<(), glib::Error>;
 
+	/// Sets the gain of the ADC converter.
+	/// ## `gain`
+	/// gain value
 	fn set_gain(&self, gain: f64) -> Result<(), glib::Error>;
 
+	/// Configures automatic gain feature.
+	/// ## `auto_mode`
+	/// auto gain mode selection
 	fn set_gain_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
 
+	/// Set an integer feature value.
+	/// ## `feature`
+	/// feature name
+	/// ## `value`
+	/// new feature value
 	fn set_integer(&self, feature: &str, value: i64) -> Result<(), glib::Error>;
 
+	/// Defines pixel format.
+	/// ## `format`
+	/// pixel format
 	fn set_pixel_format(&self, format: PixelFormat) -> Result<(), glib::Error>;
 
+	/// Defines pixel format described by a string.
+	/// ## `format`
+	/// pixel format
 	fn set_pixel_format_from_string(&self, format: &str) -> Result<(), glib::Error>;
 
+	/// Defines the region of interest which will be transmitted in the video
+	/// stream.
+	/// ## `x`
+	/// x offset
+	/// ## `y`
+	/// y_offset
+	/// ## `width`
+	/// region width
+	/// ## `height`
+	/// region height
 	fn set_region(&self, x: i32, y: i32, width: i32, height: i32) -> Result<(), glib::Error>;
 
+	/// Set an string feature value.
+	/// ## `feature`
+	/// feature name
+	/// ## `value`
+	/// new feature value
 	fn set_string(&self, feature: &str, value: &str) -> Result<(), glib::Error>;
 
+	/// Configures the camera in trigger mode. Typical values for source are "Line1"
+	/// or "Line2". See the camera documentation for the allowed values.
+	/// Activation is set to rising edge. It can be changed by accessing the
+	/// underlying device object.
+	///
+	/// Source can also be "Software". In this case, an acquisition is triggered
+	/// by a call to `CameraExt::software_trigger`.
+	/// ## `source`
+	/// trigger source as string
 	fn set_trigger(&self, source: &str) -> Result<(), glib::Error>;
 
+	/// Sets the trigger source. This function doesn't check if the camera is configured
+	/// to actually use this source as a trigger.
+	/// ## `source`
+	/// source name
 	fn set_trigger_source(&self, source: &str) -> Result<(), glib::Error>;
 
+	/// Sends a software trigger command to `self`. The camera must be previously
+	/// configured to use a software trigger, using `CameraExt::set_trigger`().
 	fn software_trigger(&self) -> Result<(), glib::Error>;
 
+	/// Starts video stream acquisition.
 	fn start_acquisition(&self) -> Result<(), glib::Error>;
 
+	/// Stops video stream acquisition.
 	fn stop_acquisition(&self) -> Result<(), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the current bandwidth limit
 	fn uv_get_bandwidth(&self) -> Result<u32, glib::Error>;
 
+	/// ## `min`
+	/// minimum bandwidth
+	/// ## `max`
+	/// maximum bandwidth
 	fn uv_get_bandwidth_bounds(&self) -> Result<(u32, u32), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// wether bandwidth limits are available on this camera
 	fn uv_is_bandwidth_control_available(&self) -> Result<(), glib::Error>;
 
+	/// ## `bandwidth`
+	/// Desired bandwith limit in megabits/sec. Set to 0 to disable limit mode.
 	fn uv_set_bandwidth(&self, bandwidth: u32) -> Result<(), glib::Error>;
 }
 

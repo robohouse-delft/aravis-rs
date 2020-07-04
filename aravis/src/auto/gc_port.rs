@@ -33,6 +33,8 @@ impl Default for GcPort {
 	}
 }
 
+unsafe impl Send for GcPort {}
+
 pub const NONE_GC_PORT: Option<&GcPort> = None;
 
 /// Trait containing all `GcPort` methods.

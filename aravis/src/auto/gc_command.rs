@@ -35,6 +35,8 @@ impl Default for GcCommand {
 	}
 }
 
+unsafe impl Send for GcCommand {}
+
 pub const NONE_GC_COMMAND: Option<&GcCommand> = None;
 
 /// Trait containing all `GcCommand` methods.

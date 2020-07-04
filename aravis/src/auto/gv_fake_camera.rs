@@ -69,6 +69,8 @@ impl GvFakeCamera {
 	}
 }
 
+unsafe impl Send for GvFakeCamera {}
+
 pub const NONE_GV_FAKE_CAMERA: Option<&GvFakeCamera> = None;
 
 /// Trait containing all `GvFakeCamera` methods.
@@ -77,13 +79,22 @@ pub const NONE_GV_FAKE_CAMERA: Option<&GvFakeCamera> = None;
 ///
 /// [`GvFakeCamera`](struct.GvFakeCamera.html)
 pub trait GvFakeCameraExt: 'static {
+	/// Retrieves the underlying `FakeCamera` object owned by `self`.
+	///
+	/// # Returns
+	///
+	/// underlying fake camera object.
 	fn get_fake_camera(&self) -> Option<FakeCamera>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if the fake camera is correctly listening on the GVCP port
 	fn is_running(&self) -> bool;
 
 	fn set_property_gvsp_lost_ratio(&self, gvsp_lost_ratio: f64);
 
-	fn connect_property_gvsp_lost_ratio_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_gvsp_lost_ratio_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
@@ -116,11 +127,11 @@ impl<O: IsA<GvFakeCamera>> GvFakeCameraExt for O {
 		}
 	}
 
-	fn connect_property_gvsp_lost_ratio_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_gvsp_lost_ratio_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_gvsp_lost_ratio_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_gvsp_lost_ratio_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvFakeCamera,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,

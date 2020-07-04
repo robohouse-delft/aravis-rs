@@ -35,6 +35,8 @@ impl Default for GcBoolean {
 	}
 }
 
+unsafe impl Send for GcBoolean {}
+
 pub const NONE_GC_BOOLEAN: Option<&GcBoolean> = None;
 
 /// Trait containing all `GcBoolean` methods.
@@ -43,6 +45,10 @@ pub const NONE_GC_BOOLEAN: Option<&GcBoolean> = None;
 ///
 /// [`GcBoolean`](struct.GcBoolean.html)
 pub trait GcBooleanExt: 'static {
+	///
+	/// # Returns
+	///
+	/// the feature value.
 	fn get_value(&self) -> Result<bool, glib::Error>;
 
 	fn set_value(&self, v_boolean: bool) -> Result<(), glib::Error>;

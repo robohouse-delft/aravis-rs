@@ -51,6 +51,8 @@ impl GvDevice {
 	}
 }
 
+unsafe impl Send for GvDevice {}
+
 pub const NONE_GV_DEVICE: Option<&GvDevice> = None;
 
 /// Trait containing all `GvDevice` methods.
@@ -59,20 +61,43 @@ pub const NONE_GV_DEVICE: Option<&GvDevice> = None;
 ///
 /// [`GvDevice`](struct.GvDevice.html)
 pub trait GvDeviceExt: 'static {
+	/// Automatically determine the biggest packet size that can be used data
+	/// streaming, and set GevSCPSPacketSize value accordingly. This function relies
+	/// on the GevSCPSFireTestPacket feature. If this feature is not available, the
+	/// packet size will be set to a default value (1500 bytes).
+	///
+	/// # Returns
+	///
+	/// The packet size, in bytes.
 	fn auto_packet_size(&self) -> Result<(), glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// the device IP address.
 	fn get_device_address(&self) -> Option<gio::SocketAddress>;
 
+	///
+	/// # Returns
+	///
+	/// the device host interface IP address.
 	fn get_interface_address(&self) -> Option<gio::SocketAddress>;
 
 	fn get_packet_size(&self) -> Result<u32, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// options for stream creation
 	fn get_stream_options(&self) -> GvStreamOption;
 
 	fn get_timestamp_tick_frequency(&self) -> Result<u64, glib::Error>;
 
 	fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
 
+	/// Sets the option used during stream creation. It must be called before `Device::create_stream`.
+	/// ## `options`
+	/// options for stream creation
 	fn set_stream_options(&self, options: GvStreamOption);
 }
 

@@ -53,6 +53,8 @@ impl DomDocument {
 	}
 }
 
+unsafe impl Send for DomDocument {}
+
 pub const NONE_DOM_DOCUMENT: Option<&DomDocument> = None;
 
 /// Trait containing all `DomDocument` methods.
@@ -63,10 +65,28 @@ pub const NONE_DOM_DOCUMENT: Option<&DomDocument> = None;
 pub trait DomDocumentExt: 'static {
 	//fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error>;
 
+	/// Create a new element.
+	/// ## `tag_name`
+	/// node name of the element to create
+	///
+	/// # Returns
+	///
+	/// a new orphan `DomElement`, NULL on error.
 	fn create_element(&self, tag_name: &str) -> Option<DomElement>;
 
+	/// Create a new text element.
+	/// ## `data`
+	/// initial content
+	///
+	/// # Returns
+	///
+	/// a new orphan `DomText`, NULL on error.
 	fn create_text_node(&self, data: &str) -> Option<DomText>;
 
+	///
+	/// # Returns
+	///
+	/// the top element of `self`.
 	fn get_document_element(&self) -> Option<DomElement>;
 
 	//fn get_href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer>;

@@ -18,6 +18,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcNode {}
+
 pub const NONE_GC_NODE: Option<&GcNode> = None;
 
 /// Trait containing all `GcNode` methods.
@@ -26,6 +28,11 @@ pub const NONE_GC_NODE: Option<&GcNode> = None;
 ///
 /// [`GcFeatureNode`](struct.GcFeatureNode.html), [`GcNode`](struct.GcNode.html), [`GcPropertyNode`](struct.GcPropertyNode.html)
 pub trait GcNodeExt: 'static {
+	/// Retrieves the parent genicam document of `self`.
+	///
+	/// # Returns
+	///
+	/// the parent `Gc`
 	fn get_genicam(&self) -> Option<Gc>;
 }
 

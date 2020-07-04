@@ -39,6 +39,8 @@ impl Default for GcStringRegNode {
 	}
 }
 
+unsafe impl Send for GcStringRegNode {}
+
 pub const NONE_GC_STRING_REG_NODE: Option<&GcStringRegNode> = None;
 
 impl fmt::Display for GcStringRegNode {

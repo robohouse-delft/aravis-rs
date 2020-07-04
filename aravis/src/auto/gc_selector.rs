@@ -16,6 +16,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcSelector {}
+
 pub const NONE_GC_SELECTOR: Option<&GcSelector> = None;
 
 /// Trait containing all `GcSelector` methods.
@@ -24,8 +26,16 @@ pub const NONE_GC_SELECTOR: Option<&GcSelector> = None;
 ///
 /// [`GcEnumeration`](struct.GcEnumeration.html), [`GcIntRegNode`](struct.GcIntRegNode.html), [`GcIntegerNode`](struct.GcIntegerNode.html), [`GcMaskedIntRegNode`](struct.GcMaskedIntRegNode.html), [`GcSelector`](struct.GcSelector.html)
 pub trait GcSelectorExt: 'static {
+	///
+	/// # Returns
+	///
+	/// a list of selected `GcFeatureNode`
 	fn get_selected_features(&self) -> Vec<GcFeatureNode>;
 
+	///
+	/// # Returns
+	///
+	/// `true` if this node is a selector, i.e. it has pSelected childs.
 	fn is_selector(&self) -> bool;
 }
 

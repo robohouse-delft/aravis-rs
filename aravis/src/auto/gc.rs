@@ -46,6 +46,8 @@ impl Gc {
 	}
 }
 
+unsafe impl Send for Gc {}
+
 pub const NONE_GC: Option<&Gc> = None;
 
 /// Trait containing all `Gc` methods.
@@ -54,10 +56,27 @@ pub const NONE_GC: Option<&Gc> = None;
 ///
 /// [`Gc`](struct.Gc.html)
 pub trait GcExt: 'static {
+	/// Retrieves the binded buffer.
+	///
+	/// # Returns
+	///
+	/// a `Buffer`.
 	fn get_buffer(&self) -> Option<Buffer>;
 
+	/// Retrieves the device handled by this genicam interface. The device is used for register access.
+	///
+	/// # Returns
+	///
+	/// a `Device`.
 	fn get_device(&self) -> Option<Device>;
 
+	/// Retrieves a genicam node by name.
+	/// ## `name`
+	/// node name
+	///
+	/// # Returns
+	///
+	/// a `GcNode`, null if not found.
 	fn get_node(&self, name: &str) -> Option<GcNode>;
 
 	fn get_register_cache_policy(&self) -> RegisterCachePolicy;

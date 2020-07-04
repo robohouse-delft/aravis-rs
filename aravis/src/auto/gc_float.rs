@@ -18,6 +18,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcFloat {}
+
 pub const NONE_GC_FLOAT: Option<&GcFloat> = None;
 
 /// Trait containing all `GcFloat` methods.

@@ -19,6 +19,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for Interface {}
+
 pub const NONE_INTERFACE: Option<&Interface> = None;
 
 /// Trait containing all `Interface` methods.
@@ -27,24 +29,113 @@ pub const NONE_INTERFACE: Option<&Interface> = None;
 ///
 /// [`FakeInterface`](struct.FakeInterface.html), [`GvInterface`](struct.GvInterface.html), [`Interface`](struct.Interface.html), [`UvInterface`](struct.UvInterface.html)
 pub trait InterfaceExt: 'static {
+	/// queries the device address (IP address in the case of an ethernet camera). Useful
+	/// for constructing manual connections to devices using `GvDevice::new`
+	///
+	/// Prior to this call the `InterfaceExt::update_device_list`
+	/// function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// the device address
 	fn get_device_address(&self, index: u32) -> Option<GString>;
 
+	/// Queries the unique device id corresponding to index. Prior to this
+	/// call the `InterfaceExt::update_device_list` function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// a unique device id
 	fn get_device_id(&self, index: u32) -> Option<GString>;
 
+	/// Queries the device model.
+	///
+	/// Prior to this call the `InterfaceExt::update_device_list`
+	/// function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// the device model, NULL on error
 	fn get_device_model(&self, index: u32) -> Option<GString>;
 
+	/// Queries the physical device id corresponding to index such
+	/// as the MAC address for Ethernet based devices, bus id for PCI,
+	/// USB or Firewire based devices.
+	///
+	/// Prior to this call the `InterfaceExt::update_device_list`
+	/// function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// a physical device id
 	fn get_device_physical_id(&self, index: u32) -> Option<GString>;
 
+	/// Queries the device protocol. Possible values are 'USB3Vision', 'GigEVision'
+	/// and 'Fake'.
+	///
+	/// Prior to this call the `InterfaceExt::update_device_list`
+	/// function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// the device protocol as a string, NULL on error
 	fn get_device_protocol(&self, index: u32) -> Option<GString>;
 
+	/// Queries the device serial.
+	///
+	/// Prior to this call the `InterfaceExt::update_device_list`
+	/// function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// the device serial, NULL on error
 	fn get_device_serial_nbr(&self, index: u32) -> Option<GString>;
 
+	/// Queries the device vendor.
+	///
+	/// Prior to this call the `InterfaceExt::update_device_list`
+	/// function must be called.
+	/// ## `index`
+	/// device index
+	///
+	/// # Returns
+	///
+	/// the device vendor, NULL on error
 	fn get_device_vendor(&self, index: u32) -> Option<GString>;
 
+	/// Queries the number of available devices on this interface. Prior to this
+	/// call the `InterfaceExt::update_device_list` function must be called. The list content will not
+	/// change until the next call of the update function.
+	///
+	/// # Returns
+	///
+	/// the number of available devices
 	fn get_n_devices(&self) -> u32;
 
+	/// Creates a new `Device` object corresponding to the given device id string.
+	/// The first available device is returned if `device_id` is `None`.
+	/// ## `device_id`
+	/// device unique id
+	///
+	/// # Returns
+	///
+	/// a new `Device`
 	fn open_device(&self, device_id: Option<&str>) -> Result<Device, glib::Error>;
 
+	/// Updates the internal list of available devices. This may change the
+	/// connection between a list index and a device ID.
 	fn update_device_list(&self);
 }
 

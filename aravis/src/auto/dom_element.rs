@@ -17,6 +17,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for DomElement {}
+
 pub const NONE_DOM_ELEMENT: Option<&DomElement> = None;
 
 /// Trait containing all `DomElement` methods.

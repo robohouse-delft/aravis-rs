@@ -27,6 +27,8 @@ impl DomText {
 	}
 }
 
+unsafe impl Send for DomText {}
+
 pub const NONE_DOM_TEXT: Option<&DomText> = None;
 
 impl fmt::Display for DomText {

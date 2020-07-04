@@ -28,6 +28,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GvStream {}
+
 pub const NONE_GV_STREAM: Option<&GvStream> = None;
 
 /// Trait containing all `GvStream` methods.
@@ -64,32 +66,32 @@ pub trait GvStreamExt: 'static {
 
 	fn set_property_socket_buffer_size(&self, socket_buffer_size: i32);
 
-	fn connect_property_frame_retention_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_frame_retention_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
 
-	fn connect_property_packet_request_ratio_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_packet_request_ratio_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
 
-	fn connect_property_packet_resend_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_packet_resend_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
 
-	fn connect_property_packet_timeout_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_packet_timeout_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
 
-	fn connect_property_socket_buffer_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_socket_buffer_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
 
-	fn connect_property_socket_buffer_size_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_socket_buffer_size_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId;
@@ -265,11 +267,11 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 		}
 	}
 
-	fn connect_property_frame_retention_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_frame_retention_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_frame_retention_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_frame_retention_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,
@@ -292,11 +294,11 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 		}
 	}
 
-	fn connect_property_packet_request_ratio_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_packet_request_ratio_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_packet_request_ratio_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_packet_request_ratio_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,
@@ -319,11 +321,11 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 		}
 	}
 
-	fn connect_property_packet_resend_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_packet_resend_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_packet_resend_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_packet_resend_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,
@@ -346,11 +348,11 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 		}
 	}
 
-	fn connect_property_packet_timeout_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_packet_timeout_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_packet_timeout_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_packet_timeout_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,
@@ -373,11 +375,11 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 		}
 	}
 
-	fn connect_property_socket_buffer_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_socket_buffer_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_socket_buffer_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_socket_buffer_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,
@@ -400,11 +402,11 @@ impl<O: IsA<GvStream>> GvStreamExt for O {
 		}
 	}
 
-	fn connect_property_socket_buffer_size_notify<F: Fn(&Self) + 'static>(
+	fn connect_property_socket_buffer_size_notify<F: Fn(&Self) + Send + 'static>(
 		&self,
 		f: F,
 	) -> SignalHandlerId {
-		unsafe extern "C" fn notify_socket_buffer_size_trampoline<P, F: Fn(&P) + 'static>(
+		unsafe extern "C" fn notify_socket_buffer_size_trampoline<P, F: Fn(&P) + Send + 'static>(
 			this: *mut aravis_sys::ArvGvStream,
 			_param_spec: glib_sys::gpointer,
 			f: glib_sys::gpointer,

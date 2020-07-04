@@ -40,6 +40,8 @@ impl Default for GcIntRegNode {
 	}
 }
 
+unsafe impl Send for GcIntRegNode {}
+
 pub const NONE_GC_INT_REG_NODE: Option<&GcIntRegNode> = None;
 
 impl fmt::Display for GcIntRegNode {

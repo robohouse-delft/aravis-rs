@@ -34,6 +34,8 @@ impl Default for GcConverterNode {
 	}
 }
 
+unsafe impl Send for GcConverterNode {}
+
 pub const NONE_GC_CONVERTER_NODE: Option<&GcConverterNode> = None;
 
 impl fmt::Display for GcConverterNode {

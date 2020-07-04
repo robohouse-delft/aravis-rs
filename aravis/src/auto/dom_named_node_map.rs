@@ -16,6 +16,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for DomNamedNodeMap {}
+
 pub const NONE_DOM_NAMED_NODE_MAP: Option<&DomNamedNodeMap> = None;
 
 /// Trait containing all `DomNamedNodeMap` methods.
@@ -24,14 +26,38 @@ pub const NONE_DOM_NAMED_NODE_MAP: Option<&DomNamedNodeMap> = None;
 ///
 /// [`DomNamedNodeMap`](struct.DomNamedNodeMap.html)
 pub trait DomNamedNodeMapExt: 'static {
+	/// ## `index`
+	/// an index
+	///
+	/// # Returns
+	///
+	/// the `DomNode` corresponding to `index`.
 	fn get_item(&self, index: u32) -> Option<DomNode>;
 
 	fn get_length(&self) -> u32;
 
+	/// ## `name`
+	/// name of the element to look for.
+	///
+	/// # Returns
+	///
+	/// a `DomElement`.
 	fn get_named_item(&self, name: &str) -> Option<DomNode>;
 
+	/// ## `name`
+	/// name of the node to remove
+	///
+	/// # Returns
+	///
+	/// the removed node.
 	fn remove_named_item(&self, name: &str) -> Option<DomNode>;
 
+	/// ## `item`
+	/// a node to insert
+	///
+	/// # Returns
+	///
+	/// same as `node` on success.
 	fn set_named_item<P: IsA<DomNode>>(&self, item: &P) -> Option<DomNode>;
 }
 

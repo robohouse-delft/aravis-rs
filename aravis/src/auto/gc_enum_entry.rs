@@ -35,6 +35,8 @@ impl Default for GcEnumEntry {
 	}
 }
 
+unsafe impl Send for GcEnumEntry {}
+
 pub const NONE_GC_ENUM_ENTRY: Option<&GcEnumEntry> = None;
 
 /// Trait containing all `GcEnumEntry` methods.

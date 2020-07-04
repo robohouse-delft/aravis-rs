@@ -18,6 +18,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcString {}
+
 pub const NONE_GC_STRING: Option<&GcString> = None;
 
 /// Trait containing all `GcString` methods.
@@ -26,10 +28,22 @@ pub const NONE_GC_STRING: Option<&GcString> = None;
 ///
 /// [`GcEnumeration`](struct.GcEnumeration.html), [`GcStringRegNode`](struct.GcStringRegNode.html), [`GcString`](struct.GcString.html)
 pub trait GcStringExt: 'static {
+	///
+	/// # Returns
+	///
+	/// the maximum length `self` can store, excluding the NULL terminal character.
 	fn get_max_length(&self) -> Result<i64, glib::Error>;
 
+	/// `<warning>``<para>`Please note the string content is still owned by the `self` object, which means the returned pointer may not be still valid after a new call to this function.`</para>``</warning>`
+	///
+	/// # Returns
+	///
+	/// the string value.
 	fn get_value(&self) -> Result<GString, glib::Error>;
 
+	/// Set `value` as the new `self` value.
+	/// ## `value`
+	/// new string value
 	fn set_value(&self, value: &str) -> Result<(), glib::Error>;
 }
 

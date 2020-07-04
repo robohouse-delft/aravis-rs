@@ -17,6 +17,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for DomCharacterData {}
+
 pub const NONE_DOM_CHARACTER_DATA: Option<&DomCharacterData> = None;
 
 /// Trait containing all `DomCharacterData` methods.

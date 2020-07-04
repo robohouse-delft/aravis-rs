@@ -17,6 +17,8 @@ glib_wrapper! {
 
 impl FakeStream {}
 
+unsafe impl Send for FakeStream {}
+
 pub const NONE_FAKE_STREAM: Option<&FakeStream> = None;
 
 impl fmt::Display for FakeStream {

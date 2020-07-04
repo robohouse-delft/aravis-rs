@@ -21,6 +21,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcFeatureNode {}
+
 pub const NONE_GC_FEATURE_NODE: Option<&GcFeatureNode> = None;
 
 /// Trait containing all `GcFeatureNode` methods.
@@ -37,6 +39,13 @@ pub trait GcFeatureNodeExt: 'static {
 
 	fn get_tooltip(&self) -> Option<GString>;
 
+	/// Retrieve the node value a string.
+	///
+	/// `<warning>``<para>`Please note the string content is still owned by the `node` object, which means the returned pointer may not be still valid after a new call to this function.`</para>``</warning>`
+	///
+	/// # Returns
+	///
+	/// a string representation of the node value, `None` if not applicable.
 	fn get_value_as_string(&self) -> Result<GString, glib::Error>;
 
 	//fn get_visibility(&self) -> /*Ignored*/GcVisibility;
@@ -47,6 +56,9 @@ pub trait GcFeatureNodeExt: 'static {
 
 	fn is_locked(&self) -> Result<bool, glib::Error>;
 
+	/// Set the node value using a string representation of the value. May not be applicable to every node type, but safe.
+	/// ## `string`
+	/// new node value, as string
 	fn set_value_from_string(&self, string: &str) -> Result<(), glib::Error>;
 }
 

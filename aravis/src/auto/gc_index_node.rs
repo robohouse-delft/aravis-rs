@@ -35,6 +35,8 @@ impl Default for GcIndexNode {
 	}
 }
 
+unsafe impl Send for GcIndexNode {}
+
 pub const NONE_GC_INDEX_NODE: Option<&GcIndexNode> = None;
 
 /// Trait containing all `GcIndexNode` methods.

@@ -32,6 +32,8 @@ impl Default for GcInvalidatorNode {
 	}
 }
 
+unsafe impl Send for GcInvalidatorNode {}
+
 pub const NONE_GC_INVALIDATOR_NODE: Option<&GcInvalidatorNode> = None;
 
 impl fmt::Display for GcInvalidatorNode {

@@ -17,6 +17,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for GcRegister {}
+
 pub const NONE_GC_REGISTER: Option<&GcRegister> = None;
 
 /// Trait containing all `GcRegister` methods.

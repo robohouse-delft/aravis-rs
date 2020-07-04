@@ -1,3 +1,6 @@
+v0.3.1:
+  * Make Aravis types impl `Send`.
+
 v0.3.0:
   * Use a newtype wrapper for `PixelFormat` with associated constants.
   * Target officially released Aravis 0.7.5.

@@ -8,6 +8,7 @@ work_mode = "normal"
 generate_safety_asserts = true
 deprecate_by_min_version = true
 single_version_file = true
+concurrency = "send"
 
 generate = [
 	"Aravis.AcquisitionMode",

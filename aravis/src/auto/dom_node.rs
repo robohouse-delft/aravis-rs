@@ -19,6 +19,8 @@ glib_wrapper! {
 	}
 }
 
+unsafe impl Send for DomNode {}
+
 pub const NONE_DOM_NODE: Option<&DomNode> = None;
 
 /// Trait containing all `DomNode` methods.
@@ -27,40 +29,116 @@ pub const NONE_DOM_NODE: Option<&DomNode> = None;
 ///
 /// [`DomCharacterData`](struct.DomCharacterData.html), [`DomDocumentFragment`](struct.DomDocumentFragment.html), [`DomDocument`](struct.DomDocument.html), [`DomElement`](struct.DomElement.html), [`DomNode`](struct.DomNode.html)
 pub trait DomNodeExt: 'static {
+	/// Adds the node `new_child` to the end of the list of children of this node.
+	/// If the `new_child` is already in the tree, it is first removed.
+	/// ## `new_child`
+	/// node to append
+	///
+	/// # Returns
+	///
+	/// the added node.
 	fn append_child<P: IsA<DomNode>>(&self, new_child: &P) -> Option<DomNode>;
 
 	fn changed(&self);
 
+	///
+	/// # Returns
+	///
+	/// a `DomNodeList`, NULL on error.
 	fn get_child_nodes(&self) -> Option<DomNodeList>;
 
+	///
+	/// # Returns
+	///
+	/// `self` first child.
 	fn get_first_child(&self) -> Option<DomNode>;
 
+	///
+	/// # Returns
+	///
+	/// `self` last child.
 	fn get_last_child(&self) -> Option<DomNode>;
 
+	///
+	/// # Returns
+	///
+	/// `self` next sibling.
 	fn get_next_sibling(&self) -> Option<DomNode>;
 
+	/// Gets the node name.
+	///
+	/// # Returns
+	///
+	/// the node name.
 	fn get_node_name(&self) -> Option<GString>;
 
 	fn get_node_type(&self) -> DomNodeType;
 
+	/// Gets the node value.
+	///
+	/// # Returns
+	///
+	/// the node value.
 	fn get_node_value(&self) -> Option<GString>;
 
+	///
+	/// # Returns
+	///
+	/// `self` owner document.
 	fn get_owner_document(&self) -> Option<DomDocument>;
 
+	/// Get the parent node of `self`.
+	///
+	/// # Returns
+	///
+	/// `self` parent.
 	fn get_parent_node(&self) -> Option<DomNode>;
 
+	///
+	/// # Returns
+	///
+	/// `self` previous sibling.
 	fn get_previous_sibling(&self) -> Option<DomNode>;
 
 	fn has_child_nodes(&self) -> bool;
 
+	/// Inserts the node `new_child` before the existing child node `ref_child`. If
+	/// `ref_child` is null, insert `new_child` at the end of the list of children.
+	/// If the `new_child` is already in the tree, it is first removed.
+	/// ## `new_child`
+	/// node to insert
+	/// ## `ref_child`
+	/// reference node, i.e., the node before which the new node must be inserted.
+	///
+	/// # Returns
+	///
+	/// the inserted node.
 	fn insert_before<P: IsA<DomNode>, Q: IsA<DomNode>>(
 		&self,
 		new_child: &P,
 		ref_child: &Q,
 	) -> Option<DomNode>;
 
+	/// Removes the child node indicated by `old_child` from the list of children, and returns it.
+	/// ## `old_child`
+	/// node to remove.
+	///
+	/// # Returns
+	///
+	/// the removed node.
 	fn remove_child<P: IsA<DomNode>>(&self, old_child: &P) -> Option<DomNode>;
 
+	/// Replaces the child node `old_child` with `new_child` in the list of children,
+	/// and returns the `old_child` node.
+	/// If the `new_child` is already in the tree, it is first removed.
+	/// ## `new_child`
+	/// a replacement node
+	/// ## `old_child`
+	/// node to replace
+	///
+	/// # Returns
+	///
+	/// the replaced node.
 	fn replace_child<P: IsA<DomNode>, Q: IsA<DomNode>>(
 		&self,
 		new_child: &P,
