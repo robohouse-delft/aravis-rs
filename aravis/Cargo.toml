@@ -1,6 +1,6 @@
 [package]
 name = "aravis"
-version = "0.3.0"
+version = "0.3.1"
 description = "safe bindings for Aravis, a vision library for genicam based cameras"
 authors = [
 	"RoboHouse <robohouse@robovalley.com>",
@@ -20,7 +20,7 @@ dox = ["aravis-sys/dox"]
 features = ["dox"]
 
 [dependencies]
-aravis-sys = { version = "0.3.0", path = "../aravis-sys" }
+aravis-sys = { version = "0.3.1", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
 gio = "0.8.1"
 gio-sys = "0.9.0"
