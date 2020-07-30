@@ -18,7 +18,7 @@ gui     = ["show-image"]
 aravis     = { version="0.3.1", path="../aravis" }
 chrono     = "0.4.10"
 env_logger = "0.7.1"
-glib       = "0.9.3"
+glib       = "0.10.0"
 image      = "0.23.0"
 log        = "0.4.8"
 png        = "0.16.2"

@@ -1,3 +1,6 @@
+v0.3.2:
+  * Update dependency version.
+
 v0.3.1:
   * Make Aravis types impl `Send`.
 
