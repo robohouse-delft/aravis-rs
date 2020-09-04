@@ -2,7 +2,9 @@ BSD 2-Clause License
 
 Copyright (c) 2019, RoboHouse <robohouse@robovalley.com>
 
-This license applies to the Rust bindings, not to the Aravis library itself.
+This copyright notice and license apply to the Rust bindings.
+They do not apply to the Aravis library itself or it's documentation.
+See https://github.com/AravisProject/aravis for more information.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
