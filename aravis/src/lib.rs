@@ -1,14 +1,16 @@
 //! This crate contains (mostly) safe bindings to the [Aravis][aravis] library.
 //! The bindings are mostly auto-generated with the [`gir`][gir-tool] tool from the [gtk-rs][gtk-rs] project.
 //!
-//! This documentation constist mostly of original documentation of the Aravis project.
-//! The copyright and license of the Aravis project apply to those parts (which is really almost everything).
+//! This crate currently targets version 0.8.1 of the Aravis library.
+//!
+//! This documentation constist mainly of original documentation of the Aravis project.
+//! The copyright and license of the Aravis project apply to those parts.
 //! The [full original documentation][aravis-docs] is also available online and might help if the translation to Rust made things unclear.
 //!
-//! [aravis] https://github.com/AravisProject/aravis
-//! [aravis-docs] https://aravisproject.github.io/docs/aravis-0.8/
-//! [gir-tool] https://github.com/gtk-rs/gir
-//! [gtk-rs] https://gtk-rs.org/
+//! [aravis]: https://github.com/AravisProject/aravis
+//! [aravis-docs]: https://aravisproject.github.io/docs/aravis-0.8/
+//! [gir-tool]: https://github.com/gtk-rs/gir
+//! [gtk-rs]: https://gtk-rs.org/
 
 #![feature(new_uninit)]
 #![feature(maybe_uninit_slice)]

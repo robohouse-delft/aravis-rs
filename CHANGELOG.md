@@ -1,3 +1,6 @@
+v0.4.1:
+  * Fix formatting of docmentation.
+
 v0.4.0:
   * Update to Aravis 0.8.1.
 
