@@ -34,7 +34,9 @@ pub trait GcIntegerExt: 'static {
 
 	fn get_min(&self) -> Result<i64, glib::Error>;
 
-	fn get_unit(&self) -> Result<GString, glib::Error>;
+	//fn get_representation(&self) -> /*Ignored*/GcRepresentation;
+
+	fn get_unit(&self) -> Option<GString>;
 
 	fn get_value(&self) -> Result<i64, glib::Error>;
 
@@ -85,16 +87,15 @@ impl<O: IsA<GcInteger>> GcIntegerExt for O {
 		}
 	}
 
-	fn get_unit(&self) -> Result<GString, glib::Error> {
+	//fn get_representation(&self) -> /*Ignored*/GcRepresentation {
+	//    unsafe { TODO: call aravis_sys:arv_gc_integer_get_representation() }
+	//}
+
+	fn get_unit(&self) -> Option<GString> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let ret =
-				aravis_sys::arv_gc_integer_get_unit(self.as_ref().to_glib_none().0, &mut error);
-			if error.is_null() {
-				Ok(from_glib_none(ret))
-			} else {
-				Err(from_glib_full(error))
-			}
+			from_glib_none(aravis_sys::arv_gc_integer_get_unit(
+				self.as_ref().to_glib_none().0,
+			))
 		}
 	}
 

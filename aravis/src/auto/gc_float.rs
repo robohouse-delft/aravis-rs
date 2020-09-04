@@ -28,13 +28,25 @@ pub const NONE_GC_FLOAT: Option<&GcFloat> = None;
 ///
 /// [`GcConverterNode`](struct.GcConverterNode.html), [`GcFloatNode`](struct.GcFloatNode.html), [`GcFloatRegNode`](struct.GcFloatRegNode.html), [`GcFloat`](struct.GcFloat.html), [`GcSwissKnifeNode`](struct.GcSwissKnifeNode.html)
 pub trait GcFloatExt: 'static {
+	//fn get_display_notation(&self) -> /*Ignored*/GcDisplayNotation;
+
+	/// Gets number of digits to show in user interface. This number should always be positive and represent
+	/// total number of digits on left and right side of decimal.
+	///
+	/// # Returns
+	///
+	/// Number of digits to show.
+	fn get_display_precision(&self) -> i64;
+
 	fn get_inc(&self) -> Result<f64, glib::Error>;
 
 	fn get_max(&self) -> Result<f64, glib::Error>;
 
 	fn get_min(&self) -> Result<f64, glib::Error>;
 
-	fn get_unit(&self) -> Result<GString, glib::Error>;
+	//fn get_representation(&self) -> /*Ignored*/GcRepresentation;
+
+	fn get_unit(&self) -> Option<GString>;
 
 	fn get_value(&self) -> Result<f64, glib::Error>;
 
@@ -46,6 +58,14 @@ pub trait GcFloatExt: 'static {
 }
 
 impl<O: IsA<GcFloat>> GcFloatExt for O {
+	//fn get_display_notation(&self) -> /*Ignored*/GcDisplayNotation {
+	//    unsafe { TODO: call aravis_sys:arv_gc_float_get_display_notation() }
+	//}
+
+	fn get_display_precision(&self) -> i64 {
+		unsafe { aravis_sys::arv_gc_float_get_display_precision(self.as_ref().to_glib_none().0) }
+	}
+
 	fn get_inc(&self) -> Result<f64, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -82,15 +102,15 @@ impl<O: IsA<GcFloat>> GcFloatExt for O {
 		}
 	}
 
-	fn get_unit(&self) -> Result<GString, glib::Error> {
+	//fn get_representation(&self) -> /*Ignored*/GcRepresentation {
+	//    unsafe { TODO: call aravis_sys:arv_gc_float_get_representation() }
+	//}
+
+	fn get_unit(&self) -> Option<GString> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let ret = aravis_sys::arv_gc_float_get_unit(self.as_ref().to_glib_none().0, &mut error);
-			if error.is_null() {
-				Ok(from_glib_none(ret))
-			} else {
-				Err(from_glib_full(error))
-			}
+			from_glib_none(aravis_sys::arv_gc_float_get_unit(
+				self.as_ref().to_glib_none().0,
+			))
 		}
 	}
 

@@ -383,27 +383,41 @@ impl SetValue for BufferStatus {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
-pub enum DebugLevel {
-	None,
-	Warning,
-	Debug,
-	Log,
-	Count,
+pub enum DeviceError {
+	WrongFeature,
+	FeatureNotFound,
+	NotConnected,
+	ProtocolError,
+	TransferError,
+	Timeout,
+	NotFound,
+	InvalidParameter,
+	GenicamNotFound,
+	NoStreamChannel,
+	NotController,
+	Unknown,
 	#[doc(hidden)]
 	__Unknown(i32),
 }
 
-impl fmt::Display for DebugLevel {
+impl fmt::Display for DeviceError {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
 		write!(
 			f,
-			"DebugLevel::{}",
+			"DeviceError::{}",
 			match *self {
-				DebugLevel::None => "None",
-				DebugLevel::Warning => "Warning",
-				DebugLevel::Debug => "Debug",
-				DebugLevel::Log => "Log",
-				DebugLevel::Count => "Count",
+				DeviceError::WrongFeature => "WrongFeature",
+				DeviceError::FeatureNotFound => "FeatureNotFound",
+				DeviceError::NotConnected => "NotConnected",
+				DeviceError::ProtocolError => "ProtocolError",
+				DeviceError::TransferError => "TransferError",
+				DeviceError::Timeout => "Timeout",
+				DeviceError::NotFound => "NotFound",
+				DeviceError::InvalidParameter => "InvalidParameter",
+				DeviceError::GenicamNotFound => "GenicamNotFound",
+				DeviceError::NoStreamChannel => "NoStreamChannel",
+				DeviceError::NotController => "NotController",
+				DeviceError::Unknown => "Unknown",
 				_ => "Unknown",
 			}
 		)
@@ -411,55 +425,99 @@ impl fmt::Display for DebugLevel {
 }
 
 #[doc(hidden)]
-impl ToGlib for DebugLevel {
-	type GlibType = aravis_sys::ArvDebugLevel;
+impl ToGlib for DeviceError {
+	type GlibType = aravis_sys::ArvDeviceError;
 
-	fn to_glib(&self) -> aravis_sys::ArvDebugLevel {
+	fn to_glib(&self) -> aravis_sys::ArvDeviceError {
 		match *self {
-			DebugLevel::None => aravis_sys::ARV_DEBUG_LEVEL_NONE,
-			DebugLevel::Warning => aravis_sys::ARV_DEBUG_LEVEL_WARNING,
-			DebugLevel::Debug => aravis_sys::ARV_DEBUG_LEVEL_DEBUG,
-			DebugLevel::Log => aravis_sys::ARV_DEBUG_LEVEL_LOG,
-			DebugLevel::Count => aravis_sys::ARV_DEBUG_LEVEL_COUNT,
-			DebugLevel::__Unknown(value) => value,
+			DeviceError::WrongFeature => aravis_sys::ARV_DEVICE_ERROR_WRONG_FEATURE,
+			DeviceError::FeatureNotFound => aravis_sys::ARV_DEVICE_ERROR_FEATURE_NOT_FOUND,
+			DeviceError::NotConnected => aravis_sys::ARV_DEVICE_ERROR_NOT_CONNECTED,
+			DeviceError::ProtocolError => aravis_sys::ARV_DEVICE_ERROR_PROTOCOL_ERROR,
+			DeviceError::TransferError => aravis_sys::ARV_DEVICE_ERROR_TRANSFER_ERROR,
+			DeviceError::Timeout => aravis_sys::ARV_DEVICE_ERROR_TIMEOUT,
+			DeviceError::NotFound => aravis_sys::ARV_DEVICE_ERROR_NOT_FOUND,
+			DeviceError::InvalidParameter => aravis_sys::ARV_DEVICE_ERROR_INVALID_PARAMETER,
+			DeviceError::GenicamNotFound => aravis_sys::ARV_DEVICE_ERROR_GENICAM_NOT_FOUND,
+			DeviceError::NoStreamChannel => aravis_sys::ARV_DEVICE_ERROR_NO_STREAM_CHANNEL,
+			DeviceError::NotController => aravis_sys::ARV_DEVICE_ERROR_NOT_CONTROLLER,
+			DeviceError::Unknown => aravis_sys::ARV_DEVICE_ERROR_UNKNOWN,
+			DeviceError::__Unknown(value) => value,
 		}
 	}
 }
 
 #[doc(hidden)]
-impl FromGlib<aravis_sys::ArvDebugLevel> for DebugLevel {
-	fn from_glib(value: aravis_sys::ArvDebugLevel) -> Self {
+impl FromGlib<aravis_sys::ArvDeviceError> for DeviceError {
+	fn from_glib(value: aravis_sys::ArvDeviceError) -> Self {
 		skip_assert_initialized!();
 		match value {
-			0 => DebugLevel::None,
-			1 => DebugLevel::Warning,
-			2 => DebugLevel::Debug,
-			3 => DebugLevel::Log,
-			4 => DebugLevel::Count,
-			value => DebugLevel::__Unknown(value),
+			0 => DeviceError::WrongFeature,
+			1 => DeviceError::FeatureNotFound,
+			2 => DeviceError::NotConnected,
+			3 => DeviceError::ProtocolError,
+			4 => DeviceError::TransferError,
+			5 => DeviceError::Timeout,
+			6 => DeviceError::NotFound,
+			7 => DeviceError::InvalidParameter,
+			8 => DeviceError::GenicamNotFound,
+			9 => DeviceError::NoStreamChannel,
+			10 => DeviceError::NotController,
+			11 => DeviceError::Unknown,
+			value => DeviceError::__Unknown(value),
 		}
 	}
 }
 
-impl StaticType for DebugLevel {
-	fn static_type() -> Type {
-		unsafe { from_glib(aravis_sys::arv_debug_level_get_type()) }
+impl ErrorDomain for DeviceError {
+	fn domain() -> Quark {
+		skip_assert_initialized!();
+		unsafe { from_glib(aravis_sys::arv_device_error_quark()) }
+	}
+
+	fn code(self) -> i32 {
+		self.to_glib()
+	}
+
+	fn from(code: i32) -> Option<Self> {
+		skip_assert_initialized!();
+		match code {
+			0 => Some(DeviceError::WrongFeature),
+			1 => Some(DeviceError::FeatureNotFound),
+			2 => Some(DeviceError::NotConnected),
+			3 => Some(DeviceError::ProtocolError),
+			4 => Some(DeviceError::TransferError),
+			5 => Some(DeviceError::Timeout),
+			6 => Some(DeviceError::NotFound),
+			7 => Some(DeviceError::InvalidParameter),
+			8 => Some(DeviceError::GenicamNotFound),
+			9 => Some(DeviceError::NoStreamChannel),
+			10 => Some(DeviceError::NotController),
+			11 => Some(DeviceError::Unknown),
+			value => Some(DeviceError::__Unknown(value)),
+		}
 	}
 }
 
-impl<'a> FromValueOptional<'a> for DebugLevel {
+impl StaticType for DeviceError {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_device_error_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for DeviceError {
 	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
 		Some(FromValue::from_value(value))
 	}
 }
 
-impl<'a> FromValue<'a> for DebugLevel {
+impl<'a> FromValue<'a> for DeviceError {
 	unsafe fn from_value(value: &Value) -> Self {
 		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
 	}
 }
 
-impl SetValue for DebugLevel {
+impl SetValue for DeviceError {
 	unsafe fn set_value(value: &mut Value, this: &Self) {
 		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
 	}
@@ -581,6 +639,7 @@ impl SetValue for DomNodeType {
 	}
 }
 
+/// Specifies access mode for feature nodes and registers.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum GcAccessMode {
@@ -661,6 +720,7 @@ impl SetValue for GcAccessMode {
 	}
 }
 
+/// Specifies caching mode for register values.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum GcCachable {
@@ -888,6 +948,7 @@ impl SetValue for GcError {
 	}
 }
 
+/// Describes relationship between TO and FROM variables in Converter feature nodes.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum GcIsLinear {
@@ -964,6 +1025,8 @@ impl SetValue for GcIsLinear {
 	}
 }
 
+/// Specifies feature node or register name space type. Standard name space features are listed in
+/// Genicam materials. Any other vendor-specific features should use custom name space type.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum GcNameSpace {
@@ -1055,6 +1118,9 @@ pub enum GcPropertyNodeType {
 	Slope,
 	Increment,
 	IsLinear,
+	Representation,
+	DisplayNotation,
+	DisplayPrecision,
 	Unit,
 	OnValue,
 	OffValue,
@@ -1119,6 +1185,9 @@ impl fmt::Display for GcPropertyNodeType {
 				GcPropertyNodeType::Slope => "Slope",
 				GcPropertyNodeType::Increment => "Increment",
 				GcPropertyNodeType::IsLinear => "IsLinear",
+				GcPropertyNodeType::Representation => "Representation",
+				GcPropertyNodeType::DisplayNotation => "DisplayNotation",
+				GcPropertyNodeType::DisplayPrecision => "DisplayPrecision",
 				GcPropertyNodeType::Unit => "Unit",
 				GcPropertyNodeType::OnValue => "OnValue",
 				GcPropertyNodeType::OffValue => "OffValue",
@@ -1185,6 +1254,15 @@ impl ToGlib for GcPropertyNodeType {
 			GcPropertyNodeType::Slope => aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_SLOPE,
 			GcPropertyNodeType::Increment => aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_INCREMENT,
 			GcPropertyNodeType::IsLinear => aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_IS_LINEAR,
+			GcPropertyNodeType::Representation => {
+				aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_REPRESENTATION
+			}
+			GcPropertyNodeType::DisplayNotation => {
+				aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_DISPLAY_NOTATION
+			}
+			GcPropertyNodeType::DisplayPrecision => {
+				aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_DISPLAY_PRECISION
+			}
 			GcPropertyNodeType::Unit => aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_UNIT,
 			GcPropertyNodeType::OnValue => aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_ON_VALUE,
 			GcPropertyNodeType::OffValue => aravis_sys::ARV_GC_PROPERTY_NODE_TYPE_OFF_VALUE,
@@ -1261,29 +1339,32 @@ impl FromGlib<aravis_sys::ArvGcPropertyNodeType> for GcPropertyNodeType {
 			9 => GcPropertyNodeType::Slope,
 			10 => GcPropertyNodeType::Increment,
 			11 => GcPropertyNodeType::IsLinear,
-			12 => GcPropertyNodeType::Unit,
-			13 => GcPropertyNodeType::OnValue,
-			14 => GcPropertyNodeType::OffValue,
-			15 => GcPropertyNodeType::Length,
-			16 => GcPropertyNodeType::Formula,
-			17 => GcPropertyNodeType::FormulaTo,
-			18 => GcPropertyNodeType::FormulaFrom,
-			19 => GcPropertyNodeType::Expression,
-			20 => GcPropertyNodeType::Constant,
-			21 => GcPropertyNodeType::AccessMode,
-			22 => GcPropertyNodeType::ImposedAccessMode,
-			23 => GcPropertyNodeType::Cachable,
-			24 => GcPropertyNodeType::PollingTime,
-			25 => GcPropertyNodeType::Endianness,
-			26 => GcPropertyNodeType::Sign,
-			27 => GcPropertyNodeType::Lsb,
-			28 => GcPropertyNodeType::Msb,
-			29 => GcPropertyNodeType::Bit,
-			30 => GcPropertyNodeType::CommandValue,
-			31 => GcPropertyNodeType::ChunkId,
-			32 => GcPropertyNodeType::EventId,
-			33 => GcPropertyNodeType::ValueIndexed,
-			34 => GcPropertyNodeType::ValueDefault,
+			12 => GcPropertyNodeType::Representation,
+			13 => GcPropertyNodeType::DisplayNotation,
+			14 => GcPropertyNodeType::DisplayPrecision,
+			15 => GcPropertyNodeType::Unit,
+			16 => GcPropertyNodeType::OnValue,
+			17 => GcPropertyNodeType::OffValue,
+			18 => GcPropertyNodeType::Length,
+			19 => GcPropertyNodeType::Formula,
+			20 => GcPropertyNodeType::FormulaTo,
+			21 => GcPropertyNodeType::FormulaFrom,
+			22 => GcPropertyNodeType::Expression,
+			23 => GcPropertyNodeType::Constant,
+			24 => GcPropertyNodeType::AccessMode,
+			25 => GcPropertyNodeType::ImposedAccessMode,
+			26 => GcPropertyNodeType::Cachable,
+			27 => GcPropertyNodeType::PollingTime,
+			28 => GcPropertyNodeType::Endianness,
+			29 => GcPropertyNodeType::Sign,
+			30 => GcPropertyNodeType::Lsb,
+			31 => GcPropertyNodeType::Msb,
+			32 => GcPropertyNodeType::Bit,
+			33 => GcPropertyNodeType::CommandValue,
+			34 => GcPropertyNodeType::ChunkId,
+			35 => GcPropertyNodeType::EventId,
+			36 => GcPropertyNodeType::ValueIndexed,
+			37 => GcPropertyNodeType::ValueDefault,
 			1000 => GcPropertyNodeType::PUnknonw,
 			1001 => GcPropertyNodeType::PFeature,
 			1002 => GcPropertyNodeType::PValue,
@@ -1332,6 +1413,9 @@ impl SetValue for GcPropertyNodeType {
 	}
 }
 
+/// Specifies signedness of integer registers. Per standard Genicam internally uses signed 64-bit
+/// signed integers for representing all integer registers. Therefore unsigned 64-bit integers are
+/// not available.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum GcSignedness {

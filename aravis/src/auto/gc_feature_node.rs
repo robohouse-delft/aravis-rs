@@ -11,6 +11,8 @@ use std::fmt;
 use std::ptr;
 use DomElement;
 use DomNode;
+use GcAccessMode;
+use GcNameSpace;
 use GcNode;
 
 glib_wrapper! {
@@ -31,11 +33,37 @@ pub const NONE_GC_FEATURE_NODE: Option<&GcFeatureNode> = None;
 ///
 /// [`GcBoolean`](struct.GcBoolean.html), [`GcCategory`](struct.GcCategory.html), [`GcCommand`](struct.GcCommand.html), [`GcConverter`](struct.GcConverter.html), [`GcEnumEntry`](struct.GcEnumEntry.html), [`GcEnumeration`](struct.GcEnumeration.html), [`GcFeatureNode`](struct.GcFeatureNode.html), [`GcFloatNode`](struct.GcFloatNode.html), [`GcGroupNode`](struct.GcGroupNode.html), [`GcIntegerNode`](struct.GcIntegerNode.html), [`GcPort`](struct.GcPort.html), [`GcRegisterDescriptionNode`](struct.GcRegisterDescriptionNode.html), [`GcRegisterNode`](struct.GcRegisterNode.html), [`GcStructEntryNode`](struct.GcStructEntryNode.html), [`GcSwissKnife`](struct.GcSwissKnife.html)
 pub trait GcFeatureNodeExt: 'static {
+	/// Gets feature node allowed access mode. This is a combination of Genicam ImposedAccessMode and
+	/// AccessMode properties of underlying features and registers.
+	///
+	/// # Returns
+	///
+	/// Access mode as `GcAccessMode`
+	fn get_actual_access_mode(&self) -> GcAccessMode;
+
 	fn get_description(&self) -> Option<GString>;
 
 	fn get_display_name(&self) -> Option<GString>;
 
+	/// Gets feature node imposed access mode property.
+	///
+	/// `<warning>``<para>`Note that this function will not give the actual access mode. Please use
+	/// `GcFeatureNodeExt::get_actual_access_mode` to get an access mode combined from imposed access
+	/// mode and underlying register access mode properties.`</para>``</warning>`
+	///
+	/// # Returns
+	///
+	/// Access mode as `GcAccessMode`
+	fn get_imposed_access_mode(&self) -> GcAccessMode;
+
 	fn get_name(&self) -> Option<GString>;
+
+	/// Get feature name space.
+	///
+	/// # Returns
+	///
+	/// Name space value as `GcNameSpace`.
+	fn get_name_space(&self) -> GcNameSpace;
 
 	fn get_tooltip(&self) -> Option<GString>;
 
@@ -63,6 +91,14 @@ pub trait GcFeatureNodeExt: 'static {
 }
 
 impl<O: IsA<GcFeatureNode>> GcFeatureNodeExt for O {
+	fn get_actual_access_mode(&self) -> GcAccessMode {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_feature_node_get_actual_access_mode(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
 	fn get_description(&self) -> Option<GString> {
 		unsafe {
 			from_glib_none(aravis_sys::arv_gc_feature_node_get_description(
@@ -79,9 +115,25 @@ impl<O: IsA<GcFeatureNode>> GcFeatureNodeExt for O {
 		}
 	}
 
+	fn get_imposed_access_mode(&self) -> GcAccessMode {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_feature_node_get_imposed_access_mode(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
 	fn get_name(&self) -> Option<GString> {
 		unsafe {
 			from_glib_none(aravis_sys::arv_gc_feature_node_get_name(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
+	fn get_name_space(&self) -> GcNameSpace {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_feature_node_get_name_space(
 				self.as_ref().to_glib_none().0,
 			))
 		}

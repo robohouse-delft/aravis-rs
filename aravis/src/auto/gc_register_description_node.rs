@@ -6,6 +6,7 @@ use aravis_sys;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::translate::*;
+use glib::GString;
 use std::fmt;
 use DomElement;
 use DomNode;
@@ -45,6 +46,17 @@ pub const NONE_GC_REGISTER_DESCRIPTION_NODE: Option<&GcRegisterDescriptionNode> 
 ///
 /// [`GcRegisterDescriptionNode`](struct.GcRegisterDescriptionNode.html)
 pub trait GcRegisterDescriptionNodeExt: 'static {
+	/// Checks if the Genicam document version is higher or equal to the given version.
+	/// ## `required_major`
+	/// required major version number
+	/// ## `required_minor`
+	/// required minor version number
+	/// ## `required_subminor`
+	/// required sub minor version number
+	///
+	/// # Returns
+	///
+	/// True if document version is higher or equal than the given version.
 	fn check_schema_version(
 		&self,
 		required_major: u32,
@@ -58,12 +70,68 @@ pub trait GcRegisterDescriptionNodeExt: 'static {
 	/// ## `minor`
 	/// minor version number
 	/// ## `subminor`
-	/// sub mminor version number
+	/// sub minor version number
 	///
 	/// # Returns
 	///
 	/// -1 if document version is lower than the given version, 0 if equal and 1 if greater.
 	fn compare_schema_version(&self, major: u32, minor: u32, subminor: u32) -> i32;
+
+	/// Gets Genicam document major version.
+	///
+	/// # Returns
+	///
+	/// Major version.
+	fn get_major_version(&self) -> u32;
+
+	/// Gets Genicam document minor version.
+	///
+	/// # Returns
+	///
+	/// Minor version.
+	fn get_minor_version(&self) -> u32;
+
+	/// Gets camera model name for given Genicam document.
+	///
+	/// # Returns
+	///
+	/// Model name string.
+	fn get_model_name(&self) -> Option<GString>;
+
+	/// Gets Genicam document schema major version.
+	///
+	/// # Returns
+	///
+	/// Schema major version.
+	fn get_schema_major_version(&self) -> u32;
+
+	/// Gets Genicam document schema minor version.
+	///
+	/// # Returns
+	///
+	/// Schema minor version.
+	fn get_schema_minor_version(&self) -> u32;
+
+	/// Gets Genicam document schema sub minor version.
+	///
+	/// # Returns
+	///
+	/// Schema sub minor version.
+	fn get_schema_subminor_version(&self) -> u32;
+
+	/// Gets Genicam document sub minor version.
+	///
+	/// # Returns
+	///
+	/// Sub minor version.
+	fn get_subminor_version(&self) -> u32;
+
+	/// Gets camera vendor name for given Genicam document.
+	///
+	/// # Returns
+	///
+	/// Vendor name string.
+	fn get_vendor_name(&self) -> Option<GString>;
 }
 
 impl<O: IsA<GcRegisterDescriptionNode>> GcRegisterDescriptionNodeExt for O {
@@ -92,6 +160,72 @@ impl<O: IsA<GcRegisterDescriptionNode>> GcRegisterDescriptionNodeExt for O {
 				major,
 				minor,
 				subminor,
+			)
+		}
+	}
+
+	fn get_major_version(&self) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_register_description_node_get_major_version(
+				self.as_ref().to_glib_none().0,
+			)
+		}
+	}
+
+	fn get_minor_version(&self) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_register_description_node_get_minor_version(
+				self.as_ref().to_glib_none().0,
+			)
+		}
+	}
+
+	fn get_model_name(&self) -> Option<GString> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_gc_register_description_node_get_model_name(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
+
+	fn get_schema_major_version(&self) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_register_description_node_get_schema_major_version(
+				self.as_ref().to_glib_none().0,
+			)
+		}
+	}
+
+	fn get_schema_minor_version(&self) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_register_description_node_get_schema_minor_version(
+				self.as_ref().to_glib_none().0,
+			)
+		}
+	}
+
+	fn get_schema_subminor_version(&self) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_register_description_node_get_schema_subminor_version(
+				self.as_ref().to_glib_none().0,
+			)
+		}
+	}
+
+	fn get_subminor_version(&self) -> u32 {
+		unsafe {
+			aravis_sys::arv_gc_register_description_node_get_subminor_version(
+				self.as_ref().to_glib_none().0,
+			)
+		}
+	}
+
+	fn get_vendor_name(&self) -> Option<GString> {
+		unsafe {
+			from_glib_full(
+				aravis_sys::arv_gc_register_description_node_get_vendor_name(
+					self.as_ref().to_glib_none().0,
+				),
 			)
 		}
 	}

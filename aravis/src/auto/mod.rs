@@ -252,7 +252,7 @@ pub use self::enums::AcquisitionMode;
 pub use self::enums::Auto;
 pub use self::enums::BufferPayloadType;
 pub use self::enums::BufferStatus;
-pub use self::enums::DebugLevel;
+pub use self::enums::DeviceError;
 pub use self::enums::DomNodeType;
 pub use self::enums::GcAccessMode;
 pub use self::enums::GcCachable;

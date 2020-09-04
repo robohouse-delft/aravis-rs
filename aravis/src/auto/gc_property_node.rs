@@ -90,6 +90,22 @@ impl GcPropertyNode {
 		}
 	}
 
+	pub fn new_display_notation() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_display_notation())
+				.unsafe_cast()
+		}
+	}
+
+	pub fn new_display_precision() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_display_precision())
+				.unsafe_cast()
+		}
+	}
+
 	pub fn new_endianness() -> GcPropertyNode {
 		assert_initialized_main_thread!();
 		unsafe {
@@ -317,6 +333,14 @@ impl GcPropertyNode {
 		}
 	}
 
+	pub fn new_representation() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_representation())
+				.unsafe_cast()
+		}
+	}
+
 	pub fn new_sign() -> GcPropertyNode {
 		assert_initialized_main_thread!();
 		unsafe { GcNode::from_glib_full(aravis_sys::arv_gc_property_node_new_sign()).unsafe_cast() }
@@ -378,6 +402,10 @@ pub trait GcPropertyNodeExt: 'static {
 
 	fn get_cachable(&self, default_value: GcCachable) -> GcCachable;
 
+	//fn get_display_notation(&self, default_value: /*Ignored*/GcDisplayNotation) -> /*Ignored*/GcDisplayNotation;
+
+	fn get_display_precision(&self, default_value: i64) -> i64;
+
 	fn get_double(&self) -> Result<f64, glib::Error>;
 
 	fn get_endianness(&self, default_value: u32) -> u32;
@@ -401,6 +429,8 @@ pub trait GcPropertyNodeExt: 'static {
 	fn get_name(&self) -> Option<GString>;
 
 	fn get_node_type(&self) -> GcPropertyNodeType;
+
+	//fn get_representation(&self, default_value: /*Ignored*/GcRepresentation) -> /*Ignored*/GcRepresentation;
 
 	fn get_sign(&self, default_value: GcSignedness) -> GcSignedness;
 
@@ -431,6 +461,19 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 				self.as_ref().to_glib_none().0,
 				default_value.to_glib(),
 			))
+		}
+	}
+
+	//fn get_display_notation(&self, default_value: /*Ignored*/GcDisplayNotation) -> /*Ignored*/GcDisplayNotation {
+	//    unsafe { TODO: call aravis_sys:arv_gc_property_node_get_display_notation() }
+	//}
+
+	fn get_display_precision(&self, default_value: i64) -> i64 {
+		unsafe {
+			aravis_sys::arv_gc_property_node_get_display_precision(
+				self.as_ref().to_glib_none().0,
+				default_value,
+			)
 		}
 	}
 
@@ -508,6 +551,10 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 			))
 		}
 	}
+
+	//fn get_representation(&self, default_value: /*Ignored*/GcRepresentation) -> /*Ignored*/GcRepresentation {
+	//    unsafe { TODO: call aravis_sys:arv_gc_property_node_get_representation() }
+	//}
 
 	fn get_sign(&self, default_value: GcSignedness) -> GcSignedness {
 		unsafe {

@@ -4028,45 +4028,6 @@ GENICAM features.
         </return-value>
       </function>
     </enumeration>
-    <record name="DebugCategory" c:type="ArvDebugCategory">
-      <source-position filename="../src/arvdebug.h" line="45"/>
-      <field name="name" writable="1">
-        <type name="utf8" c:type="char*"/>
-      </field>
-      <field name="level" writable="1">
-        <type name="DebugLevel" c:type="ArvDebugLevel"/>
-      </field>
-    </record>
-    <enumeration name="DebugLevel"
-                 glib:type-name="ArvDebugLevel"
-                 glib:get-type="arv_debug_level_get_type"
-                 c:type="ArvDebugLevel">
-      <member name="none"
-              value="0"
-              c:identifier="ARV_DEBUG_LEVEL_NONE"
-              glib:nick="none">
-      </member>
-      <member name="warning"
-              value="1"
-              c:identifier="ARV_DEBUG_LEVEL_WARNING"
-              glib:nick="warning">
-      </member>
-      <member name="debug"
-              value="2"
-              c:identifier="ARV_DEBUG_LEVEL_DEBUG"
-              glib:nick="debug">
-      </member>
-      <member name="log"
-              value="3"
-              c:identifier="ARV_DEBUG_LEVEL_LOG"
-              glib:nick="log">
-      </member>
-      <member name="count"
-              value="4"
-              c:identifier="ARV_DEBUG_LEVEL_COUNT"
-              glib:nick="count">
-      </member>
-    </enumeration>
     <class name="Device"
            c:symbol-prefix="device"
            c:type="ArvDevice"
@@ -7448,12 +7409,12 @@ If the @new_child is already in the tree, it is first removed.</doc>
       <constructor name="new" c:identifier="arv_evaluator_new">
         <doc xml:space="preserve"
              filename="../src/arvevaluator.c"
-             line="1455">Creates a new #ArvEvaluator object. The syntax is described in the genicam standard specification.</doc>
+             line="1457">Creates a new #ArvEvaluator object. The syntax is described in the genicam standard specification.</doc>
         <source-position filename="../src/arvevaluator.h" line="37"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvevaluator.c"
-               line="1461">a new #ArvEvaluator object.</doc>
+               line="1463">a new #ArvEvaluator object.</doc>
           <type name="Evaluator" c:type="ArvEvaluator*"/>
         </return-value>
         <parameters>
@@ -7463,7 +7424,7 @@ If the @new_child is already in the tree, it is first removed.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1457">an evaluator expression</doc>
+                 line="1459">an evaluator expression</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -7501,20 +7462,20 @@ If the @new_child is already in the tree, it is first removed.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvevaluator.c"
-               line="1400">The formula of the constant corresponding to @name, %NULL if not defined.</doc>
+               line="1402">The formula of the constant corresponding to @name, %NULL if not defined.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="evaluator" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1397">a #ArvEvaluator</doc>
+                 line="1399">a #ArvEvaluator</doc>
             <type name="Evaluator" c:type="ArvEvaluator*"/>
           </instance-parameter>
           <parameter name="name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1398">constant name</doc>
+                 line="1400">constant name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -7538,20 +7499,20 @@ If the @new_child is already in the tree, it is first removed.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvevaluator.c"
-               line="1344">The formula of the sub-expression corresponding to @name, %NULL if not defined.</doc>
+               line="1346">The formula of the sub-expression corresponding to @name, %NULL if not defined.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="evaluator" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1341">a #ArvEvaluator</doc>
+                 line="1343">a #ArvEvaluator</doc>
             <type name="Evaluator" c:type="ArvEvaluator*"/>
           </instance-parameter>
           <parameter name="name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1342">sub-expression name</doc>
+                 line="1344">sub-expression name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -7561,7 +7522,7 @@ If the @new_child is already in the tree, it is first removed.</doc>
               version="0.6.0">
         <doc xml:space="preserve"
              filename="../src/arvevaluator.c"
-             line="1360">Assign a string to a constant. If @constant == %NULL, the constant previously assigned to @name will be removed.</doc>
+             line="1362">Assign a string to a constant. If @constant == %NULL, the constant previously assigned to @name will be removed.</doc>
         <source-position filename="../src/arvevaluator.h" line="42"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -7570,13 +7531,13 @@ If the @new_child is already in the tree, it is first removed.</doc>
           <instance-parameter name="evaluator" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1362">a #ArvEvaluator</doc>
+                 line="1364">a #ArvEvaluator</doc>
             <type name="Evaluator" c:type="ArvEvaluator*"/>
           </instance-parameter>
           <parameter name="name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1363">constant name</doc>
+                 line="1365">constant name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="constant"
@@ -7585,7 +7546,7 @@ If the @new_child is already in the tree, it is first removed.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1364">constant as a string</doc>
+                 line="1366">constant as a string</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -7646,7 +7607,7 @@ If the @new_child is already in the tree, it is first removed.</doc>
               version="0.6.0">
         <doc xml:space="preserve"
              filename="../src/arvevaluator.c"
-             line="1303">Assign a formula to a sub-expression. If @expression == %NULL, the sub-expression previously assigned to @name will be removed.
+             line="1305">Assign a formula to a sub-expression. If @expression == %NULL, the sub-expression previously assigned to @name will be removed.
 A sub-expression may not reference another sub-expression.</doc>
         <source-position filename="../src/arvevaluator.h" line="40"/>
         <return-value transfer-ownership="none">
@@ -7656,13 +7617,13 @@ A sub-expression may not reference another sub-expression.</doc>
           <instance-parameter name="evaluator" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1305">a #ArvEvaluator</doc>
+                 line="1307">a #ArvEvaluator</doc>
             <type name="Evaluator" c:type="ArvEvaluator*"/>
           </instance-parameter>
           <parameter name="name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1306">sub-expression name</doc>
+                 line="1308">sub-expression name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="expression"
@@ -7671,7 +7632,7 @@ A sub-expression may not reference another sub-expression.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvevaluator.c"
-                 line="1307">sub-pexression formula</doc>
+                 line="1309">sub-pexression formula</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -7913,7 +7874,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
       <method name="fill_buffer" c:identifier="arv_fake_camera_fill_buffer">
         <doc xml:space="preserve"
              filename="../src/arvfakecamera.c"
-             line="694">Fill a buffer with data from the fake camera.</doc>
+             line="702">Fill a buffer with data from the fake camera.</doc>
         <source-position filename="../src/arvfakecamera.h" line="105"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -7922,13 +7883,13 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="696">a #ArvFakeCamera</doc>
+                 line="704">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
           <parameter name="buffer" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="697">the #ArvBuffer to fill</doc>
+                 line="705">the #ArvBuffer to fill</doc>
             <type name="Buffer" c:type="ArvBuffer*"/>
           </parameter>
           <parameter name="packet_size"
@@ -7939,7 +7900,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="698">the packet size</doc>
+                 line="706">the packet size</doc>
             <type name="guint32" c:type="guint32*"/>
           </parameter>
         </parameters>
@@ -7974,14 +7935,14 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvfakecamera.c"
-               line="845">the genicam XML description of the camera</doc>
+               line="858">the genicam XML description of the camera</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="842">a #ArvFakeCamera</doc>
+                 line="855">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
           <parameter name="size"
@@ -7992,7 +7953,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="843">the size of the returned XML string</doc>
+                 line="856">the size of the returned XML string</doc>
             <type name="gsize" c:type="size_t*"/>
           </parameter>
         </parameters>
@@ -8055,14 +8016,14 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvfakecamera.c"
-               line="781">the data stream #GSocketAddress for this camera</doc>
+               line="794">the data stream #GSocketAddress for this camera</doc>
           <type name="Gio.SocketAddress" c:type="GSocketAddress*"/>
         </return-value>
         <parameters>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="779">a #ArvFakeCamera</doc>
+                 line="792">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
         </parameters>
@@ -8142,7 +8103,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
               c:identifier="arv_fake_camera_set_fill_pattern">
         <doc xml:space="preserve"
              filename="../src/arvfakecamera.c"
-             line="665">Sets the fill pattern callback for custom test images.</doc>
+             line="673">Sets the fill pattern callback for custom test images.</doc>
         <source-position filename="../src/arvfakecamera.h" line="116"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -8151,7 +8112,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
           <instance-parameter name="camera" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="667">a #ArvFakeCamera</doc>
+                 line="675">a #ArvFakeCamera</doc>
             <type name="FakeCamera" c:type="ArvFakeCamera*"/>
           </instance-parameter>
           <parameter name="fill_pattern_callback"
@@ -8160,7 +8121,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      closure="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="668">callback for image filling</doc>
+                 line="676">callback for image filling</doc>
             <type name="FakeCameraFillPattern"
                   c:type="ArvFakeCameraFillPattern"/>
           </parameter>
@@ -8170,7 +8131,7 @@ arv-fake-gv-camera is a GV camera simulator based on this class.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/arvfakecamera.c"
-                 line="669">image filling user data</doc>
+                 line="677">image filling user data</doc>
             <type name="gpointer" c:type="void*"/>
           </parameter>
         </parameters>
@@ -8483,19 +8444,19 @@ standard format. See http://www.genicam.org.</doc>
       <method name="get_buffer" c:identifier="arv_gc_get_buffer">
         <doc xml:space="preserve"
              filename="../src/arvgc.c"
-             line="384">Retrieves the binded buffer.</doc>
+             line="390">Retrieves the binded buffer.</doc>
         <source-position filename="../src/arvgc.h" line="83"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgc.c"
-               line="390">a #ArvBuffer.</doc>
+               line="396">a #ArvBuffer.</doc>
           <type name="Buffer" c:type="ArvBuffer*"/>
         </return-value>
         <parameters>
           <instance-parameter name="genicam" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgc.c"
-                 line="386">a #ArvGc object</doc>
+                 line="392">a #ArvGc object</doc>
             <type name="Gc" c:type="ArvGc*"/>
           </instance-parameter>
         </parameters>
@@ -8503,19 +8464,19 @@ standard format. See http://www.genicam.org.</doc>
       <method name="get_device" c:identifier="arv_gc_get_device">
         <doc xml:space="preserve"
              filename="../src/arvgc.c"
-             line="284">Retrieves the device handled by this genicam interface. The device is used for register access.</doc>
+             line="290">Retrieves the device handled by this genicam interface. The device is used for register access.</doc>
         <source-position filename="../src/arvgc.h" line="81"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgc.c"
-               line="290">a #ArvDevice.</doc>
+               line="296">a #ArvDevice.</doc>
           <type name="Device" c:type="ArvDevice*"/>
         </return-value>
         <parameters>
           <instance-parameter name="genicam" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgc.c"
-                 line="286">a #ArvGc object</doc>
+                 line="292">a #ArvGc object</doc>
             <type name="Gc" c:type="ArvGc*"/>
           </instance-parameter>
         </parameters>
@@ -8523,25 +8484,25 @@ standard format. See http://www.genicam.org.</doc>
       <method name="get_node" c:identifier="arv_gc_get_node">
         <doc xml:space="preserve"
              filename="../src/arvgc.c"
-             line="265">Retrieves a genicam node by name.</doc>
+             line="271">Retrieves a genicam node by name.</doc>
         <source-position filename="../src/arvgc.h" line="80"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgc.c"
-               line="272">a #ArvGcNode, null if not found.</doc>
+               line="278">a #ArvGcNode, null if not found.</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
         <parameters>
           <instance-parameter name="genicam" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgc.c"
-                 line="267">a #ArvGc object</doc>
+                 line="273">a #ArvGc object</doc>
             <type name="Gc" c:type="ArvGc*"/>
           </instance-parameter>
           <parameter name="name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgc.c"
-                 line="268">node name</doc>
+                 line="274">node name</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -8626,25 +8587,40 @@ standard format. See http://www.genicam.org.</doc>
                  glib:type-name="ArvGcAccessMode"
                  glib:get-type="arv_gc_access_mode_get_type"
                  c:type="ArvGcAccessMode">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="50">Specifies access mode for feature nodes and registers.</doc>
       <member name="undefined"
               value="-1"
               c:identifier="ARV_GC_ACCESS_MODE_UNDEFINED"
               glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="52">undefined access mode</doc>
       </member>
       <member name="ro"
               value="0"
               c:identifier="ARV_GC_ACCESS_MODE_RO"
               glib:nick="ro">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="53">read-only access</doc>
       </member>
       <member name="wo"
               value="1"
               c:identifier="ARV_GC_ACCESS_MODE_WO"
               glib:nick="wo">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="54">write-only access</doc>
       </member>
       <member name="rw"
               value="2"
               c:identifier="ARV_GC_ACCESS_MODE_RW"
               glib:nick="rw">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="55">read and write access</doc>
       </member>
     </enumeration>
     <class name="GcBoolean"
@@ -8741,25 +8717,40 @@ standard format. See http://www.genicam.org.</doc>
                  glib:type-name="ArvGcCachable"
                  glib:get-type="arv_gc_cachable_get_type"
                  c:type="ArvGcCachable">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="67">Specifies caching mode for register values.</doc>
       <member name="undefined"
               value="-1"
               c:identifier="ARV_GC_CACHABLE_UNDEFINED"
               glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="69">undefined cache mode</doc>
       </member>
       <member name="no_cache"
               value="0"
               c:identifier="ARV_GC_CACHABLE_NO_CACHE"
               glib:nick="no-cache">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="70">no value caching</doc>
       </member>
       <member name="write_through"
               value="1"
               c:identifier="ARV_GC_CACHABLE_WRITE_THROUGH"
               glib:nick="write-through">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="71">write-through cache mode</doc>
       </member>
       <member name="write_around"
               value="2"
               c:identifier="ARV_GC_CACHABLE_WRITE_AROUND"
               glib:nick="write-around">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="72">write-around cache mode</doc>
       </member>
     </enumeration>
     <class name="GcCategory"
@@ -8892,6 +8883,47 @@ standard format. See http://www.genicam.org.</doc>
         <type name="GcConverterClass" c:type="ArvGcConverterClass"/>
       </field>
     </record>
+    <enumeration name="GcDisplayNotation"
+                 version="0.8.0"
+                 glib:type-name="ArvGcDisplayNotation"
+                 glib:get-type="arv_gc_display_notation_get_type"
+                 c:type="ArvGcDisplayNotation">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="161">Number display notations for showing numbers in user interfaces.</doc>
+      <member name="undefined"
+              value="-1"
+              c:identifier="ARV_GC_DISPLAY_NOTATION_UNDEFINED"
+              glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="163">undefined number notation</doc>
+      </member>
+      <member name="automatic"
+              value="0"
+              c:identifier="ARV_GC_DISPLAY_NOTATION_AUTOMATIC"
+              glib:nick="automatic">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="164">automatically detect whether to use fixed or scientific number notation</doc>
+      </member>
+      <member name="fixed"
+              value="1"
+              c:identifier="ARV_GC_DISPLAY_NOTATION_FIXED"
+              glib:nick="fixed">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="165">used fixed (i.e. decimal) notation for displaying numbers</doc>
+      </member>
+      <member name="scientific"
+              value="2"
+              c:identifier="ARV_GC_DISPLAY_NOTATION_SCIENTIFIC"
+              glib:nick="scientific">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="166">use scientific notation for displaying numbers</doc>
+      </member>
+    </enumeration>
     <class name="GcEnumEntry"
            c:symbol-prefix="gc_enum_entry"
            c:type="ArvGcEnumEntry"
@@ -9220,10 +9252,55 @@ standard format. See http://www.genicam.org.</doc>
            filename="../src/arvgcfeaturenode.c"
            line="23">#ArvGcFeatureNode provides a base class for the implementation of the different
 types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
-      <source-position filename="../src/arvgcfeaturenode.h" line="41"/>
+      <source-position filename="../src/arvgcfeaturenode.h" line="44"/>
+      <virtual-method name="get_access_mode">
+        <source-position filename="../src/arvgcfeaturenode.h" line="43"/>
+        <return-value transfer-ownership="none">
+          <type name="GcAccessMode" c:type="ArvGcAccessMode"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_feature_node" transfer-ownership="none">
+            <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="get_linked_feature" introspectable="0">
+        <source-position filename="../src/arvgcfeaturenode.h" line="42"/>
+        <return-value>
+          <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_feature_node" transfer-ownership="none">
+            <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <method name="get_actual_access_mode"
+              c:identifier="arv_gc_feature_node_get_actual_access_mode"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfeaturenode.c"
+             line="391">Gets feature node allowed access mode. This is a combination of Genicam ImposedAccessMode and
+AccessMode properties of underlying features and registers.</doc>
+        <source-position filename="../src/arvgcfeaturenode.h" line="59"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfeaturenode.c"
+               line="398">Access mode as #ArvGcAccessMode</doc>
+          <type name="GcAccessMode" c:type="ArvGcAccessMode"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_feature_node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfeaturenode.c"
+                 line="393">a #ArvGcFeatureNode</doc>
+            <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_description"
               c:identifier="arv_gc_feature_node_get_description">
-        <source-position filename="../src/arvgcfeaturenode.h" line="46"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="50"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -9235,7 +9312,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </method>
       <method name="get_display_name"
               c:identifier="arv_gc_feature_node_get_display_name">
-        <source-position filename="../src/arvgcfeaturenode.h" line="47"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="51"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -9245,20 +9322,68 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_imposed_access_mode"
+              c:identifier="arv_gc_feature_node_get_imposed_access_mode"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfeaturenode.c"
+             line="364">Gets feature node imposed access mode property.
+
+&lt;warning&gt;&lt;para&gt;Note that this function will not give the actual access mode. Please use
+#arv_gc_feature_node_get_actual_access_mode to get an access mode combined from imposed access
+mode and underlying register access mode properties.&lt;/para&gt;&lt;/warning&gt;</doc>
+        <source-position filename="../src/arvgcfeaturenode.h" line="58"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfeaturenode.c"
+               line="374">Access mode as #ArvGcAccessMode</doc>
+          <type name="GcAccessMode" c:type="ArvGcAccessMode"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_feature_node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfeaturenode.c"
+                 line="366">a #ArvGcFeatureNode</doc>
+            <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_name" c:identifier="arv_gc_feature_node_get_name">
-        <source-position filename="../src/arvgcfeaturenode.h" line="43"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="46"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="gc_feature_node" transfer-ownership="none">
+            <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_name_space"
+              c:identifier="arv_gc_feature_node_get_name_space"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfeaturenode.c"
+             line="225">Get feature name space.</doc>
+        <source-position filename="../src/arvgcfeaturenode.h" line="47"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfeaturenode.c"
+               line="231">Name space value as #ArvGcNameSpace.</doc>
+          <type name="GcNameSpace" c:type="ArvGcNameSpace"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_feature_node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfeaturenode.c"
+                 line="227">a #ArvGcFeatureNode</doc>
             <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="get_tooltip"
               c:identifier="arv_gc_feature_node_get_tooltip">
-        <source-position filename="../src/arvgcfeaturenode.h" line="45"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="49"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -9273,28 +9398,28 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvgcfeaturenode.c"
-             line="378">Retrieve the node value a string.
+             line="455">Retrieve the node value a string.
 
 &lt;warning&gt;&lt;para&gt;Please note the string content is still owned by the @node object, which means the returned pointer may not be still valid after a new call to this function.&lt;/para&gt;&lt;/warning&gt;</doc>
-        <source-position filename="../src/arvgcfeaturenode.h" line="56"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="63"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgcfeaturenode.c"
-               line="387">a string representation of the node value, %NULL if not applicable.</doc>
+               line="464">a string representation of the node value, %NULL if not applicable.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="gc_feature_node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgcfeaturenode.c"
-                 line="380">a #ArvGcFeatureNode</doc>
+                 line="457">a #ArvGcFeatureNode</doc>
             <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="get_visibility"
               c:identifier="arv_gc_feature_node_get_visibility">
-        <source-position filename="../src/arvgcfeaturenode.h" line="48"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="52"/>
         <return-value transfer-ownership="none">
           <type name="GcVisibility" c:type="ArvGcVisibility"/>
         </return-value>
@@ -9307,7 +9432,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="is_available"
               c:identifier="arv_gc_feature_node_is_available"
               throws="1">
-        <source-position filename="../src/arvgcfeaturenode.h" line="50"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -9320,7 +9445,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="is_implemented"
               c:identifier="arv_gc_feature_node_is_implemented"
               throws="1">
-        <source-position filename="../src/arvgcfeaturenode.h" line="51"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="55"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -9333,7 +9458,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="is_locked"
               c:identifier="arv_gc_feature_node_is_locked"
               throws="1">
-        <source-position filename="../src/arvgcfeaturenode.h" line="52"/>
+        <source-position filename="../src/arvgcfeaturenode.h" line="56"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -9348,8 +9473,8 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvgcfeaturenode.c"
-             line="347">Set the node value using a string representation of the value. May not be applicable to every node type, but safe.</doc>
-        <source-position filename="../src/arvgcfeaturenode.h" line="54"/>
+             line="424">Set the node value using a string representation of the value. May not be applicable to every node type, but safe.</doc>
+        <source-position filename="../src/arvgcfeaturenode.h" line="61"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9357,13 +9482,13 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           <instance-parameter name="gc_feature_node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgcfeaturenode.c"
-                 line="349">a #ArvGcFeatureNode</doc>
+                 line="426">a #ArvGcFeatureNode</doc>
             <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
           </instance-parameter>
           <parameter name="string" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgcfeaturenode.c"
-                 line="350">new node value, as string</doc>
+                 line="427">new node value, as string</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -9375,9 +9500,35 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
     <record name="GcFeatureNodeClass"
             c:type="ArvGcFeatureNodeClass"
             glib:is-gtype-struct-for="GcFeatureNode">
-      <source-position filename="../src/arvgcfeaturenode.h" line="41"/>
+      <source-position filename="../src/arvgcfeaturenode.h" line="44"/>
       <field name="parent_class">
         <type name="GcNodeClass" c:type="ArvGcNodeClass"/>
+      </field>
+      <field name="get_linked_feature" introspectable="0">
+        <callback name="get_linked_feature" introspectable="0">
+          <source-position filename="../src/arvgcfeaturenode.h" line="42"/>
+          <return-value>
+            <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+          </return-value>
+          <parameters>
+            <parameter name="gc_feature_node" transfer-ownership="none">
+              <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="get_access_mode">
+        <callback name="get_access_mode">
+          <source-position filename="../src/arvgcfeaturenode.h" line="43"/>
+          <return-value transfer-ownership="none">
+            <type name="GcAccessMode" c:type="ArvGcAccessMode"/>
+          </return-value>
+          <parameters>
+            <parameter name="gc_feature_node" transfer-ownership="none">
+              <type name="GcFeatureNode" c:type="ArvGcFeatureNode*"/>
+            </parameter>
+          </parameters>
+        </callback>
       </field>
     </record>
     <interface name="GcFloat"
@@ -9386,9 +9537,54 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
                glib:type-name="ArvGcFloat"
                glib:get-type="arv_gc_float_get_type"
                glib:type-struct="GcFloatInterface">
-      <source-position filename="../src/arvgcfloat.h" line="48"/>
+      <source-position filename="../src/arvgcfloat.h" line="52"/>
+      <virtual-method name="get_display_notation"
+                      invoker="get_display_notation"
+                      version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfloat.c"
+             line="155">Get number display notation.</doc>
+        <source-position filename="../src/arvgcfloat.h" line="47"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfloat.c"
+               line="161">Number display notation as #ArvGcDisplayNotation.</doc>
+          <type name="GcDisplayNotation" c:type="ArvGcDisplayNotation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_float" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="157">a #ArvGcFloat</doc>
+            <type name="GcFloat" c:type="ArvGcFloat*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="get_display_precision"
+                      invoker="get_display_precision"
+                      version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfloat.c"
+             line="181">Gets number of digits to show in user interface. This number should always be positive and represent
+total number of digits on left and right side of decimal.</doc>
+        <source-position filename="../src/arvgcfloat.h" line="48"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfloat.c"
+               line="188">Number of digits to show.</doc>
+          <type name="gint64" c:type="gint64"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_float" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="183">a #ArvGcFloat</doc>
+            <type name="GcFloat" c:type="ArvGcFloat*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
       <virtual-method name="get_inc" invoker="get_inc" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="44"/>
+        <source-position filename="../src/arvgcfloat.h" line="45"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9399,7 +9595,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="get_max" invoker="get_max" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="43"/>
+        <source-position filename="../src/arvgcfloat.h" line="44"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9410,7 +9606,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="get_min" invoker="get_min" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="42"/>
+        <source-position filename="../src/arvgcfloat.h" line="43"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9420,8 +9616,28 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </instance-parameter>
         </parameters>
       </virtual-method>
-      <virtual-method name="get_unit" invoker="get_unit" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="45"/>
+      <virtual-method name="get_representation" invoker="get_representation">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfloat.c"
+             line="116">Get number representation format.</doc>
+        <source-position filename="../src/arvgcfloat.h" line="46"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfloat.c"
+               line="122">Number representation format as #ArvGcRepresentation.</doc>
+          <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_float" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="118">a #ArvGcFloat</doc>
+            <type name="GcFloat" c:type="ArvGcFloat*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="get_unit" invoker="get_unit">
+        <source-position filename="../src/arvgcfloat.h" line="49"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -9432,7 +9648,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="get_value" invoker="get_value" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="40"/>
+        <source-position filename="../src/arvgcfloat.h" line="41"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9443,7 +9659,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="impose_max" invoker="impose_max" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="47"/>
+        <source-position filename="../src/arvgcfloat.h" line="51"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9457,7 +9673,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="impose_min" invoker="impose_min" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="46"/>
+        <source-position filename="../src/arvgcfloat.h" line="50"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9471,7 +9687,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="set_value" invoker="set_value" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="41"/>
+        <source-position filename="../src/arvgcfloat.h" line="42"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9484,8 +9700,53 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </parameter>
         </parameters>
       </virtual-method>
+      <method name="get_display_notation"
+              c:identifier="arv_gc_float_get_display_notation"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfloat.c"
+             line="155">Get number display notation.</doc>
+        <source-position filename="../src/arvgcfloat.h" line="61"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfloat.c"
+               line="161">Number display notation as #ArvGcDisplayNotation.</doc>
+          <type name="GcDisplayNotation" c:type="ArvGcDisplayNotation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_float" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="157">a #ArvGcFloat</doc>
+            <type name="GcFloat" c:type="ArvGcFloat*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_display_precision"
+              c:identifier="arv_gc_float_get_display_precision"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfloat.c"
+             line="181">Gets number of digits to show in user interface. This number should always be positive and represent
+total number of digits on left and right side of decimal.</doc>
+        <source-position filename="../src/arvgcfloat.h" line="62"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfloat.c"
+               line="188">Number of digits to show.</doc>
+          <type name="gint64" c:type="gint64"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_float" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="183">a #ArvGcFloat</doc>
+            <type name="GcFloat" c:type="ArvGcFloat*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_inc" c:identifier="arv_gc_float_get_inc" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="54"/>
+        <source-position filename="../src/arvgcfloat.h" line="58"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9496,7 +9757,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </method>
       <method name="get_max" c:identifier="arv_gc_float_get_max" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="53"/>
+        <source-position filename="../src/arvgcfloat.h" line="57"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9507,7 +9768,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </method>
       <method name="get_min" c:identifier="arv_gc_float_get_min" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="52"/>
+        <source-position filename="../src/arvgcfloat.h" line="56"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9517,8 +9778,29 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_unit" c:identifier="arv_gc_float_get_unit" throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="55"/>
+      <method name="get_representation"
+              c:identifier="arv_gc_float_get_representation">
+        <doc xml:space="preserve"
+             filename="../src/arvgcfloat.c"
+             line="116">Get number representation format.</doc>
+        <source-position filename="../src/arvgcfloat.h" line="59"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcfloat.c"
+               line="122">Number representation format as #ArvGcRepresentation.</doc>
+          <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_float" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="118">a #ArvGcFloat</doc>
+            <type name="GcFloat" c:type="ArvGcFloat*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_unit" c:identifier="arv_gc_float_get_unit">
+        <source-position filename="../src/arvgcfloat.h" line="60"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -9531,7 +9813,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="get_value"
               c:identifier="arv_gc_float_get_value"
               throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="50"/>
+        <source-position filename="../src/arvgcfloat.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -9544,7 +9826,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="impose_max"
               c:identifier="arv_gc_float_impose_max"
               throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="57"/>
+        <source-position filename="../src/arvgcfloat.h" line="64"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9560,7 +9842,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="impose_min"
               c:identifier="arv_gc_float_impose_min"
               throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="56"/>
+        <source-position filename="../src/arvgcfloat.h" line="63"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9576,7 +9858,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="set_value"
               c:identifier="arv_gc_float_set_value"
               throws="1">
-        <source-position filename="../src/arvgcfloat.h" line="51"/>
+        <source-position filename="../src/arvgcfloat.h" line="55"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9593,13 +9875,13 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
     <record name="GcFloatInterface"
             c:type="ArvGcFloatInterface"
             glib:is-gtype-struct-for="GcFloat">
-      <source-position filename="../src/arvgcfloat.h" line="48"/>
+      <source-position filename="../src/arvgcfloat.h" line="52"/>
       <field name="parent">
         <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
       <field name="get_value">
         <callback name="get_value" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="40"/>
+          <source-position filename="../src/arvgcfloat.h" line="41"/>
           <return-value transfer-ownership="none">
             <type name="gdouble" c:type="double"/>
           </return-value>
@@ -9612,7 +9894,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="set_value">
         <callback name="set_value" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="41"/>
+          <source-position filename="../src/arvgcfloat.h" line="42"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -9628,7 +9910,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="get_min">
         <callback name="get_min" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="42"/>
+          <source-position filename="../src/arvgcfloat.h" line="43"/>
           <return-value transfer-ownership="none">
             <type name="gdouble" c:type="double"/>
           </return-value>
@@ -9641,7 +9923,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="get_max">
         <callback name="get_max" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="43"/>
+          <source-position filename="../src/arvgcfloat.h" line="44"/>
           <return-value transfer-ownership="none">
             <type name="gdouble" c:type="double"/>
           </return-value>
@@ -9654,7 +9936,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="get_inc">
         <callback name="get_inc" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="44"/>
+          <source-position filename="../src/arvgcfloat.h" line="45"/>
           <return-value transfer-ownership="none">
             <type name="gdouble" c:type="double"/>
           </return-value>
@@ -9665,9 +9947,66 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </parameters>
         </callback>
       </field>
+      <field name="get_representation">
+        <callback name="get_representation">
+          <source-position filename="../src/arvgcfloat.h" line="46"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="122">Number representation format as #ArvGcRepresentation.</doc>
+            <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+          </return-value>
+          <parameters>
+            <parameter name="gc_float" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/arvgcfloat.c"
+                   line="118">a #ArvGcFloat</doc>
+              <type name="GcFloat" c:type="ArvGcFloat*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="get_display_notation">
+        <callback name="get_display_notation">
+          <source-position filename="../src/arvgcfloat.h" line="47"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="161">Number display notation as #ArvGcDisplayNotation.</doc>
+            <type name="GcDisplayNotation" c:type="ArvGcDisplayNotation"/>
+          </return-value>
+          <parameters>
+            <parameter name="gc_float" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/arvgcfloat.c"
+                   line="157">a #ArvGcFloat</doc>
+              <type name="GcFloat" c:type="ArvGcFloat*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="get_display_precision">
+        <callback name="get_display_precision">
+          <source-position filename="../src/arvgcfloat.h" line="48"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcfloat.c"
+                 line="188">Number of digits to show.</doc>
+            <type name="gint64" c:type="gint64"/>
+          </return-value>
+          <parameters>
+            <parameter name="gc_float" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/arvgcfloat.c"
+                   line="183">a #ArvGcFloat</doc>
+              <type name="GcFloat" c:type="ArvGcFloat*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
       <field name="get_unit">
-        <callback name="get_unit" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="45"/>
+        <callback name="get_unit">
+          <source-position filename="../src/arvgcfloat.h" line="49"/>
           <return-value transfer-ownership="none">
             <type name="utf8" c:type="const char*"/>
           </return-value>
@@ -9680,7 +10019,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="impose_min">
         <callback name="impose_min" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="46"/>
+          <source-position filename="../src/arvgcfloat.h" line="50"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -9696,7 +10035,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="impose_max">
         <callback name="impose_max" throws="1">
-          <source-position filename="../src/arvgcfloat.h" line="47"/>
+          <source-position filename="../src/arvgcfloat.h" line="51"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -9752,7 +10091,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvgcfloatregnode.c"
-               line="220">a new FloatReg node</doc>
+               line="261">a new FloatReg node</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
@@ -9872,7 +10211,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvgcintregnode.c"
-               line="197">a new IntReg node</doc>
+               line="209">a new IntReg node</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
@@ -9921,9 +10260,9 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
                glib:type-name="ArvGcInteger"
                glib:get-type="arv_gc_integer_get_type"
                glib:type-struct="GcIntegerInterface">
-      <source-position filename="../src/arvgcinteger.h" line="48"/>
+      <source-position filename="../src/arvgcinteger.h" line="50"/>
       <virtual-method name="get_inc" invoker="get_inc" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="44"/>
+        <source-position filename="../src/arvgcinteger.h" line="45"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -9934,7 +10273,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="get_max" invoker="get_max" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="43"/>
+        <source-position filename="../src/arvgcinteger.h" line="44"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -9945,7 +10284,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="get_min" invoker="get_min" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="42"/>
+        <source-position filename="../src/arvgcinteger.h" line="43"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -9955,8 +10294,28 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </instance-parameter>
         </parameters>
       </virtual-method>
-      <virtual-method name="get_unit" invoker="get_unit" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="45"/>
+      <virtual-method name="get_representation" invoker="get_representation">
+        <doc xml:space="preserve"
+             filename="../src/arvgcinteger.c"
+             line="115">Get number representation format.</doc>
+        <source-position filename="../src/arvgcinteger.h" line="46"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcinteger.c"
+               line="121">Number representation format as #ArvGcRepresentation.</doc>
+          <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_integer" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcinteger.c"
+                 line="117">a #ArvGcInteger</doc>
+            <type name="GcInteger" c:type="ArvGcInteger*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="get_unit" invoker="get_unit">
+        <source-position filename="../src/arvgcinteger.h" line="47"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -9967,7 +10326,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="get_value" invoker="get_value" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="40"/>
+        <source-position filename="../src/arvgcinteger.h" line="41"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -9978,7 +10337,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="impose_max" invoker="impose_max" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="47"/>
+        <source-position filename="../src/arvgcinteger.h" line="49"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -9992,7 +10351,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="impose_min" invoker="impose_min" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="46"/>
+        <source-position filename="../src/arvgcinteger.h" line="48"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -10006,7 +10365,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="set_value" invoker="set_value" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="41"/>
+        <source-position filename="../src/arvgcinteger.h" line="42"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -10020,7 +10379,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </virtual-method>
       <method name="get_inc" c:identifier="arv_gc_integer_get_inc" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="54"/>
+        <source-position filename="../src/arvgcinteger.h" line="56"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -10031,7 +10390,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </method>
       <method name="get_max" c:identifier="arv_gc_integer_get_max" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="53"/>
+        <source-position filename="../src/arvgcinteger.h" line="55"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -10042,7 +10401,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         </parameters>
       </method>
       <method name="get_min" c:identifier="arv_gc_integer_get_min" throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="52"/>
+        <source-position filename="../src/arvgcinteger.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -10052,10 +10411,29 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_unit"
-              c:identifier="arv_gc_integer_get_unit"
-              throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="55"/>
+      <method name="get_representation"
+              c:identifier="arv_gc_integer_get_representation">
+        <doc xml:space="preserve"
+             filename="../src/arvgcinteger.c"
+             line="115">Get number representation format.</doc>
+        <source-position filename="../src/arvgcinteger.h" line="57"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcinteger.c"
+               line="121">Number representation format as #ArvGcRepresentation.</doc>
+          <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gc_integer" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcinteger.c"
+                 line="117">a #ArvGcInteger</doc>
+            <type name="GcInteger" c:type="ArvGcInteger*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_unit" c:identifier="arv_gc_integer_get_unit">
+        <source-position filename="../src/arvgcinteger.h" line="58"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -10068,7 +10446,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="get_value"
               c:identifier="arv_gc_integer_get_value"
               throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="50"/>
+        <source-position filename="../src/arvgcinteger.h" line="52"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -10081,7 +10459,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="impose_max"
               c:identifier="arv_gc_integer_impose_max"
               throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="57"/>
+        <source-position filename="../src/arvgcinteger.h" line="60"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -10097,7 +10475,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="impose_min"
               c:identifier="arv_gc_integer_impose_min"
               throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="56"/>
+        <source-position filename="../src/arvgcinteger.h" line="59"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -10113,7 +10491,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       <method name="set_value"
               c:identifier="arv_gc_integer_set_value"
               throws="1">
-        <source-position filename="../src/arvgcinteger.h" line="51"/>
+        <source-position filename="../src/arvgcinteger.h" line="53"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -10130,13 +10508,13 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
     <record name="GcIntegerInterface"
             c:type="ArvGcIntegerInterface"
             glib:is-gtype-struct-for="GcInteger">
-      <source-position filename="../src/arvgcinteger.h" line="48"/>
+      <source-position filename="../src/arvgcinteger.h" line="50"/>
       <field name="parent">
         <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
       <field name="get_value">
         <callback name="get_value" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="40"/>
+          <source-position filename="../src/arvgcinteger.h" line="41"/>
           <return-value transfer-ownership="none">
             <type name="gint64" c:type="gint64"/>
           </return-value>
@@ -10149,7 +10527,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="set_value">
         <callback name="set_value" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="41"/>
+          <source-position filename="../src/arvgcinteger.h" line="42"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -10165,7 +10543,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="get_min">
         <callback name="get_min" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="42"/>
+          <source-position filename="../src/arvgcinteger.h" line="43"/>
           <return-value transfer-ownership="none">
             <type name="gint64" c:type="gint64"/>
           </return-value>
@@ -10178,7 +10556,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="get_max">
         <callback name="get_max" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="43"/>
+          <source-position filename="../src/arvgcinteger.h" line="44"/>
           <return-value transfer-ownership="none">
             <type name="gint64" c:type="gint64"/>
           </return-value>
@@ -10191,7 +10569,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="get_inc">
         <callback name="get_inc" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="44"/>
+          <source-position filename="../src/arvgcinteger.h" line="45"/>
           <return-value transfer-ownership="none">
             <type name="gint64" c:type="gint64"/>
           </return-value>
@@ -10202,9 +10580,28 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
           </parameters>
         </callback>
       </field>
+      <field name="get_representation">
+        <callback name="get_representation">
+          <source-position filename="../src/arvgcinteger.h" line="46"/>
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcinteger.c"
+                 line="121">Number representation format as #ArvGcRepresentation.</doc>
+            <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+          </return-value>
+          <parameters>
+            <parameter name="gc_integer" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="../src/arvgcinteger.c"
+                   line="117">a #ArvGcInteger</doc>
+              <type name="GcInteger" c:type="ArvGcInteger*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
       <field name="get_unit">
-        <callback name="get_unit" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="45"/>
+        <callback name="get_unit">
+          <source-position filename="../src/arvgcinteger.h" line="47"/>
           <return-value transfer-ownership="none">
             <type name="utf8" c:type="const char*"/>
           </return-value>
@@ -10217,7 +10614,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="impose_min">
         <callback name="impose_min" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="46"/>
+          <source-position filename="../src/arvgcinteger.h" line="48"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -10233,7 +10630,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
       </field>
       <field name="impose_max">
         <callback name="impose_max" throws="1">
-          <source-position filename="../src/arvgcinteger.h" line="47"/>
+          <source-position filename="../src/arvgcinteger.h" line="49"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
           </return-value>
@@ -10300,20 +10697,32 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
                  glib:type-name="ArvGcIsLinear"
                  glib:get-type="arv_gc_is_linear_get_type"
                  c:type="ArvGcIsLinear">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="100">Describes relationship between TO and FROM variables in Converter feature nodes.</doc>
       <member name="undefined"
               value="-1"
               c:identifier="ARV_GC_IS_LINEAR_UNDEFINED"
               glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="102">undefined relationship between variables</doc>
       </member>
       <member name="no"
               value="0"
               c:identifier="ARV_GC_IS_LINEAR_NO"
               glib:nick="no">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="103">non-linear relationship between variables</doc>
       </member>
       <member name="yes"
               value="1"
               c:identifier="ARV_GC_IS_LINEAR_YES"
               glib:nick="yes">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="104">linear relationship between variables</doc>
       </member>
     </enumeration>
     <class name="GcMaskedIntRegNode"
@@ -10334,7 +10743,7 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvgcmaskedintregnode.c"
-               line="191">a new MaskedIntReg node</doc>
+               line="203">a new MaskedIntReg node</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
@@ -10354,20 +10763,33 @@ types of Genicam feature node (Group, Integer, Float, Enumeration...).</doc>
                  glib:type-name="ArvGcNameSpace"
                  glib:get-type="arv_gc_name_space_get_type"
                  c:type="ArvGcNameSpace">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="34">Specifies feature node or register name space type. Standard name space features are listed in
+Genicam materials. Any other vendor-specific features should use custom name space type.</doc>
       <member name="undefined"
               value="-1"
               c:identifier="ARV_GC_NAME_SPACE_UNDEFINED"
               glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="36">undefined name space</doc>
       </member>
       <member name="standard"
               value="0"
               c:identifier="ARV_GC_NAME_SPACE_STANDARD"
               glib:nick="standard">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="37">Genicam standardized name space</doc>
       </member>
       <member name="custom"
               value="1"
               c:identifier="ARV_GC_NAME_SPACE_CUSTOM"
               glib:nick="custom">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="38">non-standardized name space</doc>
       </member>
     </enumeration>
     <class name="GcNode"
@@ -10495,343 +10917,364 @@ types of Genicam nodes.</doc>
            filename="../src/arvgcpropertynode.c"
            line="23">#ArvGcPropertyNode provides a base class for the implementation of the different
 types of Genicam property nodes (Value, pValue, Endianness...).</doc>
-      <source-position filename="../src/arvgcpropertynode.h" line="99"/>
+      <source-position filename="../src/arvgcpropertynode.h" line="102"/>
       <constructor name="new_access_mode"
                    c:identifier="arv_gc_property_node_new_access_mode">
-        <source-position filename="../src/arvgcpropertynode.h" line="134"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="140"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_address"
                    c:identifier="arv_gc_property_node_new_address">
-        <source-position filename="../src/arvgcpropertynode.h" line="104"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="107"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_bit" c:identifier="arv_gc_property_node_new_bit">
-        <source-position filename="../src/arvgcpropertynode.h" line="142"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="148"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_cachable"
                    c:identifier="arv_gc_property_node_new_cachable">
-        <source-position filename="../src/arvgcpropertynode.h" line="136"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="142"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_chunk_id"
                    c:identifier="arv_gc_property_node_new_chunk_id">
-        <source-position filename="../src/arvgcpropertynode.h" line="145"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="151"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_command_value"
                    c:identifier="arv_gc_property_node_new_command_value">
-        <source-position filename="../src/arvgcpropertynode.h" line="143"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="149"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_constant"
                    c:identifier="arv_gc_property_node_new_constant">
-        <source-position filename="../src/arvgcpropertynode.h" line="133"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="139"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_description"
                    c:identifier="arv_gc_property_node_new_description">
-        <source-position filename="../src/arvgcpropertynode.h" line="106"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="109"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_display_name"
                    c:identifier="arv_gc_property_node_new_display_name">
-        <source-position filename="../src/arvgcpropertynode.h" line="109"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="112"/>
+        <return-value transfer-ownership="full">
+          <type name="GcNode" c:type="ArvGcNode*"/>
+        </return-value>
+      </constructor>
+      <constructor name="new_display_notation"
+                   c:identifier="arv_gc_property_node_new_display_notation">
+        <source-position filename="../src/arvgcpropertynode.h" line="122"/>
+        <return-value transfer-ownership="full">
+          <type name="GcNode" c:type="ArvGcNode*"/>
+        </return-value>
+      </constructor>
+      <constructor name="new_display_precision"
+                   c:identifier="arv_gc_property_node_new_display_precision">
+        <source-position filename="../src/arvgcpropertynode.h" line="123"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_endianness"
                    c:identifier="arv_gc_property_node_new_endianness">
-        <source-position filename="../src/arvgcpropertynode.h" line="138"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="144"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_event_id"
                    c:identifier="arv_gc_property_node_new_event_id">
-        <source-position filename="../src/arvgcpropertynode.h" line="146"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="152"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_expression"
                    c:identifier="arv_gc_property_node_new_expression">
-        <source-position filename="../src/arvgcpropertynode.h" line="132"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="138"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_formula"
                    c:identifier="arv_gc_property_node_new_formula">
-        <source-position filename="../src/arvgcpropertynode.h" line="129"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="135"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_formula_from"
                    c:identifier="arv_gc_property_node_new_formula_from">
-        <source-position filename="../src/arvgcpropertynode.h" line="131"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="137"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_formula_to"
                    c:identifier="arv_gc_property_node_new_formula_to">
-        <source-position filename="../src/arvgcpropertynode.h" line="130"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="136"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_imposed_access_mode"
                    c:identifier="arv_gc_property_node_new_imposed_access_mode">
-        <source-position filename="../src/arvgcpropertynode.h" line="135"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="141"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_increment"
                    c:identifier="arv_gc_property_node_new_increment">
-        <source-position filename="../src/arvgcpropertynode.h" line="115"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="118"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_is_linear"
                    c:identifier="arv_gc_property_node_new_is_linear">
-        <source-position filename="../src/arvgcpropertynode.h" line="117"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="120"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_length"
                    c:identifier="arv_gc_property_node_new_length">
-        <source-position filename="../src/arvgcpropertynode.h" line="125"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="131"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_lsb" c:identifier="arv_gc_property_node_new_lsb">
-        <source-position filename="../src/arvgcpropertynode.h" line="140"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="146"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_maximum"
                    c:identifier="arv_gc_property_node_new_maximum">
-        <source-position filename="../src/arvgcpropertynode.h" line="112"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="115"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_minimum"
                    c:identifier="arv_gc_property_node_new_minimum">
-        <source-position filename="../src/arvgcpropertynode.h" line="110"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="113"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_msb" c:identifier="arv_gc_property_node_new_msb">
-        <source-position filename="../src/arvgcpropertynode.h" line="141"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="147"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_off_value"
                    c:identifier="arv_gc_property_node_new_off_value">
-        <source-position filename="../src/arvgcpropertynode.h" line="120"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="126"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_on_value"
                    c:identifier="arv_gc_property_node_new_on_value">
-        <source-position filename="../src/arvgcpropertynode.h" line="119"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="125"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_address"
                    c:identifier="arv_gc_property_node_new_p_address">
-        <source-position filename="../src/arvgcpropertynode.h" line="105"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="108"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_command_value"
                    c:identifier="arv_gc_property_node_new_p_command_value">
-        <source-position filename="../src/arvgcpropertynode.h" line="144"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="150"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_feature"
                    c:identifier="arv_gc_property_node_new_p_feature">
-        <source-position filename="../src/arvgcpropertynode.h" line="101"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="104"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_increment"
                    c:identifier="arv_gc_property_node_new_p_increment">
-        <source-position filename="../src/arvgcpropertynode.h" line="116"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="119"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_is_available"
                    c:identifier="arv_gc_property_node_new_p_is_available">
-        <source-position filename="../src/arvgcpropertynode.h" line="122"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="128"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_is_implemented"
                    c:identifier="arv_gc_property_node_new_p_is_implemented">
-        <source-position filename="../src/arvgcpropertynode.h" line="121"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="127"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_is_locked"
                    c:identifier="arv_gc_property_node_new_p_is_locked">
-        <source-position filename="../src/arvgcpropertynode.h" line="123"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="129"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_length"
                    c:identifier="arv_gc_property_node_new_p_length">
-        <source-position filename="../src/arvgcpropertynode.h" line="126"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="132"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_maximum"
                    c:identifier="arv_gc_property_node_new_p_maximum">
-        <source-position filename="../src/arvgcpropertynode.h" line="113"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="116"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_minimum"
                    c:identifier="arv_gc_property_node_new_p_minimum">
-        <source-position filename="../src/arvgcpropertynode.h" line="111"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="114"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_port"
                    c:identifier="arv_gc_property_node_new_p_port">
-        <source-position filename="../src/arvgcpropertynode.h" line="127"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="133"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_selected"
                    c:identifier="arv_gc_property_node_new_p_selected">
-        <source-position filename="../src/arvgcpropertynode.h" line="124"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="130"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_value"
                    c:identifier="arv_gc_property_node_new_p_value">
-        <source-position filename="../src/arvgcpropertynode.h" line="103"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="106"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_value_default"
                    c:identifier="arv_gc_property_node_new_p_value_default">
-        <source-position filename="../src/arvgcpropertynode.h" line="148"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="154"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_p_variable"
                    c:identifier="arv_gc_property_node_new_p_variable">
-        <source-position filename="../src/arvgcpropertynode.h" line="128"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="134"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_polling_time"
                    c:identifier="arv_gc_property_node_new_polling_time">
-        <source-position filename="../src/arvgcpropertynode.h" line="137"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="143"/>
+        <return-value transfer-ownership="full">
+          <type name="GcNode" c:type="ArvGcNode*"/>
+        </return-value>
+      </constructor>
+      <constructor name="new_representation"
+                   c:identifier="arv_gc_property_node_new_representation">
+        <source-position filename="../src/arvgcpropertynode.h" line="121"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_sign"
                    c:identifier="arv_gc_property_node_new_sign">
-        <source-position filename="../src/arvgcpropertynode.h" line="139"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="145"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_slope"
                    c:identifier="arv_gc_property_node_new_slope">
-        <source-position filename="../src/arvgcpropertynode.h" line="114"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="117"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_tooltip"
                    c:identifier="arv_gc_property_node_new_tooltip">
-        <source-position filename="../src/arvgcpropertynode.h" line="108"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="111"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_unit"
                    c:identifier="arv_gc_property_node_new_unit">
-        <source-position filename="../src/arvgcpropertynode.h" line="118"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="124"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_value"
                    c:identifier="arv_gc_property_node_new_value">
-        <source-position filename="../src/arvgcpropertynode.h" line="102"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="105"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_value_default"
                    c:identifier="arv_gc_property_node_new_value_default">
-        <source-position filename="../src/arvgcpropertynode.h" line="147"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="153"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <constructor name="new_visibility"
                    c:identifier="arv_gc_property_node_new_visibility">
-        <source-position filename="../src/arvgcpropertynode.h" line="107"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="110"/>
         <return-value transfer-ownership="full">
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
       <method name="get_access_mode"
               c:identifier="arv_gc_property_node_get_access_mode">
-        <source-position filename="../src/arvgcpropertynode.h" line="164"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="170"/>
         <return-value transfer-ownership="none">
           <type name="GcAccessMode" c:type="ArvGcAccessMode"/>
         </return-value>
@@ -10846,7 +11289,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       </method>
       <method name="get_cachable"
               c:identifier="arv_gc_property_node_get_cachable">
-        <source-position filename="../src/arvgcpropertynode.h" line="163"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="169"/>
         <return-value transfer-ownership="none">
           <type name="GcCachable" c:type="ArvGcCachable"/>
         </return-value>
@@ -10859,10 +11302,40 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="get_display_notation"
+              c:identifier="arv_gc_property_node_get_display_notation">
+        <source-position filename="../src/arvgcpropertynode.h" line="173"/>
+        <return-value transfer-ownership="none">
+          <type name="GcDisplayNotation" c:type="ArvGcDisplayNotation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="GcPropertyNode" c:type="ArvGcPropertyNode*"/>
+          </instance-parameter>
+          <parameter name="default_value" transfer-ownership="none">
+            <type name="GcDisplayNotation" c:type="ArvGcDisplayNotation"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_display_precision"
+              c:identifier="arv_gc_property_node_get_display_precision">
+        <source-position filename="../src/arvgcpropertynode.h" line="174"/>
+        <return-value transfer-ownership="none">
+          <type name="gint64" c:type="gint64"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="GcPropertyNode" c:type="ArvGcPropertyNode*"/>
+          </instance-parameter>
+          <parameter name="default_value" transfer-ownership="none">
+            <type name="gint64" c:type="gint64"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_double"
               c:identifier="arv_gc_property_node_get_double"
               throws="1">
-        <source-position filename="../src/arvgcpropertynode.h" line="156"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="162"/>
         <return-value transfer-ownership="none">
           <type name="gdouble" c:type="double"/>
         </return-value>
@@ -10874,7 +11347,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       </method>
       <method name="get_endianness"
               c:identifier="arv_gc_property_node_get_endianness">
-        <source-position filename="../src/arvgcpropertynode.h" line="159"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="165"/>
         <return-value transfer-ownership="none">
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -10890,7 +11363,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <method name="get_int64"
               c:identifier="arv_gc_property_node_get_int64"
               throws="1">
-        <source-position filename="../src/arvgcpropertynode.h" line="154"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="160"/>
         <return-value transfer-ownership="none">
           <type name="gint64" c:type="gint64"/>
         </return-value>
@@ -10902,24 +11375,24 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       </method>
       <method name="get_linked_node"
               c:identifier="arv_gc_property_node_get_linked_node">
-        <source-position filename="../src/arvgcpropertynode.h" line="167"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="176"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgcpropertynode.c"
-               line="493">the #ArvGcNode which @node points to, %NULL if the property is not a pointer.</doc>
+               line="495">the #ArvGcNode which @node points to, %NULL if the property is not a pointer.</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgcpropertynode.c"
-                 line="491">a #ArvGcPropertyNode</doc>
+                 line="493">a #ArvGcPropertyNode</doc>
             <type name="GcPropertyNode" c:type="ArvGcPropertyNode*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="get_lsb" c:identifier="arv_gc_property_node_get_lsb">
-        <source-position filename="../src/arvgcpropertynode.h" line="161"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="167"/>
         <return-value transfer-ownership="none">
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -10933,7 +11406,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
         </parameters>
       </method>
       <method name="get_msb" c:identifier="arv_gc_property_node_get_msb">
-        <source-position filename="../src/arvgcpropertynode.h" line="162"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="168"/>
         <return-value transfer-ownership="none">
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -10949,25 +11422,25 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <method name="get_name"
               c:identifier="arv_gc_property_node_get_name"
               version="0.6.0">
-        <source-position filename="../src/arvgcpropertynode.h" line="150"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="156"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgcpropertynode.c"
-               line="288">node Name property value.</doc>
+               line="290">node Name property value.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgcpropertynode.c"
-                 line="286">a #ArvGcPropertyNode</doc>
+                 line="288">a #ArvGcPropertyNode</doc>
             <type name="GcPropertyNode" c:type="ArvGcPropertyNode*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="get_node_type"
               c:identifier="arv_gc_property_node_get_node_type">
-        <source-position filename="../src/arvgcpropertynode.h" line="168"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="177"/>
         <return-value transfer-ownership="none">
           <type name="GcPropertyNodeType" c:type="ArvGcPropertyNodeType"/>
         </return-value>
@@ -10977,8 +11450,23 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_representation"
+              c:identifier="arv_gc_property_node_get_representation">
+        <source-position filename="../src/arvgcpropertynode.h" line="172"/>
+        <return-value transfer-ownership="none">
+          <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="GcPropertyNode" c:type="ArvGcPropertyNode*"/>
+          </instance-parameter>
+          <parameter name="default_value" transfer-ownership="none">
+            <type name="GcRepresentation" c:type="ArvGcRepresentation"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_sign" c:identifier="arv_gc_property_node_get_sign">
-        <source-position filename="../src/arvgcpropertynode.h" line="160"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="166"/>
         <return-value transfer-ownership="none">
           <type name="GcSignedness" c:type="ArvGcSignedness"/>
         </return-value>
@@ -10994,7 +11482,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <method name="get_string"
               c:identifier="arv_gc_property_node_get_string"
               throws="1">
-        <source-position filename="../src/arvgcpropertynode.h" line="152"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="158"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -11006,7 +11494,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       </method>
       <method name="get_visibility"
               c:identifier="arv_gc_property_node_get_visibility">
-        <source-position filename="../src/arvgcpropertynode.h" line="165"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="171"/>
         <return-value transfer-ownership="none">
           <type name="GcVisibility" c:type="ArvGcVisibility"/>
         </return-value>
@@ -11022,7 +11510,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <method name="set_double"
               c:identifier="arv_gc_property_node_set_double"
               throws="1">
-        <source-position filename="../src/arvgcpropertynode.h" line="157"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="163"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -11038,7 +11526,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <method name="set_int64"
               c:identifier="arv_gc_property_node_set_int64"
               throws="1">
-        <source-position filename="../src/arvgcpropertynode.h" line="155"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="161"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -11054,7 +11542,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
       <method name="set_string"
               c:identifier="arv_gc_property_node_set_string"
               throws="1">
-        <source-position filename="../src/arvgcpropertynode.h" line="153"/>
+        <source-position filename="../src/arvgcpropertynode.h" line="159"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -11080,7 +11568,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
     <record name="GcPropertyNodeClass"
             c:type="ArvGcPropertyNodeClass"
             glib:is-gtype-struct-for="GcPropertyNode">
-      <source-position filename="../src/arvgcpropertynode.h" line="99"/>
+      <source-position filename="../src/arvgcpropertynode.h" line="102"/>
       <field name="parent_class">
         <type name="GcNodeClass" c:type="ArvGcNodeClass"/>
       </field>
@@ -11149,118 +11637,133 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_IS_LINEAR"
               glib:nick="is-linear">
       </member>
-      <member name="unit"
+      <member name="representation"
               value="12"
+              c:identifier="ARV_GC_PROPERTY_NODE_TYPE_REPRESENTATION"
+              glib:nick="representation">
+      </member>
+      <member name="display_notation"
+              value="13"
+              c:identifier="ARV_GC_PROPERTY_NODE_TYPE_DISPLAY_NOTATION"
+              glib:nick="display-notation">
+      </member>
+      <member name="display_precision"
+              value="14"
+              c:identifier="ARV_GC_PROPERTY_NODE_TYPE_DISPLAY_PRECISION"
+              glib:nick="display-precision">
+      </member>
+      <member name="unit"
+              value="15"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_UNIT"
               glib:nick="unit">
       </member>
       <member name="on_value"
-              value="13"
+              value="16"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_ON_VALUE"
               glib:nick="on-value">
       </member>
       <member name="off_value"
-              value="14"
+              value="17"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_OFF_VALUE"
               glib:nick="off-value">
       </member>
       <member name="length"
-              value="15"
+              value="18"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_LENGTH"
               glib:nick="length">
       </member>
       <member name="formula"
-              value="16"
+              value="19"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_FORMULA"
               glib:nick="formula">
       </member>
       <member name="formula_to"
-              value="17"
+              value="20"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_FORMULA_TO"
               glib:nick="formula-to">
       </member>
       <member name="formula_from"
-              value="18"
+              value="21"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_FORMULA_FROM"
               glib:nick="formula-from">
       </member>
       <member name="expression"
-              value="19"
+              value="22"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_EXPRESSION"
               glib:nick="expression">
       </member>
       <member name="constant"
-              value="20"
+              value="23"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_CONSTANT"
               glib:nick="constant">
       </member>
       <member name="access_mode"
-              value="21"
+              value="24"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_ACCESS_MODE"
               glib:nick="access-mode">
       </member>
       <member name="imposed_access_mode"
-              value="22"
+              value="25"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_IMPOSED_ACCESS_MODE"
               glib:nick="imposed-access-mode">
       </member>
       <member name="cachable"
-              value="23"
+              value="26"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_CACHABLE"
               glib:nick="cachable">
       </member>
       <member name="polling_time"
-              value="24"
+              value="27"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_POLLING_TIME"
               glib:nick="polling-time">
       </member>
       <member name="endianness"
-              value="25"
+              value="28"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_ENDIANNESS"
               glib:nick="endianness">
       </member>
       <member name="sign"
-              value="26"
+              value="29"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_SIGN"
               glib:nick="sign">
       </member>
       <member name="lsb"
-              value="27"
+              value="30"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_LSB"
               glib:nick="lsb">
       </member>
       <member name="msb"
-              value="28"
+              value="31"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_MSB"
               glib:nick="msb">
       </member>
       <member name="bit"
-              value="29"
+              value="32"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_BIT"
               glib:nick="bit">
       </member>
       <member name="command_value"
-              value="30"
+              value="33"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_COMMAND_VALUE"
               glib:nick="command-value">
       </member>
       <member name="chunk_id"
-              value="31"
+              value="34"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_CHUNK_ID"
               glib:nick="chunk-id">
       </member>
       <member name="event_id"
-              value="32"
+              value="35"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_EVENT_ID"
               glib:nick="event-id">
       </member>
       <member name="value_indexed"
-              value="33"
+              value="36"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_VALUE_INDEXED"
               glib:nick="value-indexed">
       </member>
       <member name="value_default"
-              value="34"
+              value="37"
               c:identifier="ARV_GC_PROPERTY_NODE_TYPE_VALUE_DEFAULT"
               glib:nick="value-default">
       </member>
@@ -11514,24 +12017,43 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
         </return-value>
       </constructor>
       <method name="check_schema_version"
-              c:identifier="arv_gc_register_description_node_check_schema_version">
+              c:identifier="arv_gc_register_description_node_check_schema_version"
+              version="0.6.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="140">Checks if the Genicam document version is higher or equal to the given version.</doc>
         <source-position filename="../src/arvgcregisterdescriptionnode.h"
                          line="43"/>
         <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="149">True if document version is higher or equal than the given version.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="142">a #ArvGcRegisterDescriptionNode</doc>
             <type name="GcRegisterDescriptionNode"
                   c:type="ArvGcRegisterDescriptionNode*"/>
           </instance-parameter>
           <parameter name="required_major" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="143">required major version number</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="required_minor" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="144">required minor version number</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="required_subminor" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="145">required sub minor version number</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -11573,9 +12095,201 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
           <parameter name="subminor" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgcregisterdescriptionnode.c"
-                 line="105">sub mminor version number</doc>
+                 line="105">sub minor version number</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
+        </parameters>
+      </method>
+      <method name="get_major_version"
+              c:identifier="arv_gc_register_description_node_get_major_version"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="201">Gets Genicam document major version.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="50"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="207">Major version.</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="203">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_minor_version"
+              c:identifier="arv_gc_register_description_node_get_minor_version"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="220">Gets Genicam document minor version.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="51"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="226">Minor version.</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="222">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_model_name"
+              c:identifier="arv_gc_register_description_node_get_model_name"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="163">Gets camera model name for given Genicam document.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="48"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="169">Model name string.</doc>
+          <type name="utf8" c:type="char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="165">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_schema_major_version"
+              c:identifier="arv_gc_register_description_node_get_schema_major_version"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="258">Gets Genicam document schema major version.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="53"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="264">Schema major version.</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="260">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_schema_minor_version"
+              c:identifier="arv_gc_register_description_node_get_schema_minor_version"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="277">Gets Genicam document schema minor version.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="54"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="283">Schema minor version.</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="279">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_schema_subminor_version"
+              c:identifier="arv_gc_register_description_node_get_schema_subminor_version"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="296">Gets Genicam document schema sub minor version.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="55"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="302">Schema sub minor version.</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="298">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_subminor_version"
+              c:identifier="arv_gc_register_description_node_get_subminor_version"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="239">Gets Genicam document sub minor version.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="52"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="245">Sub minor version.</doc>
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="241">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_vendor_name"
+              c:identifier="arv_gc_register_description_node_get_vendor_name"
+              version="0.8.0">
+        <doc xml:space="preserve"
+             filename="../src/arvgcregisterdescriptionnode.c"
+             line="182">Gets camera vendor name for given Genicam document.</doc>
+        <source-position filename="../src/arvgcregisterdescriptionnode.h"
+                         line="49"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/arvgcregisterdescriptionnode.c"
+               line="188">Vendor name string.</doc>
+          <type name="utf8" c:type="char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="node" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgcregisterdescriptionnode.c"
+                 line="184">a #ArvGcRegisterDescriptionNode</doc>
+            <type name="GcRegisterDescriptionNode"
+                  c:type="ArvGcRegisterDescriptionNode*"/>
+          </instance-parameter>
         </parameters>
       </method>
     </class>
@@ -11696,6 +12410,79 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
         <type name="GcCachable" c:type="ArvGcCachable"/>
       </field>
     </record>
+    <enumeration name="GcRepresentation"
+                 version="0.8.0"
+                 glib:type-name="ArvGcRepresentation"
+                 glib:get-type="arv_gc_representation_get_type"
+                 c:type="ArvGcRepresentation">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="134">Number representation formats.</doc>
+      <member name="undefined"
+              value="-1"
+              c:identifier="ARV_GC_REPRESENTATION_UNDEFINED"
+              glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="136">undefined representation</doc>
+      </member>
+      <member name="linear"
+              value="0"
+              c:identifier="ARV_GC_REPRESENTATION_LINEAR"
+              glib:nick="linear">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="137">number presented on linear scale (e.g. on a linear slider)</doc>
+      </member>
+      <member name="logarithmic"
+              value="1"
+              c:identifier="ARV_GC_REPRESENTATION_LOGARITHMIC"
+              glib:nick="logarithmic">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="138">number presented on logarithmic scale (e.g. on a logarithmic slider)</doc>
+      </member>
+      <member name="boolean"
+              value="2"
+              c:identifier="ARV_GC_REPRESENTATION_BOOLEAN"
+              glib:nick="boolean">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="139">binary choice (e.g. a checkbox)</doc>
+      </member>
+      <member name="pure_number"
+              value="3"
+              c:identifier="ARV_GC_REPRESENTATION_PURE_NUMBER"
+              glib:nick="pure-number">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="140">number presented in an editable field (e.g. a spinbox)</doc>
+      </member>
+      <member name="hex_number"
+              value="4"
+              c:identifier="ARV_GC_REPRESENTATION_HEX_NUMBER"
+              glib:nick="hex-number">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="141">number presented in hexadecimal format</doc>
+      </member>
+      <member name="ipv4_address"
+              value="5"
+              c:identifier="ARV_GC_REPRESENTATION_IPV4_ADDRESS"
+              glib:nick="ipv4-address">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="142">IPv4 address</doc>
+      </member>
+      <member name="mac_address"
+              value="6"
+              c:identifier="ARV_GC_REPRESENTATION_MAC_ADDRESS"
+              glib:nick="mac-address">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="143">MAC address</doc>
+      </member>
+    </enumeration>
     <interface name="GcSelector"
                c:symbol-prefix="gc_selector"
                c:type="ArvGcSelector"
@@ -11798,20 +12585,34 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
                  glib:type-name="ArvGcSignedness"
                  glib:get-type="arv_gc_signedness_get_type"
                  c:type="ArvGcSignedness">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="83">Specifies signedness of integer registers. Per standard Genicam internally uses signed 64-bit
+signed integers for representing all integer registers. Therefore unsigned 64-bit integers are
+not available.</doc>
       <member name="undefined"
               value="-1"
               c:identifier="ARV_GC_SIGNEDNESS_UNDEFINED"
               glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="85">undefined sign</doc>
       </member>
       <member name="signed"
               value="0"
               c:identifier="ARV_GC_SIGNEDNESS_SIGNED"
               glib:nick="signed">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="86">signed integer</doc>
       </member>
       <member name="unsigned"
               value="1"
               c:identifier="ARV_GC_SIGNEDNESS_UNSIGNED"
               glib:nick="unsigned">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="87">unsigned integer</doc>
       </member>
     </enumeration>
     <interface name="GcString"
@@ -12035,7 +12836,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvgcstringregnode.c"
-               line="87">a new StringReg node</doc>
+               line="111">a new StringReg node</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
@@ -12066,7 +12867,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvgcstructentrynode.c"
-               line="114">a newly created #ArvGcStructEntryNode.</doc>
+               line="122">a newly created #ArvGcStructEntryNode.</doc>
           <type name="GcNode" c:type="ArvGcNode*"/>
         </return-value>
       </constructor>
@@ -12199,30 +13000,48 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
                  glib:type-name="ArvGcVisibility"
                  glib:get-type="arv_gc_visibility_get_type"
                  c:type="ArvGcVisibility">
+      <doc xml:space="preserve"
+           filename="../src/arvgcenums.h"
+           line="115">Specifies feature node recommended visibility in user interfaces.</doc>
       <member name="undefined"
               value="-1"
               c:identifier="ARV_GC_VISIBILITY_UNDEFINED"
               glib:nick="undefined">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="117">undefined feature visibility level</doc>
       </member>
       <member name="invisible"
               value="0"
               c:identifier="ARV_GC_VISIBILITY_INVISIBLE"
               glib:nick="invisible">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="118">feature should be not be visible in user interface</doc>
       </member>
       <member name="guru"
               value="1"
               c:identifier="ARV_GC_VISIBILITY_GURU"
               glib:nick="guru">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="119">very advanced feature to be shown to very experienced users</doc>
       </member>
       <member name="expert"
               value="2"
               c:identifier="ARV_GC_VISIBILITY_EXPERT"
               glib:nick="expert">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="120">advanced feature to be shown to expert users</doc>
       </member>
       <member name="beginner"
               value="3"
               c:identifier="ARV_GC_VISIBILITY_BEGINNER"
               glib:nick="beginner">
+        <doc xml:space="preserve"
+             filename="../src/arvgcenums.h"
+             line="121">basic feature to be shown to all users</doc>
       </member>
     </enumeration>
     <class name="GvDevice"
@@ -12242,20 +13061,20 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvgvdevice.c"
-               line="1194">a newly created #ArvDevice using GigE protocol</doc>
+               line="1209">a newly created #ArvDevice using GigE protocol</doc>
           <type name="Device" c:type="ArvDevice*"/>
         </return-value>
         <parameters>
           <parameter name="interface_address" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1190">address of the interface connected to the device</doc>
+                 line="1205">address of the interface connected to the device</doc>
             <type name="Gio.InetAddress" c:type="GInetAddress*"/>
           </parameter>
           <parameter name="device_address" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1191">device address</doc>
+                 line="1206">device address</doc>
             <type name="Gio.InetAddress" c:type="GInetAddress*"/>
           </parameter>
         </parameters>
@@ -12266,7 +13085,7 @@ types of Genicam property nodes (Value, pValue, Endianness...).</doc>
               throws="1">
         <doc xml:space="preserve"
              filename="../src/arvgvdevice.c"
-             line="527">Automatically determine the biggest packet size that can be used data
+             line="523">Automatically determine the biggest packet size that can be used data
 streaming, and set GevSCPSPacketSize value accordingly. This function relies
 on the GevSCPSFireTestPacket feature. If this feature is not available, the
 packet size will be set to a default value (1500 bytes).</doc>
@@ -12274,14 +13093,14 @@ packet size will be set to a default value (1500 bytes).</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgvdevice.c"
-               line="537">The packet size, in bytes.</doc>
+               line="533">The packet size, in bytes.</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="gv_device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="529">a #ArvGvDevice</doc>
+                 line="525">a #ArvGvDevice</doc>
             <type name="GvDevice" c:type="ArvGvDevice*"/>
           </instance-parameter>
         </parameters>
@@ -12293,14 +13112,14 @@ packet size will be set to a default value (1500 bytes).</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgvdevice.c"
-               line="1369">the device IP address.</doc>
+               line="1384">the device IP address.</doc>
           <type name="Gio.SocketAddress" c:type="GSocketAddress*"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1367">a #ArvGvDevice</doc>
+                 line="1382">a #ArvGvDevice</doc>
             <type name="GvDevice" c:type="ArvGvDevice*"/>
           </instance-parameter>
         </parameters>
@@ -12312,14 +13131,14 @@ packet size will be set to a default value (1500 bytes).</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgvdevice.c"
-               line="1353">the device host interface IP address.</doc>
+               line="1368">the device host interface IP address.</doc>
           <type name="Gio.SocketAddress" c:type="GSocketAddress*"/>
         </return-value>
         <parameters>
           <instance-parameter name="device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1351">a #ArvGvDevice</doc>
+                 line="1366">a #ArvGvDevice</doc>
             <type name="GvDevice" c:type="ArvGvDevice*"/>
           </instance-parameter>
         </parameters>
@@ -12344,14 +13163,14 @@ packet size will be set to a default value (1500 bytes).</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvgvdevice.c"
-               line="1153">options for stream creation</doc>
+               line="1168">options for stream creation</doc>
           <type name="GvStreamOption" c:type="ArvGvStreamOption"/>
         </return-value>
         <parameters>
           <instance-parameter name="gv_device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1151">a #ArvGvDevice</doc>
+                 line="1166">a #ArvGvDevice</doc>
             <type name="GvDevice" c:type="ArvGvDevice*"/>
           </instance-parameter>
         </parameters>
@@ -12365,6 +13184,25 @@ packet size will be set to a default value (1500 bytes).</doc>
         </return-value>
         <parameters>
           <instance-parameter name="gv_device" transfer-ownership="none">
+            <type name="GvDevice" c:type="ArvGvDevice*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="is_controller"
+              c:identifier="arv_gv_device_is_controller"
+              version="0.8.0">
+        <source-position filename="../src/arvgvdevice.h" line="55"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="../src/arvgvdevice.c"
+               line="675">value indicating whether the ArvGvDevice has control access to the camera</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="gv_device" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/arvgvdevice.c"
+                 line="673">a #ArvGvDevice</doc>
             <type name="GvDevice" c:type="ArvGvDevice*"/>
           </instance-parameter>
         </parameters>
@@ -12390,7 +13228,7 @@ packet size will be set to a default value (1500 bytes).</doc>
               version="0.6.0">
         <doc xml:space="preserve"
              filename="../src/arvgvdevice.c"
-             line="1168">Sets the option used during stream creation. It must be called before arv_device_create_stream().</doc>
+             line="1183">Sets the option used during stream creation. It must be called before arv_device_create_stream().</doc>
         <source-position filename="../src/arvgvdevice.h" line="53"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -12399,13 +13237,13 @@ packet size will be set to a default value (1500 bytes).</doc>
           <instance-parameter name="gv_device" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1170">a #ArvGvDevice</doc>
+                 line="1185">a #ArvGvDevice</doc>
             <type name="GvDevice" c:type="ArvGvDevice*"/>
           </instance-parameter>
           <parameter name="options" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvdevice.c"
-                 line="1171">options for stream creation</doc>
+                 line="1186">options for stream creation</doc>
             <type name="GvStreamOption" c:type="ArvGvStreamOption"/>
           </parameter>
         </parameters>
@@ -12653,7 +13491,7 @@ packet size will be set to a default value (1500 bytes).</doc>
           <instance-parameter name="gv_stream" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvgvstream.c"
-                 line="1185">a #ArvGvStream</doc>
+                 line="1209">a #ArvGvStream</doc>
             <type name="GvStream" c:type="ArvGvStream*"/>
           </instance-parameter>
           <parameter name="n_resent_packets"
@@ -14257,26 +15095,26 @@ set to %TRUE, which it is not by default for performance reasons.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/arvuvdevice.c"
-               line="755">a newly created #ArvDevice using USB3 based protocol</doc>
+               line="757">a newly created #ArvDevice using USB3 based protocol</doc>
           <type name="Device" c:type="ArvDevice*"/>
         </return-value>
         <parameters>
           <parameter name="vendor" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvuvdevice.c"
-                 line="750">USB3 vendor string</doc>
+                 line="752">USB3 vendor string</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="product" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvuvdevice.c"
-                 line="751">USB3 product string</doc>
+                 line="753">USB3 product string</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="serial_number" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/arvuvdevice.c"
-                 line="752">device serial number</doc>
+                 line="754">device serial number</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -14512,47 +15350,16 @@ set to %TRUE, which it is not by default for performance reasons.</doc>
         <type name="GLib.Quark" c:type="GQuark"/>
       </return-value>
     </function>
-    <function name="debug" c:identifier="arv_debug" introspectable="0">
-      <source-position filename="../src/arvdebug.h" line="109"/>
-      <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
-      </return-value>
-      <parameters>
-        <parameter name="category" transfer-ownership="none">
-          <type name="DebugCategory" c:type="ArvDebugCategory*"/>
-        </parameter>
-        <parameter name="format" transfer-ownership="none">
-          <type name="utf8" c:type="const char*"/>
-        </parameter>
-        <parameter name="..." transfer-ownership="none">
-          <varargs/>
-        </parameter>
-      </parameters>
-    </function>
-    <function name="debug_check" c:identifier="arv_debug_check">
-      <source-position filename="../src/arvdebug.h" line="112"/>
-      <return-value transfer-ownership="none">
-        <type name="gboolean" c:type="gboolean"/>
-      </return-value>
-      <parameters>
-        <parameter name="category" transfer-ownership="none">
-          <type name="DebugCategory" c:type="ArvDebugCategory*"/>
-        </parameter>
-        <parameter name="level" transfer-ownership="none">
-          <type name="DebugLevel" c:type="ArvDebugLevel"/>
-        </parameter>
-      </parameters>
-    </function>
     <function name="debug_enable" c:identifier="arv_debug_enable">
       <doc xml:space="preserve"
            filename="../src/arvdebug.c"
-           line="221">Configures the debug output using a configuration string consisting of a comma separated list of debug categories or category/debug level pair. This function overwrites the configuration done by ARV_DEBUG environment variable.
+           line="231">Configures the debug output using a configuration string consisting of a comma separated list of debug categories or category/debug level pair. This function overwrites the configuration done by ARV_DEBUG environment variable.
 For example, enabling debug level 3 of the gvcp category and default debug level of category genicam is done using:
 
 &lt;informalexample&gt;&lt;programlisting&gt;
 arv_debug_enable ("gvcp:3,genicam");
 &lt;/programlisting&gt;&lt;/informalexample&gt;</doc>
-      <source-position filename="../src/arvdebug.h" line="113"/>
+      <source-position filename="../src/arvdebug.h" line="34"/>
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
       </return-value>
@@ -14560,16 +15367,10 @@ arv_debug_enable ("gvcp:3,genicam");
         <parameter name="category_selection" transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/arvdebug.c"
-               line="223">debug category configuration string</doc>
+               line="233">debug category configuration string</doc>
           <type name="utf8" c:type="const char*"/>
         </parameter>
       </parameters>
-    </function>
-    <function name="debug_shutdown" c:identifier="arv_debug_shutdown">
-      <source-position filename="../src/arvdebug.h" line="114"/>
-      <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
-      </return-value>
     </function>
     <function name="device_error_quark"
               c:identifier="arv_device_error_quark"
@@ -14883,23 +15684,6 @@ the next call to arv_update_device_list().</doc>
         <type name="guint" c:type="unsigned int"/>
       </return-value>
     </function>
-    <function name="log" c:identifier="arv_log" introspectable="0">
-      <source-position filename="../src/arvdebug.h" line="110"/>
-      <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
-      </return-value>
-      <parameters>
-        <parameter name="category" transfer-ownership="none">
-          <type name="DebugCategory" c:type="ArvDebugCategory*"/>
-        </parameter>
-        <parameter name="format" transfer-ownership="none">
-          <type name="utf8" c:type="const char*"/>
-        </parameter>
-        <parameter name="..." transfer-ownership="none">
-          <varargs/>
-        </parameter>
-      </parameters>
-    </function>
     <function name="make_thread_high_priority"
               c:identifier="arv_make_thread_high_priority"
               version="0.4.0">
@@ -15001,23 +15785,6 @@ optional if you don't intend to check for memory leaks.</doc>
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
       </return-value>
-    </function>
-    <function name="warning" c:identifier="arv_warning" introspectable="0">
-      <source-position filename="../src/arvdebug.h" line="108"/>
-      <return-value transfer-ownership="none">
-        <type name="none" c:type="void"/>
-      </return-value>
-      <parameters>
-        <parameter name="category" transfer-ownership="none">
-          <type name="DebugCategory" c:type="ArvDebugCategory*"/>
-        </parameter>
-        <parameter name="format" transfer-ownership="none">
-          <type name="utf8" c:type="const char*"/>
-        </parameter>
-        <parameter name="..." transfer-ownership="none">
-          <varargs/>
-        </parameter>
-      </parameters>
     </function>
     <function name="xml_schema_error_quark"
               c:identifier="arv_xml_schema_error_quark"

@@ -93,6 +93,12 @@ pub trait GvDeviceExt: 'static {
 
 	fn get_timestamp_tick_frequency(&self) -> Result<u64, glib::Error>;
 
+	///
+	/// # Returns
+	///
+	/// value indicating whether the ArvGvDevice has control access to the camera
+	fn is_controller(&self) -> bool;
+
 	fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
 
 	/// Sets the option used during stream creation. It must be called before `Device::create_stream`.
@@ -168,6 +174,14 @@ impl<O: IsA<GvDevice>> GvDeviceExt for O {
 			} else {
 				Err(from_glib_full(error))
 			}
+		}
+	}
+
+	fn is_controller(&self) -> bool {
+		unsafe {
+			from_glib(aravis_sys::arv_gv_device_is_controller(
+				self.as_ref().to_glib_none().0,
+			))
 		}
 	}
 
