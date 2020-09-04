@@ -1,3 +1,6 @@
+v0.4.0:
+  * Update to Aravis 0.8.1.
+
 v0.3.2:
   * Update dependency version.
 
