@@ -1,3 +1,6 @@
+v0.5.0:
+  * Disable "bayer" feature by default.
+
 v0.4.1:
   * Fix formatting of docmentation.
 
