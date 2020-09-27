@@ -49,11 +49,19 @@ impl Buffer {
 	/// The buffer can later be turned into an image using `[Self::into_image]`.
 	/// If the buffer is dropped without taking ownership of the data again, the memory is leaked.
 	pub fn new_leaked_box(len: usize) -> Self {
-		let mut buffer = Box::<[u8]>::new_uninit_slice(len);
-		let data = std::mem::MaybeUninit::first_ptr_mut(&mut buffer);
-		let result = unsafe { Buffer::new_preallocated(data, len) };
-		std::mem::forget(buffer);
-		result
+		#[cfg(feature = "nightly")] {
+			let mut buffer = Box::<[u8]>::new_uninit_slice(len);
+			let data = std::mem::MaybeUninit::slice_as_mut_ptr(&mut buffer);
+			let result = unsafe { Buffer::new_preallocated(data, len) };
+			std::mem::forget(buffer);
+			result
+		}
+		#[cfg(not(feature = "nightly"))] {
+			let mut buffer = vec![0u8; len].into_boxed_slice();
+			let result = unsafe { Buffer::new_preallocated(buffer.as_mut_ptr(), len) };
+			std::mem::forget(buffer);
+			result
+		}
 	}
 
 	/// Create a new buffer for an image of the specified format and dimensions, backed by a leaked `Box<[u8]>`.

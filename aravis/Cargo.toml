@@ -14,6 +14,7 @@ documentation = "https://docs.rs/aravis"
 
 [features]
 dox = ["aravis-sys/dox"]
+nightly = []
 
 [package.metadata.docs.rs]
 features = ["dox"]
@@ -27,3 +28,6 @@ glib = "0.10.0"
 glib-sys = "0.10.0"
 gobject-sys = "0.10.0"
 image = "0.23.0"
+
+[build-dependencies]
+rustc_version = "0.2.3"

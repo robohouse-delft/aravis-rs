@@ -12,8 +12,8 @@
 //! [gir-tool]: https://github.com/gtk-rs/gir
 //! [gtk-rs]: https://gtk-rs.org/
 
-#![feature(new_uninit)]
-#![feature(maybe_uninit_slice)]
+#![cfg_attr(feature = "nightly", feature(new_uninit))]
+#![cfg_attr(feature = "nightly", feature(maybe_uninit_slice))]
 
 extern crate aravis_sys;
 extern crate gio;

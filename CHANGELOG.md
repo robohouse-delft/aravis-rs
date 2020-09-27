@@ -1,5 +1,7 @@
 v0.5.0:
   * Disable "bayer" feature by default.
+  * Fix use of MaybeUnit for latest nightly.
+  * Add fallbacks for unstable features so the crate work on stable.
 
 v0.4.1:
   * Fix formatting of docmentation.
