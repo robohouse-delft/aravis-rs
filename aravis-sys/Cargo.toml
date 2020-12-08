@@ -8,10 +8,18 @@ keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
 categories = ["multimedia::video"]
 repository = "https://github.com/robohouse-delft/aravis-rs"
 documentation = "https://docs.rs/aravis-sys"
+edition = "2018"
 links = "aravis"
 build = "build.rs"
 [package.metadata.docs.rs]
 features = ["dox"]
+[package.metadata.system-deps.aravis]
+name = "aravis-0.8"
+version = "0.8"
+
+[package.metadata.system-deps.aravis.v0_8_3]
+name = "aravis-0.8"
+version = "0.8.3"
 
 [lib]
 name = "aravis_sys"
@@ -24,6 +32,7 @@ libc = "0.2"
 
 [build-dependencies]
 pkg-config = "0.3.7"
+system-deps = "2.0"
 
 [dev-dependencies]
 shell-words = "1.0.0"
@@ -31,3 +40,4 @@ tempfile = "3"
 
 [features]
 dox = []
+v0_8_3 = []

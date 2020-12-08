@@ -9,6 +9,7 @@ use glib::translate::*;
 use glib::GString;
 use std::fmt;
 use std::ptr;
+use GcRepresentation;
 
 glib_wrapper! {
 	pub struct GcInteger(Interface<aravis_sys::ArvGcInteger>);
@@ -34,7 +35,12 @@ pub trait GcIntegerExt: 'static {
 
 	fn get_min(&self) -> Result<i64, glib::Error>;
 
-	//fn get_representation(&self) -> /*Ignored*/GcRepresentation;
+	/// Get number representation format.
+	///
+	/// # Returns
+	///
+	/// Number representation format as `GcRepresentation`.
+	fn get_representation(&self) -> GcRepresentation;
 
 	fn get_unit(&self) -> Option<GString>;
 
@@ -87,9 +93,13 @@ impl<O: IsA<GcInteger>> GcIntegerExt for O {
 		}
 	}
 
-	//fn get_representation(&self) -> /*Ignored*/GcRepresentation {
-	//    unsafe { TODO: call aravis_sys:arv_gc_integer_get_representation() }
-	//}
+	fn get_representation(&self) -> GcRepresentation {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_integer_get_representation(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
 	fn get_unit(&self) -> Option<GString> {
 		unsafe {

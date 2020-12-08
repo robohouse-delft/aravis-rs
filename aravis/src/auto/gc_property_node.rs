@@ -14,9 +14,12 @@ use DomElement;
 use DomNode;
 use GcAccessMode;
 use GcCachable;
+use GcDisplayNotation;
 use GcNode;
 use GcPropertyNodeType;
+use GcRepresentation;
 use GcSignedness;
+use GcVisibility;
 
 glib_wrapper! {
 	pub struct GcPropertyNode(Object<aravis_sys::ArvGcPropertyNode, aravis_sys::ArvGcPropertyNodeClass, GcPropertyNodeClass>) @extends GcNode, DomElement, DomNode;
@@ -402,7 +405,7 @@ pub trait GcPropertyNodeExt: 'static {
 
 	fn get_cachable(&self, default_value: GcCachable) -> GcCachable;
 
-	//fn get_display_notation(&self, default_value: /*Ignored*/GcDisplayNotation) -> /*Ignored*/GcDisplayNotation;
+	fn get_display_notation(&self, default_value: GcDisplayNotation) -> GcDisplayNotation;
 
 	fn get_display_precision(&self, default_value: i64) -> i64;
 
@@ -430,13 +433,13 @@ pub trait GcPropertyNodeExt: 'static {
 
 	fn get_node_type(&self) -> GcPropertyNodeType;
 
-	//fn get_representation(&self, default_value: /*Ignored*/GcRepresentation) -> /*Ignored*/GcRepresentation;
+	fn get_representation(&self, default_value: GcRepresentation) -> GcRepresentation;
 
 	fn get_sign(&self, default_value: GcSignedness) -> GcSignedness;
 
 	fn get_string(&self) -> Result<GString, glib::Error>;
 
-	//fn get_visibility(&self, default_value: /*Ignored*/GcVisibility) -> /*Ignored*/GcVisibility;
+	fn get_visibility(&self, default_value: GcVisibility) -> GcVisibility;
 
 	fn set_double(&self, v_double: f64) -> Result<(), glib::Error>;
 
@@ -464,9 +467,14 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
-	//fn get_display_notation(&self, default_value: /*Ignored*/GcDisplayNotation) -> /*Ignored*/GcDisplayNotation {
-	//    unsafe { TODO: call aravis_sys:arv_gc_property_node_get_display_notation() }
-	//}
+	fn get_display_notation(&self, default_value: GcDisplayNotation) -> GcDisplayNotation {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_display_notation(
+				self.as_ref().to_glib_none().0,
+				default_value.to_glib(),
+			))
+		}
+	}
 
 	fn get_display_precision(&self, default_value: i64) -> i64 {
 		unsafe {
@@ -552,9 +560,14 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
-	//fn get_representation(&self, default_value: /*Ignored*/GcRepresentation) -> /*Ignored*/GcRepresentation {
-	//    unsafe { TODO: call aravis_sys:arv_gc_property_node_get_representation() }
-	//}
+	fn get_representation(&self, default_value: GcRepresentation) -> GcRepresentation {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_representation(
+				self.as_ref().to_glib_none().0,
+				default_value.to_glib(),
+			))
+		}
+	}
 
 	fn get_sign(&self, default_value: GcSignedness) -> GcSignedness {
 		unsafe {
@@ -580,9 +593,14 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
-	//fn get_visibility(&self, default_value: /*Ignored*/GcVisibility) -> /*Ignored*/GcVisibility {
-	//    unsafe { TODO: call aravis_sys:arv_gc_property_node_get_visibility() }
-	//}
+	fn get_visibility(&self, default_value: GcVisibility) -> GcVisibility {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_property_node_get_visibility(
+				self.as_ref().to_glib_none().0,
+				default_value.to_glib(),
+			))
+		}
+	}
 
 	fn set_double(&self, v_double: f64) -> Result<(), glib::Error> {
 		unsafe {

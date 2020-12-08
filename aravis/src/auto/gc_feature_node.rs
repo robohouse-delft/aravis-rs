@@ -14,6 +14,7 @@ use DomNode;
 use GcAccessMode;
 use GcNameSpace;
 use GcNode;
+use GcVisibility;
 
 glib_wrapper! {
 	pub struct GcFeatureNode(Object<aravis_sys::ArvGcFeatureNode, aravis_sys::ArvGcFeatureNodeClass, GcFeatureNodeClass>) @extends GcNode, DomElement, DomNode;
@@ -76,7 +77,7 @@ pub trait GcFeatureNodeExt: 'static {
 	/// a string representation of the node value, `None` if not applicable.
 	fn get_value_as_string(&self) -> Result<GString, glib::Error>;
 
-	//fn get_visibility(&self) -> /*Ignored*/GcVisibility;
+	fn get_visibility(&self) -> GcVisibility;
 
 	fn is_available(&self) -> Result<bool, glib::Error>;
 
@@ -162,9 +163,13 @@ impl<O: IsA<GcFeatureNode>> GcFeatureNodeExt for O {
 		}
 	}
 
-	//fn get_visibility(&self) -> /*Ignored*/GcVisibility {
-	//    unsafe { TODO: call aravis_sys:arv_gc_feature_node_get_visibility() }
-	//}
+	fn get_visibility(&self) -> GcVisibility {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_feature_node_get_visibility(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
 	fn is_available(&self) -> Result<bool, glib::Error> {
 		unsafe {

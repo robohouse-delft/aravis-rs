@@ -16,6 +16,7 @@ use std::fmt;
 use std::mem;
 use std::mem::transmute;
 use std::ptr;
+use ChunkParser;
 use Gc;
 use GcNode;
 use RegisterCachePolicy;
@@ -38,7 +39,12 @@ pub const NONE_DEVICE: Option<&Device> = None;
 ///
 /// [`Device`](struct.Device.html), [`FakeDevice`](struct.FakeDevice.html), [`GvDevice`](struct.GvDevice.html), [`UvDevice`](struct.UvDevice.html)
 pub trait DeviceExt: 'static {
-	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
+	/// Create a `ChunkParser` object, to be used for chunk data extraction from `Buffer`.
+	///
+	/// # Returns
+	///
+	/// a new `ChunkParser` object, NULL on error.
+	fn create_chunk_parser(&self) -> Option<ChunkParser>;
 
 	/// Get all the available values of `feature`, as integers.
 	/// ## `feature`
@@ -264,9 +270,13 @@ pub trait DeviceExt: 'static {
 }
 
 impl<O: IsA<Device>> DeviceExt for O {
-	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
-	//    unsafe { TODO: call aravis_sys:arv_device_create_chunk_parser() }
-	//}
+	fn create_chunk_parser(&self) -> Option<ChunkParser> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_device_create_chunk_parser(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
 	fn dup_available_enumeration_feature_values(
 		&self,

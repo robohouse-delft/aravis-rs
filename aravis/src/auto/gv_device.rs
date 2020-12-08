@@ -7,10 +7,19 @@ use gio;
 use glib;
 use glib::object::Cast;
 use glib::object::IsA;
+use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
+use glib::StaticType;
+use glib::Value;
+use glib_sys;
+use gobject_sys;
+use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
 use std::ptr;
 use Device;
+use GvPacketSizeAdjustment;
 use GvStreamOption;
 
 glib_wrapper! {
@@ -61,14 +70,12 @@ pub const NONE_GV_DEVICE: Option<&GvDevice> = None;
 ///
 /// [`GvDevice`](struct.GvDevice.html)
 pub trait GvDeviceExt: 'static {
-	/// Automatically determine the biggest packet size that can be used data
-	/// streaming, and set GevSCPSPacketSize value accordingly. This function relies
-	/// on the GevSCPSFireTestPacket feature. If this feature is not available, the
-	/// packet size will be set to a default value (1500 bytes).
+	/// Automatically determine the biggest packet size that can be used data streaming, and set GevSCPSPacketSize value
+	/// accordingly. This function relies on the GevSCPSFireTestPacket feature.
 	///
 	/// # Returns
 	///
-	/// The packet size, in bytes.
+	/// The automatic packet size, in bytes, or the current one if GevSCPSFireTestPacket is not supported.
 	fn auto_packet_size(&self) -> Result<(), glib::Error>;
 
 	///
@@ -99,12 +106,54 @@ pub trait GvDeviceExt: 'static {
 	/// value indicating whether the ArvGvDevice has control access to the camera
 	fn is_controller(&self) -> bool;
 
+	///
+	/// Feature: `v0_8_3`
+	///
+	///
+	/// # Returns
+	///
+	/// whether the control was successfully relinquished
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn leave_control(&self) -> Result<(), glib::Error>;
+
 	fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
+
+	/// Sets the option for the packet size adjustment happening at stream object creation. See
+	/// `GvDeviceExt::auto_packet_size` for a description of the packet adjustment feature. The default behaviour is
+	/// `ARV_GV_PACKET_SIZE_ADJUSTEMENT_ON_FAILURE_ONCE`, which means the packet size is adjusted if the current packet size
+	/// check fails, and only the first time `Device::create_stream` is successfully called during `self` instance
+	/// life.
+	///
+	/// Feature: `v0_8_3`
+	///
+	/// ## `adjustment`
+	/// a `GvPacketSizeAdjustment` option
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn set_packet_size_adjustment(&self, adjustment: GvPacketSizeAdjustment);
 
 	/// Sets the option used during stream creation. It must be called before `Device::create_stream`.
 	/// ## `options`
 	/// options for stream creation
 	fn set_stream_options(&self, options: GvStreamOption);
+
+	///
+	/// Feature: `v0_8_3`
+	///
+	///
+	/// # Returns
+	///
+	/// whether the control was successfully acquired
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn take_control(&self) -> Result<(), glib::Error>;
+
+	fn get_property_packet_size_adjustment(&self) -> GvPacketSizeAdjustment;
+
+	fn set_property_packet_size_adjustment(&self, packet_size_adjustment: GvPacketSizeAdjustment);
+
+	fn connect_property_packet_size_adjustment_notify<F: Fn(&Self) + Send + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId;
 }
 
 impl<O: IsA<GvDevice>> GvDeviceExt for O {
@@ -185,6 +234,20 @@ impl<O: IsA<GvDevice>> GvDeviceExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn leave_control(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_gv_device_leave_control(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -201,12 +264,91 @@ impl<O: IsA<GvDevice>> GvDeviceExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn set_packet_size_adjustment(&self, adjustment: GvPacketSizeAdjustment) {
+		unsafe {
+			aravis_sys::arv_gv_device_set_packet_size_adjustment(
+				self.as_ref().to_glib_none().0,
+				adjustment.to_glib(),
+			);
+		}
+	}
+
 	fn set_stream_options(&self, options: GvStreamOption) {
 		unsafe {
 			aravis_sys::arv_gv_device_set_stream_options(
 				self.as_ref().to_glib_none().0,
 				options.to_glib(),
 			);
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn take_control(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ =
+				aravis_sys::arv_gv_device_take_control(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	fn get_property_packet_size_adjustment(&self) -> GvPacketSizeAdjustment {
+		unsafe {
+			let mut value = Value::from_type(<GvPacketSizeAdjustment as StaticType>::static_type());
+			gobject_sys::g_object_get_property(
+				self.to_glib_none().0 as *mut gobject_sys::GObject,
+				b"packet-size-adjustment\0".as_ptr() as *const _,
+				value.to_glib_none_mut().0,
+			);
+			value
+				.get()
+				.expect("Return Value for property `packet-size-adjustment` getter")
+				.unwrap()
+		}
+	}
+
+	fn set_property_packet_size_adjustment(&self, packet_size_adjustment: GvPacketSizeAdjustment) {
+		unsafe {
+			gobject_sys::g_object_set_property(
+				self.to_glib_none().0 as *mut gobject_sys::GObject,
+				b"packet-size-adjustment\0".as_ptr() as *const _,
+				Value::from(&packet_size_adjustment).to_glib_none().0,
+			);
+		}
+	}
+
+	fn connect_property_packet_size_adjustment_notify<F: Fn(&Self) + Send + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId {
+		unsafe extern "C" fn notify_packet_size_adjustment_trampoline<
+			P,
+			F: Fn(&P) + Send + 'static,
+		>(
+			this: *mut aravis_sys::ArvGvDevice,
+			_param_spec: glib_sys::gpointer,
+			f: glib_sys::gpointer,
+		) where
+			P: IsA<GvDevice>,
+		{
+			let f: &F = &*(f as *const F);
+			f(&GvDevice::from_glib_borrow(this).unsafe_cast_ref())
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::packet-size-adjustment\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_packet_size_adjustment_trampoline::<Self, F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
 		}
 	}
 }

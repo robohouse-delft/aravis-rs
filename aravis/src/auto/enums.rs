@@ -383,6 +383,106 @@ impl SetValue for BufferStatus {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
+pub enum ChunkParserError {
+	InvalidFeatureType,
+	BufferNotFound,
+	ChunkNotFound,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for ChunkParserError {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"ChunkParserError::{}",
+			match *self {
+				ChunkParserError::InvalidFeatureType => "InvalidFeatureType",
+				ChunkParserError::BufferNotFound => "BufferNotFound",
+				ChunkParserError::ChunkNotFound => "ChunkNotFound",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl ToGlib for ChunkParserError {
+	type GlibType = aravis_sys::ArvChunkParserError;
+
+	fn to_glib(&self) -> aravis_sys::ArvChunkParserError {
+		match *self {
+			ChunkParserError::InvalidFeatureType => {
+				aravis_sys::ARV_CHUNK_PARSER_ERROR_INVALID_FEATURE_TYPE
+			}
+			ChunkParserError::BufferNotFound => aravis_sys::ARV_CHUNK_PARSER_ERROR_BUFFER_NOT_FOUND,
+			ChunkParserError::ChunkNotFound => aravis_sys::ARV_CHUNK_PARSER_ERROR_CHUNK_NOT_FOUND,
+			ChunkParserError::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<aravis_sys::ArvChunkParserError> for ChunkParserError {
+	fn from_glib(value: aravis_sys::ArvChunkParserError) -> Self {
+		skip_assert_initialized!();
+		match value {
+			0 => ChunkParserError::InvalidFeatureType,
+			1 => ChunkParserError::BufferNotFound,
+			2 => ChunkParserError::ChunkNotFound,
+			value => ChunkParserError::__Unknown(value),
+		}
+	}
+}
+
+impl ErrorDomain for ChunkParserError {
+	fn domain() -> Quark {
+		skip_assert_initialized!();
+
+		unsafe { from_glib(aravis_sys::arv_chunk_parser_error_quark()) }
+	}
+
+	fn code(self) -> i32 {
+		self.to_glib()
+	}
+
+	fn from(code: i32) -> Option<Self> {
+		skip_assert_initialized!();
+		match code {
+			0 => Some(ChunkParserError::InvalidFeatureType),
+			1 => Some(ChunkParserError::BufferNotFound),
+			2 => Some(ChunkParserError::ChunkNotFound),
+			value => Some(ChunkParserError::__Unknown(value)),
+		}
+	}
+}
+
+impl StaticType for ChunkParserError {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_chunk_parser_error_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for ChunkParserError {
+	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+		Some(FromValue::from_value(value))
+	}
+}
+
+impl<'a> FromValue<'a> for ChunkParserError {
+	unsafe fn from_value(value: &Value) -> Self {
+		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl SetValue for ChunkParserError {
+	unsafe fn set_value(value: &mut Value, this: &Self) {
+		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 pub enum DeviceError {
 	WrongFeature,
 	FeatureNotFound,
@@ -472,6 +572,7 @@ impl FromGlib<aravis_sys::ArvDeviceError> for DeviceError {
 impl ErrorDomain for DeviceError {
 	fn domain() -> Quark {
 		skip_assert_initialized!();
+
 		unsafe { from_glib(aravis_sys::arv_device_error_quark()) }
 	}
 
@@ -801,6 +902,87 @@ impl SetValue for GcCachable {
 	}
 }
 
+/// Number display notations for showing numbers in user interfaces.
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum GcDisplayNotation {
+	Undefined,
+	Automatic,
+	Fixed,
+	Scientific,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for GcDisplayNotation {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"GcDisplayNotation::{}",
+			match *self {
+				GcDisplayNotation::Undefined => "Undefined",
+				GcDisplayNotation::Automatic => "Automatic",
+				GcDisplayNotation::Fixed => "Fixed",
+				GcDisplayNotation::Scientific => "Scientific",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl ToGlib for GcDisplayNotation {
+	type GlibType = aravis_sys::ArvGcDisplayNotation;
+
+	fn to_glib(&self) -> aravis_sys::ArvGcDisplayNotation {
+		match *self {
+			GcDisplayNotation::Undefined => aravis_sys::ARV_GC_DISPLAY_NOTATION_UNDEFINED,
+			GcDisplayNotation::Automatic => aravis_sys::ARV_GC_DISPLAY_NOTATION_AUTOMATIC,
+			GcDisplayNotation::Fixed => aravis_sys::ARV_GC_DISPLAY_NOTATION_FIXED,
+			GcDisplayNotation::Scientific => aravis_sys::ARV_GC_DISPLAY_NOTATION_SCIENTIFIC,
+			GcDisplayNotation::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<aravis_sys::ArvGcDisplayNotation> for GcDisplayNotation {
+	fn from_glib(value: aravis_sys::ArvGcDisplayNotation) -> Self {
+		skip_assert_initialized!();
+		match value {
+			-1 => GcDisplayNotation::Undefined,
+			0 => GcDisplayNotation::Automatic,
+			1 => GcDisplayNotation::Fixed,
+			2 => GcDisplayNotation::Scientific,
+			value => GcDisplayNotation::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for GcDisplayNotation {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_gc_display_notation_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for GcDisplayNotation {
+	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+		Some(FromValue::from_value(value))
+	}
+}
+
+impl<'a> FromValue<'a> for GcDisplayNotation {
+	unsafe fn from_value(value: &Value) -> Self {
+		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl SetValue for GcDisplayNotation {
+	unsafe fn set_value(value: &mut Value, this: &Self) {
+		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+	}
+}
+
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum GcError {
@@ -896,6 +1078,7 @@ impl FromGlib<aravis_sys::ArvGcError> for GcError {
 impl ErrorDomain for GcError {
 	fn domain() -> Quark {
 		skip_assert_initialized!();
+
 		unsafe { from_glib(aravis_sys::arv_gc_error_quark()) }
 	}
 
@@ -1413,6 +1596,103 @@ impl SetValue for GcPropertyNodeType {
 	}
 }
 
+/// Number representation formats.
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum GcRepresentation {
+	Undefined,
+	Linear,
+	Logarithmic,
+	Boolean,
+	PureNumber,
+	HexNumber,
+	Ipv4Address,
+	MacAddress,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for GcRepresentation {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"GcRepresentation::{}",
+			match *self {
+				GcRepresentation::Undefined => "Undefined",
+				GcRepresentation::Linear => "Linear",
+				GcRepresentation::Logarithmic => "Logarithmic",
+				GcRepresentation::Boolean => "Boolean",
+				GcRepresentation::PureNumber => "PureNumber",
+				GcRepresentation::HexNumber => "HexNumber",
+				GcRepresentation::Ipv4Address => "Ipv4Address",
+				GcRepresentation::MacAddress => "MacAddress",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl ToGlib for GcRepresentation {
+	type GlibType = aravis_sys::ArvGcRepresentation;
+
+	fn to_glib(&self) -> aravis_sys::ArvGcRepresentation {
+		match *self {
+			GcRepresentation::Undefined => aravis_sys::ARV_GC_REPRESENTATION_UNDEFINED,
+			GcRepresentation::Linear => aravis_sys::ARV_GC_REPRESENTATION_LINEAR,
+			GcRepresentation::Logarithmic => aravis_sys::ARV_GC_REPRESENTATION_LOGARITHMIC,
+			GcRepresentation::Boolean => aravis_sys::ARV_GC_REPRESENTATION_BOOLEAN,
+			GcRepresentation::PureNumber => aravis_sys::ARV_GC_REPRESENTATION_PURE_NUMBER,
+			GcRepresentation::HexNumber => aravis_sys::ARV_GC_REPRESENTATION_HEX_NUMBER,
+			GcRepresentation::Ipv4Address => aravis_sys::ARV_GC_REPRESENTATION_IPV4_ADDRESS,
+			GcRepresentation::MacAddress => aravis_sys::ARV_GC_REPRESENTATION_MAC_ADDRESS,
+			GcRepresentation::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<aravis_sys::ArvGcRepresentation> for GcRepresentation {
+	fn from_glib(value: aravis_sys::ArvGcRepresentation) -> Self {
+		skip_assert_initialized!();
+		match value {
+			-1 => GcRepresentation::Undefined,
+			0 => GcRepresentation::Linear,
+			1 => GcRepresentation::Logarithmic,
+			2 => GcRepresentation::Boolean,
+			3 => GcRepresentation::PureNumber,
+			4 => GcRepresentation::HexNumber,
+			5 => GcRepresentation::Ipv4Address,
+			6 => GcRepresentation::MacAddress,
+			value => GcRepresentation::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for GcRepresentation {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_gc_representation_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for GcRepresentation {
+	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+		Some(FromValue::from_value(value))
+	}
+}
+
+impl<'a> FromValue<'a> for GcRepresentation {
+	unsafe fn from_value(value: &Value) -> Self {
+		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl SetValue for GcRepresentation {
+	unsafe fn set_value(value: &mut Value, this: &Self) {
+		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+	}
+}
+
 /// Specifies signedness of integer registers. Per standard Genicam internally uses signed 64-bit
 /// signed integers for representing all integer registers. Therefore unsigned 64-bit integers are
 /// not available.
@@ -1487,6 +1767,179 @@ impl<'a> FromValue<'a> for GcSignedness {
 }
 
 impl SetValue for GcSignedness {
+	unsafe fn set_value(value: &mut Value, this: &Self) {
+		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+	}
+}
+
+/// Specifies feature node recommended visibility in user interfaces.
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum GcVisibility {
+	Undefined,
+	Invisible,
+	Guru,
+	Expert,
+	Beginner,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for GcVisibility {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"GcVisibility::{}",
+			match *self {
+				GcVisibility::Undefined => "Undefined",
+				GcVisibility::Invisible => "Invisible",
+				GcVisibility::Guru => "Guru",
+				GcVisibility::Expert => "Expert",
+				GcVisibility::Beginner => "Beginner",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl ToGlib for GcVisibility {
+	type GlibType = aravis_sys::ArvGcVisibility;
+
+	fn to_glib(&self) -> aravis_sys::ArvGcVisibility {
+		match *self {
+			GcVisibility::Undefined => aravis_sys::ARV_GC_VISIBILITY_UNDEFINED,
+			GcVisibility::Invisible => aravis_sys::ARV_GC_VISIBILITY_INVISIBLE,
+			GcVisibility::Guru => aravis_sys::ARV_GC_VISIBILITY_GURU,
+			GcVisibility::Expert => aravis_sys::ARV_GC_VISIBILITY_EXPERT,
+			GcVisibility::Beginner => aravis_sys::ARV_GC_VISIBILITY_BEGINNER,
+			GcVisibility::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<aravis_sys::ArvGcVisibility> for GcVisibility {
+	fn from_glib(value: aravis_sys::ArvGcVisibility) -> Self {
+		skip_assert_initialized!();
+		match value {
+			-1 => GcVisibility::Undefined,
+			0 => GcVisibility::Invisible,
+			1 => GcVisibility::Guru,
+			2 => GcVisibility::Expert,
+			3 => GcVisibility::Beginner,
+			value => GcVisibility::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for GcVisibility {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_gc_visibility_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for GcVisibility {
+	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+		Some(FromValue::from_value(value))
+	}
+}
+
+impl<'a> FromValue<'a> for GcVisibility {
+	unsafe fn from_value(value: &Value) -> Self {
+		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl SetValue for GcVisibility {
+	unsafe fn set_value(value: &mut Value, this: &Self) {
+		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum GvPacketSizeAdjustment {
+	Never,
+	OnFailureOnce,
+	OnFailure,
+	Once,
+	Always,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for GvPacketSizeAdjustment {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"GvPacketSizeAdjustment::{}",
+			match *self {
+				GvPacketSizeAdjustment::Never => "Never",
+				GvPacketSizeAdjustment::OnFailureOnce => "OnFailureOnce",
+				GvPacketSizeAdjustment::OnFailure => "OnFailure",
+				GvPacketSizeAdjustment::Once => "Once",
+				GvPacketSizeAdjustment::Always => "Always",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl ToGlib for GvPacketSizeAdjustment {
+	type GlibType = aravis_sys::ArvGvPacketSizeAdjustment;
+
+	fn to_glib(&self) -> aravis_sys::ArvGvPacketSizeAdjustment {
+		match *self {
+			GvPacketSizeAdjustment::Never => aravis_sys::ARV_GV_PACKET_SIZE_ADJUSTMENT_NEVER,
+			GvPacketSizeAdjustment::OnFailureOnce => {
+				aravis_sys::ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE_ONCE
+			}
+			GvPacketSizeAdjustment::OnFailure => {
+				aravis_sys::ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE
+			}
+			GvPacketSizeAdjustment::Once => aravis_sys::ARV_GV_PACKET_SIZE_ADJUSTMENT_ONCE,
+			GvPacketSizeAdjustment::Always => aravis_sys::ARV_GV_PACKET_SIZE_ADJUSTMENT_ALWAYS,
+			GvPacketSizeAdjustment::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<aravis_sys::ArvGvPacketSizeAdjustment> for GvPacketSizeAdjustment {
+	fn from_glib(value: aravis_sys::ArvGvPacketSizeAdjustment) -> Self {
+		skip_assert_initialized!();
+		match value {
+			0 => GvPacketSizeAdjustment::Never,
+			1 => GvPacketSizeAdjustment::OnFailureOnce,
+			2 => GvPacketSizeAdjustment::OnFailure,
+			3 => GvPacketSizeAdjustment::Once,
+			4 => GvPacketSizeAdjustment::Always,
+			value => GvPacketSizeAdjustment::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for GvPacketSizeAdjustment {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_gv_packet_size_adjustment_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for GvPacketSizeAdjustment {
+	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+		Some(FromValue::from_value(value))
+	}
+}
+
+impl<'a> FromValue<'a> for GvPacketSizeAdjustment {
+	unsafe fn from_value(value: &Value) -> Self {
+		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl SetValue for GvPacketSizeAdjustment {
 	unsafe fn set_value(value: &mut Value, this: &Self) {
 		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
 	}
@@ -1786,6 +2239,87 @@ impl SetValue for RegisterCachePolicy {
 	}
 }
 
+/// Describes when the stream callback is called.
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+pub enum StreamCallbackType {
+	Init,
+	Exit,
+	StartBuffer,
+	BufferDone,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for StreamCallbackType {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"StreamCallbackType::{}",
+			match *self {
+				StreamCallbackType::Init => "Init",
+				StreamCallbackType::Exit => "Exit",
+				StreamCallbackType::StartBuffer => "StartBuffer",
+				StreamCallbackType::BufferDone => "BufferDone",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl ToGlib for StreamCallbackType {
+	type GlibType = aravis_sys::ArvStreamCallbackType;
+
+	fn to_glib(&self) -> aravis_sys::ArvStreamCallbackType {
+		match *self {
+			StreamCallbackType::Init => aravis_sys::ARV_STREAM_CALLBACK_TYPE_INIT,
+			StreamCallbackType::Exit => aravis_sys::ARV_STREAM_CALLBACK_TYPE_EXIT,
+			StreamCallbackType::StartBuffer => aravis_sys::ARV_STREAM_CALLBACK_TYPE_START_BUFFER,
+			StreamCallbackType::BufferDone => aravis_sys::ARV_STREAM_CALLBACK_TYPE_BUFFER_DONE,
+			StreamCallbackType::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<aravis_sys::ArvStreamCallbackType> for StreamCallbackType {
+	fn from_glib(value: aravis_sys::ArvStreamCallbackType) -> Self {
+		skip_assert_initialized!();
+		match value {
+			0 => StreamCallbackType::Init,
+			1 => StreamCallbackType::Exit,
+			2 => StreamCallbackType::StartBuffer,
+			3 => StreamCallbackType::BufferDone,
+			value => StreamCallbackType::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for StreamCallbackType {
+	fn static_type() -> Type {
+		unsafe { from_glib(aravis_sys::arv_stream_callback_type_get_type()) }
+	}
+}
+
+impl<'a> FromValueOptional<'a> for StreamCallbackType {
+	unsafe fn from_value_optional(value: &Value) -> Option<Self> {
+		Some(FromValue::from_value(value))
+	}
+}
+
+impl<'a> FromValue<'a> for StreamCallbackType {
+	unsafe fn from_value(value: &Value) -> Self {
+		from_glib(gobject_sys::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl SetValue for StreamCallbackType {
+	unsafe fn set_value(value: &mut Value, this: &Self) {
+		gobject_sys::g_value_set_enum(value.to_glib_none_mut().0, this.to_glib())
+	}
+}
+
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 pub enum XmlSchemaError {
@@ -1833,6 +2367,7 @@ impl FromGlib<aravis_sys::ArvXmlSchemaError> for XmlSchemaError {
 impl ErrorDomain for XmlSchemaError {
 	fn domain() -> Quark {
 		skip_assert_initialized!();
+
 		unsafe { from_glib(aravis_sys::arv_xml_schema_error_quark()) }
 	}
 

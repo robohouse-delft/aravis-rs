@@ -10,6 +10,10 @@ mod camera;
 pub use self::camera::CameraExt;
 pub use self::camera::{Camera, CameraClass, NONE_CAMERA};
 
+mod chunk_parser;
+pub use self::chunk_parser::ChunkParserExt;
+pub use self::chunk_parser::{ChunkParser, ChunkParserClass, NONE_CHUNK_PARSER};
+
 mod device;
 pub use self::device::DeviceExt;
 pub use self::device::{Device, DeviceClass, NONE_DEVICE};
@@ -42,6 +46,11 @@ pub use self::dom_named_node_map::{
 mod dom_node;
 pub use self::dom_node::DomNodeExt;
 pub use self::dom_node::{DomNode, DomNodeClass, NONE_DOM_NODE};
+
+mod dom_node_child_list;
+pub use self::dom_node_child_list::{
+	DomNodeChildList, DomNodeChildListClass, NONE_DOM_NODE_CHILD_LIST,
+};
 
 mod dom_node_list;
 pub use self::dom_node_list::DomNodeListExt;
@@ -252,25 +261,32 @@ pub use self::enums::AcquisitionMode;
 pub use self::enums::Auto;
 pub use self::enums::BufferPayloadType;
 pub use self::enums::BufferStatus;
+pub use self::enums::ChunkParserError;
 pub use self::enums::DeviceError;
 pub use self::enums::DomNodeType;
 pub use self::enums::GcAccessMode;
 pub use self::enums::GcCachable;
+pub use self::enums::GcDisplayNotation;
 pub use self::enums::GcError;
 pub use self::enums::GcIsLinear;
 pub use self::enums::GcNameSpace;
 pub use self::enums::GcPropertyNodeType;
+pub use self::enums::GcRepresentation;
 pub use self::enums::GcSignedness;
+pub use self::enums::GcVisibility;
+pub use self::enums::GvPacketSizeAdjustment;
 pub use self::enums::GvStreamOption;
 pub use self::enums::GvStreamPacketResend;
 pub use self::enums::GvStreamSocketBuffer;
 pub use self::enums::RegisterCachePolicy;
+pub use self::enums::StreamCallbackType;
 pub use self::enums::XmlSchemaError;
 
 #[doc(hidden)]
 pub mod traits {
 	pub use super::BufferExt;
 	pub use super::CameraExt;
+	pub use super::ChunkParserExt;
 	pub use super::DeviceExt;
 	pub use super::DomCharacterDataExt;
 	pub use super::DomDocumentExt;

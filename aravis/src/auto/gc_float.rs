@@ -9,6 +9,8 @@ use glib::translate::*;
 use glib::GString;
 use std::fmt;
 use std::ptr;
+use GcDisplayNotation;
+use GcRepresentation;
 
 glib_wrapper! {
 	pub struct GcFloat(Interface<aravis_sys::ArvGcFloat>);
@@ -28,7 +30,12 @@ pub const NONE_GC_FLOAT: Option<&GcFloat> = None;
 ///
 /// [`GcConverterNode`](struct.GcConverterNode.html), [`GcFloatNode`](struct.GcFloatNode.html), [`GcFloatRegNode`](struct.GcFloatRegNode.html), [`GcFloat`](struct.GcFloat.html), [`GcSwissKnifeNode`](struct.GcSwissKnifeNode.html)
 pub trait GcFloatExt: 'static {
-	//fn get_display_notation(&self) -> /*Ignored*/GcDisplayNotation;
+	/// Get number display notation.
+	///
+	/// # Returns
+	///
+	/// Number display notation as `GcDisplayNotation`.
+	fn get_display_notation(&self) -> GcDisplayNotation;
 
 	/// Gets number of digits to show in user interface. This number should always be positive and represent
 	/// total number of digits on left and right side of decimal.
@@ -44,7 +51,12 @@ pub trait GcFloatExt: 'static {
 
 	fn get_min(&self) -> Result<f64, glib::Error>;
 
-	//fn get_representation(&self) -> /*Ignored*/GcRepresentation;
+	/// Get number representation format.
+	///
+	/// # Returns
+	///
+	/// Number representation format as `GcRepresentation`.
+	fn get_representation(&self) -> GcRepresentation;
 
 	fn get_unit(&self) -> Option<GString>;
 
@@ -58,9 +70,13 @@ pub trait GcFloatExt: 'static {
 }
 
 impl<O: IsA<GcFloat>> GcFloatExt for O {
-	//fn get_display_notation(&self) -> /*Ignored*/GcDisplayNotation {
-	//    unsafe { TODO: call aravis_sys:arv_gc_float_get_display_notation() }
-	//}
+	fn get_display_notation(&self) -> GcDisplayNotation {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_float_get_display_notation(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
 	fn get_display_precision(&self) -> i64 {
 		unsafe { aravis_sys::arv_gc_float_get_display_precision(self.as_ref().to_glib_none().0) }
@@ -102,9 +118,13 @@ impl<O: IsA<GcFloat>> GcFloatExt for O {
 		}
 	}
 
-	//fn get_representation(&self) -> /*Ignored*/GcRepresentation {
-	//    unsafe { TODO: call aravis_sys:arv_gc_float_get_representation() }
-	//}
+	fn get_representation(&self) -> GcRepresentation {
+		unsafe {
+			from_glib(aravis_sys::arv_gc_float_get_representation(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
 	fn get_unit(&self) -> Option<GString> {
 		unsafe {

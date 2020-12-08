@@ -17,7 +17,7 @@ glib_wrapper! {
 }
 
 impl XmlSchema {
-	pub fn new_from_file<P: IsA<gio::File>>(file: &P) -> XmlSchema {
+	pub fn from_file<P: IsA<gio::File>>(file: &P) -> XmlSchema {
 		assert_initialized_main_thread!();
 		unsafe {
 			from_glib_full(aravis_sys::arv_xml_schema_new_from_file(
@@ -26,7 +26,7 @@ impl XmlSchema {
 		}
 	}
 
-	pub fn new_from_path(path: &str) -> XmlSchema {
+	pub fn from_path(path: &str) -> XmlSchema {
 		assert_initialized_main_thread!();
 		unsafe {
 			from_glib_full(aravis_sys::arv_xml_schema_new_from_path(

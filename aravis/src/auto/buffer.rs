@@ -60,8 +60,7 @@ pub trait BufferExt: 'static {
 	/// a pointer to the chunk data.
 	fn get_chunk_data(&self, chunk_id: u64) -> Vec<u8>;
 
-	/// Gets the buffer frame id. For GigEVision devices, valid values are in the
-	/// 1..65535 range.
+	/// Gets the buffer frame id. For GigEVision devices, 0 is an invalid value.
 	///
 	/// # Returns
 	///
@@ -153,6 +152,15 @@ pub trait BufferExt: 'static {
 	///
 	/// `true` if `self` has a payload type that contains chunk data.
 	fn has_chunks(&self) -> bool;
+
+	/// Sets the buffer frame id. For GigEVision devices, 0 is an invalid value.
+	///
+	/// Feature: `v0_8_3`
+	///
+	/// ## `frame_id`
+	/// a `guint64`
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn set_frame_id(&self, frame_id: u64);
 
 	/// Sets the system timestamp for when the frame was received. Expressed in
 	/// nanoseconds.
@@ -265,6 +273,13 @@ impl<O: IsA<Buffer>> BufferExt for O {
 			from_glib(aravis_sys::arv_buffer_has_chunks(
 				self.as_ref().to_glib_none().0,
 			))
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn set_frame_id(&self, frame_id: u64) {
+		unsafe {
+			aravis_sys::arv_buffer_set_frame_id(self.as_ref().to_glib_none().0, frame_id);
 		}
 	}
 

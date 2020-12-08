@@ -13,7 +13,10 @@ use std::ptr;
 use AcquisitionMode;
 use Auto;
 use Buffer;
+use ChunkParser;
 use Device;
+#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+use GvPacketSizeAdjustment;
 use GvStreamOption;
 use PixelFormat;
 
@@ -28,6 +31,28 @@ glib_wrapper! {
 impl Camera {
 	/// Creates a new `Camera`. If `name` is null, it will instantiate the
 	/// first available camera.
+	///
+	/// If the camera is a GigEVision, `name` can be either:
+	///
+	/// - &lt;vendor&gt;-&lt;model&gt;-&lt;serial&gt;
+	/// - &lt;vendor_alias&gt;-&lt;serial&gt;
+	/// - &lt;vendor&gt;-&lt;serial&gt;
+	/// - &lt;user_id&gt;
+	/// - &lt;ip_address&gt;
+	/// - &lt;mac_address&gt;
+	///
+	/// For example:
+	///
+	/// - The Imaging Source Europe GmbH-DFK 33GX265-39020369
+	/// - The Imaging Source Europe GmbH-39020369
+	/// - TIS-39020369
+	/// - 192.168.0.2
+	/// - 00:07:48:af:a2:61
+	///
+	/// If the camera is a USB3Vision device, `name` is either:
+	///
+	/// - &lt;vendor_alias&gt;-&lt;serial&gt;
+	/// - &lt;vendor&gt;-&lt;serial&gt;
 	/// ## `name`
 	/// name of the camera.
 	///
@@ -73,7 +98,12 @@ pub trait CameraExt: 'static {
 	/// Disables all triggers.
 	fn clear_triggers(&self) -> Result<(), glib::Error>;
 
-	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser>;
+	/// Creates a new `ChunkParser` object, used for the extraction of chunk data from `Buffer`.
+	///
+	/// # Returns
+	///
+	/// a new `ChunkParser`.
+	fn create_chunk_parser(&self) -> Option<ChunkParser>;
 
 	/// Get all the available values of `feature`, as 64 bit integers.
 	/// ## `feature`
@@ -525,6 +555,15 @@ pub trait CameraExt: 'static {
 	/// packet size, in bytes
 	fn gv_set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error>;
 
+	/// Sets the option for packet size adjustment that happens at stream object creation.
+	///
+	/// Feature: `v0_8_3`
+	///
+	/// ## `adjustment`
+	/// a `GvPacketSizeAdjustment` option
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn gv_set_packet_size_adjustment(&self, adjustment: GvPacketSizeAdjustment);
+
 	/// Sets the options used during stream object creation. These options mus be
 	/// set before the call to `Camera::create_stream`.
 	/// ## `options`
@@ -795,9 +834,13 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	//fn create_chunk_parser(&self) -> /*Ignored*/Option<ChunkParser> {
-	//    unsafe { TODO: call aravis_sys:arv_camera_create_chunk_parser() }
-	//}
+	fn create_chunk_parser(&self) -> Option<ChunkParser> {
+		unsafe {
+			from_glib_full(aravis_sys::arv_camera_create_chunk_parser(
+				self.as_ref().to_glib_none().0,
+			))
+		}
+	}
 
 	fn dup_available_enumerations(&self, feature: &str) -> Result<Vec<i64>, glib::Error> {
 		unsafe {
@@ -1825,6 +1868,16 @@ impl<O: IsA<Camera>> CameraExt for O {
 			} else {
 				Err(from_glib_full(error))
 			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
+	fn gv_set_packet_size_adjustment(&self, adjustment: GvPacketSizeAdjustment) {
+		unsafe {
+			aravis_sys::arv_camera_gv_set_packet_size_adjustment(
+				self.as_ref().to_glib_none().0,
+				adjustment.to_glib(),
+			);
 		}
 	}
 

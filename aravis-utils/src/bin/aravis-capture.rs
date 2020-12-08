@@ -199,7 +199,7 @@ fn run_camera_loop(
 		};
 
 		let image = if convert_color {
-			Arc::new(DynamicImage::ImageRgb8(image.into_rgb()))
+			Arc::new(DynamicImage::ImageRgb8(image.into_rgb8()))
 		} else {
 			Arc::new(image)
 		};

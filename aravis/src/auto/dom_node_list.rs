@@ -24,7 +24,7 @@ pub const NONE_DOM_NODE_LIST: Option<&DomNodeList> = None;
 ///
 /// # Implementors
 ///
-/// [`DomNodeList`](struct.DomNodeList.html)
+/// [`DomNodeChildList`](struct.DomNodeChildList.html), [`DomNodeList`](struct.DomNodeList.html)
 pub trait DomNodeListExt: 'static {
 	/// Get one of the item of `self`.
 	/// ## `index`

@@ -22,11 +22,11 @@ glib_wrapper! {
 }
 
 impl DomDocument {
-	//pub fn new_from_memory(buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<DomDocument, glib::Error> {
+	//pub fn from_memory(buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<DomDocument, glib::Error> {
 	//    unsafe { TODO: call aravis_sys:arv_dom_document_new_from_memory() }
 	//}
 
-	pub fn new_from_path(path: &str) -> Result<DomDocument, glib::Error> {
+	pub fn from_path(path: &str) -> Result<DomDocument, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -39,7 +39,7 @@ impl DomDocument {
 		}
 	}
 
-	pub fn new_from_url(url: &str) -> Result<DomDocument, glib::Error> {
+	pub fn from_url(url: &str) -> Result<DomDocument, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
 			let mut error = ptr::null_mut();

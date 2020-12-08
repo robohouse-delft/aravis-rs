@@ -30,4 +30,4 @@ gobject-sys = "0.10.0"
 image = "0.23.0"
 
 [build-dependencies]
-rustc_version = "0.2.3"
+rustc_version = "0.3.0"
