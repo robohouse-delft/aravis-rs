@@ -5,19 +5,15 @@ mod buffer;
 pub use self::buffer::*;
 
 mod camera;
-pub use self::camera::*;
-
 mod device;
-pub use self::device::*;
 
 mod pixel_format;
 pub use self::pixel_format::*;
 
 #[doc(hidden)]
-pub mod traits {
-	pub use super::buffer::BufferExtManual;
-	pub use super::camera::CameraExtManual;
-	pub use super::device::DeviceExtManual;
+pub(crate) mod traits {
+	pub use super::camera::traits::CameraExtManual;
+	pub use super::device::traits::DeviceExtManual;
 }
 
 pub type BoxImage<P> = image::ImageBuffer<P, Box<[u8]>>;

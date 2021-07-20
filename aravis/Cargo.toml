@@ -22,11 +22,11 @@ features = ["dox"]
 [dependencies]
 aravis-sys = { version = "0.6.0", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
-gio = "0.9.0"
-gio-sys = "0.10.0"
-glib = "0.10.0"
-glib-sys = "0.10.0"
-gobject-sys = "0.10.0"
+gio = "0.14.0"
+gio-sys = "0.14.0"
+glib = "0.14.2"
+glib-sys = "0.14.0"
+gobject-sys = "0.14.0"
 image = "0.23.0"
 
 [build-dependencies]

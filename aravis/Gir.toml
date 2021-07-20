@@ -2,7 +2,7 @@
 library = "Aravis"
 version = "0.8"
 min_cfg_version = "0.8"
-girs_dir = "../gir-files"
+girs_directories = ["../gir-files"]
 target_path = "."
 work_mode = "normal"
 generate_safety_asserts = true
@@ -108,8 +108,8 @@ generate = [
 	#"Aravis.GcRegisterInterface",
 	#"Aravis.GcSelectorInterface",
 	#"Aravis.GcStringInterface",
-	"Aravis.Zip",
-	"Aravis.ZipFile",
+	#"Aravis.Zip",
+	#"Aravis.ZipFile",
 ]
 
 manual = [
@@ -627,9 +627,6 @@ status = "generate"
 	[[object.function]]
 	name = "create_stream"
 	ignore = true
-	[[object.function]]
-	name = "gv_get_packet_size"
-	return = { use_return_for_result = true }
 	[[object.function]]
 	name = "check_status"
 	return = { use_return_for_result = true }

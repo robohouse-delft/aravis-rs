@@ -3,11 +3,16 @@ use crate::{Camera, Stream};
 use glib::translate::ToGlibPtr;
 use glib::IsA;
 
-pub trait CameraExtManual {
-	fn create_stream(&self) -> Result<Stream, glib::Error>;
+pub(crate) mod traits {
+	use super::*;
+
+	/// Trait containing additional [`Camera`] methods.
+	pub trait CameraExtManual {
+		fn create_stream(&self) -> Result<Stream, glib::Error>;
+	}
 }
 
-impl<T: IsA<Camera>> CameraExtManual for T {
+impl<T: IsA<Camera>> traits::CameraExtManual for T {
 	fn create_stream(&self) -> Result<Stream, glib::Error> {
 		unsafe {
 			let mut error = std::ptr::null_mut();

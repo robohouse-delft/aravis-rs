@@ -37,15 +37,15 @@ mod test {
 pub struct PixelFormat(u32);
 
 impl glib::translate::FromGlib<u32> for PixelFormat {
-	fn from_glib(other: u32) -> Self {
+	unsafe fn from_glib(other: u32) -> Self {
 		Self::from_raw(other)
 	}
 }
 
-impl glib::translate::ToGlib for PixelFormat {
+impl glib::translate::IntoGlib for PixelFormat {
 	type GlibType = u32;
 
-	fn to_glib(&self) -> Self::GlibType {
+	fn into_glib(self) -> Self::GlibType {
 		self.raw()
 	}
 }

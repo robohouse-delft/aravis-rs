@@ -1,4 +1,5 @@
-v0.6.1:
+v0.7.0:
+  * Generate safe API with latest `gir` tool (see library docs for more info on backwards incompatible changes).
   * Update to show-image 0.9 with zoom/pan support.
   * Remove debug print from debayering code.
 

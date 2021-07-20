@@ -1,22 +1,15 @@
 use crate::Buffer;
-use crate::BufferExt;
 use crate::PixelFormat;
 
 use glib::translate::ToGlibPtr;
-use glib::IsA;
 
 use std::ffi::c_void;
 
-pub trait BufferExtManual {
-	/// Get a pointer to the buffer data and the length of the buffer.
-	fn get_data(&self) -> (*mut u8, usize);
-
-	/// Convert the buffer into an image.
-	///
-	/// # Safety
-	/// The data is assumed to have been allocated by a Box,
-	/// and is unsafely turned back into one.
-	unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError>;
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ImageError {
+	InvalidStatus(crate::BufferStatus),
+	InvalidPayloadType(crate::BufferPayloadType),
+	UnsupportedPixelFormat(PixelFormat),
 }
 
 impl Buffer {
@@ -34,16 +27,7 @@ impl Buffer {
 			aravis_sys::arv_buffer_new_full(len, data as *mut c_void, std::ptr::null_mut(), None);
 		glib::translate::from_glib_full(buffer)
 	}
-}
 
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub enum ImageError {
-	InvalidStatus(crate::BufferStatus),
-	InvalidPayloadType(crate::BufferPayloadType),
-	UnsupportedPixelFormat(PixelFormat),
-}
-
-impl Buffer {
 	/// Create a new buffer backed by a leaked `Box<[u8]>`.
 	///
 	/// The buffer can later be turned into an image using `[Self::into_image]`.
@@ -74,15 +58,13 @@ impl Buffer {
 		let byte_len = crate::buffer_size_wh(format, width, height);
 		Self::new_leaked_box(byte_len)
 	}
-}
 
-impl<T: IsA<Buffer>> BufferExtManual for T {
 	/// Get a pointer to the raw data and the length of the buffer.
-	fn get_data(&self) -> (*mut u8, usize) {
+	pub fn data(&self) -> (*mut u8, usize) {
 		unsafe {
 			let mut size = 0usize;
 			let data = aravis_sys::arv_buffer_get_data(
-				self.as_ref().to_glib_none().0,
+				self.to_glib_none().0,
 				&mut size as *mut usize,
 			);
 			(data as *mut u8, size)
@@ -97,26 +79,26 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 	///
 	/// This function takes ownership of the leaked box,
 	/// so the memory will be freed when the resulting image is dropped.
-	unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError> {
+	pub unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError> {
 		use image::DynamicImage;
 		use image::ImageBuffer;
 
-		let (data, len) = self.get_data();
+		let (data, len) = self.data();
 		let data = Vec::from(box_slice_from_raw(data, len));
 
-		let status = self.get_status();
+		let status = self.status();
 		if status != crate::BufferStatus::Success {
 			return Err(ImageError::InvalidStatus(status));
 		}
 
-		let payload = self.get_payload_type();
+		let payload = self.payload_type();
 		if payload != crate::BufferPayloadType::Image {
 			return Err(ImageError::InvalidPayloadType(payload));
 		}
 
-		let width = self.get_image_width() as u32;
-		let height = self.get_image_height() as u32;
-		let format = self.get_image_pixel_format();
+		let width = self.image_width() as u32;
+		let height = self.image_height() as u32;
+		let format = self.image_pixel_format();
 
 		match format {
 			PixelFormat::RGB_8_PACKED => {
