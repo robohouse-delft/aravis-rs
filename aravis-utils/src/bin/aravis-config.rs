@@ -31,7 +31,7 @@ struct Options {
 }
 
 fn main() {
-	aravis_utils::init_logging();
+	aravis_utils::init_logging(&[env!("CARGO_CRATE_NAME")]);
 	if let Err(e) = do_main() {
 		log::error!("{}", e);
 		std::process::exit(1);

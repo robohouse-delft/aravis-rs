@@ -1,39 +1,43 @@
-pub fn init_logging() {
-	env_logger::Builder::new()
-		.filter_level(log::LevelFilter::Info)
-		.format(|buffer, record: &log::Record| {
-			use std::io::Write;
-			use env_logger::fmt::Color;
+pub fn init_logging(modules: &[&str]) {
+	let mut logger = env_logger::Builder::new();
 
-			let mut prefix_style = buffer.style();
-			let prefix;
+	logger.format(|buffer, record: &log::Record| {
+		use std::io::Write;
+		use env_logger::fmt::Color;
 
-			match record.level() {
-				log::Level::Trace => {
-					prefix = "Trace: ";
-					prefix_style.set_bold(true);
-				}
-				log::Level::Debug => {
-					prefix = "";
-				}
-				log::Level::Info => {
-					prefix = "";
-				}
-				log::Level::Warn => {
-					prefix = "Warning: ";
-					prefix_style.set_color(Color::Yellow).set_bold(true);
-				}
-				log::Level::Error => {
-					prefix = "Error: ";
-					prefix_style.set_color(Color::Red).set_bold(true);
-				}
-			};
+		let mut prefix_style = buffer.style();
+		let prefix;
 
-			writeln!(
-				buffer,
-				"{}{}",
-				prefix_style.value(prefix),
-				record.args()
-			)
-		}).init();
+		match record.level() {
+			log::Level::Trace => {
+				prefix = "Trace: ";
+				prefix_style.set_bold(true);
+			}
+			log::Level::Debug => {
+				prefix = "";
+			}
+			log::Level::Info => {
+				prefix = "";
+			}
+			log::Level::Warn => {
+				prefix = "Warning: ";
+				prefix_style.set_color(Color::Yellow).set_bold(true);
+			}
+			log::Level::Error => {
+				prefix = "Error: ";
+				prefix_style.set_color(Color::Red).set_bold(true);
+			}
+		};
+
+		writeln!(
+			buffer,
+			"{}{}",
+			prefix_style.value(prefix),
+			record.args()
+		)
+	});
+	for module in modules {
+		logger.filter_module(module, log::LevelFilter::Info);
+	}
+	logger.init();
 }

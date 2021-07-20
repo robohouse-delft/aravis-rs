@@ -52,7 +52,7 @@ struct Options {
 
 #[show_image::main]
 fn main() {
-	aravis_utils::init_logging();
+	aravis_utils::init_logging(&[env!("CARGO_CRATE_NAME")]);
 
 	let options = Options::from_args();
 	let camera_id = options.id;
