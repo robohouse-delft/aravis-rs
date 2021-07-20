@@ -1,5 +1,6 @@
 v0.6.1:
   * Update to show-image 0.9 with zoom/pan support.
+  * Remove debug print from debayering code.
 
 v0.6.0:
   * Update to Aravis 0.8.5.

@@ -140,10 +140,7 @@ impl<T: IsA<Buffer>> BufferExtManual for T {
 		#[cfg(feature = "bayer")]
 		{
 			if let Some(filter) = debayer::filter(format) {
-				let start = std::time::Instant::now();
-				let result = debayer::debayer(width, height, filter, &data);
-				eprintln!("debayer time: {}", start.elapsed().as_secs_f64());
-				return result;
+				return debayer::debayer(width, height, filter, &data);
 			}
 		}
 
