@@ -2,7 +2,7 @@
 library = "Aravis"
 version = "0.8"
 min_cfg_version = "0.8"
-girs_dir = "../gir-files"
+girs_directories = ["../gir-files"]
 target_path = "."
 work_mode = "sys"
 

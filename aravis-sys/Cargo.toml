@@ -21,6 +21,15 @@ version = "0.8"
 name = "aravis-0.8"
 version = "0.8.3"
 
+[package.metadata.system-deps.aravis.v0_8_6]
+version = "0.8.6"
+
+[package.metadata.system-deps.aravis.v0_8_8]
+version = "0.8.8"
+
+[package.metadata.system-deps.aravis.v0_8_11]
+version = "0.8.11"
+
 [lib]
 name = "aravis_sys"
 
@@ -32,7 +41,7 @@ libc = "0.2"
 
 [build-dependencies]
 pkg-config = "0.3.7"
-system-deps = "2.0"
+system-deps = "3"
 
 [dev-dependencies]
 shell-words = "1.0.0"
@@ -41,3 +50,6 @@ tempfile = "3"
 [features]
 dox = []
 v0_8_3 = []
+v0_8_6 = ["v0_8_3"]
+v0_8_8 = ["v0_8_6"]
+v0_8_11 = ["v0_8_8"]
