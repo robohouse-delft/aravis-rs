@@ -11,11 +11,12 @@ repository = "https://github.com/robohouse-delft/aravis-rs"
 edition = "2018"
 
 [features]
-default = ["gui"]
+default = ["gui", "bayer"]
 gui     = ["show-image"]
+bayer   = ["aravis/bayer"]
 
 [dependencies]
-aravis     = { version="0.6.0", path="../aravis" }
+aravis     = { version="0.6.0", path="../aravis", features = ["bayer"] }
 chrono     = "0.4.10"
 env_logger = "0.8.1"
 glib       = "0.10.0"
