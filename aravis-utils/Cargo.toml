@@ -19,7 +19,6 @@ bayer   = ["aravis/bayer"]
 aravis     = { version="0.6.0", path="../aravis", features = ["bayer"] }
 chrono     = "0.4.10"
 env_logger = "0.8.1"
-glib       = "0.10.0"
 image      = "0.23.0"
 log        = "0.4.8"
 png        = "0.16.2"

@@ -1,5 +1,6 @@
 use aravis::prelude::*;
-use glib::{Cast, IsA};
+use aravis::glib;
+use glib::Cast;
 
 use structopt::StructOpt;
 
@@ -45,7 +46,7 @@ fn do_main() -> Result<(), String> {
 	let camera = aravis::Camera::new(Some(&options.id))
 		.map_err(|e| format!("failed to connecto to camera: {}", e))?;
 
-	let genicam = camera.get_device().unwrap().get_genicam().unwrap();
+	let genicam = camera.device().unwrap().genicam().unwrap();
 
 	if options.all {
 		walk_genicam(&genicam, "Root", "").map_err(|e| format!("{}", e))
@@ -60,38 +61,38 @@ fn do_main() -> Result<(), String> {
 	}
 }
 
-fn walk_genicam<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, indent: &str) -> Result<(), glib::Error> {
-	let node = genicam.get_node(feature).unwrap();
+fn walk_genicam(genicam: &aravis::Gc, feature: &str, indent: &str) -> Result<(), glib::Error> {
+	let node = genicam.node(feature).unwrap();
 
 	if let Some(node) = node.dynamic_cast_ref::<aravis::GcBoolean>() {
-		println!("{}{}: boolean {}", indent, feature, node.get_value()?);
+		println!("{}{}: boolean {}", indent, feature, node.value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcCategory>() {
 		if feature == "Root" {
-			for feature in node.get_features() {
+			for feature in node.features() {
 				walk_genicam(genicam, &feature, indent)?;
 			}
 		} else {
 			println!("{}{}: category", indent, feature);
-			for feature in node.get_features() {
+			for feature in node.features() {
 				walk_genicam(genicam, &feature, &format!("  {}", indent))?;
 			}
 		}
 	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcCommand>() {
 		println!("{}{}: command", indent, feature);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcFloatRegNode>() {
-		println!("{}{}: float {}", indent, feature, node.get_value()?);
+		println!("{}{}: float {}", indent, feature, node.value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcFloatNode>() {
-		println!("{}{}: float {}", indent, feature, node.get_value()?);
+		println!("{}{}: float {}", indent, feature, node.value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcIntRegNode>() {
-		println!("{}{}: integer {}", indent, feature, node.get_value()?);
+		println!("{}{}: integer {}", indent, feature, node.value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcStringRegNode>() {
-		println!("{}{}: string {}", indent, feature, node.get_value()?);
+		println!("{}{}: string {}", indent, feature, node.value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcIntegerNode>() {
-		println!("{}{}: integer {}", indent, feature, node.get_value()?);
+		println!("{}{}: integer {}", indent, feature, node.value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcEnumeration>() {
-		println!("{}{}: enumeration {}", indent, feature, node.get_string_value()?);
+		println!("{}{}: enumeration {}", indent, feature, node.string_value()?);
 	} else if let Some(node) = node.dynamic_cast_ref::<aravis::GcRegisterNode>() {
-		println!("{}{}: register (0x{:02X}, {})", indent, feature, node.get_address()?, node.get_length()?);
+		println!("{}{}: register (0x{:02X}, {})", indent, feature, node.address()?, node.length()?);
 	} else if let Some(_node) = node.dynamic_cast_ref::<aravis::GcSwissKnife>() {
 		println!("{}{}: swiss-knife", indent, feature);
 	} else {
@@ -102,8 +103,8 @@ fn walk_genicam<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, indent: &str) ->
 	Ok(())
 }
 
-fn set_feature<T: IsA<aravis::Gc>>(genicam: &T, feature: &str, value: &str) -> Result<(), String> {
-	let node = genicam.get_node(feature).unwrap();
+fn set_feature(genicam: &aravis::Gc, feature: &str, value: &str) -> Result<(), String> {
+	let node = genicam.node(feature).unwrap();
 
 	if let Some(node) = node.dynamic_cast_ref::<aravis::GcBoolean>() {
 		let value = value.parse().map_err(|_| "Invalid boolean value.")?;

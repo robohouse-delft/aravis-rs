@@ -1,7 +1,4 @@
-use aravis::BufferExtManual;
-use aravis::CameraExt;
-use aravis::CameraExtManual;
-use aravis::StreamExt;
+use aravis::prelude::{CameraExt, CameraExtManual, StreamExt};
 use image::DynamicImage;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -138,9 +135,9 @@ fn run_camera_loop(
 		.map_err(|e| format!("Failed to connect to camera: {}", e))?;
 	log::info!("Connected.");
 
-	let pixel_format = camera.get_pixel_format()
+	let pixel_format = camera.pixel_format()
 		.map_err(|e| format!("Failed to determine pixel format: {}", e))?;
-	let (_, _, width, height) = camera.get_region().unwrap();
+	let (_, _, width, height) = camera.region().unwrap();
 	let make_buffer = || aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
 
 	let stream = camera.create_stream().map_err(|e| format!("Failed to open stream: {}", e))?;
