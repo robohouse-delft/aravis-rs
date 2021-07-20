@@ -50,6 +50,7 @@ struct Options {
 	frequency: f64,
 }
 
+#[show_image::main]
 fn main() {
 	aravis_utils::init_logging();
 
@@ -101,30 +102,9 @@ fn main() {
 
 			let format_name = format_name.clone();
 			gui_thread = Some(std::thread::spawn(move || {
-				let window = show_image::make_window("image").unwrap();
-				window.add_event_handler(move |context| {
-					let event = match context.event() {
-						show_image::Event::KeyboardEvent(x) => x,
-						_ => return,
-					};
-					let ctrl  = event.modifiers.contains(show_image::KeyModifiers::CONTROL);
-					let alt   = event.modifiers.contains(show_image::KeyModifiers::ALT);
-					let shift = event.modifiers.contains(show_image::KeyModifiers::SHIFT);
-					if event.state == show_image::KeyState::Down && event.key == show_image::KeyCode::Enter && !ctrl && !alt && !shift {
-						context.stop_propagation();
-						if let Some(image) = context.image() {
-							let image = image.clone();
-							let path = PathBuf::from(format!("{}.png", image.name));
-							context.spawn_task(move || {
-								if let Err(e) = show_image::save_image(&path, &image.data, image.info) {
-									log::error!("Failed to save image {:?}: {}.", path, e);
-								}
-							});
-						}
-					}
-				}).unwrap();
+				let window = show_image::create_window("image", Default::default()).unwrap();
 				for (i, time, image) in receiver {
-					window.set_image(&*image, format_name(i, time, "")).unwrap();
+					window.set_image(format_name(i, time, ""), image).unwrap();
 				}
 			}));
 		}
