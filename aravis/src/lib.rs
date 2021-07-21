@@ -32,6 +32,7 @@
 
 #![cfg_attr(feature = "nightly", feature(new_uninit))]
 #![cfg_attr(feature = "nightly", feature(maybe_uninit_slice))]
+#![cfg_attr(feature = "nightly", feature(doc_cfg))]
 
 extern crate aravis_sys as ffi;
 extern crate gio;
