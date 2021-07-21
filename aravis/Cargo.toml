@@ -1,6 +1,6 @@
 [package]
 name = "aravis"
-version = "0.7.0"
+version = "0.7.1"
 description = "safe bindings for Aravis, a vision library for genicam based cameras"
 authors = [
 	"RoboHouse <robohouse@robovalley.com>",
