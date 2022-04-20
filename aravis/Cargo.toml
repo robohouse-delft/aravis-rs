@@ -22,12 +22,12 @@ features = ["dox"]
 [dependencies]
 aravis-sys = { version = "0.7.0", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
-gio = "0.14.0"
-gio-sys = "0.14.0"
-glib = "0.14.2"
-glib-sys = "0.14.0"
-gobject-sys = "0.14.0"
-image = "0.23.0"
+gio = "0.15.10"
+gio-sys = "0.15.10"
+glib = "0.15.10"
+glib-sys = "0.15.10"
+gobject-sys = "0.15.10"
+image = "0.24.1"
 
 [build-dependencies]
-rustc_version = "0.3.0"
+rustc_version = "0.4.0"

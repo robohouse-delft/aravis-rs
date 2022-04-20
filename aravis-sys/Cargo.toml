@@ -34,14 +34,14 @@ version = "0.8.11"
 name = "aravis_sys"
 
 [dependencies]
-gio-sys = "0.14.0"
-glib-sys = "0.14.0"
-gobject-sys = "0.14.0"
+gio-sys = "0.15.10"
+glib-sys = "0.15.10"
+gobject-sys = "0.15.10"
 libc = "0.2"
 
 [build-dependencies]
 pkg-config = "0.3.7"
-system-deps = "3"
+system-deps = "6.0.2"
 
 [dev-dependencies]
 shell-words = "1.0.0"

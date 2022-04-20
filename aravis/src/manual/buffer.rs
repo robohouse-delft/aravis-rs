@@ -106,11 +106,6 @@ impl Buffer {
 					ImageBuffer::from_raw(width, height, data).unwrap(),
 				))
 			}
-			PixelFormat::BGR_8_PACKED => {
-				return Ok(DynamicImage::ImageBgr8(
-					ImageBuffer::from_raw(width, height, data).unwrap(),
-				))
-			}
 			PixelFormat::MONO_8 => {
 				return Ok(DynamicImage::ImageLuma8(
 					ImageBuffer::from_raw(width, height, data).unwrap(),
