@@ -1,4 +1,4 @@
-main:
+v0.8.0:
   * Update to `gtk-rs` v0.15.
   * Update to `image` v0.24.
   * Remove support for converting BGR images to `image::DynamicImage`.
