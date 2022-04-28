@@ -142,4 +142,5 @@ impl PixelFormat {
 	pub const YUV_422_YUYV_PACKED: Self =
 		Self::from_raw(aravis_sys::ARV_PIXEL_FORMAT_YUV_422_YUYV_PACKED);
 	pub const YUV_444_PACKED: Self = Self::from_raw(aravis_sys::ARV_PIXEL_FORMAT_YUV_444_PACKED);
+	pub const YCBCR411_8: Self = Self::from_raw(aravis_sys::ARV_PIXEL_FORMAT_YUV_411_PACKED);
 }
