@@ -15,7 +15,7 @@ pub enum ImageError {
 
 impl Buffer {
 
-	/// Create an Aravis buffer that owns it's own data from a pre-allocated raw buffer.
+	/// Create an Aravis buffer that owns its own data from a pre-allocated raw buffer.
 	///
 	/// The created buffer's user data and destory callback are generated such that the provided
 	/// `destroy_callback` argument is called when the buffer is dropped.

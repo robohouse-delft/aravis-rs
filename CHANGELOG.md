@@ -1,3 +1,6 @@
+unreleased
+  * Add `Buffer::new_owned_preallocated` function.
+
 v0.8.0:
   * Update to `gtk-rs` v0.15.
   * Update to `image` v0.24.
