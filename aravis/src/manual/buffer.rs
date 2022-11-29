@@ -2,6 +2,7 @@ use crate::Buffer;
 use crate::PixelFormat;
 
 use glib::translate::ToGlibPtr;
+use glib_sys::GDestroyNotify;
 
 use std::ffi::c_void;
 
@@ -13,6 +14,29 @@ pub enum ImageError {
 }
 
 impl Buffer {
+
+	/// Create an Aravis buffer that owns it's own data from a pre-allocated raw buffer.
+	///
+	/// The created buffer's user data and destory callback are generated such that the provided
+	/// `destroy_callback` argument is called when the buffer is dropped.
+	///
+	/// # Safety
+	/// The resulting buffer borrows the data, but it carries no lifetime.
+	/// The user has to ensure the buffer stays valid.
+	pub fn new_owned_preallocated<F: FnOnce()>(data: *mut u8, len: usize, destroy_callback: F) -> Self {
+		extern "C" fn run_callback<F: FnOnce()>(user_data: *mut c_void) {
+			unsafe {
+				let function = Box::from_raw(user_data as *mut F);
+				function()
+			}
+		}
+
+		let user_data = Box::leak(Box::new(destroy_callback)) as *mut F as *mut c_void;
+		unsafe {
+			Self::preallocated(data as *mut c_void, len, user_data, Some(run_callback::<F>))
+		}
+	}
+
 	/// Create an Aravis buffer from a pre-allocated raw buffer.
 	///
 	/// The created buffer has no registered user data or destroy callback,
@@ -23,8 +47,11 @@ impl Buffer {
 	/// The resulting buffer borrows the data, but it carries no lifetime.
 	/// The user has to ensure the buffer stays valid.
 	pub unsafe fn new_preallocated(data: *mut u8, len: usize) -> Self {
-		let buffer =
-			aravis_sys::arv_buffer_new_full(len, data as *mut c_void, std::ptr::null_mut(), None);
+		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
+	}
+
+	unsafe fn preallocated(data: *mut c_void, len: usize, user_data: *mut c_void, destory_callback: GDestroyNotify) -> Self {
+		let buffer = aravis_sys::arv_buffer_new_full(len, data as *mut c_void, user_data, destory_callback);
 		glib::translate::from_glib_full(buffer)
 	}
 
