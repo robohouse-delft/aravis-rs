@@ -53,11 +53,12 @@ impl Buffer {
 	///
 	/// The created buffer has no registered user data or destroy callback,
 	/// so management of the underlying buffer has to be done externally.
-	/// The buffer can be identified later when it is returned by a stream only byt the data pointer.
+	/// The buffer can be identified later when it is returned by a stream only by the data pointer.
 	///
 	/// # Safety
-	/// The resulting buffer borrows the data, but it carries no lifetime.
-	/// The user has to ensure the buffer stays valid.
+	/// The pointer and length parameter must indicate a valid memory region where Aravis can safely write data to until the buffer is dropped.
+	/// The created buffer borrows the memory buffer, but it carries no lifetime.
+	/// See [`Self::new_preallocated_owned`] for a safer (but still unsafe) alternative.
 	pub unsafe fn new_preallocated_borrowed(data: *mut u8, len: usize) -> Self {
 		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
 	}
