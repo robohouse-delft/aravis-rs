@@ -21,7 +21,7 @@ impl Buffer {
 	///
 	/// # Safety
 	/// The pointer and length parameter must indicate a valid memory region where Aravis can safely write data to until the `destroy_callback` is called.
-	pub fn new_owned_preallocated<F: FnOnce()>(data: *mut u8, len: usize, destroy_callback: F) -> Self {
+	pub fn new_preallocated_owned<F: FnOnce()>(data: *mut u8, len: usize, destroy_callback: F) -> Self {
 		extern "C" fn run_callback<F: FnOnce()>(user_data: *mut c_void) {
 			unsafe {
 				let function = Box::from_raw(user_data as *mut F);
@@ -44,7 +44,21 @@ impl Buffer {
 	/// # Safety
 	/// The resulting buffer borrows the data, but it carries no lifetime.
 	/// The user has to ensure the buffer stays valid.
+	#[deprecated(note = "Use new_preallocated_borrowed instead")]
 	pub unsafe fn new_preallocated(data: *mut u8, len: usize) -> Self {
+		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
+	}
+
+	/// Create an Aravis buffer from a pre-allocated raw buffer.
+	///
+	/// The created buffer has no registered user data or destroy callback,
+	/// so management of the underlying buffer has to be done externally.
+	/// The buffer can be identified later when it is returned by a stream only byt the data pointer.
+	///
+	/// # Safety
+	/// The resulting buffer borrows the data, but it carries no lifetime.
+	/// The user has to ensure the buffer stays valid.
+	pub unsafe fn new_preallocated_borrowed(data: *mut u8, len: usize) -> Self {
 		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
 	}
 
@@ -62,14 +76,14 @@ impl Buffer {
 		{
 			let mut buffer = Box::<[u8]>::new_uninit_slice(len);
 			let data = std::mem::MaybeUninit::slice_as_mut_ptr(&mut buffer);
-			let result = unsafe { Buffer::new_preallocated(data, len) };
+			let result = unsafe { Buffer::new_preallocated_borrowed(data, len) };
 			std::mem::forget(buffer);
 			result
 		}
 		#[cfg(not(feature = "nightly"))]
 		{
 			let mut buffer = vec![0u8; len].into_boxed_slice();
-			let result = unsafe { Buffer::new_preallocated(buffer.as_mut_ptr(), len) };
+			let result = unsafe { Buffer::new_preallocated_borrowed(buffer.as_mut_ptr(), len) };
 			std::mem::forget(buffer);
 			result
 		}
