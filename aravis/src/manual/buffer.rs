@@ -17,12 +17,10 @@ impl Buffer {
 
 	/// Create an Aravis buffer that owns its own data from a pre-allocated raw buffer.
 	///
-	/// The created buffer's user data and destory callback are generated such that the provided
-	/// `destroy_callback` argument is called when the buffer is dropped.
+	/// The `destroy_callback` argument is called to destroy the buffer, and should free the resources associated with the buffer.
 	///
 	/// # Safety
-	/// The resulting buffer borrows the data, but it carries no lifetime.
-	/// The user has to ensure the buffer stays valid.
+	/// The pointer and length parameter must indicate a valid memory region where Aravis can safely write data to until the `destroy_callback` is called.
 	pub fn new_owned_preallocated<F: FnOnce()>(data: *mut u8, len: usize, destroy_callback: F) -> Self {
 		extern "C" fn run_callback<F: FnOnce()>(user_data: *mut c_void) {
 			unsafe {
