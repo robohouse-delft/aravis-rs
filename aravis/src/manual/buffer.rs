@@ -2,6 +2,7 @@ use crate::Buffer;
 use crate::PixelFormat;
 
 use glib::translate::ToGlibPtr;
+use glib_sys::GDestroyNotify;
 
 use std::ffi::c_void;
 
@@ -13,6 +14,27 @@ pub enum ImageError {
 }
 
 impl Buffer {
+
+	/// Create an Aravis buffer that owns its own data from a pre-allocated raw buffer.
+	///
+	/// The `destroy_callback` argument is called to destroy the buffer, and should free the resources associated with the buffer.
+	///
+	/// # Safety
+	/// The pointer and length parameter must indicate a valid memory region where Aravis can safely write data to until the `destroy_callback` is called.
+	pub fn new_preallocated_owned<F: FnOnce()>(data: *mut u8, len: usize, destroy_callback: F) -> Self {
+		extern "C" fn run_callback<F: FnOnce()>(user_data: *mut c_void) {
+			unsafe {
+				let function = Box::from_raw(user_data as *mut F);
+				function()
+			}
+		}
+
+		let user_data = Box::leak(Box::new(destroy_callback)) as *mut F as *mut c_void;
+		unsafe {
+			Self::preallocated(data as *mut c_void, len, user_data, Some(run_callback::<F>))
+		}
+	}
+
 	/// Create an Aravis buffer from a pre-allocated raw buffer.
 	///
 	/// The created buffer has no registered user data or destroy callback,
@@ -22,9 +44,27 @@ impl Buffer {
 	/// # Safety
 	/// The resulting buffer borrows the data, but it carries no lifetime.
 	/// The user has to ensure the buffer stays valid.
+	#[deprecated(note = "Use new_preallocated_borrowed instead")]
 	pub unsafe fn new_preallocated(data: *mut u8, len: usize) -> Self {
-		let buffer =
-			aravis_sys::arv_buffer_new_full(len, data as *mut c_void, std::ptr::null_mut(), None);
+		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
+	}
+
+	/// Create an Aravis buffer from a pre-allocated raw buffer.
+	///
+	/// The created buffer has no registered user data or destroy callback,
+	/// so management of the underlying buffer has to be done externally.
+	/// The buffer can be identified later when it is returned by a stream only by the data pointer.
+	///
+	/// # Safety
+	/// The pointer and length parameter must indicate a valid memory region where Aravis can safely write data to until the buffer is dropped.
+	/// The created buffer borrows the memory buffer, but it carries no lifetime.
+	/// See [`Self::new_preallocated_owned`] for a safer (but still unsafe) alternative.
+	pub unsafe fn new_preallocated_borrowed(data: *mut u8, len: usize) -> Self {
+		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
+	}
+
+	unsafe fn preallocated(data: *mut c_void, len: usize, user_data: *mut c_void, destory_callback: GDestroyNotify) -> Self {
+		let buffer = aravis_sys::arv_buffer_new_full(len, data as *mut c_void, user_data, destory_callback);
 		glib::translate::from_glib_full(buffer)
 	}
 
@@ -37,14 +77,14 @@ impl Buffer {
 		{
 			let mut buffer = Box::<[u8]>::new_uninit_slice(len);
 			let data = std::mem::MaybeUninit::slice_as_mut_ptr(&mut buffer);
-			let result = unsafe { Buffer::new_preallocated(data, len) };
+			let result = unsafe { Buffer::new_preallocated_borrowed(data, len) };
 			std::mem::forget(buffer);
 			result
 		}
 		#[cfg(not(feature = "nightly"))]
 		{
 			let mut buffer = vec![0u8; len].into_boxed_slice();
-			let result = unsafe { Buffer::new_preallocated(buffer.as_mut_ptr(), len) };
+			let result = unsafe { Buffer::new_preallocated_borrowed(buffer.as_mut_ptr(), len) };
 			std::mem::forget(buffer);
 			result
 		}

@@ -1,3 +1,7 @@
+Unreleased:
+  * Add `Buffer::new_preallocated_owned(...)` to transfer ownership of a pre-allocated buffer to Aravis.
+  * Deprecate `Buffer::new_preallocated(...)` in favor of `Buffer::new_preallocated_borrowed`.
+
 v0.8.0:
   * Update to `gtk-rs` v0.15.
   * Update to `image` v0.24.
