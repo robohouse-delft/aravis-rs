@@ -35,6 +35,15 @@ impl FakeCamera {
 		}
 	}
 
+	#[doc(alias = "arv_fake_camera_check_and_acknowledge_software_trigger")]
+	pub fn check_and_acknowledge_software_trigger(&self) -> bool {
+		unsafe {
+			from_glib(ffi::arv_fake_camera_check_and_acknowledge_software_trigger(
+				self.to_glib_none().0,
+			))
+		}
+	}
+
 	/// Fill a buffer with data from the fake camera.
 	/// ## `buffer`
 	/// the [`Buffer`][crate::Buffer] to fill
@@ -133,6 +142,24 @@ impl FakeCamera {
 	pub fn stream_address(&self) -> Option<gio::SocketAddress> {
 		unsafe {
 			from_glib_full(ffi::arv_fake_camera_get_stream_address(
+				self.to_glib_none().0,
+			))
+		}
+	}
+
+	#[doc(alias = "arv_fake_camera_is_in_free_running_mode")]
+	pub fn is_in_free_running_mode(&self) -> bool {
+		unsafe {
+			from_glib(ffi::arv_fake_camera_is_in_free_running_mode(
+				self.to_glib_none().0,
+			))
+		}
+	}
+
+	#[doc(alias = "arv_fake_camera_is_in_software_trigger_mode")]
+	pub fn is_in_software_trigger_mode(&self) -> bool {
+		unsafe {
+			from_glib(ffi::arv_fake_camera_is_in_software_trigger_mode(
 				self.to_glib_none().0,
 			))
 		}

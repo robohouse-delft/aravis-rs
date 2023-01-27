@@ -54,6 +54,12 @@ pub trait InterfaceExt: 'static {
 	#[doc(alias = "get_device_id")]
 	fn device_id(&self, index: u32) -> Option<glib::GString>;
 
+	#[cfg(any(feature = "v0_8_20", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_20")))]
+	#[doc(alias = "arv_interface_get_device_manufacturer_info")]
+	#[doc(alias = "get_device_manufacturer_info")]
+	fn device_manufacturer_info(&self, index: u32) -> Option<glib::GString>;
+
 	/// Queries the device model.
 	///
 	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
@@ -168,6 +174,17 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 	fn device_id(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_id(
+				self.as_ref().to_glib_none().0,
+				index,
+			))
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_20", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_20")))]
+	fn device_manufacturer_info(&self, index: u32) -> Option<glib::GString> {
+		unsafe {
+			from_glib_none(ffi::arv_interface_get_device_manufacturer_info(
 				self.as_ref().to_glib_none().0,
 				index,
 			))

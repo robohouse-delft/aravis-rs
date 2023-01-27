@@ -2,11 +2,18 @@
 // from ../gir-files
 // DO NOT EDIT
 
+#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+use crate::AccessCheckPolicy;
 use crate::AcquisitionMode;
 use crate::Auto;
 use crate::Buffer;
 use crate::ChunkParser;
 use crate::Device;
+use crate::ExposureMode;
+#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+use crate::GvIpConfigurationMode;
 #[cfg(any(feature = "v0_8_3", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_3")))]
 use crate::GvPacketSizeAdjustment;
@@ -14,7 +21,13 @@ use crate::GvStreamOption;
 use crate::PixelFormat;
 #[cfg(any(feature = "v0_8_8", feature = "dox"))]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+use crate::RangeCheckPolicy;
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
 use crate::RegisterCachePolicy;
+#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+use crate::UvUsbMode;
 use glib::object::IsA;
 use glib::translate::*;
 use std::fmt;
@@ -258,6 +271,24 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "get_binning")]
 	fn binning(&self) -> Result<(i32, i32), glib::Error>;
 
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_get_black_level")]
+	#[doc(alias = "get_black_level")]
+	fn black_level(&self) -> Result<f64, glib::Error>;
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_get_black_level_auto")]
+	#[doc(alias = "get_black_level_auto")]
+	fn black_level_auto(&self) -> Result<Auto, glib::Error>;
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_get_black_level_bounds")]
+	#[doc(alias = "get_black_level_bounds")]
+	fn black_level_bounds(&self) -> Result<(f64, f64), glib::Error>;
+
 	/// ## `feature`
 	/// feature name
 	///
@@ -371,6 +402,12 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_get_float_bounds")]
 	#[doc(alias = "get_float_bounds")]
 	fn float_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_16", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_16")))]
+	#[doc(alias = "arv_camera_get_float_increment")]
+	#[doc(alias = "get_float_increment")]
+	fn float_increment(&self, feature: &str) -> Result<f64, glib::Error>;
 
 	///
 	/// # Returns
@@ -726,6 +763,11 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_gv_get_current_stream_channel")]
 	fn gv_get_current_stream_channel(&self) -> Result<i32, glib::Error>;
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_gv_get_ip_configuration_mode")]
+	fn gv_get_ip_configuration_mode(&self) -> Result<GvIpConfigurationMode, glib::Error>;
+
 	///
 	/// # Returns
 	///
@@ -747,11 +789,23 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_gv_get_packet_size")]
 	fn gv_get_packet_size(&self) -> Result<u32, glib::Error>;
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_gv_get_persistent_ip")]
+	fn gv_get_persistent_ip(
+		&self,
+	) -> Result<(gio::InetAddress, gio::InetAddressMask, gio::InetAddress), glib::Error>;
+
 	/// Select the current stream channel. Negative `channel_id` is ignored.
 	/// ## `channel_id`
 	/// id of the channel to select
 	#[doc(alias = "arv_camera_gv_select_stream_channel")]
 	fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_gv_set_ip_configuration_mode")]
+	fn gv_set_ip_configuration_mode(&self, mode: GvIpConfigurationMode) -> Result<(), glib::Error>;
 
 	/// Configure the inter packet delay to insert between each packet for the current stream
 	/// channel. This can be used as a crude flow-control mechanism if the application or the network
@@ -780,6 +834,30 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_gv_set_packet_size_adjustment")]
 	fn gv_set_packet_size_adjustment(&self, adjustment: GvPacketSizeAdjustment);
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_gv_set_persistent_ip")]
+	fn gv_set_persistent_ip<
+		P: IsA<gio::InetAddress>,
+		Q: IsA<gio::InetAddressMask>,
+		R: IsA<gio::InetAddress>,
+	>(
+		&self,
+		ip: &P,
+		mask: &Q,
+		gateway: &R,
+	) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_gv_set_persistent_ip_from_string")]
+	fn gv_set_persistent_ip_from_string(
+		&self,
+		ip: &str,
+		mask: &str,
+		gateway: &str,
+	) -> Result<(), glib::Error>;
+
 	/// Sets the options used during stream object creation. These options mus be
 	/// set before the call to `arv_camera_create_stream()`.
 	/// ## `options`
@@ -793,6 +871,22 @@ pub trait CameraExt: 'static {
 	/// [`true`] if Binning feature is available.
 	#[doc(alias = "arv_camera_is_binning_available")]
 	fn is_binning_available(&self) -> Result<bool, glib::Error>;
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_is_black_level_auto_available")]
+	fn is_black_level_auto_available(&self) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_is_black_level_available")]
+	fn is_black_level_available(&self) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_camera_is_enumeration_entry_available")]
+	fn is_enumeration_entry_available(&self, feature: &str, entry: &str)
+		-> Result<(), glib::Error>;
 
 	///
 	/// # Returns
@@ -845,12 +939,27 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_is_gv_device")]
 	fn is_gv_device(&self) -> bool;
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_is_region_offset_available")]
+	fn is_region_offset_available(&self) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_camera_is_software_trigger_supported")]
+	fn is_software_trigger_supported(&self) -> Result<(), glib::Error>;
+
 	///
 	/// # Returns
 	///
 	/// [`true`] if `self` is a USB3Vision device.
 	#[doc(alias = "arv_camera_is_uv_device")]
 	fn is_uv_device(&self) -> bool;
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_camera_set_access_check_policy")]
+	fn set_access_check_policy(&self, policy: AccessCheckPolicy);
 
 	#[doc(alias = "arv_camera_set_acquisition_mode")]
 	fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error>;
@@ -863,6 +972,16 @@ pub trait CameraExt: 'static {
 	/// vertical binning
 	#[doc(alias = "arv_camera_set_binning")]
 	fn set_binning(&self, dx: i32, dy: i32) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_set_black_level")]
+	fn set_black_level(&self, blacklevel: f64) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	#[doc(alias = "arv_camera_set_black_level_auto")]
+	fn set_black_level_auto(&self, auto_mode: Auto) -> Result<(), glib::Error>;
 
 	/// Set a boolean feature value.
 	/// ## `feature`
@@ -896,8 +1015,8 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_set_chunks")]
 	fn set_chunks(&self, chunk_list: &str) -> Result<(), glib::Error>;
 
-	//#[doc(alias = "arv_camera_set_exposure_mode")]
-	//fn set_exposure_mode(&self, mode: /*Ignored*/ExposureMode) -> Result<(), glib::Error>;
+	#[doc(alias = "arv_camera_set_exposure_mode")]
+	fn set_exposure_mode(&self, mode: ExposureMode) -> Result<(), glib::Error>;
 
 	/// Sets exposure time. User should take care to set a value compatible with
 	/// the desired frame rate. Negative `exposure_time_us` is ignored.
@@ -965,10 +1084,10 @@ pub trait CameraExt: 'static {
 	#[doc(alias = "arv_camera_set_pixel_format_from_string")]
 	fn set_pixel_format_from_string(&self, format: &str) -> Result<(), glib::Error>;
 
-	//#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-	//#[doc(alias = "arv_camera_set_range_check_policy")]
-	//fn set_range_check_policy(&self, policy: /*Ignored*/RangeCheckPolicy);
+	#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+	#[doc(alias = "arv_camera_set_range_check_policy")]
+	fn set_range_check_policy(&self, policy: RangeCheckPolicy);
 
 	/// Defines the region of interest which will be transmitted in the video
 	/// stream. Negative `x` or `y` values, or not strictly positive `width` or `height` values are ignored.
@@ -1067,6 +1186,11 @@ pub trait CameraExt: 'static {
 	/// Bandwith limit, in megabits/sec
 	#[doc(alias = "arv_camera_uv_set_bandwidth")]
 	fn uv_set_bandwidth(&self, bandwidth: u32) -> Result<(), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_camera_uv_set_usb_mode")]
+	fn uv_set_usb_mode(&self, usb_mode: UvUsbMode);
 }
 
 impl<O: IsA<Camera>> CameraExt for O {
@@ -1351,6 +1475,58 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn black_level(&self) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = ffi::arv_camera_get_black_level(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn black_level_auto(&self) -> Result<Auto, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				ffi::arv_camera_get_black_level_auto(self.as_ref().to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn black_level_bounds(&self) -> Result<(f64, f64), glib::Error> {
+		unsafe {
+			let mut min = mem::MaybeUninit::uninit();
+			let mut max = mem::MaybeUninit::uninit();
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_get_black_level_bounds(
+				self.as_ref().to_glib_none().0,
+				min.as_mut_ptr(),
+				max.as_mut_ptr(),
+				&mut error,
+			);
+			let min = min.assume_init();
+			let max = max.assume_init();
+			if error.is_null() {
+				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn boolean(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -1506,6 +1682,24 @@ impl<O: IsA<Camera>> CameraExt for O {
 			let max = max.assume_init();
 			if error.is_null() {
 				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_16", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_16")))]
+	fn float_increment(&self, feature: &str) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = ffi::arv_camera_get_float_increment(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -2048,6 +2242,23 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn gv_get_ip_configuration_mode(&self) -> Result<GvIpConfigurationMode, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = ffi::arv_camera_gv_get_ip_configuration_mode(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn gv_get_n_stream_channels(&self) -> Result<i32, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -2089,12 +2300,59 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn gv_get_persistent_ip(
+		&self,
+	) -> Result<(gio::InetAddress, gio::InetAddressMask, gio::InetAddress), glib::Error> {
+		unsafe {
+			let mut ip = ptr::null_mut();
+			let mut mask = ptr::null_mut();
+			let mut gateway = ptr::null_mut();
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_gv_get_persistent_ip(
+				self.as_ref().to_glib_none().0,
+				&mut ip,
+				&mut mask,
+				&mut gateway,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok((
+					from_glib_full(ip),
+					from_glib_full(mask),
+					from_glib_full(gateway),
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn gv_select_stream_channel(&self, channel_id: i32) -> Result<(), glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
 			let _ = ffi::arv_camera_gv_select_stream_channel(
 				self.as_ref().to_glib_none().0,
 				channel_id,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn gv_set_ip_configuration_mode(&self, mode: GvIpConfigurationMode) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_gv_set_ip_configuration_mode(
+				self.as_ref().to_glib_none().0,
+				mode.into_glib(),
 				&mut error,
 			);
 			if error.is_null() {
@@ -2148,6 +2406,60 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn gv_set_persistent_ip<
+		P: IsA<gio::InetAddress>,
+		Q: IsA<gio::InetAddressMask>,
+		R: IsA<gio::InetAddress>,
+	>(
+		&self,
+		ip: &P,
+		mask: &Q,
+		gateway: &R,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_gv_set_persistent_ip(
+				self.as_ref().to_glib_none().0,
+				ip.as_ref().to_glib_none().0,
+				mask.as_ref().to_glib_none().0,
+				gateway.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn gv_set_persistent_ip_from_string(
+		&self,
+		ip: &str,
+		mask: &str,
+		gateway: &str,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_gv_set_persistent_ip_from_string(
+				self.as_ref().to_glib_none().0,
+				ip.to_glib_none().0,
+				mask.to_glib_none().0,
+				gateway.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn gv_set_stream_options(&self, options: GvStreamOption) {
 		unsafe {
 			ffi::arv_camera_gv_set_stream_options(
@@ -2164,6 +2476,63 @@ impl<O: IsA<Camera>> CameraExt for O {
 				ffi::arv_camera_is_binning_available(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn is_black_level_auto_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_is_black_level_auto_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn is_black_level_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_is_black_level_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	fn is_enumeration_entry_available(
+		&self,
+		feature: &str,
+		entry: &str,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_is_enumeration_entry_available(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				entry.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -2258,8 +2627,53 @@ impl<O: IsA<Camera>> CameraExt for O {
 		unsafe { from_glib(ffi::arv_camera_is_gv_device(self.as_ref().to_glib_none().0)) }
 	}
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn is_region_offset_available(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_is_region_offset_available(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	fn is_software_trigger_supported(&self) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_is_software_trigger_supported(
+				self.as_ref().to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn is_uv_device(&self) -> bool {
 		unsafe { from_glib(ffi::arv_camera_is_uv_device(self.as_ref().to_glib_none().0)) }
+	}
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn set_access_check_policy(&self, policy: AccessCheckPolicy) {
+		unsafe {
+			ffi::arv_camera_set_access_check_policy(
+				self.as_ref().to_glib_none().0,
+				policy.into_glib(),
+			);
+		}
 	}
 
 	fn set_acquisition_mode(&self, value: AcquisitionMode) -> Result<(), glib::Error> {
@@ -2282,6 +2696,42 @@ impl<O: IsA<Camera>> CameraExt for O {
 		unsafe {
 			let mut error = ptr::null_mut();
 			let _ = ffi::arv_camera_set_binning(self.as_ref().to_glib_none().0, dx, dy, &mut error);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn set_black_level(&self, blacklevel: f64) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_set_black_level(
+				self.as_ref().to_glib_none().0,
+				blacklevel,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_19", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_19")))]
+	fn set_black_level_auto(&self, auto_mode: Auto) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_set_black_level_auto(
+				self.as_ref().to_glib_none().0,
+				auto_mode.into_glib(),
+				&mut error,
+			);
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -2356,9 +2806,21 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	//fn set_exposure_mode(&self, mode: /*Ignored*/ExposureMode) -> Result<(), glib::Error> {
-	//    unsafe { TODO: call ffi:arv_camera_set_exposure_mode() }
-	//}
+	fn set_exposure_mode(&self, mode: ExposureMode) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_camera_set_exposure_mode(
+				self.as_ref().to_glib_none().0,
+				mode.into_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
 	fn set_exposure_time(&self, exposure_time_us: f64) -> Result<(), glib::Error> {
 		unsafe {
@@ -2518,11 +2980,16 @@ impl<O: IsA<Camera>> CameraExt for O {
 		}
 	}
 
-	//#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-	//fn set_range_check_policy(&self, policy: /*Ignored*/RangeCheckPolicy) {
-	//    unsafe { TODO: call ffi:arv_camera_set_range_check_policy() }
-	//}
+	#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+	fn set_range_check_policy(&self, policy: RangeCheckPolicy) {
+		unsafe {
+			ffi::arv_camera_set_range_check_policy(
+				self.as_ref().to_glib_none().0,
+				policy.into_glib(),
+			);
+		}
+	}
 
 	fn set_region(&self, x: i32, y: i32, width: i32, height: i32) -> Result<(), glib::Error> {
 		unsafe {
@@ -2700,6 +3167,14 @@ impl<O: IsA<Camera>> CameraExt for O {
 			} else {
 				Err(from_glib_full(error))
 			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	fn uv_set_usb_mode(&self, usb_mode: UvUsbMode) {
+		unsafe {
+			ffi::arv_camera_uv_set_usb_mode(self.as_ref().to_glib_none().0, usb_mode.into_glib());
 		}
 	}
 }

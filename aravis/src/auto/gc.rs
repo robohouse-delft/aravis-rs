@@ -2,6 +2,9 @@
 // from ../gir-files
 // DO NOT EDIT
 
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+use crate::AccessCheckPolicy;
 use crate::Buffer;
 use crate::Device;
 use crate::DomDocument;
@@ -9,6 +12,9 @@ use crate::DomNode;
 use crate::GcFeatureNode;
 use crate::GcInvalidatorNode;
 use crate::GcNode;
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+use crate::RangeCheckPolicy;
 use crate::RegisterCachePolicy;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -34,6 +40,14 @@ impl Gc {
 	pub fn p_value_indexed_node_new() -> Gc {
 		assert_initialized_main_thread!();
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_p_value_indexed_node_new()).unsafe_cast() }
+	}
+
+	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[doc(alias = "arv_gc_get_access_check_policy")]
+	#[doc(alias = "get_access_check_policy")]
+	pub fn access_check_policy(&self) -> AccessCheckPolicy {
+		unsafe { from_glib(ffi::arv_gc_get_access_check_policy(self.to_glib_none().0)) }
 	}
 
 	/// Retrieves the binded buffer.
@@ -76,13 +90,13 @@ impl Gc {
 		}
 	}
 
-	//#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-	//#[doc(alias = "arv_gc_get_range_check_policy")]
-	//#[doc(alias = "get_range_check_policy")]
-	//pub fn range_check_policy(&self) -> /*Ignored*/RangeCheckPolicy {
-	//    unsafe { TODO: call ffi:arv_gc_get_range_check_policy() }
-	//}
+	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[doc(alias = "arv_gc_get_range_check_policy")]
+	#[doc(alias = "get_range_check_policy")]
+	pub fn range_check_policy(&self) -> RangeCheckPolicy {
+		unsafe { from_glib(ffi::arv_gc_get_range_check_policy(self.to_glib_none().0)) }
+	}
 
 	#[doc(alias = "arv_gc_get_register_cache_policy")]
 	#[doc(alias = "get_register_cache_policy")]
@@ -100,6 +114,15 @@ impl Gc {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[doc(alias = "arv_gc_set_access_check_policy")]
+	pub fn set_access_check_policy(&self, policy: AccessCheckPolicy) {
+		unsafe {
+			ffi::arv_gc_set_access_check_policy(self.to_glib_none().0, policy.into_glib());
+		}
+	}
+
 	#[doc(alias = "arv_gc_set_buffer")]
 	pub fn set_buffer(&self, buffer: &Buffer) {
 		unsafe {
@@ -112,12 +135,14 @@ impl Gc {
 	//    unsafe { TODO: call ffi:arv_gc_set_default_node_data() }
 	//}
 
-	//#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-	//#[doc(alias = "arv_gc_set_range_check_policy")]
-	//pub fn set_range_check_policy(&self, policy: /*Ignored*/RangeCheckPolicy) {
-	//    unsafe { TODO: call ffi:arv_gc_set_range_check_policy() }
-	//}
+	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[doc(alias = "arv_gc_set_range_check_policy")]
+	pub fn set_range_check_policy(&self, policy: RangeCheckPolicy) {
+		unsafe {
+			ffi::arv_gc_set_range_check_policy(self.to_glib_none().0, policy.into_glib());
+		}
+	}
 
 	#[doc(alias = "arv_gc_set_register_cache_policy")]
 	pub fn set_register_cache_policy(&self, policy: RegisterCachePolicy) {

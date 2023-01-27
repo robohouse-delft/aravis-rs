@@ -27,6 +27,18 @@ impl XmlSchema {
 		}
 	}
 
+	#[doc(alias = "arv_xml_schema_new_from_memory")]
+	#[doc(alias = "new_from_memory")]
+	pub fn from_memory(buffer: &str, size: usize) -> XmlSchema {
+		assert_initialized_main_thread!();
+		unsafe {
+			from_glib_full(ffi::arv_xml_schema_new_from_memory(
+				buffer.to_glib_none().0,
+				size,
+			))
+		}
+	}
+
 	#[doc(alias = "arv_xml_schema_new_from_path")]
 	#[doc(alias = "new_from_path")]
 	pub fn from_path(path: &str) -> XmlSchema {

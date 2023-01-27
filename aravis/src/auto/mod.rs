@@ -143,6 +143,9 @@ pub use self::gc_selector::{GcSelector, NONE_GC_SELECTOR};
 mod gc_string;
 pub use self::gc_string::{GcString, NONE_GC_STRING};
 
+mod gc_string_node;
+pub use self::gc_string_node::GcStringNode;
+
 mod gc_string_reg_node;
 pub use self::gc_string_reg_node::{GcStringRegNode, NONE_GC_STRING_REG_NODE};
 
@@ -192,6 +195,9 @@ mod xml_schema;
 pub use self::xml_schema::XmlSchema;
 
 mod enums;
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+pub use self::enums::AccessCheckPolicy;
 pub use self::enums::AcquisitionMode;
 pub use self::enums::Auto;
 pub use self::enums::BufferPayloadType;
@@ -199,6 +205,7 @@ pub use self::enums::BufferStatus;
 pub use self::enums::ChunkParserError;
 pub use self::enums::DeviceError;
 pub use self::enums::DomNodeType;
+pub use self::enums::ExposureMode;
 pub use self::enums::GcAccessMode;
 pub use self::enums::GcCachable;
 pub use self::enums::GcDisplayNotation;
@@ -208,13 +215,21 @@ pub use self::enums::GcNameSpace;
 pub use self::enums::GcPropertyNodeType;
 pub use self::enums::GcRepresentation;
 pub use self::enums::GcSignedness;
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+pub use self::enums::GcStreamable;
 pub use self::enums::GcVisibility;
+pub use self::enums::GvIpConfigurationMode;
 pub use self::enums::GvPacketSizeAdjustment;
 pub use self::enums::GvStreamOption;
 pub use self::enums::GvStreamPacketResend;
 pub use self::enums::GvStreamSocketBuffer;
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+pub use self::enums::RangeCheckPolicy;
 pub use self::enums::RegisterCachePolicy;
 pub use self::enums::StreamCallbackType;
+pub use self::enums::UvUsbMode;
 pub use self::enums::XmlSchemaError;
 
 #[doc(hidden)]

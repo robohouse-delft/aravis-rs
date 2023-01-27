@@ -42,7 +42,7 @@ impl GvFakeCamera {
 	}
 
 	/// ## `interface_name`
-	/// listening network interface, default is lo
+	/// listening network interface, by name or IP address, default is 127.0.0.1
 	/// ## `serial_number`
 	/// fake device serial number, default is GV01
 	/// ## `genicam_filename`

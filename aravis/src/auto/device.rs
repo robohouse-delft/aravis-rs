@@ -2,9 +2,18 @@
 // from ../gir-files
 // DO NOT EDIT
 
+#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+use crate::AccessCheckPolicy;
 use crate::ChunkParser;
 use crate::Gc;
+#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+use crate::GcAccessMode;
 use crate::GcNode;
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+use crate::RangeCheckPolicy;
 use crate::RegisterCachePolicy;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -112,6 +121,12 @@ pub trait DeviceExt: 'static {
 	#[doc(alias = "get_feature")]
 	fn feature(&self, feature: &str) -> Option<GcNode>;
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_device_get_feature_access_mode")]
+	#[doc(alias = "get_feature_access_mode")]
+	fn feature_access_mode(&self, feature: &str) -> GcAccessMode;
+
 	/// Retrieves feature bounds.
 	/// ## `feature`
 	/// feature name
@@ -127,6 +142,12 @@ pub trait DeviceExt: 'static {
 	#[doc(alias = "arv_device_get_float_feature_bounds")]
 	#[doc(alias = "get_float_feature_bounds")]
 	fn float_feature_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_16", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_16")))]
+	#[doc(alias = "arv_device_get_float_feature_increment")]
+	#[doc(alias = "get_float_feature_increment")]
+	fn float_feature_increment(&self, feature: &str) -> Result<f64, glib::Error>;
 
 	/// ## `feature`
 	/// feature name
@@ -207,6 +228,12 @@ pub trait DeviceExt: 'static {
 	#[doc(alias = "get_string_feature_value")]
 	fn string_feature_value(&self, feature: &str) -> Result<glib::GString, glib::Error>;
 
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_device_is_enumeration_entry_available")]
+	fn is_enumeration_entry_available(&self, feature: &str, entry: &str)
+		-> Result<(), glib::Error>;
+
 	/// ## `feature`
 	/// feature name
 	///
@@ -231,6 +258,11 @@ pub trait DeviceExt: 'static {
 	/// a placeholder for the read value
 	#[doc(alias = "arv_device_read_register")]
 	fn read_register(&self, address: u64) -> Result<(bool, u32), glib::Error>;
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_device_set_access_check_policy")]
+	fn set_access_check_policy(&self, policy: AccessCheckPolicy);
 
 	/// Set the value of a boolean feature.
 	/// ## `feature`
@@ -270,10 +302,10 @@ pub trait DeviceExt: 'static {
 	#[doc(alias = "arv_device_set_integer_feature_value")]
 	fn set_integer_feature_value(&self, feature: &str, value: i64) -> Result<(), glib::Error>;
 
-	//#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-	//#[doc(alias = "arv_device_set_range_check_policy")]
-	//fn set_range_check_policy(&self, policy: /*Ignored*/RangeCheckPolicy);
+	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[doc(alias = "arv_device_set_range_check_policy")]
+	fn set_range_check_policy(&self, policy: RangeCheckPolicy);
 
 	/// Sets the register cache policy.
 	///
@@ -439,6 +471,17 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn feature_access_mode(&self, feature: &str) -> GcAccessMode {
+		unsafe {
+			from_glib(ffi::arv_device_get_feature_access_mode(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+			))
+		}
+	}
+
 	fn float_feature_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error> {
 		unsafe {
 			let mut min = mem::MaybeUninit::uninit();
@@ -455,6 +498,24 @@ impl<O: IsA<Device>> DeviceExt for O {
 			let max = max.assume_init();
 			if error.is_null() {
 				Ok((min, max))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_16", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_16")))]
+	fn float_feature_increment(&self, feature: &str) -> Result<f64, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = ffi::arv_device_get_float_feature_increment(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(ret)
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -563,6 +624,29 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	fn is_enumeration_entry_available(
+		&self,
+		feature: &str,
+		entry: &str,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_device_is_enumeration_entry_available(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+				entry.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
@@ -599,6 +683,17 @@ impl<O: IsA<Device>> DeviceExt for O {
 			} else {
 				Err(from_glib_full(error))
 			}
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	fn set_access_check_policy(&self, policy: AccessCheckPolicy) {
+		unsafe {
+			ffi::arv_device_set_access_check_policy(
+				self.as_ref().to_glib_none().0,
+				policy.into_glib(),
+			);
 		}
 	}
 
@@ -669,11 +764,16 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	//#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-	//fn set_range_check_policy(&self, policy: /*Ignored*/RangeCheckPolicy) {
-	//    unsafe { TODO: call ffi:arv_device_set_range_check_policy() }
-	//}
+	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	fn set_range_check_policy(&self, policy: RangeCheckPolicy) {
+		unsafe {
+			ffi::arv_device_set_range_check_policy(
+				self.as_ref().to_glib_none().0,
+				policy.into_glib(),
+			);
+		}
+	}
 
 	fn set_register_cache_policy(&self, policy: RegisterCachePolicy) {
 		unsafe {

@@ -14,14 +14,17 @@ pub enum ImageError {
 }
 
 impl Buffer {
-
 	/// Create an Aravis buffer that owns its own data from a pre-allocated raw buffer.
 	///
 	/// The `destroy_callback` argument is called to destroy the buffer, and should free the resources associated with the buffer.
 	///
 	/// # Safety
 	/// The pointer and length parameter must indicate a valid memory region where Aravis can safely write data to until the `destroy_callback` is called.
-	pub fn new_preallocated_owned<F: FnOnce()>(data: *mut u8, len: usize, destroy_callback: F) -> Self {
+	pub fn new_preallocated_owned<F: FnOnce()>(
+		data: *mut u8,
+		len: usize,
+		destroy_callback: F,
+	) -> Self {
 		extern "C" fn run_callback<F: FnOnce()>(user_data: *mut c_void) {
 			unsafe {
 				let function = Box::from_raw(user_data as *mut F);
@@ -30,9 +33,7 @@ impl Buffer {
 		}
 
 		let user_data = Box::leak(Box::new(destroy_callback)) as *mut F as *mut c_void;
-		unsafe {
-			Self::preallocated(data as *mut c_void, len, user_data, Some(run_callback::<F>))
-		}
+		unsafe { Self::preallocated(data as *mut c_void, len, user_data, Some(run_callback::<F>)) }
 	}
 
 	/// Create an Aravis buffer from a pre-allocated raw buffer.
@@ -63,8 +64,14 @@ impl Buffer {
 		Self::preallocated(data as *mut c_void, len, std::ptr::null_mut(), None)
 	}
 
-	unsafe fn preallocated(data: *mut c_void, len: usize, user_data: *mut c_void, destory_callback: GDestroyNotify) -> Self {
-		let buffer = aravis_sys::arv_buffer_new_full(len, data as *mut c_void, user_data, destory_callback);
+	unsafe fn preallocated(
+		data: *mut c_void,
+		len: usize,
+		user_data: *mut c_void,
+		destory_callback: GDestroyNotify,
+	) -> Self {
+		let buffer =
+			aravis_sys::arv_buffer_new_full(len, data as *mut c_void, user_data, destory_callback);
 		glib::translate::from_glib_full(buffer)
 	}
 
@@ -103,10 +110,8 @@ impl Buffer {
 	pub fn data(&self) -> (*mut u8, usize) {
 		unsafe {
 			let mut size = 0usize;
-			let data = aravis_sys::arv_buffer_get_data(
-				self.to_glib_none().0,
-				&mut size as *mut usize,
-			);
+			let data =
+				aravis_sys::arv_buffer_get_data(self.to_glib_none().0, &mut size as *mut usize);
 			(data as *mut u8, size)
 		}
 	}

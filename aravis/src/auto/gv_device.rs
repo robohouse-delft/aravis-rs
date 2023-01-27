@@ -3,6 +3,9 @@
 // DO NOT EDIT
 
 use crate::Device;
+#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+use crate::GvIpConfigurationMode;
 use crate::GvPacketSizeAdjustment;
 use crate::GvStreamOption;
 use glib::object::Cast;
@@ -76,6 +79,50 @@ impl GvDevice {
 		}
 	}
 
+	/// Get the current IP address setting of device.
+	///
+	/// # Returns
+	///
+	///
+	/// ## `ip`
+	/// a IP address placeholder
+	///
+	/// ## `mask`
+	/// a netmask placeholder
+	///
+	/// ## `gateway`
+	/// a gateway IP address placeholder
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_gv_device_get_current_ip")]
+	#[doc(alias = "get_current_ip")]
+	pub fn current_ip(
+		&self,
+	) -> Result<(gio::InetAddress, gio::InetAddressMask, gio::InetAddress), glib::Error> {
+		unsafe {
+			let mut ip = ptr::null_mut();
+			let mut mask = ptr::null_mut();
+			let mut gateway = ptr::null_mut();
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_gv_device_get_current_ip(
+				self.to_glib_none().0,
+				&mut ip,
+				&mut mask,
+				&mut gateway,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok((
+					from_glib_full(ip),
+					from_glib_full(mask),
+					from_glib_full(gateway),
+				))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	///
 	/// # Returns
 	///
@@ -100,6 +147,28 @@ impl GvDevice {
 		}
 	}
 
+	/// Get the IP address configuration mode.
+	///
+	/// # Returns
+	///
+	/// IP address configuration mode
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_gv_device_get_ip_configuration_mode")]
+	#[doc(alias = "get_ip_configuration_mode")]
+	pub fn ip_configuration_mode(&self) -> Result<GvIpConfigurationMode, glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret =
+				ffi::arv_gv_device_get_ip_configuration_mode(self.to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(from_glib(ret))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	#[doc(alias = "arv_gv_device_get_packet_size")]
 	#[doc(alias = "get_packet_size")]
 	pub fn packet_size(&self) -> Result<u32, glib::Error> {
@@ -108,6 +177,50 @@ impl GvDevice {
 			let ret = ffi::arv_gv_device_get_packet_size(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	/// Get the persistent IP address setting of device.
+	///
+	/// # Returns
+	///
+	///
+	/// ## `ip`
+	/// a IP address placeholder
+	///
+	/// ## `mask`
+	/// a netmask placeholder
+	///
+	/// ## `gateway`
+	/// a gateway IP address placeholder
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_gv_device_get_persistent_ip")]
+	#[doc(alias = "get_persistent_ip")]
+	pub fn persistent_ip(
+		&self,
+	) -> Result<(gio::InetAddress, gio::InetAddressMask, gio::InetAddress), glib::Error> {
+		unsafe {
+			let mut ip = ptr::null_mut();
+			let mut mask = ptr::null_mut();
+			let mut gateway = ptr::null_mut();
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_gv_device_get_persistent_ip(
+				self.to_glib_none().0,
+				&mut ip,
+				&mut mask,
+				&mut gateway,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok((
+					from_glib_full(ip),
+					from_glib_full(mask),
+					from_glib_full(gateway),
+				))
 			} else {
 				Err(from_glib_full(error))
 			}
@@ -167,6 +280,33 @@ impl GvDevice {
 		}
 	}
 
+	/// Sets the IP address configuration mode.
+	/// Available modes are ARV_GV_IP_CONFIGURATION_MODE_DHCP, ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP,
+	/// ARV_GV_IP_CONFIGURATION_MODE_LLA
+	/// ## `mode`
+	/// IP address configuration mode
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_gv_device_set_ip_configuration_mode")]
+	pub fn set_ip_configuration_mode(
+		&self,
+		mode: GvIpConfigurationMode,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_gv_device_set_ip_configuration_mode(
+				self.to_glib_none().0,
+				mode.into_glib(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
 	#[doc(alias = "arv_gv_device_set_packet_size")]
 	pub fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error> {
 		unsafe {
@@ -197,6 +337,77 @@ impl GvDevice {
 				self.to_glib_none().0,
 				adjustment.into_glib(),
 			);
+		}
+	}
+
+	/// Sets the persistent IP address to device.
+	/// Also disable DHCP then enable persistent IP mode.
+	/// ## `ip`
+	/// IPv4 address
+	/// ## `mask`
+	/// Netmask
+	/// ## `gateway`
+	/// Gateway IPv4 address
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_gv_device_set_persistent_ip")]
+	pub fn set_persistent_ip<
+		P: IsA<gio::InetAddress>,
+		Q: IsA<gio::InetAddressMask>,
+		R: IsA<gio::InetAddress>,
+	>(
+		&self,
+		ip: Option<&P>,
+		mask: Option<&Q>,
+		gateway: Option<&R>,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_gv_device_set_persistent_ip(
+				self.to_glib_none().0,
+				ip.map(|p| p.as_ref()).to_glib_none().0,
+				mask.map(|p| p.as_ref()).to_glib_none().0,
+				gateway.map(|p| p.as_ref()).to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	/// Sets the persistent IP address to device.
+	/// ## `ip`
+	/// IPv4 address in string format
+	/// ## `mask`
+	/// netmask in string format
+	/// ## `gateway`
+	/// Gateway IPv4 address in string format
+	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_gv_device_set_persistent_ip_from_string")]
+	pub fn set_persistent_ip_from_string(
+		&self,
+		ip: Option<&str>,
+		mask: Option<&str>,
+		gateway: Option<&str>,
+	) -> Result<(), glib::Error> {
+		unsafe {
+			let mut error = ptr::null_mut();
+			let _ = ffi::arv_gv_device_set_persistent_ip_from_string(
+				self.to_glib_none().0,
+				ip.to_glib_none().0,
+				mask.to_glib_none().0,
+				gateway.to_glib_none().0,
+				&mut error,
+			);
+			if error.is_null() {
+				Ok(())
+			} else {
+				Err(from_glib_full(error))
+			}
 		}
 	}
 

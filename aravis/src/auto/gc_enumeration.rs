@@ -61,7 +61,8 @@ impl GcEnumeration {
 	///
 	/// # Returns
 	///
-	/// a newly allocated array of 64 bit integers, to be freed after use using `g_free()`.
+	/// a newly allocated array of 64 bit integers, to be freed after
+	/// use using `g_free()`.
 	#[doc(alias = "arv_gc_enumeration_dup_available_int_values")]
 	pub fn dup_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
 		unsafe {

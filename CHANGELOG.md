@@ -1,3 +1,6 @@
+main:
+  * Add support for Aravis `v0.8.22`.
+
 v0.8.1 - 2022-11-30:
   * Add `Buffer::new_preallocated_owned(...)` to transfer ownership of a pre-allocated buffer to Aravis.
   * Deprecate `Buffer::new_preallocated(...)` in favor of `Buffer::new_preallocated_borrowed`.

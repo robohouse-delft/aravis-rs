@@ -30,7 +30,7 @@ pub const NONE_GC_FEATURE_NODE: Option<&GcFeatureNode> = None;
 ///
 /// # Implementors
 ///
-/// [`GcBoolean`][struct@crate::GcBoolean], [`GcCategory`][struct@crate::GcCategory], [`GcCommand`][struct@crate::GcCommand], [`GcConverter`][struct@crate::GcConverter], [`GcEnumEntry`][struct@crate::GcEnumEntry], [`GcEnumeration`][struct@crate::GcEnumeration], [`GcFeatureNode`][struct@crate::GcFeatureNode], [`GcFloatNode`][struct@crate::GcFloatNode], [`GcGroupNode`][struct@crate::GcGroupNode], [`GcIntegerNode`][struct@crate::GcIntegerNode], [`GcPort`][struct@crate::GcPort], [`GcRegisterDescriptionNode`][struct@crate::GcRegisterDescriptionNode], [`GcRegisterNode`][struct@crate::GcRegisterNode], [`GcStructEntryNode`][struct@crate::GcStructEntryNode], [`GcSwissKnife`][struct@crate::GcSwissKnife]
+/// [`GcBoolean`][struct@crate::GcBoolean], [`GcCategory`][struct@crate::GcCategory], [`GcCommand`][struct@crate::GcCommand], [`GcConverter`][struct@crate::GcConverter], [`GcEnumEntry`][struct@crate::GcEnumEntry], [`GcEnumeration`][struct@crate::GcEnumeration], [`GcFeatureNode`][struct@crate::GcFeatureNode], [`GcFloatNode`][struct@crate::GcFloatNode], [`GcGroupNode`][struct@crate::GcGroupNode], [`GcIntegerNode`][struct@crate::GcIntegerNode], [`GcPort`][struct@crate::GcPort], [`GcRegisterDescriptionNode`][struct@crate::GcRegisterDescriptionNode], [`GcRegisterNode`][struct@crate::GcRegisterNode], [`GcStringNode`][struct@crate::GcStringNode], [`GcStructEntryNode`][struct@crate::GcStructEntryNode], [`GcSwissKnife`][struct@crate::GcSwissKnife]
 pub trait GcFeatureNodeExt: 'static {
 	/// Gets feature node allowed access mode. This is a combination of Genicam ImposedAccessMode and
 	/// AccessMode properties of underlying features and registers.

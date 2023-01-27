@@ -30,6 +30,40 @@ version = "0.8.8"
 [package.metadata.system-deps.aravis.v0_8_11]
 version = "0.8.11"
 
+[package.metadata.system-deps.aravis_0_8]
+name = "aravis-0.8"
+version = "0.8"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_3]
+version = "0.8.3"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_6]
+version = "0.8.6"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_8]
+version = "0.8.8"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_11]
+version = "0.8.11"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_15]
+version = "0.8.15"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_16]
+version = "0.8.16"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_17]
+version = "0.8.17"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_19]
+version = "0.8.19"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_20]
+version = "0.8.20"
+
+[package.metadata.system-deps.aravis_0_8.v0_8_22]
+version = "0.8.22"
+
 [lib]
 name = "aravis_sys"
 
@@ -53,3 +87,9 @@ v0_8_3 = []
 v0_8_6 = ["v0_8_3"]
 v0_8_8 = ["v0_8_6"]
 v0_8_11 = ["v0_8_8"]
+v0_8_15 = ["v0_8_11"]
+v0_8_16 = ["v0_8_15"]
+v0_8_17 = ["v0_8_16"]
+v0_8_19 = ["v0_8_17"]
+v0_8_20 = ["v0_8_19"]
+v0_8_22 = ["v0_8_20"]

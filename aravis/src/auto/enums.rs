@@ -11,14 +11,119 @@ use glib::StaticType;
 use glib::Type;
 use std::fmt;
 
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvAccessCheckPolicy")]
+pub enum AccessCheckPolicy {
+	/// never check the register access mode
+	#[doc(alias = "ARV_ACCESS_CHECK_POLICY_DISABLE")]
+	Disable,
+	/// always check the register access mode
+	#[doc(alias = "ARV_ACCESS_CHECK_POLICY_ENABLE")]
+	Enable,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl fmt::Display for AccessCheckPolicy {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"AccessCheckPolicy::{}",
+			match *self {
+				Self::Disable => "Disable",
+				Self::Enable => "Enable",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[doc(hidden)]
+impl IntoGlib for AccessCheckPolicy {
+	type GlibType = ffi::ArvAccessCheckPolicy;
+
+	fn into_glib(self) -> ffi::ArvAccessCheckPolicy {
+		match self {
+			Self::Disable => ffi::ARV_ACCESS_CHECK_POLICY_DISABLE,
+			Self::Enable => ffi::ARV_ACCESS_CHECK_POLICY_ENABLE,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[doc(hidden)]
+impl FromGlib<ffi::ArvAccessCheckPolicy> for AccessCheckPolicy {
+	unsafe fn from_glib(value: ffi::ArvAccessCheckPolicy) -> Self {
+		skip_assert_initialized!();
+		match value {
+			ffi::ARV_ACCESS_CHECK_POLICY_DISABLE => Self::Disable,
+			ffi::ARV_ACCESS_CHECK_POLICY_ENABLE => Self::Enable,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl StaticType for AccessCheckPolicy {
+	fn static_type() -> Type {
+		unsafe { from_glib(ffi::arv_access_check_policy_get_type()) }
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl glib::value::ValueType for AccessCheckPolicy {
+	type Type = Self;
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+unsafe impl<'a> FromValue<'a> for AccessCheckPolicy {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl ToValue for AccessCheckPolicy {
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvAcquisitionMode")]
 pub enum AcquisitionMode {
+	/// frames are captured continuously until stopped with the AcquisitionStop command.
 	#[doc(alias = "ARV_ACQUISITION_MODE_CONTINUOUS")]
 	Continuous,
+	/// only one frame will be acquired
 	#[doc(alias = "ARV_ACQUISITION_MODE_SINGLE_FRAME")]
 	SingleFrame,
+	/// the number of frames specified by AcquisitionFrameCount is captured.
 	#[doc(alias = "ARV_ACQUISITION_MODE_MULTI_FRAME")]
 	MultiFrame,
 	#[doc(hidden)]
@@ -123,10 +228,13 @@ impl ToValue for AcquisitionMode {
 #[non_exhaustive]
 #[doc(alias = "ArvAuto")]
 pub enum Auto {
+	/// manual setting
 	#[doc(alias = "ARV_AUTO_OFF")]
 	Off,
+	/// automatic setting done once, then returns to manual
 	#[doc(alias = "ARV_AUTO_ONCE")]
 	Once,
+	/// setting is adjusted continuously
 	#[doc(alias = "ARV_AUTO_CONTINUOUS")]
 	Continuous,
 	#[doc(hidden)]
@@ -227,26 +335,37 @@ impl ToValue for Auto {
 #[non_exhaustive]
 #[doc(alias = "ArvBufferPayloadType")]
 pub enum BufferPayloadType {
+	/// unknown payload type
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_UNKNOWN")]
 	Unknown,
+	/// image data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_IMAGE")]
 	Image,
+	/// raw data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_RAWDATA")]
 	Rawdata,
+	/// file
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_FILE")]
 	File,
+	/// chunk data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_CHUNK_DATA")]
 	ChunkData,
+	/// extended chunk data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_EXTENDED_CHUNK_DATA")]
 	ExtendedChunkData,
+	/// JPEG data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_JPEG")]
 	Jpeg,
+	/// JPEG2000 data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_JPEG2000")]
 	Jpeg2000,
+	/// h264 data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_H264")]
 	H264,
+	/// multizone image
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_MULTIZONE_IMAGE")]
 	MultizoneImage,
+	/// image and chunk data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_IMAGE_EXTENDED_CHUNK")]
 	ImageExtendedChunk,
 	#[doc(hidden)]
@@ -356,22 +475,31 @@ impl ToValue for BufferPayloadType {
 #[non_exhaustive]
 #[doc(alias = "ArvBufferStatus")]
 pub enum BufferStatus {
+	/// unknown status
 	#[doc(alias = "ARV_BUFFER_STATUS_UNKNOWN")]
 	Unknown,
+	/// the buffer contains a valid image
 	#[doc(alias = "ARV_BUFFER_STATUS_SUCCESS")]
 	Success,
+	/// the buffer is cleared
 	#[doc(alias = "ARV_BUFFER_STATUS_CLEARED")]
 	Cleared,
+	/// timeout was reached before all packets are received
 	#[doc(alias = "ARV_BUFFER_STATUS_TIMEOUT")]
 	Timeout,
+	/// stream has missing packets
 	#[doc(alias = "ARV_BUFFER_STATUS_MISSING_PACKETS")]
 	MissingPackets,
+	/// stream has packet with wrong id
 	#[doc(alias = "ARV_BUFFER_STATUS_WRONG_PACKET_ID")]
 	WrongPacketId,
+	/// the received image didn't fit in the buffer data space
 	#[doc(alias = "ARV_BUFFER_STATUS_SIZE_MISMATCH")]
 	SizeMismatch,
+	/// the image is currently being filled
 	#[doc(alias = "ARV_BUFFER_STATUS_FILLING")]
 	Filling,
+	/// the filling was aborted before completion
 	#[doc(alias = "ARV_BUFFER_STATUS_ABORTED")]
 	Aborted,
 	#[doc(hidden)]
@@ -475,10 +603,13 @@ impl ToValue for BufferStatus {
 #[non_exhaustive]
 #[doc(alias = "ArvChunkParserError")]
 pub enum ChunkParserError {
+	/// invalid feature type
 	#[doc(alias = "ARV_CHUNK_PARSER_ERROR_INVALID_FEATURE_TYPE")]
 	InvalidFeatureType,
+	/// a buffer is not attached to the chunk parser
 	#[doc(alias = "ARV_CHUNK_PARSER_ERROR_BUFFER_NOT_FOUND")]
 	BufferNotFound,
+	/// the requested chunk is not found in the buffer data
 	#[doc(alias = "ARV_CHUNK_PARSER_ERROR_CHUNK_NOT_FOUND")]
 	ChunkNotFound,
 	#[doc(hidden)]
@@ -586,28 +717,40 @@ impl ToValue for ChunkParserError {
 #[non_exhaustive]
 #[doc(alias = "ArvDeviceError")]
 pub enum DeviceError {
+	/// Wrong feature type
 	#[doc(alias = "ARV_DEVICE_ERROR_WRONG_FEATURE")]
 	WrongFeature,
+	/// Feature node not found
 	#[doc(alias = "ARV_DEVICE_ERROR_FEATURE_NOT_FOUND")]
 	FeatureNotFound,
+	/// Device is not connected
 	#[doc(alias = "ARV_DEVICE_ERROR_NOT_CONNECTED")]
 	NotConnected,
+	/// Protocol error
 	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR")]
 	ProtocolError,
+	/// Transfer error
 	#[doc(alias = "ARV_DEVICE_ERROR_TRANSFER_ERROR")]
 	TransferError,
+	/// Timeout detected
 	#[doc(alias = "ARV_DEVICE_ERROR_TIMEOUT")]
 	Timeout,
+	/// Device not found
 	#[doc(alias = "ARV_DEVICE_ERROR_NOT_FOUND")]
 	NotFound,
+	/// Invalid construction parameter
 	#[doc(alias = "ARV_DEVICE_ERROR_INVALID_PARAMETER")]
 	InvalidParameter,
+	/// Missing Genicam data
 	#[doc(alias = "ARV_DEVICE_ERROR_GENICAM_NOT_FOUND")]
 	GenicamNotFound,
+	/// No stream channel found
 	#[doc(alias = "ARV_DEVICE_ERROR_NO_STREAM_CHANNEL")]
 	NoStreamChannel,
+	/// Controller privilege required
 	#[doc(alias = "ARV_DEVICE_ERROR_NOT_CONTROLLER")]
 	NotController,
+	/// Unknown error
 	#[doc(alias = "ARV_DEVICE_ERROR_UNKNOWN")]
 	Unknown,
 	#[doc(hidden)]
@@ -881,21 +1024,159 @@ impl ToValue for DomNodeType {
 	}
 }
 
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvExposureMode")]
+pub enum ExposureMode {
+	/// disables the Exposure and let the shutter open.
+	#[doc(alias = "ARV_EXPOSURE_MODE_OFF")]
+	Off,
+	/// timed exposure. The exposure duration time is set using the ExposureTime or ExposureAuto
+	/// features and the exposure starts with the FrameStart or LineStart.
+	#[doc(alias = "ARV_EXPOSURE_MODE_TIMED")]
+	Timed,
+	/// uses the width of the current Frame or Line trigger signal(s) pulse to control the
+	/// exposure duration. Note that if the Frame or Line TriggerActivation is RisingEdge or LevelHigh, the exposure duration
+	/// will be the time the trigger stays High. If TriggerActivation is FallingEdge or LevelLow, the exposure time will last
+	/// as long as the trigger stays Low.
+	#[doc(alias = "ARV_EXPOSURE_MODE_TRIGGER_WIDTH")]
+	TriggerWidth,
+	/// uses one or more trigger signal(s) to control the exposure duration
+	/// independently from the current Frame or Line triggers. See ExposureStart, ExposureEnd and ExposureActive of
+	/// the TriggerSelector feature.
+	#[doc(alias = "ARV_EXPOSURE_MODE_TRIGGER_CONTROLLED")]
+	TriggerControlled,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl ExposureMode {
+	#[doc(alias = "arv_exposure_mode_from_string")]
+	pub fn from_string(string: &str) -> ExposureMode {
+		assert_initialized_main_thread!();
+		unsafe { from_glib(ffi::arv_exposure_mode_from_string(string.to_glib_none().0)) }
+	}
+
+	#[doc(alias = "arv_exposure_mode_to_string")]
+	#[doc(alias = "to_string")]
+	pub fn to_str(self) -> Option<glib::GString> {
+		assert_initialized_main_thread!();
+		unsafe { from_glib_none(ffi::arv_exposure_mode_to_string(self.into_glib())) }
+	}
+}
+
+impl fmt::Display for ExposureMode {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"ExposureMode::{}",
+			match *self {
+				Self::Off => "Off",
+				Self::Timed => "Timed",
+				Self::TriggerWidth => "TriggerWidth",
+				Self::TriggerControlled => "TriggerControlled",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl IntoGlib for ExposureMode {
+	type GlibType = ffi::ArvExposureMode;
+
+	fn into_glib(self) -> ffi::ArvExposureMode {
+		match self {
+			Self::Off => ffi::ARV_EXPOSURE_MODE_OFF,
+			Self::Timed => ffi::ARV_EXPOSURE_MODE_TIMED,
+			Self::TriggerWidth => ffi::ARV_EXPOSURE_MODE_TRIGGER_WIDTH,
+			Self::TriggerControlled => ffi::ARV_EXPOSURE_MODE_TRIGGER_CONTROLLED,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvExposureMode> for ExposureMode {
+	unsafe fn from_glib(value: ffi::ArvExposureMode) -> Self {
+		skip_assert_initialized!();
+		match value {
+			ffi::ARV_EXPOSURE_MODE_OFF => Self::Off,
+			ffi::ARV_EXPOSURE_MODE_TIMED => Self::Timed,
+			ffi::ARV_EXPOSURE_MODE_TRIGGER_WIDTH => Self::TriggerWidth,
+			ffi::ARV_EXPOSURE_MODE_TRIGGER_CONTROLLED => Self::TriggerControlled,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for ExposureMode {
+	fn static_type() -> Type {
+		unsafe { from_glib(ffi::arv_exposure_mode_get_type()) }
+	}
+}
+
+impl glib::value::ValueType for ExposureMode {
+	type Type = Self;
+}
+
+unsafe impl<'a> FromValue<'a> for ExposureMode {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for ExposureMode {
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
 /// Specifies access mode for feature nodes and registers.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvGcAccessMode")]
 pub enum GcAccessMode {
+	/// undefined access mode
 	#[doc(alias = "ARV_GC_ACCESS_MODE_UNDEFINED")]
 	Undefined,
+	/// read-only access
 	#[doc(alias = "ARV_GC_ACCESS_MODE_RO")]
 	Ro,
+	/// write-only access
 	#[doc(alias = "ARV_GC_ACCESS_MODE_WO")]
 	Wo,
+	/// read and write access
 	#[doc(alias = "ARV_GC_ACCESS_MODE_RW")]
 	Rw,
 	#[doc(hidden)]
 	__Unknown(i32),
+}
+
+impl GcAccessMode {
+	#[doc(alias = "arv_gc_access_mode_from_string")]
+	pub fn from_string(string: &str) -> GcAccessMode {
+		assert_initialized_main_thread!();
+		unsafe { from_glib(ffi::arv_gc_access_mode_from_string(string.to_glib_none().0)) }
+	}
+
+	#[doc(alias = "arv_gc_access_mode_to_string")]
+	#[doc(alias = "to_string")]
+	pub fn to_str(self) -> Option<glib::GString> {
+		assert_initialized_main_thread!();
+		unsafe { from_glib_none(ffi::arv_gc_access_mode_to_string(self.into_glib())) }
+	}
 }
 
 impl fmt::Display for GcAccessMode {
@@ -981,12 +1262,16 @@ impl ToValue for GcAccessMode {
 #[non_exhaustive]
 #[doc(alias = "ArvGcCachable")]
 pub enum GcCachable {
+	/// undefined cache mode
 	#[doc(alias = "ARV_GC_CACHABLE_UNDEFINED")]
 	Undefined,
+	/// no value caching
 	#[doc(alias = "ARV_GC_CACHABLE_NO_CACHE")]
 	NoCache,
+	/// write-through cache mode
 	#[doc(alias = "ARV_GC_CACHABLE_WRITE_THROUGH")]
 	WriteThrough,
+	/// write-around cache mode
 	#[doc(alias = "ARV_GC_CACHABLE_WRITE_AROUND")]
 	WriteAround,
 	#[doc(hidden)]
@@ -1076,12 +1361,16 @@ impl ToValue for GcCachable {
 #[non_exhaustive]
 #[doc(alias = "ArvGcDisplayNotation")]
 pub enum GcDisplayNotation {
+	/// undefined number notation
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_UNDEFINED")]
 	Undefined,
+	/// automatically detect whether to use fixed or scientific number notation
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_AUTOMATIC")]
 	Automatic,
+	/// used fixed (i.e. decimal) notation for displaying numbers
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_FIXED")]
 	Fixed,
+	/// use scientific notation for displaying numbers
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_SCIENTIFIC")]
 	Scientific,
 	#[doc(hidden)]
@@ -1348,10 +1637,13 @@ impl ToValue for GcError {
 #[non_exhaustive]
 #[doc(alias = "ArvGcIsLinear")]
 pub enum GcIsLinear {
+	/// undefined relationship between variables
 	#[doc(alias = "ARV_GC_IS_LINEAR_UNDEFINED")]
 	Undefined,
+	/// non-linear relationship between variables
 	#[doc(alias = "ARV_GC_IS_LINEAR_NO")]
 	No,
+	/// linear relationship between variables
 	#[doc(alias = "ARV_GC_IS_LINEAR_YES")]
 	Yes,
 	#[doc(hidden)]
@@ -1439,10 +1731,13 @@ impl ToValue for GcIsLinear {
 #[non_exhaustive]
 #[doc(alias = "ArvGcNameSpace")]
 pub enum GcNameSpace {
+	/// undefined name space
 	#[doc(alias = "ARV_GC_NAME_SPACE_UNDEFINED")]
 	Undefined,
+	/// Genicam standardized name space
 	#[doc(alias = "ARV_GC_NAME_SPACE_STANDARD")]
 	Standard,
+	/// non-standardized name space
 	#[doc(alias = "ARV_GC_NAME_SPACE_CUSTOM")]
 	Custom,
 	#[doc(hidden)]
@@ -1893,20 +2188,28 @@ impl ToValue for GcPropertyNodeType {
 #[non_exhaustive]
 #[doc(alias = "ArvGcRepresentation")]
 pub enum GcRepresentation {
+	/// undefined representation
 	#[doc(alias = "ARV_GC_REPRESENTATION_UNDEFINED")]
 	Undefined,
+	/// number presented on linear scale (e.g. on a linear slider)
 	#[doc(alias = "ARV_GC_REPRESENTATION_LINEAR")]
 	Linear,
+	/// number presented on logarithmic scale (e.g. on a logarithmic slider)
 	#[doc(alias = "ARV_GC_REPRESENTATION_LOGARITHMIC")]
 	Logarithmic,
+	/// binary choice (e.g. a checkbox)
 	#[doc(alias = "ARV_GC_REPRESENTATION_BOOLEAN")]
 	Boolean,
+	/// number presented in an editable field (e.g. a spinbox)
 	#[doc(alias = "ARV_GC_REPRESENTATION_PURE_NUMBER")]
 	PureNumber,
+	/// number presented in hexadecimal format
 	#[doc(alias = "ARV_GC_REPRESENTATION_HEX_NUMBER")]
 	HexNumber,
+	/// IPv4 address
 	#[doc(alias = "ARV_GC_REPRESENTATION_IPV4_ADDRESS")]
 	Ipv4Address,
+	/// MAC address
 	#[doc(alias = "ARV_GC_REPRESENTATION_MAC_ADDRESS")]
 	MacAddress,
 	#[doc(hidden)]
@@ -2010,10 +2313,13 @@ impl ToValue for GcRepresentation {
 #[non_exhaustive]
 #[doc(alias = "ArvGcSignedness")]
 pub enum GcSignedness {
+	/// undefined sign
 	#[doc(alias = "ARV_GC_SIGNEDNESS_UNDEFINED")]
 	Undefined,
+	/// signed integer
 	#[doc(alias = "ARV_GC_SIGNEDNESS_SIGNED")]
 	Signed,
+	/// unsigned integer
 	#[doc(alias = "ARV_GC_SIGNEDNESS_UNSIGNED")]
 	Unsigned,
 	#[doc(hidden)]
@@ -2095,19 +2401,135 @@ impl ToValue for GcSignedness {
 	}
 }
 
+/// Denotes that the corresponding feature is prepared to be stored to and loaded from a file via the node tree.
+/// The idea is to persist the state of a camera by storing the features marked as Streamable and restore the state by
+/// writing those features back to the node tree.
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvGcStreamable")]
+pub enum GcStreamable {
+	/// undefined streamable
+	#[doc(alias = "ARV_GC_STREAMABLE_UNDEFINED")]
+	Undefined,
+	/// the feature can't be used for camera state persistence
+	#[doc(alias = "ARV_GC_STREAMABLE_NO")]
+	No,
+	/// the feature can be used for camera state persistence
+	#[doc(alias = "ARV_GC_STREAMABLE_YES")]
+	Yes,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+impl fmt::Display for GcStreamable {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"GcStreamable::{}",
+			match *self {
+				Self::Undefined => "Undefined",
+				Self::No => "No",
+				Self::Yes => "Yes",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[doc(hidden)]
+impl IntoGlib for GcStreamable {
+	type GlibType = ffi::ArvGcStreamable;
+
+	fn into_glib(self) -> ffi::ArvGcStreamable {
+		match self {
+			Self::Undefined => ffi::ARV_GC_STREAMABLE_UNDEFINED,
+			Self::No => ffi::ARV_GC_STREAMABLE_NO,
+			Self::Yes => ffi::ARV_GC_STREAMABLE_YES,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[doc(hidden)]
+impl FromGlib<ffi::ArvGcStreamable> for GcStreamable {
+	unsafe fn from_glib(value: ffi::ArvGcStreamable) -> Self {
+		skip_assert_initialized!();
+		match value {
+			ffi::ARV_GC_STREAMABLE_UNDEFINED => Self::Undefined,
+			ffi::ARV_GC_STREAMABLE_NO => Self::No,
+			ffi::ARV_GC_STREAMABLE_YES => Self::Yes,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+impl StaticType for GcStreamable {
+	fn static_type() -> Type {
+		unsafe { from_glib(ffi::arv_gc_streamable_get_type()) }
+	}
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+impl glib::value::ValueType for GcStreamable {
+	type Type = Self;
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+unsafe impl<'a> FromValue<'a> for GcStreamable {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+impl ToValue for GcStreamable {
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
 /// Specifies feature node recommended visibility in user interfaces.
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvGcVisibility")]
 pub enum GcVisibility {
+	/// undefined feature visibility level
 	#[doc(alias = "ARV_GC_VISIBILITY_UNDEFINED")]
 	Undefined,
+	/// feature should be not be visible in user interface
 	#[doc(alias = "ARV_GC_VISIBILITY_INVISIBLE")]
 	Invisible,
+	/// very advanced feature to be shown to very experienced users
 	#[doc(alias = "ARV_GC_VISIBILITY_GURU")]
 	Guru,
+	/// advanced feature to be shown to expert users
 	#[doc(alias = "ARV_GC_VISIBILITY_EXPERT")]
 	Expert,
+	/// basic feature to be shown to all users
 	#[doc(alias = "ARV_GC_VISIBILITY_BEGINNER")]
 	Beginner,
 	#[doc(hidden)]
@@ -2197,16 +2619,121 @@ impl ToValue for GcVisibility {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
+#[doc(alias = "ArvGvIpConfigurationMode")]
+pub enum GvIpConfigurationMode {
+	#[doc(alias = "ARV_GV_IP_CONFIGURATION_MODE_NONE")]
+	None,
+	#[doc(alias = "ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP")]
+	PersistentIp,
+	#[doc(alias = "ARV_GV_IP_CONFIGURATION_MODE_DHCP")]
+	Dhcp,
+	#[doc(alias = "ARV_GV_IP_CONFIGURATION_MODE_LLA")]
+	Lla,
+	#[doc(alias = "ARV_GV_IP_CONFIGURATION_MODE_FORCE_IP")]
+	ForceIp,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for GvIpConfigurationMode {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"GvIpConfigurationMode::{}",
+			match *self {
+				Self::None => "None",
+				Self::PersistentIp => "PersistentIp",
+				Self::Dhcp => "Dhcp",
+				Self::Lla => "Lla",
+				Self::ForceIp => "ForceIp",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl IntoGlib for GvIpConfigurationMode {
+	type GlibType = ffi::ArvGvIpConfigurationMode;
+
+	fn into_glib(self) -> ffi::ArvGvIpConfigurationMode {
+		match self {
+			Self::None => ffi::ARV_GV_IP_CONFIGURATION_MODE_NONE,
+			Self::PersistentIp => ffi::ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP,
+			Self::Dhcp => ffi::ARV_GV_IP_CONFIGURATION_MODE_DHCP,
+			Self::Lla => ffi::ARV_GV_IP_CONFIGURATION_MODE_LLA,
+			Self::ForceIp => ffi::ARV_GV_IP_CONFIGURATION_MODE_FORCE_IP,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvGvIpConfigurationMode> for GvIpConfigurationMode {
+	unsafe fn from_glib(value: ffi::ArvGvIpConfigurationMode) -> Self {
+		skip_assert_initialized!();
+		match value {
+			ffi::ARV_GV_IP_CONFIGURATION_MODE_NONE => Self::None,
+			ffi::ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP => Self::PersistentIp,
+			ffi::ARV_GV_IP_CONFIGURATION_MODE_DHCP => Self::Dhcp,
+			ffi::ARV_GV_IP_CONFIGURATION_MODE_LLA => Self::Lla,
+			ffi::ARV_GV_IP_CONFIGURATION_MODE_FORCE_IP => Self::ForceIp,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for GvIpConfigurationMode {
+	fn static_type() -> Type {
+		unsafe { from_glib(ffi::arv_gv_ip_configuration_mode_get_type()) }
+	}
+}
+
+impl glib::value::ValueType for GvIpConfigurationMode {
+	type Type = Self;
+}
+
+unsafe impl<'a> FromValue<'a> for GvIpConfigurationMode {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for GvIpConfigurationMode {
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 #[doc(alias = "ArvGvPacketSizeAdjustment")]
 pub enum GvPacketSizeAdjustment {
+	/// never adjust packet size
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_NEVER")]
 	Never,
+	/// adjust packet size if test packet check fails the with current
+	/// packet size, only on the first stream creation
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE_ONCE")]
 	OnFailureOnce,
+	/// adjust packet size if test packet check fails with current packet size
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE")]
 	OnFailure,
+	/// adjust packet size on the first stream creation
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ONCE")]
 	Once,
+	/// always adjust the stream packet size
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ALWAYS")]
 	Always,
 	#[doc(hidden)]
@@ -2298,8 +2825,10 @@ impl ToValue for GvPacketSizeAdjustment {
 #[non_exhaustive]
 #[doc(alias = "ArvGvStreamOption")]
 pub enum GvStreamOption {
+	/// no option specified
 	#[doc(alias = "ARV_GV_STREAM_OPTION_NONE")]
 	None,
+	/// use of packet socket is disabled
 	#[doc(alias = "ARV_GV_STREAM_OPTION_PACKET_SOCKET_DISABLED")]
 	PacketSocketDisabled,
 	#[doc(hidden)]
@@ -2382,8 +2911,10 @@ impl ToValue for GvStreamOption {
 #[non_exhaustive]
 #[doc(alias = "ArvGvStreamPacketResend")]
 pub enum GvStreamPacketResend {
+	/// never request a packet resend
 	#[doc(alias = "ARV_GV_STREAM_PACKET_RESEND_NEVER")]
 	Never,
+	/// request a packet resend if a packet was missing
 	#[doc(alias = "ARV_GV_STREAM_PACKET_RESEND_ALWAYS")]
 	Always,
 	#[doc(hidden)]
@@ -2466,8 +2997,10 @@ impl ToValue for GvStreamPacketResend {
 #[non_exhaustive]
 #[doc(alias = "ArvGvStreamSocketBuffer")]
 pub enum GvStreamSocketBuffer {
+	/// socket buffer is set to a given fixed value
 	#[doc(alias = "ARV_GV_STREAM_SOCKET_BUFFER_FIXED")]
 	Fixed,
+	/// socket buffer size is set to the payload size
 	#[doc(alias = "ARV_GV_STREAM_SOCKET_BUFFER_AUTO")]
 	Auto,
 	#[doc(hidden)]
@@ -2546,14 +3079,125 @@ impl ToValue for GvStreamSocketBuffer {
 	}
 }
 
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvRangeCheckPolicy")]
+pub enum RangeCheckPolicy {
+	/// never check if float or integer node value is in min/max range
+	#[doc(alias = "ARV_RANGE_CHECK_POLICY_DISABLE")]
+	Disable,
+	/// always check if if float or integer node is in min/max range
+	#[doc(alias = "ARV_RANGE_CHECK_POLICY_ENABLE")]
+	Enable,
+	/// check the value, but only display an error message if the value is not allowed (Since 0.8.8)
+	#[doc(alias = "ARV_RANGE_CHECK_POLICY_DEBUG")]
+	Debug,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl fmt::Display for RangeCheckPolicy {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"RangeCheckPolicy::{}",
+			match *self {
+				Self::Disable => "Disable",
+				Self::Enable => "Enable",
+				Self::Debug => "Debug",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[doc(hidden)]
+impl IntoGlib for RangeCheckPolicy {
+	type GlibType = ffi::ArvRangeCheckPolicy;
+
+	fn into_glib(self) -> ffi::ArvRangeCheckPolicy {
+		match self {
+			Self::Disable => ffi::ARV_RANGE_CHECK_POLICY_DISABLE,
+			Self::Enable => ffi::ARV_RANGE_CHECK_POLICY_ENABLE,
+			Self::Debug => ffi::ARV_RANGE_CHECK_POLICY_DEBUG,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[doc(hidden)]
+impl FromGlib<ffi::ArvRangeCheckPolicy> for RangeCheckPolicy {
+	unsafe fn from_glib(value: ffi::ArvRangeCheckPolicy) -> Self {
+		skip_assert_initialized!();
+		match value {
+			ffi::ARV_RANGE_CHECK_POLICY_DISABLE => Self::Disable,
+			ffi::ARV_RANGE_CHECK_POLICY_ENABLE => Self::Enable,
+			ffi::ARV_RANGE_CHECK_POLICY_DEBUG => Self::Debug,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl StaticType for RangeCheckPolicy {
+	fn static_type() -> Type {
+		unsafe { from_glib(ffi::arv_range_check_policy_get_type()) }
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl glib::value::ValueType for RangeCheckPolicy {
+	type Type = Self;
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+unsafe impl<'a> FromValue<'a> for RangeCheckPolicy {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+#[cfg(any(feature = "v0_8_6", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl ToValue for RangeCheckPolicy {
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvRegisterCachePolicy")]
 pub enum RegisterCachePolicy {
+	/// disable register caching
 	#[doc(alias = "ARV_REGISTER_CACHE_POLICY_DISABLE")]
 	Disable,
+	/// enable register caching
 	#[doc(alias = "ARV_REGISTER_CACHE_POLICY_ENABLE")]
 	Enable,
+	/// enable register caching, but read the acual register value for comparison
 	#[doc(alias = "ARV_REGISTER_CACHE_POLICY_DEBUG")]
 	Debug,
 	#[doc(hidden)]
@@ -2640,12 +3284,16 @@ impl ToValue for RegisterCachePolicy {
 #[non_exhaustive]
 #[doc(alias = "ArvStreamCallbackType")]
 pub enum StreamCallbackType {
+	/// thread initialization, happens once
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_INIT")]
 	Init,
+	/// thread end, happens once
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_EXIT")]
 	Exit,
+	/// buffer filling start, happens at each frame
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_START_BUFFER")]
 	StartBuffer,
+	/// buffer filled, happens at each frame
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_BUFFER_DONE")]
 	BufferDone,
 	#[doc(hidden)]
@@ -2732,8 +3380,95 @@ impl ToValue for StreamCallbackType {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
+#[doc(alias = "ArvUvUsbMode")]
+pub enum UvUsbMode {
+	/// utilize libusb synchronous device I/O API
+	#[doc(alias = "ARV_UV_USB_MODE_SYNC")]
+	Sync,
+	/// utilize libusb asynchronous device I/O API
+	#[doc(alias = "ARV_UV_USB_MODE_ASYNC")]
+	Async,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+impl fmt::Display for UvUsbMode {
+	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+		write!(
+			f,
+			"UvUsbMode::{}",
+			match *self {
+				Self::Sync => "Sync",
+				Self::Async => "Async",
+				_ => "Unknown",
+			}
+		)
+	}
+}
+
+#[doc(hidden)]
+impl IntoGlib for UvUsbMode {
+	type GlibType = ffi::ArvUvUsbMode;
+
+	fn into_glib(self) -> ffi::ArvUvUsbMode {
+		match self {
+			Self::Sync => ffi::ARV_UV_USB_MODE_SYNC,
+			Self::Async => ffi::ARV_UV_USB_MODE_ASYNC,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvUvUsbMode> for UvUsbMode {
+	unsafe fn from_glib(value: ffi::ArvUvUsbMode) -> Self {
+		skip_assert_initialized!();
+		match value {
+			ffi::ARV_UV_USB_MODE_SYNC => Self::Sync,
+			ffi::ARV_UV_USB_MODE_ASYNC => Self::Async,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for UvUsbMode {
+	fn static_type() -> Type {
+		unsafe { from_glib(ffi::arv_uv_usb_mode_get_type()) }
+	}
+}
+
+impl glib::value::ValueType for UvUsbMode {
+	type Type = Self;
+}
+
+unsafe impl<'a> FromValue<'a> for UvUsbMode {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for UvUsbMode {
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 #[doc(alias = "ArvXmlSchemaError")]
 pub enum XmlSchemaError {
+	/// invalid structure
 	#[doc(alias = "ARV_XML_SCHEMA_ERROR_INVALID_STRUCTURE")]
 	Structure,
 	#[doc(hidden)]

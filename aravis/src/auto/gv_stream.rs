@@ -52,6 +52,8 @@ impl GvStream {
 		}
 	}
 
+	/// Amount of time Aravis is wating for frame completion after the last packet is received. A greater value will
+	/// also increase the maximum frame latency in case of missing packets.
 	#[doc(alias = "frame-retention")]
 	pub fn frame_retention(&self) -> u32 {
 		unsafe {
@@ -67,6 +69,8 @@ impl GvStream {
 		}
 	}
 
+	/// Amount of time Aravis is wating for frame completion after the last packet is received. A greater value will
+	/// also increase the maximum frame latency in case of missing packets.
 	#[doc(alias = "frame-retention")]
 	pub fn set_frame_retention(&self, frame_retention: u32) {
 		unsafe {
@@ -78,6 +82,46 @@ impl GvStream {
 		}
 	}
 
+	/// Delay before asking for a packet resend after the packet was detected missing for the first time. The reason
+	/// for this delay is, depending on the network topology, stream packets are not always received in increasing id
+	/// order. As the missing packet detection happens at each received packet, by verifying if each previous packet
+	/// has been received, we could emit useless packet resend requests if they are not ordered.
+	#[cfg(any(feature = "v0_8_15", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_15")))]
+	#[doc(alias = "initial-packet-timeout")]
+	pub fn initial_packet_timeout(&self) -> u32 {
+		unsafe {
+			let mut value = glib::Value::from_type(<u32 as StaticType>::static_type());
+			glib::gobject_ffi::g_object_get_property(
+				self.as_ptr() as *mut glib::gobject_ffi::GObject,
+				b"initial-packet-timeout\0".as_ptr() as *const _,
+				value.to_glib_none_mut().0,
+			);
+			value
+				.get()
+				.expect("Return Value for property `initial-packet-timeout` getter")
+		}
+	}
+
+	/// Delay before asking for a packet resend after the packet was detected missing for the first time. The reason
+	/// for this delay is, depending on the network topology, stream packets are not always received in increasing id
+	/// order. As the missing packet detection happens at each received packet, by verifying if each previous packet
+	/// has been received, we could emit useless packet resend requests if they are not ordered.
+	#[cfg(any(feature = "v0_8_15", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_15")))]
+	#[doc(alias = "initial-packet-timeout")]
+	pub fn set_initial_packet_timeout(&self, initial_packet_timeout: u32) {
+		unsafe {
+			glib::gobject_ffi::g_object_set_property(
+				self.as_ptr() as *mut glib::gobject_ffi::GObject,
+				b"initial-packet-timeout\0".as_ptr() as *const _,
+				initial_packet_timeout.to_value().to_glib_none().0,
+			);
+		}
+	}
+
+	/// Maximum number of packet resend requests for a given frame, as a percentage of the number of packets per
+	/// frame.
 	#[doc(alias = "packet-request-ratio")]
 	pub fn packet_request_ratio(&self) -> f64 {
 		unsafe {
@@ -93,6 +137,8 @@ impl GvStream {
 		}
 	}
 
+	/// Maximum number of packet resend requests for a given frame, as a percentage of the number of packets per
+	/// frame.
 	#[doc(alias = "packet-request-ratio")]
 	pub fn set_packet_request_ratio(&self, packet_request_ratio: f64) {
 		unsafe {
@@ -104,6 +150,7 @@ impl GvStream {
 		}
 	}
 
+	/// Packet resend policy. This only applies if the device supports packet resend.
 	#[doc(alias = "packet-resend")]
 	pub fn packet_resend(&self) -> GvStreamPacketResend {
 		unsafe {
@@ -120,6 +167,7 @@ impl GvStream {
 		}
 	}
 
+	/// Packet resend policy. This only applies if the device supports packet resend.
 	#[doc(alias = "packet-resend")]
 	pub fn set_packet_resend(&self, packet_resend: GvStreamPacketResend) {
 		unsafe {
@@ -131,6 +179,7 @@ impl GvStream {
 		}
 	}
 
+	/// Timeout while waiting for a packet after a resend request, before asking again.
 	#[doc(alias = "packet-timeout")]
 	pub fn packet_timeout(&self) -> u32 {
 		unsafe {
@@ -146,6 +195,7 @@ impl GvStream {
 		}
 	}
 
+	/// Timeout while waiting for a packet after a resend request, before asking again.
 	#[doc(alias = "packet-timeout")]
 	pub fn set_packet_timeout(&self, packet_timeout: u32) {
 		unsafe {
@@ -157,6 +207,7 @@ impl GvStream {
 		}
 	}
 
+	/// Incoming socket buffer policy.
 	#[doc(alias = "socket-buffer")]
 	pub fn socket_buffer(&self) -> GvStreamSocketBuffer {
 		unsafe {
@@ -173,6 +224,7 @@ impl GvStream {
 		}
 	}
 
+	/// Incoming socket buffer policy.
 	#[doc(alias = "socket-buffer")]
 	pub fn set_socket_buffer(&self, socket_buffer: GvStreamSocketBuffer) {
 		unsafe {
@@ -184,6 +236,8 @@ impl GvStream {
 		}
 	}
 
+	/// Size in bytes of the incoming socket buffer. A greater value helps to lower the number of missings packets,
+	/// as the expense of an increased memory usage.
 	#[doc(alias = "socket-buffer-size")]
 	pub fn socket_buffer_size(&self) -> i32 {
 		unsafe {
@@ -199,6 +253,8 @@ impl GvStream {
 		}
 	}
 
+	/// Size in bytes of the incoming socket buffer. A greater value helps to lower the number of missings packets,
+	/// as the expense of an increased memory usage.
 	#[doc(alias = "socket-buffer-size")]
 	pub fn set_socket_buffer_size(&self, socket_buffer_size: i32) {
 		unsafe {
@@ -232,6 +288,36 @@ impl GvStream {
 				b"notify::frame-retention\0".as_ptr() as *const _,
 				Some(transmute::<_, unsafe extern "C" fn()>(
 					notify_frame_retention_trampoline::<F> as *const (),
+				)),
+				Box_::into_raw(f),
+			)
+		}
+	}
+
+	#[cfg(any(feature = "v0_8_15", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_15")))]
+	#[doc(alias = "initial-packet-timeout")]
+	pub fn connect_initial_packet_timeout_notify<F: Fn(&Self) + Send + 'static>(
+		&self,
+		f: F,
+	) -> SignalHandlerId {
+		unsafe extern "C" fn notify_initial_packet_timeout_trampoline<
+			F: Fn(&GvStream) + Send + 'static,
+		>(
+			this: *mut ffi::ArvGvStream,
+			_param_spec: glib::ffi::gpointer,
+			f: glib::ffi::gpointer,
+		) {
+			let f: &F = &*(f as *const F);
+			f(&from_glib_borrow(this))
+		}
+		unsafe {
+			let f: Box_<F> = Box_::new(f);
+			connect_raw(
+				self.as_ptr() as *mut _,
+				b"notify::initial-packet-timeout\0".as_ptr() as *const _,
+				Some(transmute::<_, unsafe extern "C" fn()>(
+					notify_initial_packet_timeout_trampoline::<F> as *const (),
 				)),
 				Box_::into_raw(f),
 			)

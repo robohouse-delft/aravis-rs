@@ -11,6 +11,9 @@ use crate::GcNode;
 use crate::GcPropertyNodeType;
 use crate::GcRepresentation;
 use crate::GcSignedness;
+#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+use crate::GcStreamable;
 use crate::GcVisibility;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -445,11 +448,11 @@ pub trait GcPropertyNodeExt: 'static {
 	#[doc(alias = "get_sign")]
 	fn sign(&self, default_value: GcSignedness) -> GcSignedness;
 
-	//#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-	//#[doc(alias = "arv_gc_property_node_get_streamable")]
-	//#[doc(alias = "get_streamable")]
-	//fn streamable(&self, default_value: /*Ignored*/GcStreamable) -> /*Ignored*/GcStreamable;
+	#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+	#[doc(alias = "arv_gc_property_node_get_streamable")]
+	#[doc(alias = "get_streamable")]
+	fn streamable(&self, default_value: GcStreamable) -> GcStreamable;
 
 	#[doc(alias = "arv_gc_property_node_get_string")]
 	#[doc(alias = "get_string")]
@@ -588,11 +591,16 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
-	//#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-	//#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-	//fn streamable(&self, default_value: /*Ignored*/GcStreamable) -> /*Ignored*/GcStreamable {
-	//    unsafe { TODO: call ffi:arv_gc_property_node_get_streamable() }
-	//}
+	#[cfg(any(feature = "v0_8_8", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+	fn streamable(&self, default_value: GcStreamable) -> GcStreamable {
+		unsafe {
+			from_glib(ffi::arv_gc_property_node_get_streamable(
+				self.as_ref().to_glib_none().0,
+				default_value.into_glib(),
+			))
+		}
+	}
 
 	fn string(&self) -> Result<glib::GString, glib::Error> {
 		unsafe {

@@ -3,6 +3,9 @@
 // DO NOT EDIT
 
 use crate::Device;
+#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+use crate::UvUsbMode;
 use glib::object::Cast;
 use glib::translate::*;
 use std::fmt;
@@ -44,6 +47,44 @@ impl UvDevice {
 			} else {
 				Err(from_glib_full(error))
 			}
+		}
+	}
+
+	/// ## `guid`
+	/// device GUID
+	///
+	/// # Returns
+	///
+	/// a newly created [`Device`][crate::Device] using USB3 based protocol
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_uv_device_new_from_guid")]
+	#[doc(alias = "new_from_guid")]
+	pub fn from_guid(guid: &str) -> Result<UvDevice, glib::Error> {
+		assert_initialized_main_thread!();
+		unsafe {
+			let mut error = ptr::null_mut();
+			let ret = ffi::arv_uv_device_new_from_guid(guid.to_glib_none().0, &mut error);
+			if error.is_null() {
+				Ok(Device::from_glib_full(ret).unsafe_cast())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	/// Sets the option to utilize the USB synchronous or asynchronous device I/O API. The default mode is
+	/// [`UvUsbMode::Sync`][crate::UvUsbMode::Sync], which means USB bulk transfer will be synchronously executed. This mode is qualified to work,
+	/// but it has the performance issue with some high framerate device. Using [`UvUsbMode::Async`][crate::UvUsbMode::Async] possibly improves the
+	/// bandwidth.
+	/// ## `usb_mode`
+	/// a [`UvUsbMode`][crate::UvUsbMode] option
+	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
+	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_uv_device_set_usb_mode")]
+	pub fn set_usb_mode(&self, usb_mode: UvUsbMode) {
+		unsafe {
+			ffi::arv_uv_device_set_usb_mode(self.to_glib_none().0, usb_mode.into_glib());
 		}
 	}
 }

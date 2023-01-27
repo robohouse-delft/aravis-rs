@@ -24,7 +24,7 @@ pub const NONE_GC_STRING: Option<&GcString> = None;
 ///
 /// # Implementors
 ///
-/// [`GcEnumeration`][struct@crate::GcEnumeration], [`GcStringRegNode`][struct@crate::GcStringRegNode], [`GcString`][struct@crate::GcString]
+/// [`GcEnumeration`][struct@crate::GcEnumeration], [`GcStringNode`][struct@crate::GcStringNode], [`GcStringRegNode`][struct@crate::GcStringRegNode], [`GcString`][struct@crate::GcString]
 pub trait GcStringExt: 'static {
 	///
 	/// # Returns

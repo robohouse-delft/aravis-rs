@@ -3,6 +3,7 @@
 // DO NOT EDIT
 
 use crate::Stream;
+use glib::translate::*;
 use std::fmt;
 
 glib::wrapper! {
