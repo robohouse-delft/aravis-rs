@@ -20,7 +20,7 @@ nightly = []
 features = ["dox"]
 
 [dependencies]
-aravis-sys = { version = "0.8.0", path = "../aravis-sys" }
+aravis-sys = { version = "0.8.2", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
 gio = "0.16.7"
 gio-sys = "0.16.3"

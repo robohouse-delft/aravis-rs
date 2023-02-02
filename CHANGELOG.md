@@ -1,4 +1,4 @@
-main:
+v0.8.2 - 2023-01-02:
   * Add support for Aravis `v0.8.22`.
 
 v0.8.1 - 2022-11-30:
