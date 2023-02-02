@@ -1,6 +1,6 @@
 [package]
 name = "aravis"
-version = "0.8.1"
+version = "0.8.2"
 description = "safe bindings for Aravis, a vision library for genicam based cameras"
 authors = [
 	"RoboHouse <robohouse@robovalley.com>",
@@ -22,12 +22,12 @@ features = ["dox"]
 [dependencies]
 aravis-sys = { version = "0.8.0", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
-gio = "0.15.10"
-gio-sys = "0.15.10"
-glib = "0.15.10"
-glib-sys = "0.15.10"
-gobject-sys = "0.15.10"
-image = "0.24.1"
+gio = "0.16.7"
+gio-sys = "0.16.3"
+glib = "0.16.7"
+glib-sys = "0.16.3"
+gobject-sys = "0.16.3"
+image = "0.24.5"
 
 [build-dependencies]
 rustc_version = "0.4.0"

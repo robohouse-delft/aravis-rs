@@ -68,17 +68,17 @@ version = "0.8.22"
 name = "aravis_sys"
 
 [dependencies]
-gio-sys = "0.15.10"
-glib-sys = "0.15.10"
-gobject-sys = "0.15.10"
+gio-sys = "0.16.3"
+glib-sys = "0.16.3"
+gobject-sys = "0.16.3"
 libc = "0.2"
 
 [build-dependencies]
-pkg-config = "0.3.7"
-system-deps = "6.0.2"
+pkg-config = "0.3.26"
+system-deps = "6.0.3"
 
 [dev-dependencies]
-shell-words = "1.0.0"
+shell-words = "1.1.0"
 tempfile = "3"
 
 [features]
