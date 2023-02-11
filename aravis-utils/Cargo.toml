@@ -16,7 +16,7 @@ gui     = ["show-image"]
 bayer   = ["aravis/bayer"]
 
 [dependencies]
-aravis     = { version="0.8.2", path="../aravis", features = ["bayer"] }
+aravis     = { version="0.8.2", path="../aravis", features = ["bayer", "v0_8_22"] }
 chrono     = "0.4.23"
 env_logger = "0.10.0"
 image      = "0.24.5"
