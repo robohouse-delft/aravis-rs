@@ -1,3 +1,6 @@
+main:
+  * Add `--usb-mode` option to `aravis-capture`.
+
 v0.8.2 - 2023-01-02:
   * Add support for Aravis `v0.8.22`.
 
