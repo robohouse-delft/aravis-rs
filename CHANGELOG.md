@@ -1,6 +1,6 @@
 main:
   * Add `--usb-mode` option to `aravis-capture`.
-  * Expose feature sets from `aravis-sys` in `aravis`.
+  * Expose features from `aravis-sys` in `aravis`.
 
 v0.8.2 - 2023-01-02:
   * Add support for Aravis `v0.8.22`.
