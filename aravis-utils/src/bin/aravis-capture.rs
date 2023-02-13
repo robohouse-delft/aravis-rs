@@ -1,3 +1,4 @@
+use aravis::glib::Cast;
 use aravis::prelude::{CameraExt, CameraExtManual, StreamExt};
 use image::DynamicImage;
 use std::path::PathBuf;
@@ -5,15 +6,33 @@ use std::sync::Arc;
 use std::sync::mpsc;
 use std::time::{Duration, Instant, SystemTime};
 use structopt::StructOpt;
+use structopt::clap::arg_enum;
 
 type ArcImage = Arc<image::DynamicImage>;
 type ImageCallback = Box<dyn FnMut(usize, SystemTime, ArcImage) + Send>;
+
+arg_enum! {
+	#[derive(Debug)]
+	enum UsbMode {
+		Sync,
+		Async,
+	}
+}
+
+impl AsRef<aravis::UvUsbMode> for UsbMode {
+	fn as_ref(&self) -> &aravis::UvUsbMode {
+		match self {
+			UsbMode::Sync => &aravis::UvUsbMode::Sync,
+			UsbMode::Async => &aravis::UvUsbMode::Async,
+		}
+	}
+}
 
 #[derive(StructOpt)]
 #[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
 #[structopt(setting = structopt::clap::AppSettings::UnifiedHelpMessage)]
 struct Options {
-	/// The IP address of the camera to connecto to.
+	/// The IP address of the camera to connect to.
 	id: String,
 
 	/// Show recorded images in a graphical window.
@@ -45,6 +64,12 @@ struct Options {
 	#[structopt(long, short)]
 	#[structopt(default_value = "30")]
 	frequency: f64,
+
+	/// The mode of communication for USB devices.
+	#[structopt(long, short)]
+	#[structopt(default_value = "Sync")]
+	#[structopt(possible_values = &UsbMode::variants(), case_insensitive = true)]
+	usb_mode: UsbMode,
 }
 
 #[show_image::main]
@@ -108,8 +133,9 @@ fn main() {
 	}
 
 	let convert_color = gui_thread.is_some();
+	let usb_mode = options.usb_mode;
 	let camera_thread = std::thread::spawn(move || {
-		if let Err(e) = run_camera_loop(&camera_id, count, period, convert_color, &mut senders) {
+		if let Err(e) = run_camera_loop(&camera_id, &usb_mode, count, period, convert_color, &mut senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
@@ -125,6 +151,7 @@ fn main() {
 
 fn run_camera_loop(
 	camera_id: &str,
+	usb_mode: &UsbMode,
 	count: usize,
 	period: Duration,
 	convert_color: bool,
@@ -134,6 +161,12 @@ fn run_camera_loop(
 	let camera = aravis::Camera::new(Some(&camera_id))
 		.map_err(|e| format!("Failed to connect to camera: {}", e))?;
 	log::info!("Connected.");
+
+	let device = camera.device()
+		.ok_or("no device associated with camera")?;
+	if let Ok(device) = device.downcast::<aravis::UvDevice>() {
+		device.set_usb_mode(*usb_mode.as_ref());
+	}
 
 	let pixel_format = camera.pixel_format()
 		.map_err(|e| format!("Failed to determine pixel format: {}", e))?;

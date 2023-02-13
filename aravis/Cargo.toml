@@ -15,12 +15,22 @@ documentation = "https://docs.rs/aravis"
 [features]
 dox = ["aravis-sys/dox", "nightly"]
 nightly = []
+v0_8_3 = []
+v0_8_6 = ["v0_8_3"]
+v0_8_8 = ["v0_8_6"]
+v0_8_11 = ["v0_8_8"]
+v0_8_15 = ["v0_8_11"]
+v0_8_16 = ["v0_8_15"]
+v0_8_17 = ["v0_8_16"]
+v0_8_19 = ["v0_8_17"]
+v0_8_20 = ["v0_8_19"]
+v0_8_22 = ["v0_8_20"]
 
 [package.metadata.docs.rs]
 features = ["dox"]
 
 [dependencies]
-aravis-sys = { version = "0.8.2", path = "../aravis-sys" }
+aravis-sys = { version = "0.8.2", path = "../aravis-sys", features = ["v0_8_22"] }
 bayer = { version = "0.1.5", optional = true }
 gio = "0.16.7"
 gio-sys = "0.16.3"
