@@ -1,22 +1,17 @@
-use aravis::glib::Cast;
 use aravis::prelude::{CameraExt, CameraExtManual, StreamExt};
 use image::DynamicImage;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::mpsc;
 use std::time::{Duration, Instant, SystemTime};
-use structopt::StructOpt;
-use structopt::clap::arg_enum;
 
 type ArcImage = Arc<image::DynamicImage>;
 type ImageCallback = Box<dyn FnMut(usize, SystemTime, ArcImage) + Send>;
 
-arg_enum! {
-	#[derive(Debug)]
-	enum UsbMode {
-		Sync,
-		Async,
-	}
+#[derive(Debug, Copy, Clone, clap::ValueEnum)]
+enum UsbMode {
+	Sync,
+	Async,
 }
 
 impl AsRef<aravis::UvUsbMode> for UsbMode {
@@ -28,47 +23,45 @@ impl AsRef<aravis::UvUsbMode> for UsbMode {
 	}
 }
 
-#[derive(StructOpt)]
-#[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
-#[structopt(setting = structopt::clap::AppSettings::UnifiedHelpMessage)]
+#[derive(clap::Parser)]
 struct Options {
 	/// The IP address of the camera to connect to.
 	id: String,
 
 	/// Show recorded images in a graphical window.
-	#[structopt(long)]
+	#[clap(long)]
 	#[cfg(feature = "gui")]
 	show: bool,
 
 	/// Save recorded images to a folder.
-	#[structopt(long)]
-	#[structopt(value_name = "PATH")]
+	#[clap(long)]
+	#[clap(value_name = "PATH")]
 	save: Option<PathBuf>,
 
 	/// The name prefix of the saved images.
-	#[structopt(long)]
-	#[structopt(value_name = "PREFIX")]
-	#[structopt(default_value = "image-")]
+	#[clap(long)]
+	#[clap(value_name = "PREFIX")]
+	#[clap(default_value = "image-")]
 	out_name: String,
 
 	/// The numer of images to record.
-	#[structopt(long, short)]
-	#[structopt(default_value = "1")]
+	#[clap(long, short)]
+	#[clap(default_value = "1")]
 	count: usize,
 
-	#[structopt(long)]
-	#[structopt(conflicts_with = "count")]
+	#[clap(long)]
+	#[clap(conflicts_with = "count")]
 	forever: bool,
 
 	/// The frequency at which to record images.
-	#[structopt(long, short)]
-	#[structopt(default_value = "30")]
+	#[clap(long, short)]
+	#[clap(default_value = "30")]
 	frequency: f64,
 
 	/// The mode of communication for USB devices.
-	#[structopt(long, short)]
-	#[structopt(default_value = "Sync")]
-	#[structopt(possible_values = &UsbMode::variants(), case_insensitive = true)]
+	#[clap(long, short)]
+	#[clap(default_value = "sync")]
+	#[clap(value_enum)]
 	usb_mode: UsbMode,
 }
 
@@ -76,7 +69,7 @@ struct Options {
 fn main() {
 	aravis_utils::init_logging(&[env!("CARGO_CRATE_NAME")]);
 
-	let options = Options::from_args();
+	let options: Options = clap::Parser::parse();
 	let camera_id = options.id;
 	let count = if options.forever {
 		0

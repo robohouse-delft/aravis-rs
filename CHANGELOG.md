@@ -1,5 +1,6 @@
 main:
   * Correctly forward `aravis-sys` features in `aravis`.
+  * Replace `structopt` with `clap` for command line utilities.
 
 v0.8.3 - 2023-02-24:
   * Add `--usb-mode` option to `aravis-capture`.

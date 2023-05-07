@@ -2,46 +2,39 @@ use aravis::prelude::*;
 use aravis::glib;
 use glib::Cast;
 
-use structopt::StructOpt;
-
-#[derive(StructOpt)]
-#[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
-#[structopt(setting = structopt::clap::AppSettings::UnifiedHelpMessage)]
-#[structopt(setting = structopt::clap::AppSettings::DeriveDisplayOrder)]
-#[structopt(group = structopt::clap::ArgGroup::with_name("selector").required(true))]
+#[derive(clap::Parser)]
+#[clap(group = clap::ArgGroup::new("selector").required(true))]
 struct Options {
 	/// The IP address of the camera to connecto to.
 	id: String,
 
 	/// Show all options.
-	#[structopt(long, short)]
-	#[structopt(group = "selector")]
+	#[clap(long, short)]
+	#[clap(group = "selector")]
 	all: bool,
 
 	/// The option to get or set.
-	#[structopt(long, short)]
-	#[structopt(value_name = "NAME")]
-	#[structopt(group = "selector")]
+	#[clap(long, short)]
+	#[clap(value_name = "NAME")]
+	#[clap(group = "selector")]
 	feature: Option<String>,
 
 	/// Set the value of the selected option.
-	#[structopt(long, short)]
-	#[structopt(value_name = "VALUE")]
-	#[structopt(requires = "feature")]
+	#[clap(long, short)]
+	#[clap(value_name = "VALUE")]
+	#[clap(requires = "feature")]
 	set: Option<String>,
 }
 
 fn main() {
 	aravis_utils::init_logging(&[env!("CARGO_CRATE_NAME")]);
-	if let Err(e) = do_main() {
+	if let Err(e) = do_main(clap::Parser::parse()) {
 		log::error!("{}", e);
 		std::process::exit(1);
 	}
 }
 
-fn do_main() -> Result<(), String> {
-	let options = Options::from_args();
-
+fn do_main(options: Options) -> Result<(), String> {
 	log::info!("Connecting to camera {}.", options.id);
 	let camera = aravis::Camera::new(Some(&options.id))
 		.map_err(|e| format!("failed to connecto to camera: {}", e))?;

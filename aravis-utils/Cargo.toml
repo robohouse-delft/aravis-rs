@@ -18,9 +18,9 @@ bayer   = ["aravis/bayer"]
 [dependencies]
 aravis     = { version = "0.8.3", path = "../aravis", features = ["bayer", "v0_8_22"] }
 chrono     = "0.4.23"
+clap       = { version = "4.2.7", features = ["derive"] }
 env_logger = "0.10.0"
 image      = "0.24.5"
 log        = "0.4.17"
 png        = "0.17.7"
 show-image = { version = "0.13.1", optional = true, features = ["image", "save"] }
-structopt  = "0.3.26"
