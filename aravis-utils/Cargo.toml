@@ -8,20 +8,20 @@ keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
 categories = ["multimedia::video"]
 repository = "https://github.com/robohouse-delft/aravis-rs"
 
-edition = "2018"
+edition = "2021"
 
 [features]
-default = ["gui", "bayer", "usb-mode"]
-gui     = ["show-image"]
-bayer   = ["aravis/bayer"]
+default  = ["bayer", "gui", "usb-mode"]
+bayer    = ["aravis/bayer"]
+gui      = ["show-image"]
 usb-mode = ["aravis/v0_8_22"]
 
 [dependencies]
-aravis     = { version = "0.8.3", path = "../aravis", features = ["bayer"] }
-chrono     = "0.4.23"
+aravis     = { version = "0.8.3", path = "../aravis" }
+chrono     = "0.4.24"
 clap       = { version = "4.2.7", features = ["derive"] }
 env_logger = "0.10.0"
-image      = "0.24.5"
+image      = { workspace = true }
 log        = "0.4.17"
-png        = "0.17.7"
+png        = "0.17.8"
 show-image = { version = "0.13.1", optional = true, features = ["image", "save"] }

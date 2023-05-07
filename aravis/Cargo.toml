@@ -12,6 +12,8 @@ categories = ["multimedia::video"]
 repository = "https://github.com/robohouse-delft/aravis-rs"
 documentation = "https://docs.rs/aravis"
 
+edition = "2015"
+
 [features]
 dox = ["aravis-sys/dox", "nightly"]
 nightly = []
@@ -32,12 +34,12 @@ features = ["dox"]
 [dependencies]
 aravis-sys = { version = "=0.8.3", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
-gio = "0.16.7"
-gio-sys = "0.16.3"
-glib = "0.16.7"
-glib-sys = "0.16.3"
-gobject-sys = "0.16.3"
-image = "0.24.5"
+gio = { workspace = true }
+gio-sys = { workspace = true }
+glib = { workspace = true }
+glib-sys = { workspace = true }
+gobject-sys = { workspace = true }
+image = { workspace = true }
 
 [build-dependencies]
 rustc_version = "0.4.0"

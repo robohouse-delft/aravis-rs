@@ -1,3 +1,11 @@
 [workspace]
 resolver = "2"
 members = ["aravis", "aravis-sys", "aravis-utils"]
+
+[workspace.dependencies]
+gio = "0.17.9"
+gio-sys = "0.17.4"
+glib = "0.17.9"
+glib-sys = "0.17.4"
+gobject-sys = "0.17.4"
+image = "0.24.6"
