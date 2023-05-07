@@ -8,12 +8,14 @@ use std::time::{Duration, Instant, SystemTime};
 type ArcImage = Arc<image::DynamicImage>;
 type ImageCallback = Box<dyn FnMut(usize, SystemTime, ArcImage) + Send>;
 
+#[cfg(feature = "usb-mode")]
 #[derive(Debug, Copy, Clone, clap::ValueEnum)]
 enum UsbMode {
 	Sync,
 	Async,
 }
 
+#[cfg(feature = "usb-mode")]
 impl AsRef<aravis::UvUsbMode> for UsbMode {
 	fn as_ref(&self) -> &aravis::UvUsbMode {
 		match self {
@@ -62,6 +64,7 @@ struct Options {
 	#[clap(long, short)]
 	#[clap(default_value = "sync")]
 	#[clap(value_enum)]
+	#[cfg(feature = "usb-mode")]
 	usb_mode: UsbMode,
 }
 
@@ -126,9 +129,11 @@ fn main() {
 	}
 
 	let convert_color = gui_thread.is_some();
+	#[cfg(feature = "usb-mode")]
 	let usb_mode = options.usb_mode;
+
 	let camera_thread = std::thread::spawn(move || {
-		if let Err(e) = run_camera_loop(&camera_id, &usb_mode, count, period, convert_color, &mut senders) {
+		if let Err(e) = run_camera_loop(&camera_id, #[cfg(feature = "usb-mode")] &usb_mode, count, period, convert_color, &mut senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
@@ -144,6 +149,7 @@ fn main() {
 
 fn run_camera_loop(
 	camera_id: &str,
+	#[cfg(feature = "usb-mode")]
 	usb_mode: &UsbMode,
 	count: usize,
 	period: Duration,
@@ -151,14 +157,18 @@ fn run_camera_loop(
 	callbacks: &mut [ImageCallback],
 ) -> Result<(), String> {
 	log::info!("Connecting to camera {}.", camera_id);
-	let camera = aravis::Camera::new(Some(&camera_id))
+	let camera = aravis::Camera::new(Some(camera_id))
 		.map_err(|e| format!("Failed to connect to camera: {}", e))?;
 	log::info!("Connected.");
 
-	let device = camera.device()
-		.ok_or("no device associated with camera")?;
-	if let Ok(device) = device.downcast::<aravis::UvDevice>() {
-		device.set_usb_mode(*usb_mode.as_ref());
+	#[cfg(feature = "usb-mode")]
+	{
+		use aravis::glib::Cast;
+		let device = camera.device()
+			.ok_or("no device associated with camera")?;
+		if let Ok(device) = device.downcast::<aravis::UvDevice>() {
+			device.set_usb_mode(*usb_mode.as_ref());
+		}
 	}
 
 	let pixel_format = camera.pixel_format()

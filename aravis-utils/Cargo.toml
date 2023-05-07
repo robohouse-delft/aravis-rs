@@ -11,12 +11,13 @@ repository = "https://github.com/robohouse-delft/aravis-rs"
 edition = "2018"
 
 [features]
-default = ["gui", "bayer"]
+default = ["gui", "bayer", "usb-mode"]
 gui     = ["show-image"]
 bayer   = ["aravis/bayer"]
+usb-mode = ["aravis/v0_8_22"]
 
 [dependencies]
-aravis     = { version = "0.8.3", path = "../aravis", features = ["bayer", "v0_8_22"] }
+aravis     = { version = "0.8.3", path = "../aravis", features = ["bayer"] }
 chrono     = "0.4.23"
 clap       = { version = "4.2.7", features = ["derive"] }
 env_logger = "0.10.0"
