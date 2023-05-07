@@ -8,64 +8,22 @@ keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
 categories = ["multimedia::video"]
 repository = "https://github.com/robohouse-delft/aravis-rs"
 documentation = "https://docs.rs/aravis-sys"
-edition = "2018"
+
+edition = "2021"
 links = "aravis"
-build = "build.rs"
-[package.metadata.docs.rs]
-features = ["dox"]
-[package.metadata.system-deps.aravis]
-name = "aravis-0.8"
-version = "0.8"
 
-[package.metadata.system-deps.aravis.v0_8_3]
-name = "aravis-0.8"
-version = "0.8.3"
-
-[package.metadata.system-deps.aravis.v0_8_6]
-version = "0.8.6"
-
-[package.metadata.system-deps.aravis.v0_8_8]
-version = "0.8.8"
-
-[package.metadata.system-deps.aravis.v0_8_11]
-version = "0.8.11"
-
-[package.metadata.system-deps.aravis_0_8]
-name = "aravis-0.8"
-version = "0.8"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_3]
-version = "0.8.3"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_6]
-version = "0.8.6"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_8]
-version = "0.8.8"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_11]
-version = "0.8.11"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_15]
-version = "0.8.15"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_16]
-version = "0.8.16"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_17]
-version = "0.8.17"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_19]
-version = "0.8.19"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_20]
-version = "0.8.20"
-
-[package.metadata.system-deps.aravis_0_8.v0_8_22]
-version = "0.8.22"
-
-[lib]
-name = "aravis_sys"
+[features]
+dox = []
+v0_8_3 = []
+v0_8_6 = ["v0_8_3"]
+v0_8_8 = ["v0_8_6"]
+v0_8_11 = ["v0_8_8"]
+v0_8_15 = ["v0_8_11"]
+v0_8_16 = ["v0_8_15"]
+v0_8_17 = ["v0_8_16"]
+v0_8_19 = ["v0_8_17"]
+v0_8_20 = ["v0_8_19"]
+v0_8_22 = ["v0_8_20"]
 
 [dependencies]
 gio-sys = "0.16.3"
@@ -81,15 +39,19 @@ system-deps = "6.0.3"
 shell-words = "1.1.0"
 tempfile = "3"
 
-[features]
-dox = []
-v0_8_3 = []
-v0_8_6 = ["v0_8_3"]
-v0_8_8 = ["v0_8_6"]
-v0_8_11 = ["v0_8_8"]
-v0_8_15 = ["v0_8_11"]
-v0_8_16 = ["v0_8_15"]
-v0_8_17 = ["v0_8_16"]
-v0_8_19 = ["v0_8_17"]
-v0_8_20 = ["v0_8_19"]
-v0_8_22 = ["v0_8_20"]
+[package.metadata.system-deps.aravis_0_8]
+name = "aravis-0.8"
+version = "0.8"
+v0_8_3 = { version = "0.8.3" }
+v0_8_6 = { version = "0.8.6" }
+v0_8_8 = { version = "0.8.8" }
+v0_8_11 = { version = "0.8.11" }
+v0_8_15 = { version = "0.8.15" }
+v0_8_16 = { version = "0.8.16" }
+v0_8_17 = { version = "0.8.17" }
+v0_8_19 = { version = "0.8.19" }
+v0_8_20 = { version = "0.8.20" }
+v0_8_22 = { version = "0.8.22" }
+
+[package.metadata.docs.rs]
+features = ["dox"]
