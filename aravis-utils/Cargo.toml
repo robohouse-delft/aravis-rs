@@ -1,6 +1,6 @@
 [package]
 name = "aravis-utils"
-version = "0.8.3"
+version = "0.9.0"
 description = "command line utilities for interacting with GenICam cameras"
 authors = ["RoboHouse <robohouse@robovalley.com>", "Maarten de Vries <maarten@de-vri.es>"]
 license = "BSD-2-Clause"
@@ -17,7 +17,7 @@ gui      = ["show-image"]
 usb-mode = ["aravis/v0_8_22"]
 
 [dependencies]
-aravis     = { version = "0.8.3", path = "../aravis" }
+aravis     = { version = "0.9.0", path = "../aravis" }
 chrono     = "0.4.24"
 clap       = { version = "4.2.7", features = ["derive"] }
 env_logger = "0.10.0"

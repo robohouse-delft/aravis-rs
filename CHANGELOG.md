@@ -1,4 +1,4 @@
-main:
+v0.9.0 - 2023-05-07:
   * Correctly forward `aravis-sys` features in `aravis`.
   * Put `--usb-mode` flag behind `usb-mode` features for compatibility with older Aravis versions.
   * Replace `structopt` with `clap` for command line utilities.
