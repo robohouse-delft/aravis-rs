@@ -1,3 +1,6 @@
+Unreleased
+  * Add `get` and `set` functions to GcRegisterExt.
+
 v0.8.0:
   * Update to `gtk-rs` v0.15.
   * Update to `image` v0.24.
