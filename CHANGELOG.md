@@ -1,5 +1,5 @@
 Unreleased
-  * Add GcRegisterExtManual with `get` and `set` functions.
+  * Add `GcRegisterExtManual` with `get` and `set` functions.
 
 v0.9.0 - 2023-05-07:
   * Correctly forward `aravis-sys` features in `aravis`.
