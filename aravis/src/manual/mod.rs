@@ -6,6 +6,7 @@ pub use self::buffer::*;
 
 mod camera;
 mod device;
+mod register;
 
 mod pixel_format;
 pub use self::pixel_format::*;
@@ -14,6 +15,7 @@ pub use self::pixel_format::*;
 pub(crate) mod traits {
 	pub use super::camera::traits::CameraExtManual;
 	pub use super::device::traits::DeviceExtManual;
+	pub use super::register::traits::GcRegisterExtManual;
 }
 
 pub type BoxImage<P> = image::ImageBuffer<P, Box<[u8]>>;

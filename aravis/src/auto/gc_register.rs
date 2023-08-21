@@ -4,7 +4,6 @@
 
 use glib::object::IsA;
 use glib::translate::*;
-use std::ffi::c_void;
 use std::fmt;
 use std::ptr;
 
@@ -27,8 +26,8 @@ pub const NONE_GC_REGISTER: Option<&GcRegister> = None;
 ///
 /// [`GcFloatRegNode`][struct@crate::GcFloatRegNode], [`GcIntRegNode`][struct@crate::GcIntRegNode], [`GcMaskedIntRegNode`][struct@crate::GcMaskedIntRegNode], [`GcRegisterNode`][struct@crate::GcRegisterNode], [`GcRegister`][struct@crate::GcRegister], [`GcStringRegNode`][struct@crate::GcStringRegNode], [`GcStructEntryNode`][struct@crate::GcStructEntryNode], [`GcStructRegNode`][struct@crate::GcStructRegNode]
 pub trait GcRegisterExt: 'static {
-	#[doc(alias = "arv_gc_register_get")]
-	fn get(&self, buffer: *mut u8, length: u64) -> Result<(), glib::Error>;
+	//#[doc(alias = "arv_gc_register_get")]
+	//fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
 
 	#[doc(alias = "arv_gc_register_get_address")]
 	#[doc(alias = "get_address")]
@@ -38,22 +37,14 @@ pub trait GcRegisterExt: 'static {
 	#[doc(alias = "get_length")]
 	fn length(&self) -> Result<u64, glib::Error>;
 
-	#[doc(alias = "arv_gc_register_set")]
-	fn set(&self, buffer: *mut u8, length: u64) -> Result<(), glib::Error>;
+	//#[doc(alias = "arv_gc_register_set")]
+	//fn set(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error>;
 }
 
 impl<O: IsA<GcRegister>> GcRegisterExt for O {
-	fn get(&self, buffer: *mut u8, length: u64) -> Result<(), glib::Error> {
-		unsafe {
-			let mut error = ptr::null_mut();
-			ffi::arv_gc_register_get(self.as_ref().to_glib_none().0, buffer as *mut c_void, length, &mut error);
-			if error.is_null() {
-				Ok(())
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
+	//fn get(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error> {
+	//    unsafe { TODO: call ffi:arv_gc_register_get() }
+	//}
 
 	fn address(&self) -> Result<u64, glib::Error> {
 		unsafe {
@@ -79,17 +70,9 @@ impl<O: IsA<GcRegister>> GcRegisterExt for O {
 		}
 	}
 
-	fn set(&self, buffer: *mut u8, length: u64) -> Result<(), glib::Error> {
-		unsafe {
-			let mut error = ptr::null_mut();
-			ffi::arv_gc_register_set(self.as_ref().to_glib_none().0, buffer as *mut c_void, length, &mut error);
-			if error.is_null() {
-				Ok(())
-			} else {
-				Err(from_glib_full(error))
-			}
-		}
-	}
+	//fn set(&self, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, length: u64) -> Result<(), glib::Error> {
+	//    unsafe { TODO: call ffi:arv_gc_register_set() }
+	//}
 }
 
 impl fmt::Display for GcRegister {
