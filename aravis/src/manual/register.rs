@@ -7,14 +7,20 @@ use std::ptr;
 use crate::GcRegister;
 
 pub(crate) mod traits {
+	/// Trait containing additional [`GcRegister`] methods.
+	///
+	/// It is prefereable to use the typed interfaces like those those available in `DeviceExt` for when possible.
 	pub trait GcRegisterExtManual {
-		fn get(&self, buffer: &mut [u8]) -> Result<(), glib::Error>;
-		fn set(&self, buffer: &[u8]) -> Result<(), glib::Error>;
+		/// Get the contents of the register.
+		fn get_raw(&self, buffer: &mut [u8]) -> Result<(), glib::Error>;
+
+		/// Set the contents of the register.
+		fn set_raw(&self, buffer: &[u8]) -> Result<(), glib::Error>;
 	}
 }
 
 impl<T: IsA<GcRegister>> traits::GcRegisterExtManual for T {
-	fn get(&self, buffer: &mut [u8]) -> Result<(), glib::Error> {
+	fn get_raw(&self, buffer: &mut [u8]) -> Result<(), glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
 			let len = buffer.len();
@@ -28,7 +34,7 @@ impl<T: IsA<GcRegister>> traits::GcRegisterExtManual for T {
 		}
 	}
 
-	fn set(&self, buffer: &[u8]) -> Result<(), glib::Error> {
+	fn set_raw(&self, buffer: &[u8]) -> Result<(), glib::Error> {
 		unsafe {
 			let mut error = ptr::null_mut();
 			let len = buffer.len();
