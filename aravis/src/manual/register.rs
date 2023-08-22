@@ -9,7 +9,7 @@ use crate::GcRegister;
 pub(crate) mod traits {
 	/// Trait containing additional [`GcRegister`] methods.
 	///
-	/// It is prefereable to use the typed interfaces like those those available in `DeviceExt` for when possible.
+	/// It is prefereable to use the typed interfaces like those those available in `DeviceExt` when possible.
 	pub trait GcRegisterExtManual {
 		/// Get the contents of the register.
 		fn get_raw(&self, buffer: &mut [u8]) -> Result<(), glib::Error>;
