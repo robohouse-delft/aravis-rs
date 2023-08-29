@@ -1,4 +1,4 @@
-Unreleased
+v0.9.1 - 2023-08-29
   * Add `GcRegisterExtManual` with `get_raw()` and `set_raw()`.
 
 v0.9.0 - 2023-05-07:
