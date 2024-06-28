@@ -40,6 +40,8 @@ extern crate gio_sys;
 pub extern crate glib;
 extern crate glib_sys;
 extern crate gobject_sys;
+
+#[cfg(feature = "image")]
 extern crate image;
 
 macro_rules! assert_initialized_main_thread {

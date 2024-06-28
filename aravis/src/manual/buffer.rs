@@ -112,8 +112,20 @@ impl Buffer {
 			let mut size = 0usize;
 			let data =
 				aravis_sys::arv_buffer_get_data(self.to_glib_none().0, &mut size as *mut usize);
-			(data as *mut u8, size)
+			(data, size)
 		}
+	}
+
+	/// Convert the buffer into a boxed slice.
+	///
+	/// # Safety
+	/// This function assumes the buffer is backed by a leaked box,
+	/// such as created by [`Buffer::new_leaked_box`].
+	///
+	/// This function assumes ownership of the leaked box.
+	pub unsafe fn into_boxed_slice(self) -> Box<[u8]> {
+		let (data, len) = self.data();
+		box_slice_from_raw(data, len)
 	}
 
 	/// Convert the buffer into an image.
@@ -124,12 +136,10 @@ impl Buffer {
 	///
 	/// This function takes ownership of the leaked box,
 	/// so the memory will be freed when the resulting image is dropped.
+	#[cfg(feature = "image")]
 	pub unsafe fn into_image(self) -> Result<image::DynamicImage, ImageError> {
 		use image::DynamicImage;
 		use image::ImageBuffer;
-
-		let (data, len) = self.data();
-		let data = Vec::from(box_slice_from_raw(data, len));
 
 		let status = self.status();
 		if status != crate::BufferStatus::Success {
@@ -144,6 +154,8 @@ impl Buffer {
 		let width = self.image_width() as u32;
 		let height = self.image_height() as u32;
 		let format = self.image_pixel_format();
+
+		let data = Vec::from(self.into_boxed_slice());
 
 		match format {
 			PixelFormat::RGB_8_PACKED => {

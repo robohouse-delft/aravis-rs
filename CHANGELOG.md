@@ -1,3 +1,7 @@
+main
+  * Make the `image` crate an optional dependency (enabled by default).
+  * Add `Buffer::into_boxed_slice()`.
+
 v0.9.1 - 2023-08-29
   * Add `GcRegisterExtManual` with `get_raw()` and `set_raw()`.
 
