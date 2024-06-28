@@ -1,4 +1,4 @@
-main
+v0.9.2 - 2024-06-28:
   * Make the `image` crate an optional dependency (enabled by default).
   * Add `Buffer::into_boxed_slice()`.
 
