@@ -15,6 +15,8 @@ documentation = "https://docs.rs/aravis"
 edition = "2015"
 
 [features]
+default = ["image"]
+image = ["dep:image"]
 dox = ["aravis-sys/dox", "nightly"]
 nightly = []
 v0_8_3 = []
@@ -39,7 +41,7 @@ gio-sys = { workspace = true }
 glib = { workspace = true }
 glib-sys = { workspace = true }
 gobject-sys = { workspace = true }
-image = { workspace = true }
+image = { workspace = true, optional = true }
 
 [build-dependencies]
 rustc_version = "0.4.0"
