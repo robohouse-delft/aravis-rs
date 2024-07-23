@@ -2,17 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcInteger;
-use crate::GcNode;
-use crate::GcRegister;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcInteger, GcNode, GcRegister};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcIntegerExt`][trait@crate::prelude::GcIntegerExt], [`GcRegisterExt`][trait@crate::prelude::GcRegisterExt]
 	#[doc(alias = "ArvGcStructEntryNode")]
 	pub struct GcStructEntryNode(Object<ffi::ArvGcStructEntryNode, ffi::ArvGcStructEntryNodeClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger, GcRegister;
 
@@ -22,10 +20,10 @@ glib::wrapper! {
 }
 
 impl GcStructEntryNode {
-	///
-	/// # Returns
-	///
-	/// a newly created [`GcStructEntryNode`][crate::GcStructEntryNode].
+///
+/// # Returns
+///
+/// a newly created [`GcStructEntryNode`][crate::GcStructEntryNode].
 	#[doc(alias = "arv_gc_struct_entry_node_new")]
 	pub fn new() -> GcStructEntryNode {
 		assert_initialized_main_thread!();
@@ -40,9 +38,3 @@ impl Default for GcStructEntryNode {
 }
 
 unsafe impl Send for GcStructEntryNode {}
-
-impl fmt::Display for GcStructEntryNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcStructEntryNode")
-	}
-}

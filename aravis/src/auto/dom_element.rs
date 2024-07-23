@@ -2,12 +2,17 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomNode;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomElement")]
 	pub struct DomElement(Object<ffi::ArvDomElement, ffi::ArvDomElementClass>) @extends DomNode;
 
@@ -16,29 +21,25 @@ glib::wrapper! {
 	}
 }
 
+impl DomElement {
+	pub const NONE: Option<&'static DomElement> = None;
+}
+
 unsafe impl Send for DomElement {}
 
-pub const NONE_DOM_ELEMENT: Option<&DomElement> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::DomElement>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@DomElement`] methods.
 ///
 /// # Implementors
 ///
 /// [`DomElement`][struct@crate::DomElement], [`GcNode`][struct@crate::GcNode]
-pub trait DomElementExt: 'static {
+pub trait DomElementExt: IsA<DomElement> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_dom_element_get_attribute")]
 	#[doc(alias = "get_attribute")]
-	fn attribute(&self, name: &str) -> Option<glib::GString>;
-
-	#[doc(alias = "arv_dom_element_get_tag_name")]
-	#[doc(alias = "get_tag_name")]
-	fn tag_name(&self) -> Option<glib::GString>;
-
-	#[doc(alias = "arv_dom_element_set_attribute")]
-	fn set_attribute(&self, name: &str, attribute_value: &str);
-}
-
-impl<O: IsA<DomElement>> DomElementExt for O {
 	fn attribute(&self, name: &str) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_element_get_attribute(
@@ -48,6 +49,8 @@ impl<O: IsA<DomElement>> DomElementExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_element_get_tag_name")]
+	#[doc(alias = "get_tag_name")]
 	fn tag_name(&self) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_element_get_tag_name(
@@ -56,6 +59,7 @@ impl<O: IsA<DomElement>> DomElementExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_element_set_attribute")]
 	fn set_attribute(&self, name: &str, attribute_value: &str) {
 		unsafe {
 			ffi::arv_dom_element_set_attribute(
@@ -67,8 +71,4 @@ impl<O: IsA<DomElement>> DomElementExt for O {
 	}
 }
 
-impl fmt::Display for DomElement {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomElement")
-	}
-}
+impl<O: IsA<DomElement>> DomElementExt for O {}

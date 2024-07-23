@@ -2,26 +2,23 @@
 // from ../gir-files
 // DO NOT EDIT
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-use crate::AccessCheckPolicy;
-use crate::Buffer;
-use crate::Device;
-use crate::DomDocument;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcInvalidatorNode;
-use crate::GcNode;
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-use crate::RangeCheckPolicy;
-use crate::RegisterCachePolicy;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{
+	ffi, Buffer, Device, DomDocument, DomNode, GcFeatureNode, GcInvalidatorNode, GcNode,
+	RegisterCachePolicy,
+};
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+use crate::{AccessCheckPolicy, RangeCheckPolicy};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+/// [`Gc`][crate::Gc] implements the root document for the storage of the Genicam feature
+/// nodes. It builds the node tree by parsing an xml file in the Genicam
+/// standard format. See http://www.genicam.org.
+///
+/// # Implements
+///
+/// [`DomDocumentExt`][trait@crate::prelude::DomDocumentExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGc")]
 	pub struct Gc(Object<ffi::ArvGc, ffi::ArvGcClass>) @extends DomDocument, DomNode;
 
@@ -32,7 +29,7 @@ glib::wrapper! {
 
 impl Gc {
 	//#[doc(alias = "arv_gc_new")]
-	//pub fn new<P: IsA<Device>>(device: &P, xml: /*Unimplemented*/Option<Fundamental: Pointer>, size: usize) -> Gc {
+	//pub fn new(device: &impl IsA<Device>, xml: /*Unimplemented*/Option<Basic: Pointer>, size: usize) -> Gc {
 	//    unsafe { TODO: call ffi:arv_gc_new() }
 	//}
 
@@ -42,43 +39,43 @@ impl Gc {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_p_value_indexed_node_new()).unsafe_cast() }
 	}
 
-	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[cfg(feature = "v0_8_6")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 	#[doc(alias = "arv_gc_get_access_check_policy")]
 	#[doc(alias = "get_access_check_policy")]
 	pub fn access_check_policy(&self) -> AccessCheckPolicy {
 		unsafe { from_glib(ffi::arv_gc_get_access_check_policy(self.to_glib_none().0)) }
 	}
 
-	/// Retrieves the binded buffer.
-	///
-	/// # Returns
-	///
-	/// a [`Buffer`][crate::Buffer].
+/// Retrieves the binded buffer.
+///
+/// # Returns
+///
+/// a [`Buffer`][crate::Buffer].
 	#[doc(alias = "arv_gc_get_buffer")]
 	#[doc(alias = "get_buffer")]
 	pub fn buffer(&self) -> Option<Buffer> {
 		unsafe { from_glib_none(ffi::arv_gc_get_buffer(self.to_glib_none().0)) }
 	}
 
-	/// Retrieves the device handled by this genicam interface. The device is used for register access.
-	///
-	/// # Returns
-	///
-	/// a [`Device`][crate::Device].
+/// Retrieves the device handled by this genicam interface. The device is used for register access.
+///
+/// # Returns
+///
+/// a [`Device`][crate::Device].
 	#[doc(alias = "arv_gc_get_device")]
 	#[doc(alias = "get_device")]
 	pub fn device(&self) -> Option<Device> {
 		unsafe { from_glib_none(ffi::arv_gc_get_device(self.to_glib_none().0)) }
 	}
 
-	/// Retrieves a genicam node by name.
-	/// ## `name`
-	/// node name
-	///
-	/// # Returns
-	///
-	/// a [`GcNode`][crate::GcNode], null if not found.
+/// Retrieves a genicam node by name.
+/// ## `name`
+/// node name
+///
+/// # Returns
+///
+/// a [`GcNode`][crate::GcNode], null if not found.
 	#[doc(alias = "arv_gc_get_node")]
 	#[doc(alias = "get_node")]
 	pub fn node(&self, name: &str) -> Option<GcNode> {
@@ -90,8 +87,8 @@ impl Gc {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[cfg(feature = "v0_8_6")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 	#[doc(alias = "arv_gc_get_range_check_policy")]
 	#[doc(alias = "get_range_check_policy")]
 	pub fn range_check_policy(&self) -> RangeCheckPolicy {
@@ -105,7 +102,7 @@ impl Gc {
 	}
 
 	#[doc(alias = "arv_gc_register_feature_node")]
-	pub fn register_feature_node<P: IsA<GcFeatureNode>>(&self, node: &P) {
+	pub fn register_feature_node(&self, node: &impl IsA<GcFeatureNode>) {
 		unsafe {
 			ffi::arv_gc_register_feature_node(
 				self.to_glib_none().0,
@@ -114,8 +111,8 @@ impl Gc {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[cfg(feature = "v0_8_6")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 	#[doc(alias = "arv_gc_set_access_check_policy")]
 	pub fn set_access_check_policy(&self, policy: AccessCheckPolicy) {
 		unsafe {
@@ -131,12 +128,12 @@ impl Gc {
 	}
 
 	//#[doc(alias = "arv_gc_set_default_node_data")]
-	//pub fn set_default_node_data(&self, node_name: &str, : /*Unknown conversion*//*Unimplemented*/Fundamental: VarArgs) {
+	//pub fn set_default_node_data(&self, node_name: &str, : /*Unknown conversion*//*Unimplemented*/Basic: VarArgs) {
 	//    unsafe { TODO: call ffi:arv_gc_set_default_node_data() }
 	//}
 
-	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[cfg(feature = "v0_8_6")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 	#[doc(alias = "arv_gc_set_range_check_policy")]
 	pub fn set_range_check_policy(&self, policy: RangeCheckPolicy) {
 		unsafe {
@@ -159,9 +156,3 @@ impl Gc {
 }
 
 unsafe impl Send for Gc {}
-
-impl fmt::Display for Gc {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("Gc")
-	}
-}

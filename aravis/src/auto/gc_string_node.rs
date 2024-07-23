@@ -2,16 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use crate::GcString;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode, GcString};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcStringExt`][trait@crate::prelude::GcStringExt]
 	#[doc(alias = "ArvGcStringNode")]
 	pub struct GcStringNode(Object<ffi::ArvGcStringNode, ffi::ArvGcStringNodeClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcString;
 
@@ -35,9 +34,3 @@ impl Default for GcStringNode {
 }
 
 unsafe impl Send for GcStringNode {}
-
-impl fmt::Display for GcStringNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcStringNode")
-	}
-}

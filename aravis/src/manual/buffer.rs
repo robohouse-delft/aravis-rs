@@ -233,8 +233,8 @@ unsafe fn box_slice_from_raw<T>(data: *mut T, len: usize) -> Box<[T]> {
 impl std::fmt::Display for ImageError {
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
 		match self {
-			Self::InvalidStatus(x) => write!(f, "invalid buffer status: {}", x),
-			Self::InvalidPayloadType(x) => write!(f, "invalid buffer payload type: {}", x),
+			Self::InvalidStatus(x) => write!(f, "invalid buffer status: {:?}", x),
+			Self::InvalidPayloadType(x) => write!(f, "invalid buffer payload type: {:?}", x),
 			Self::UnsupportedPixelFormat(x) => write!(f, "unsupported pixel format: {}", x.raw()),
 		}
 	}

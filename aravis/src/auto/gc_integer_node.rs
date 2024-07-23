@@ -2,17 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcInteger;
-use crate::GcNode;
-use crate::GcSelector;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcInteger, GcNode, GcSelector};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcIntegerExt`][trait@crate::prelude::GcIntegerExt], [`GcSelectorExt`][trait@crate::prelude::GcSelectorExt]
 	#[doc(alias = "ArvGcIntegerNode")]
 	pub struct GcIntegerNode(Object<ffi::ArvGcIntegerNode, ffi::ArvGcIntegerNodeClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger, GcSelector;
 
@@ -36,9 +34,3 @@ impl Default for GcIntegerNode {
 }
 
 unsafe impl Send for GcIntegerNode {}
-
-impl fmt::Display for GcIntegerNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcIntegerNode")
-	}
-}

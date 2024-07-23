@@ -2,19 +2,18 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcInteger;
-use crate::GcNode;
-use crate::GcRegister;
-use crate::GcRegisterNode;
-use crate::GcSelector;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{
+	ffi, DomElement, DomNode, GcFeatureNode, GcInteger, GcNode, GcRegister, GcRegisterNode,
+	GcSelector,
+};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcRegisterNodeExt`][trait@crate::prelude::GcRegisterNodeExt], [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcRegisterExt`][trait@crate::prelude::GcRegisterExt], [`GcIntegerExt`][trait@crate::prelude::GcIntegerExt], [`GcSelectorExt`][trait@crate::prelude::GcSelectorExt]
 	#[doc(alias = "ArvGcMaskedIntRegNode")]
 	pub struct GcMaskedIntRegNode(Object<ffi::ArvGcMaskedIntRegNode, ffi::ArvGcMaskedIntRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcInteger, GcSelector;
 
@@ -24,10 +23,12 @@ glib::wrapper! {
 }
 
 impl GcMaskedIntRegNode {
-	///
-	/// # Returns
-	///
-	/// a new MaskedIntReg node
+	pub const NONE: Option<&'static GcMaskedIntRegNode> = None;
+
+///
+/// # Returns
+///
+/// a new MaskedIntReg node
 	#[doc(alias = "arv_gc_masked_int_reg_node_new")]
 	pub fn new() -> GcMaskedIntRegNode {
 		assert_initialized_main_thread!();
@@ -42,11 +43,3 @@ impl Default for GcMaskedIntRegNode {
 }
 
 unsafe impl Send for GcMaskedIntRegNode {}
-
-pub const NONE_GC_MASKED_INT_REG_NODE: Option<&GcMaskedIntRegNode> = None;
-
-impl fmt::Display for GcMaskedIntRegNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcMaskedIntRegNode")
-	}
-}

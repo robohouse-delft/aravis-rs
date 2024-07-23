@@ -2,18 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcFloat;
-use crate::GcNode;
-use crate::GcRegister;
-use crate::GcRegisterNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcFloat, GcNode, GcRegister, GcRegisterNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcRegisterNodeExt`][trait@crate::prelude::GcRegisterNodeExt], [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcRegisterExt`][trait@crate::prelude::GcRegisterExt], [`GcFloatExt`][trait@crate::prelude::GcFloatExt]
 	#[doc(alias = "ArvGcFloatRegNode")]
 	pub struct GcFloatRegNode(Object<ffi::ArvGcFloatRegNode, ffi::ArvGcFloatRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcFloat;
 
@@ -23,10 +20,12 @@ glib::wrapper! {
 }
 
 impl GcFloatRegNode {
-	///
-	/// # Returns
-	///
-	/// a new FloatReg node
+	pub const NONE: Option<&'static GcFloatRegNode> = None;
+
+///
+/// # Returns
+///
+/// a new FloatReg node
 	#[doc(alias = "arv_gc_float_reg_node_new")]
 	pub fn new() -> GcFloatRegNode {
 		assert_initialized_main_thread!();
@@ -41,11 +40,3 @@ impl Default for GcFloatRegNode {
 }
 
 unsafe impl Send for GcFloatRegNode {}
-
-pub const NONE_GC_FLOAT_REG_NODE: Option<&GcFloatRegNode> = None;
-
-impl fmt::Display for GcFloatRegNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcFloatRegNode")
-	}
-}

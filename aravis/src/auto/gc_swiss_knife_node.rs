@@ -2,17 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcFloat;
-use crate::GcNode;
-use crate::GcSwissKnife;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcFloat, GcNode, GcSwissKnife};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcSwissKnifeExt`][trait@crate::prelude::GcSwissKnifeExt], [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcFloatExt`][trait@crate::prelude::GcFloatExt]
 	#[doc(alias = "ArvGcSwissKnifeNode")]
 	pub struct GcSwissKnifeNode(Object<ffi::ArvGcSwissKnifeNode, ffi::ArvGcSwissKnifeNodeClass>) @extends GcSwissKnife, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcFloat;
 
@@ -22,6 +20,8 @@ glib::wrapper! {
 }
 
 impl GcSwissKnifeNode {
+	pub const NONE: Option<&'static GcSwissKnifeNode> = None;
+
 	#[doc(alias = "arv_gc_swiss_knife_node_new")]
 	pub fn new() -> GcSwissKnifeNode {
 		assert_initialized_main_thread!();
@@ -36,11 +36,3 @@ impl Default for GcSwissKnifeNode {
 }
 
 unsafe impl Send for GcSwissKnifeNode {}
-
-pub const NONE_GC_SWISS_KNIFE_NODE: Option<&GcSwissKnifeNode> = None;
-
-impl fmt::Display for GcSwissKnifeNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcSwissKnifeNode")
-	}
-}

@@ -2,26 +2,28 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcAccessMode;
-use crate::GcCachable;
-use crate::GcDisplayNotation;
-use crate::GcNode;
-use crate::GcPropertyNodeType;
-use crate::GcRepresentation;
-use crate::GcSignedness;
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 use crate::GcStreamable;
-use crate::GcVisibility;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{
+	ffi, DomElement, DomNode, GcAccessMode, GcCachable, GcDisplayNotation, GcNode,
+	GcPropertyNodeType, GcRepresentation, GcSignedness, GcVisibility,
+};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+/// [`GcPropertyNode`][crate::GcPropertyNode] provides a base class for the implementation of the different
+/// types of Genicam property nodes (Value, pValue, Endianness...).
+///
+/// ## Properties
+///
+///
+/// #### `node-type`
+///  Readable | Writeable | Construct Only
+///
+/// # Implements
+///
+/// [`GcPropertyNodeExt`][trait@crate::prelude::GcPropertyNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcPropertyNode")]
 	pub struct GcPropertyNode(Object<ffi::ArvGcPropertyNode, ffi::ArvGcPropertyNodeClass>) @extends GcNode, DomElement, DomNode;
 
@@ -31,6 +33,8 @@ glib::wrapper! {
 }
 
 impl GcPropertyNode {
+	pub const NONE: Option<&'static GcPropertyNode> = None;
+
 	#[doc(alias = "arv_gc_property_node_new_access_mode")]
 	pub fn new_access_mode() -> GcPropertyNode {
 		assert_initialized_main_thread!();
@@ -161,6 +165,14 @@ impl GcPropertyNode {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_property_node_new_increment()).unsafe_cast() }
 	}
 
+	#[doc(alias = "arv_gc_property_node_new_is_deprecated")]
+	pub fn new_is_deprecated() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(ffi::arv_gc_property_node_new_is_deprecated()).unsafe_cast()
+		}
+	}
+
 	#[doc(alias = "arv_gc_property_node_new_is_linear")]
 	pub fn new_is_linear() -> GcPropertyNode {
 		assert_initialized_main_thread!();
@@ -213,6 +225,20 @@ impl GcPropertyNode {
 	pub fn new_p_address() -> GcPropertyNode {
 		assert_initialized_main_thread!();
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_property_node_new_p_address()).unsafe_cast() }
+	}
+
+	#[doc(alias = "arv_gc_property_node_new_p_alias")]
+	pub fn new_p_alias() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe { GcNode::from_glib_full(ffi::arv_gc_property_node_new_p_alias()).unsafe_cast() }
+	}
+
+	#[doc(alias = "arv_gc_property_node_new_p_cast_alias")]
+	pub fn new_p_cast_alias() -> GcPropertyNode {
+		assert_initialized_main_thread!();
+		unsafe {
+			GcNode::from_glib_full(ffi::arv_gc_property_node_new_p_cast_alias()).unsafe_cast()
+		}
 	}
 
 	#[doc(alias = "arv_gc_property_node_new_p_command_value")]
@@ -376,103 +402,19 @@ impl GcPropertyNode {
 
 unsafe impl Send for GcPropertyNode {}
 
-pub const NONE_GC_PROPERTY_NODE: Option<&GcPropertyNode> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::GcPropertyNode>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@GcPropertyNode`] methods.
 ///
 /// # Implementors
 ///
 /// [`GcIndexNode`][struct@crate::GcIndexNode], [`GcInvalidatorNode`][struct@crate::GcInvalidatorNode], [`GcPropertyNode`][struct@crate::GcPropertyNode], [`GcValueIndexedNode`][struct@crate::GcValueIndexedNode]
-pub trait GcPropertyNodeExt: 'static {
+pub trait GcPropertyNodeExt: IsA<GcPropertyNode> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_gc_property_node_get_access_mode")]
 	#[doc(alias = "get_access_mode")]
-	fn access_mode(&self, default_value: GcAccessMode) -> GcAccessMode;
-
-	#[doc(alias = "arv_gc_property_node_get_cachable")]
-	#[doc(alias = "get_cachable")]
-	fn cachable(&self, default_value: GcCachable) -> GcCachable;
-
-	#[doc(alias = "arv_gc_property_node_get_display_notation")]
-	#[doc(alias = "get_display_notation")]
-	fn display_notation(&self, default_value: GcDisplayNotation) -> GcDisplayNotation;
-
-	#[doc(alias = "arv_gc_property_node_get_display_precision")]
-	#[doc(alias = "get_display_precision")]
-	fn display_precision(&self, default_value: i64) -> i64;
-
-	#[doc(alias = "arv_gc_property_node_get_double")]
-	#[doc(alias = "get_double")]
-	fn double(&self) -> Result<f64, glib::Error>;
-
-	#[doc(alias = "arv_gc_property_node_get_endianness")]
-	#[doc(alias = "get_endianness")]
-	fn endianness(&self, default_value: u32) -> u32;
-
-	#[doc(alias = "arv_gc_property_node_get_int64")]
-	#[doc(alias = "get_int64")]
-	fn int64(&self) -> Result<i64, glib::Error>;
-
-	///
-	/// # Returns
-	///
-	/// the [`GcNode`][crate::GcNode] which `self` points to, [`None`] if the property is not a pointer.
-	#[doc(alias = "arv_gc_property_node_get_linked_node")]
-	#[doc(alias = "get_linked_node")]
-	fn linked_node(&self) -> Option<GcNode>;
-
-	#[doc(alias = "arv_gc_property_node_get_lsb")]
-	#[doc(alias = "get_lsb")]
-	fn lsb(&self, default_value: u32) -> u32;
-
-	#[doc(alias = "arv_gc_property_node_get_msb")]
-	#[doc(alias = "get_msb")]
-	fn msb(&self, default_value: u32) -> u32;
-
-	///
-	/// # Returns
-	///
-	/// node Name property value.
-	#[doc(alias = "arv_gc_property_node_get_name")]
-	#[doc(alias = "get_name")]
-	fn name(&self) -> Option<glib::GString>;
-
-	#[doc(alias = "arv_gc_property_node_get_node_type")]
-	#[doc(alias = "get_node_type")]
-	fn node_type(&self) -> GcPropertyNodeType;
-
-	#[doc(alias = "arv_gc_property_node_get_representation")]
-	#[doc(alias = "get_representation")]
-	fn representation(&self, default_value: GcRepresentation) -> GcRepresentation;
-
-	#[doc(alias = "arv_gc_property_node_get_sign")]
-	#[doc(alias = "get_sign")]
-	fn sign(&self, default_value: GcSignedness) -> GcSignedness;
-
-	#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-	#[doc(alias = "arv_gc_property_node_get_streamable")]
-	#[doc(alias = "get_streamable")]
-	fn streamable(&self, default_value: GcStreamable) -> GcStreamable;
-
-	#[doc(alias = "arv_gc_property_node_get_string")]
-	#[doc(alias = "get_string")]
-	fn string(&self) -> Result<glib::GString, glib::Error>;
-
-	#[doc(alias = "arv_gc_property_node_get_visibility")]
-	#[doc(alias = "get_visibility")]
-	fn visibility(&self, default_value: GcVisibility) -> GcVisibility;
-
-	#[doc(alias = "arv_gc_property_node_set_double")]
-	fn set_double(&self, v_double: f64) -> Result<(), glib::Error>;
-
-	#[doc(alias = "arv_gc_property_node_set_int64")]
-	fn set_int64(&self, v_int64: i64) -> Result<(), glib::Error>;
-
-	#[doc(alias = "arv_gc_property_node_set_string")]
-	fn set_string(&self, string: &str) -> Result<(), glib::Error>;
-}
-
-impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 	fn access_mode(&self, default_value: GcAccessMode) -> GcAccessMode {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_access_mode(
@@ -482,6 +424,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_cachable")]
+	#[doc(alias = "get_cachable")]
 	fn cachable(&self, default_value: GcCachable) -> GcCachable {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_cachable(
@@ -491,6 +435,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_display_notation")]
+	#[doc(alias = "get_display_notation")]
 	fn display_notation(&self, default_value: GcDisplayNotation) -> GcDisplayNotation {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_display_notation(
@@ -500,6 +446,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_display_precision")]
+	#[doc(alias = "get_display_precision")]
 	fn display_precision(&self, default_value: i64) -> i64 {
 		unsafe {
 			ffi::arv_gc_property_node_get_display_precision(
@@ -509,9 +457,11 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_double")]
+	#[doc(alias = "get_double")]
 	fn double(&self) -> Result<f64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret =
 				ffi::arv_gc_property_node_get_double(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
@@ -522,15 +472,19 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_endianness")]
+	#[doc(alias = "get_endianness")]
 	fn endianness(&self, default_value: u32) -> u32 {
 		unsafe {
 			ffi::arv_gc_property_node_get_endianness(self.as_ref().to_glib_none().0, default_value)
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_int64")]
+	#[doc(alias = "get_int64")]
 	fn int64(&self) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret =
 				ffi::arv_gc_property_node_get_int64(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
@@ -541,6 +495,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_linked_node")]
+	#[doc(alias = "get_linked_node")]
 	fn linked_node(&self) -> Option<GcNode> {
 		unsafe {
 			from_glib_none(ffi::arv_gc_property_node_get_linked_node(
@@ -549,14 +505,20 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_lsb")]
+	#[doc(alias = "get_lsb")]
 	fn lsb(&self, default_value: u32) -> u32 {
 		unsafe { ffi::arv_gc_property_node_get_lsb(self.as_ref().to_glib_none().0, default_value) }
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_msb")]
+	#[doc(alias = "get_msb")]
 	fn msb(&self, default_value: u32) -> u32 {
 		unsafe { ffi::arv_gc_property_node_get_msb(self.as_ref().to_glib_none().0, default_value) }
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_name")]
+	#[doc(alias = "get_name")]
 	fn name(&self) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_gc_property_node_get_name(
@@ -565,6 +527,9 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_node_type")]
+	#[doc(alias = "get_node_type")]
+	#[doc(alias = "node-type")]
 	fn node_type(&self) -> GcPropertyNodeType {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_node_type(
@@ -573,6 +538,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_representation")]
+	#[doc(alias = "get_representation")]
 	fn representation(&self, default_value: GcRepresentation) -> GcRepresentation {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_representation(
@@ -582,6 +549,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_sign")]
+	#[doc(alias = "get_sign")]
 	fn sign(&self, default_value: GcSignedness) -> GcSignedness {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_sign(
@@ -591,8 +560,10 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+	#[cfg(feature = "v0_8_8")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
+	#[doc(alias = "arv_gc_property_node_get_streamable")]
+	#[doc(alias = "get_streamable")]
 	fn streamable(&self, default_value: GcStreamable) -> GcStreamable {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_streamable(
@@ -602,9 +573,11 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_string")]
+	#[doc(alias = "get_string")]
 	fn string(&self) -> Result<glib::GString, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret =
 				ffi::arv_gc_property_node_get_string(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
@@ -615,6 +588,8 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_get_visibility")]
+	#[doc(alias = "get_visibility")]
 	fn visibility(&self, default_value: GcVisibility) -> GcVisibility {
 		unsafe {
 			from_glib(ffi::arv_gc_property_node_get_visibility(
@@ -624,9 +599,10 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_set_double")]
 	fn set_double(&self, v_double: f64) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_gc_property_node_set_double(
 				self.as_ref().to_glib_none().0,
 				v_double,
@@ -640,9 +616,10 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_set_int64")]
 	fn set_int64(&self, v_int64: i64) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_gc_property_node_set_int64(
 				self.as_ref().to_glib_none().0,
 				v_int64,
@@ -656,9 +633,10 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_property_node_set_string")]
 	fn set_string(&self, string: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_gc_property_node_set_string(
 				self.as_ref().to_glib_none().0,
 				string.to_glib_none().0,
@@ -673,8 +651,4 @@ impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {
 	}
 }
 
-impl fmt::Display for GcPropertyNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcPropertyNode")
-	}
-}
+impl<O: IsA<GcPropertyNode>> GcPropertyNodeExt for O {}

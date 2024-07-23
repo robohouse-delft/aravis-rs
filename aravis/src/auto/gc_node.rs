@@ -2,14 +2,18 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::Gc;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, Gc};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+/// [`GcNode`][crate::GcNode] provides a base class for the implementation of the different
+/// types of Genicam nodes.
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcNode")]
 	pub struct GcNode(Object<ffi::ArvGcNode, ffi::ArvGcNodeClass>) @extends DomElement, DomNode;
 
@@ -18,34 +22,28 @@ glib::wrapper! {
 	}
 }
 
+impl GcNode {
+	pub const NONE: Option<&'static GcNode> = None;
+}
+
 unsafe impl Send for GcNode {}
 
-pub const NONE_GC_NODE: Option<&GcNode> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::GcNode>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@GcNode`] methods.
 ///
 /// # Implementors
 ///
 /// [`GcFeatureNode`][struct@crate::GcFeatureNode], [`GcNode`][struct@crate::GcNode], [`GcPropertyNode`][struct@crate::GcPropertyNode]
-pub trait GcNodeExt: 'static {
-	/// Retrieves the parent genicam document of `self`.
-	///
-	/// # Returns
-	///
-	/// the parent [`Gc`][crate::Gc]
+pub trait GcNodeExt: IsA<GcNode> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_gc_node_get_genicam")]
 	#[doc(alias = "get_genicam")]
-	fn genicam(&self) -> Option<Gc>;
-}
-
-impl<O: IsA<GcNode>> GcNodeExt for O {
 	fn genicam(&self) -> Option<Gc> {
 		unsafe { from_glib_none(ffi::arv_gc_node_get_genicam(self.as_ref().to_glib_none().0)) }
 	}
 }
 
-impl fmt::Display for GcNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcNode")
-	}
-}
+impl<O: IsA<GcNode>> GcNodeExt for O {}

@@ -2,11 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Interface;
+use crate::{ffi, Interface};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`InterfaceExt`][trait@crate::prelude::InterfaceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGvInterface")]
 	pub struct GvInterface(Object<ffi::ArvGvInterface, ffi::ArvGvInterfaceClass>) @extends Interface;
 
@@ -16,11 +20,11 @@ glib::wrapper! {
 }
 
 impl GvInterface {
-	/// Gets the unique instance of the GV interface.
-	///
-	/// # Returns
-	///
-	/// a [`Interface`][crate::Interface] singleton.
+/// Gets the unique instance of the GV interface.
+///
+/// # Returns
+///
+/// a [`Interface`][crate::Interface] singleton.
 	#[doc(alias = "arv_gv_interface_get_instance")]
 	#[doc(alias = "get_instance")]
 	pub fn instance() -> Option<Interface> {
@@ -30,9 +34,3 @@ impl GvInterface {
 }
 
 unsafe impl Send for GvInterface {}
-
-impl fmt::Display for GvInterface {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GvInterface")
-	}
-}

@@ -2,17 +2,38 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::FakeCamera;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
+use crate::{ffi, FakeCamera};
+use glib::{
+	prelude::*,
+	signal::{connect_raw, SignalHandlerId},
+	translate::*,
+};
 use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
 
 glib::wrapper! {
+/// [`GvFakeCamera`][crate::GvFakeCamera] is a class that simulates a real GigEVision camera.
+///
+/// ## Properties
+///
+///
+/// #### `genicam-filename`
+///  Writeable | Construct Only
+///
+///
+/// #### `gvsp-lost-ratio`
+///  Writeable | Construct
+///
+///
+/// #### `interface-name`
+///  Writeable | Construct Only
+///
+///
+/// #### `serial-number`
+///  Writeable | Construct Only
+///
+/// # Implements
+///
+/// [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGvFakeCamera")]
 	pub struct GvFakeCamera(Object<ffi::ArvGvFakeCamera, ffi::ArvGvFakeCameraClass>);
 
@@ -22,14 +43,14 @@ glib::wrapper! {
 }
 
 impl GvFakeCamera {
-	/// ## `interface_name`
-	/// listening network interface ('lo' by default)
-	/// ## `serial_number`
-	/// fake device serial number ('GV01' by default)
-	///
-	/// # Returns
-	///
-	/// a new [`GvFakeCamera`][crate::GvFakeCamera]
+/// ## `interface_name`
+/// listening network interface ('lo' by default)
+/// ## `serial_number`
+/// fake device serial number ('GV01' by default)
+///
+/// # Returns
+///
+/// a new [`GvFakeCamera`][crate::GvFakeCamera]
 	#[doc(alias = "arv_gv_fake_camera_new")]
 	pub fn new(interface_name: Option<&str>, serial_number: Option<&str>) -> GvFakeCamera {
 		assert_initialized_main_thread!();
@@ -41,16 +62,16 @@ impl GvFakeCamera {
 		}
 	}
 
-	/// ## `interface_name`
-	/// listening network interface, by name or IP address, default is 127.0.0.1
-	/// ## `serial_number`
-	/// fake device serial number, default is GV01
-	/// ## `genicam_filename`
-	/// path to alternative genicam data
-	///
-	/// # Returns
-	///
-	/// a new [`GvFakeCamera`][crate::GvFakeCamera]
+/// ## `interface_name`
+/// listening network interface, by name or IP address, default is 127.0.0.1
+/// ## `serial_number`
+/// fake device serial number, default is GV01
+/// ## `genicam_filename`
+/// path to alternative genicam data
+///
+/// # Returns
+///
+/// a new [`GvFakeCamera`][crate::GvFakeCamera]
 	#[doc(alias = "arv_gv_fake_camera_new_full")]
 	pub fn new_full(
 		interface_name: Option<&str>,
@@ -67,11 +88,11 @@ impl GvFakeCamera {
 		}
 	}
 
-	/// Retrieves the underlying [`FakeCamera`][crate::FakeCamera] object owned by `self`.
-	///
-	/// # Returns
-	///
-	/// underlying fake camera object.
+/// Retrieves the underlying [`FakeCamera`][crate::FakeCamera] object owned by `self`.
+///
+/// # Returns
+///
+/// underlying fake camera object.
 	#[doc(alias = "arv_gv_fake_camera_get_fake_camera")]
 	#[doc(alias = "get_fake_camera")]
 	pub fn fake_camera(&self) -> Option<FakeCamera> {
@@ -82,10 +103,10 @@ impl GvFakeCamera {
 		}
 	}
 
-	///
-	/// # Returns
-	///
-	/// [`true`] if the fake camera is correctly listening on the GVCP port
+///
+/// # Returns
+///
+/// [`true`] if the fake camera is correctly listening on the GVCP port
 	#[doc(alias = "arv_gv_fake_camera_is_running")]
 	pub fn is_running(&self) -> bool {
 		unsafe { from_glib(ffi::arv_gv_fake_camera_is_running(self.to_glib_none().0)) }
@@ -93,13 +114,7 @@ impl GvFakeCamera {
 
 	#[doc(alias = "gvsp-lost-ratio")]
 	pub fn set_gvsp_lost_ratio(&self, gvsp_lost_ratio: f64) {
-		unsafe {
-			glib::gobject_ffi::g_object_set_property(
-				self.as_ptr() as *mut glib::gobject_ffi::GObject,
-				b"gvsp-lost-ratio\0".as_ptr() as *const _,
-				gvsp_lost_ratio.to_value().to_glib_none().0,
-			);
-		}
+		ObjectExt::set_property(self, "gvsp-lost-ratio", gvsp_lost_ratio)
 	}
 
 	#[doc(alias = "gvsp-lost-ratio")]
@@ -122,7 +137,7 @@ impl GvFakeCamera {
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::gvsp-lost-ratio\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
+				Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
 					notify_gvsp_lost_ratio_trampoline::<F> as *const (),
 				)),
 				Box_::into_raw(f),
@@ -132,9 +147,3 @@ impl GvFakeCamera {
 }
 
 unsafe impl Send for GvFakeCamera {}
-
-impl fmt::Display for GvFakeCamera {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GvFakeCamera")
-	}
-}

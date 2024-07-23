@@ -2,15 +2,17 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::DomText;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, DomElement, DomNode, DomText};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`DomDocumentExt`][trait@crate::prelude::DomDocumentExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomDocument")]
 	pub struct DomDocument(Object<ffi::ArvDomDocument, ffi::ArvDomDocumentClass>) @extends DomNode;
 
@@ -20,9 +22,11 @@ glib::wrapper! {
 }
 
 impl DomDocument {
+	pub const NONE: Option<&'static DomDocument> = None;
+
 	//#[doc(alias = "arv_dom_document_new_from_memory")]
 	//#[doc(alias = "new_from_memory")]
-	//pub fn from_memory(buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<DomDocument, glib::Error> {
+	//pub fn from_memory(buffer: /*Unimplemented*/Option<Basic: Pointer>, size: i32) -> Result<DomDocument, glib::Error> {
 	//    unsafe { TODO: call ffi:arv_dom_document_new_from_memory() }
 	//}
 
@@ -31,7 +35,7 @@ impl DomDocument {
 	pub fn from_path(path: &str) -> Result<DomDocument, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_dom_document_new_from_path(path.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(from_glib_full(ret))
@@ -46,7 +50,7 @@ impl DomDocument {
 	pub fn from_url(url: &str) -> Result<DomDocument, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_dom_document_new_from_url(url.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(from_glib_full(ret))
@@ -59,65 +63,23 @@ impl DomDocument {
 
 unsafe impl Send for DomDocument {}
 
-pub const NONE_DOM_DOCUMENT: Option<&DomDocument> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::DomDocument>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@DomDocument`] methods.
 ///
 /// # Implementors
 ///
 /// [`DomDocument`][struct@crate::DomDocument], [`Gc`][struct@crate::Gc]
-pub trait DomDocumentExt: 'static {
+pub trait DomDocumentExt: IsA<DomDocument> + sealed::Sealed + 'static {
 	//#[doc(alias = "arv_dom_document_append_from_memory")]
-	//fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error>;
-
-	/// Create a new element.
-	/// ## `tag_name`
-	/// node name of the element to create
-	///
-	/// # Returns
-	///
-	/// a new orphan [`DomElement`][crate::DomElement], NULL on error.
-	#[doc(alias = "arv_dom_document_create_element")]
-	fn create_element(&self, tag_name: &str) -> Option<DomElement>;
-
-	/// Create a new text element.
-	/// ## `data`
-	/// initial content
-	///
-	/// # Returns
-	///
-	/// a new orphan [`DomText`][crate::DomText], NULL on error.
-	#[doc(alias = "arv_dom_document_create_text_node")]
-	fn create_text_node(&self, data: &str) -> Option<DomText>;
-
-	///
-	/// # Returns
-	///
-	/// the top element of `self`.
-	#[doc(alias = "arv_dom_document_get_document_element")]
-	#[doc(alias = "get_document_element")]
-	fn document_element(&self) -> Option<DomElement>;
-
-	//#[doc(alias = "arv_dom_document_get_href_data")]
-	//#[doc(alias = "get_href_data")]
-	//fn href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer>;
-
-	#[doc(alias = "arv_dom_document_get_url")]
-	#[doc(alias = "get_url")]
-	fn url(&self) -> Option<glib::GString>;
-
-	#[doc(alias = "arv_dom_document_set_path")]
-	fn set_path(&self, path: &str);
-
-	#[doc(alias = "arv_dom_document_set_url")]
-	fn set_url(&self, url: &str);
-}
-
-impl<O: IsA<DomDocument>> DomDocumentExt for O {
-	//fn append_from_memory<P: IsA<DomNode>>(&self, node: &P, buffer: /*Unimplemented*/Option<Fundamental: Pointer>, size: i32) -> Result<(), glib::Error> {
+	//fn append_from_memory(&self, node: &impl IsA<DomNode>, buffer: /*Unimplemented*/Option<Basic: Pointer>, size: i32) -> Result<(), glib::Error> {
 	//    unsafe { TODO: call ffi:arv_dom_document_append_from_memory() }
 	//}
 
+	#[doc(alias = "arv_dom_document_create_element")]
 	fn create_element(&self, tag_name: &str) -> Option<DomElement> {
 		unsafe {
 			from_glib_full(ffi::arv_dom_document_create_element(
@@ -127,6 +89,7 @@ impl<O: IsA<DomDocument>> DomDocumentExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_document_create_text_node")]
 	fn create_text_node(&self, data: &str) -> Option<DomText> {
 		unsafe {
 			from_glib_full(ffi::arv_dom_document_create_text_node(
@@ -136,6 +99,8 @@ impl<O: IsA<DomDocument>> DomDocumentExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_document_get_document_element")]
+	#[doc(alias = "get_document_element")]
 	fn document_element(&self) -> Option<DomElement> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_document_get_document_element(
@@ -144,10 +109,14 @@ impl<O: IsA<DomDocument>> DomDocumentExt for O {
 		}
 	}
 
-	//fn href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Fundamental: Pointer> {
+	//#[doc(alias = "arv_dom_document_get_href_data")]
+	//#[doc(alias = "get_href_data")]
+	//fn href_data(&self, href: &str, size: usize) -> /*Unimplemented*/Option<Basic: Pointer> {
 	//    unsafe { TODO: call ffi:arv_dom_document_get_href_data() }
 	//}
 
+	#[doc(alias = "arv_dom_document_get_url")]
+	#[doc(alias = "get_url")]
 	fn url(&self) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_document_get_url(
@@ -156,12 +125,14 @@ impl<O: IsA<DomDocument>> DomDocumentExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_document_set_path")]
 	fn set_path(&self, path: &str) {
 		unsafe {
 			ffi::arv_dom_document_set_path(self.as_ref().to_glib_none().0, path.to_glib_none().0);
 		}
 	}
 
+	#[doc(alias = "arv_dom_document_set_url")]
 	fn set_url(&self, url: &str) {
 		unsafe {
 			ffi::arv_dom_document_set_url(self.as_ref().to_glib_none().0, url.to_glib_none().0);
@@ -169,8 +140,4 @@ impl<O: IsA<DomDocument>> DomDocumentExt for O {
 	}
 }
 
-impl fmt::Display for DomDocument {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomDocument")
-	}
-}
+impl<O: IsA<DomDocument>> DomDocumentExt for O {}

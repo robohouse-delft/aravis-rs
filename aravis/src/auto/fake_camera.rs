@@ -2,13 +2,18 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Buffer;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::mem;
+use crate::{ffi, Buffer};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+/// [`FakeCamera`][crate::FakeCamera] is a class that simulate a real camera, which provides
+/// methods for the implementation of [`FakeDevice`][crate::FakeDevice] and [`FakeStream`][crate::FakeStream].
+///
+/// arv-fake-gv-camera is a GV camera simulator based on this class.
+///
+/// # Implements
+///
+/// [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvFakeCamera")]
 	pub struct FakeCamera(Object<ffi::ArvFakeCamera, ffi::ArvFakeCameraClass>);
 
@@ -44,26 +49,25 @@ impl FakeCamera {
 		}
 	}
 
-	/// Fill a buffer with data from the fake camera.
-	/// ## `buffer`
-	/// the [`Buffer`][crate::Buffer] to fill
-	///
-	/// # Returns
-	///
-	///
-	/// ## `packet_size`
-	/// the packet size
+/// Fill a buffer with data from the fake camera.
+/// ## `buffer`
+/// the [`Buffer`][crate::Buffer] to fill
+///
+/// # Returns
+///
+///
+/// ## `packet_size`
+/// the packet size
 	#[doc(alias = "arv_fake_camera_fill_buffer")]
 	pub fn fill_buffer(&self, buffer: &Buffer) -> u32 {
 		unsafe {
-			let mut packet_size = mem::MaybeUninit::uninit();
+			let mut packet_size = std::mem::MaybeUninit::uninit();
 			ffi::arv_fake_camera_fill_buffer(
 				self.to_glib_none().0,
 				buffer.to_glib_none().0,
 				packet_size.as_mut_ptr(),
 			);
-			let packet_size = packet_size.assume_init();
-			packet_size
+			packet_size.assume_init()
 		}
 	}
 
@@ -79,24 +83,33 @@ impl FakeCamera {
 		unsafe { ffi::arv_fake_camera_get_control_channel_privilege(self.to_glib_none().0) }
 	}
 
-	///
-	/// # Returns
-	///
-	/// the genicam XML description of the camera
-	///
-	/// ## `size`
-	/// the size of the returned XML string
+///
+/// # Returns
+///
+/// the genicam XML description of the camera
+///
+/// ## `size`
+/// the size of the returned XML string
 	#[doc(alias = "arv_fake_camera_get_genicam_xml")]
 	#[doc(alias = "get_genicam_xml")]
 	pub fn genicam_xml(&self) -> (glib::GString, usize) {
 		unsafe {
-			let mut size = mem::MaybeUninit::uninit();
+			let mut size = std::mem::MaybeUninit::uninit();
 			let ret = from_glib_none(ffi::arv_fake_camera_get_genicam_xml(
 				self.to_glib_none().0,
 				size.as_mut_ptr(),
 			));
-			let size = size.assume_init();
-			(ret, size)
+			(ret, size.assume_init())
+		}
+	}
+
+	#[doc(alias = "arv_fake_camera_get_genicam_xml_url")]
+	#[doc(alias = "get_genicam_xml_url")]
+	pub fn genicam_xml_url(&self) -> Option<glib::GString> {
+		unsafe {
+			from_glib_none(ffi::arv_fake_camera_get_genicam_xml_url(
+				self.to_glib_none().0,
+			))
 		}
 	}
 
@@ -112,31 +125,30 @@ impl FakeCamera {
 		unsafe { ffi::arv_fake_camera_get_payload(self.to_glib_none().0) }
 	}
 
-	///
-	/// # Returns
-	///
-	/// the sleep time for the next frame
-	///
-	/// ## `next_timestamp_us`
-	/// the timestamp for the next frame in microseconds
+///
+/// # Returns
+///
+/// the sleep time for the next frame
+///
+/// ## `next_timestamp_us`
+/// the timestamp for the next frame in microseconds
 	#[doc(alias = "arv_fake_camera_get_sleep_time_for_next_frame")]
 	#[doc(alias = "get_sleep_time_for_next_frame")]
 	pub fn sleep_time_for_next_frame(&self) -> (u64, u64) {
 		unsafe {
-			let mut next_timestamp_us = mem::MaybeUninit::uninit();
+			let mut next_timestamp_us = std::mem::MaybeUninit::uninit();
 			let ret = ffi::arv_fake_camera_get_sleep_time_for_next_frame(
 				self.to_glib_none().0,
 				next_timestamp_us.as_mut_ptr(),
 			);
-			let next_timestamp_us = next_timestamp_us.assume_init();
-			(ret, next_timestamp_us)
+			(ret, next_timestamp_us.assume_init())
 		}
 	}
 
-	///
-	/// # Returns
-	///
-	/// the data stream [`gio::SocketAddress`][crate::gio::SocketAddress] for this camera
+///
+/// # Returns
+///
+/// the data stream [`gio::SocketAddress`][crate::gio::SocketAddress] for this camera
 	#[doc(alias = "arv_fake_camera_get_stream_address")]
 	#[doc(alias = "get_stream_address")]
 	pub fn stream_address(&self) -> Option<gio::SocketAddress> {
@@ -166,31 +178,30 @@ impl FakeCamera {
 	}
 
 	//#[doc(alias = "arv_fake_camera_read_memory")]
-	//pub fn read_memory(&self, address: u32, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> bool {
+	//pub fn read_memory(&self, address: u32, size: u32, buffer: /*Unimplemented*/Option<Basic: Pointer>) -> bool {
 	//    unsafe { TODO: call ffi:arv_fake_camera_read_memory() }
 	//}
 
-	/// ## `address`
-	/// the register address
-	///
-	/// # Returns
-	///
-	/// true if the read succeeded, false otherwise
-	///
-	/// ## `value`
-	/// the register value
+/// ## `address`
+/// the register address
+///
+/// # Returns
+///
+/// true if the read succeeded, false otherwise
+///
+/// ## `value`
+/// the register value
 	#[doc(alias = "arv_fake_camera_read_register")]
 	pub fn read_register(&self, address: u32) -> Option<u32> {
 		unsafe {
-			let mut value = mem::MaybeUninit::uninit();
+			let mut value = std::mem::MaybeUninit::uninit();
 			let ret = from_glib(ffi::arv_fake_camera_read_register(
 				self.to_glib_none().0,
 				address,
 				value.as_mut_ptr(),
 			));
-			let value = value.assume_init();
 			if ret {
-				Some(value)
+				Some(value.assume_init())
 			} else {
 				None
 			}
@@ -205,7 +216,7 @@ impl FakeCamera {
 	}
 
 	#[doc(alias = "arv_fake_camera_set_inet_address")]
-	pub fn set_inet_address<P: IsA<gio::InetAddress>>(&self, address: &P) {
+	pub fn set_inet_address(&self, address: &impl IsA<gio::InetAddress>) {
 		unsafe {
 			ffi::arv_fake_camera_set_inet_address(
 				self.to_glib_none().0,
@@ -229,7 +240,7 @@ impl FakeCamera {
 	}
 
 	//#[doc(alias = "arv_fake_camera_write_memory")]
-	//pub fn write_memory(&self, address: u32, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> bool {
+	//pub fn write_memory(&self, address: u32, size: u32, buffer: /*Unimplemented*/Option<Basic: Pointer>) -> bool {
 	//    unsafe { TODO: call ffi:arv_fake_camera_write_memory() }
 	//}
 
@@ -246,9 +257,3 @@ impl FakeCamera {
 }
 
 unsafe impl Send for FakeCamera {}
-
-impl fmt::Display for FakeCamera {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("FakeCamera")
-	}
-}

@@ -2,8 +2,8 @@ pub fn init_logging(modules: &[&str]) {
 	let mut logger = env_logger::Builder::new();
 
 	logger.format(|buffer, record: &log::Record| {
-		use std::io::Write;
 		use env_logger::fmt::Color;
+		use std::io::Write;
 
 		let mut prefix_style = buffer.style();
 		let prefix;
@@ -29,12 +29,7 @@ pub fn init_logging(modules: &[&str]) {
 			}
 		};
 
-		writeln!(
-			buffer,
-			"{}{}",
-			prefix_style.value(prefix),
-			record.args()
-		)
+		writeln!(buffer, "{}{}", prefix_style.value(prefix), record.args())
 	});
 	for module in modules {
 		logger.filter_module(module, log::LevelFilter::Info);

@@ -2,11 +2,17 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomNode;
+use crate::{ffi, DomNode};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomDocumentFragment")]
 	pub struct DomDocumentFragment(Object<ffi::ArvDomDocumentFragment, ffi::ArvDomDocumentFragmentClass>) @extends DomNode;
 
@@ -16,6 +22,8 @@ glib::wrapper! {
 }
 
 impl DomDocumentFragment {
+	pub const NONE: Option<&'static DomDocumentFragment> = None;
+
 	#[doc(alias = "arv_dom_document_fragment_new")]
 	pub fn new() -> DomDocumentFragment {
 		assert_initialized_main_thread!();
@@ -30,11 +38,3 @@ impl Default for DomDocumentFragment {
 }
 
 unsafe impl Send for DomDocumentFragment {}
-
-pub const NONE_DOM_DOCUMENT_FRAGMENT: Option<&DomDocumentFragment> = None;
-
-impl fmt::Display for DomDocumentFragment {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomDocumentFragment")
-	}
-}

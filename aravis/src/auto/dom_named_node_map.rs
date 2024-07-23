@@ -2,12 +2,17 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomNode;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`DomNamedNodeMapExt`][trait@crate::prelude::DomNamedNodeMapExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomNamedNodeMap")]
 	pub struct DomNamedNodeMap(Object<ffi::ArvDomNamedNodeMap, ffi::ArvDomNamedNodeMapClass>);
 
@@ -16,60 +21,25 @@ glib::wrapper! {
 	}
 }
 
+impl DomNamedNodeMap {
+	pub const NONE: Option<&'static DomNamedNodeMap> = None;
+}
+
 unsafe impl Send for DomNamedNodeMap {}
 
-pub const NONE_DOM_NAMED_NODE_MAP: Option<&DomNamedNodeMap> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::DomNamedNodeMap>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@DomNamedNodeMap`] methods.
 ///
 /// # Implementors
 ///
 /// [`DomNamedNodeMap`][struct@crate::DomNamedNodeMap]
-pub trait DomNamedNodeMapExt: 'static {
-	/// ## `index`
-	/// an index
-	///
-	/// # Returns
-	///
-	/// the [`DomNode`][crate::DomNode] corresponding to `index`.
+pub trait DomNamedNodeMapExt: IsA<DomNamedNodeMap> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_dom_named_node_map_get_item")]
 	#[doc(alias = "get_item")]
-	fn item(&self, index: u32) -> Option<DomNode>;
-
-	#[doc(alias = "arv_dom_named_node_map_get_length")]
-	#[doc(alias = "get_length")]
-	fn length(&self) -> u32;
-
-	/// ## `name`
-	/// name of the element to look for.
-	///
-	/// # Returns
-	///
-	/// a [`DomElement`][crate::DomElement].
-	#[doc(alias = "arv_dom_named_node_map_get_named_item")]
-	#[doc(alias = "get_named_item")]
-	fn named_item(&self, name: &str) -> Option<DomNode>;
-
-	/// ## `name`
-	/// name of the node to remove
-	///
-	/// # Returns
-	///
-	/// the removed node.
-	#[doc(alias = "arv_dom_named_node_map_remove_named_item")]
-	fn remove_named_item(&self, name: &str) -> Option<DomNode>;
-
-	/// ## `item`
-	/// a node to insert
-	///
-	/// # Returns
-	///
-	/// same as `node` on success.
-	#[doc(alias = "arv_dom_named_node_map_set_named_item")]
-	fn set_named_item<P: IsA<DomNode>>(&self, item: &P) -> Option<DomNode>;
-}
-
-impl<O: IsA<DomNamedNodeMap>> DomNamedNodeMapExt for O {
 	fn item(&self, index: u32) -> Option<DomNode> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_named_node_map_get_item(
@@ -79,10 +49,14 @@ impl<O: IsA<DomNamedNodeMap>> DomNamedNodeMapExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_named_node_map_get_length")]
+	#[doc(alias = "get_length")]
 	fn length(&self) -> u32 {
 		unsafe { ffi::arv_dom_named_node_map_get_length(self.as_ref().to_glib_none().0) }
 	}
 
+	#[doc(alias = "arv_dom_named_node_map_get_named_item")]
+	#[doc(alias = "get_named_item")]
 	fn named_item(&self, name: &str) -> Option<DomNode> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_named_node_map_get_named_item(
@@ -92,6 +66,7 @@ impl<O: IsA<DomNamedNodeMap>> DomNamedNodeMapExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_named_node_map_remove_named_item")]
 	fn remove_named_item(&self, name: &str) -> Option<DomNode> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_named_node_map_remove_named_item(
@@ -101,7 +76,8 @@ impl<O: IsA<DomNamedNodeMap>> DomNamedNodeMapExt for O {
 		}
 	}
 
-	fn set_named_item<P: IsA<DomNode>>(&self, item: &P) -> Option<DomNode> {
+	#[doc(alias = "arv_dom_named_node_map_set_named_item")]
+	fn set_named_item(&self, item: &impl IsA<DomNode>) -> Option<DomNode> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_named_node_map_set_named_item(
 				self.as_ref().to_glib_none().0,
@@ -111,8 +87,4 @@ impl<O: IsA<DomNamedNodeMap>> DomNamedNodeMapExt for O {
 	}
 }
 
-impl fmt::Display for DomNamedNodeMap {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomNamedNodeMap")
-	}
-}
+impl<O: IsA<DomNamedNodeMap>> DomNamedNodeMapExt for O {}

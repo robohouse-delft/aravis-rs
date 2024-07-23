@@ -2,19 +2,18 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcInteger;
-use crate::GcNode;
-use crate::GcRegister;
-use crate::GcRegisterNode;
-use crate::GcSelector;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{
+	ffi, DomElement, DomNode, GcFeatureNode, GcInteger, GcNode, GcRegister, GcRegisterNode,
+	GcSelector,
+};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcRegisterNodeExt`][trait@crate::prelude::GcRegisterNodeExt], [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcRegisterExt`][trait@crate::prelude::GcRegisterExt], [`GcIntegerExt`][trait@crate::prelude::GcIntegerExt], [`GcSelectorExt`][trait@crate::prelude::GcSelectorExt]
 	#[doc(alias = "ArvGcIntRegNode")]
 	pub struct GcIntRegNode(Object<ffi::ArvGcIntRegNode, ffi::ArvGcIntRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister, GcInteger, GcSelector;
 
@@ -24,10 +23,12 @@ glib::wrapper! {
 }
 
 impl GcIntRegNode {
-	///
-	/// # Returns
-	///
-	/// a new IntReg node
+	pub const NONE: Option<&'static GcIntRegNode> = None;
+
+///
+/// # Returns
+///
+/// a new IntReg node
 	#[doc(alias = "arv_gc_int_reg_node_new")]
 	pub fn new() -> GcIntRegNode {
 		assert_initialized_main_thread!();
@@ -42,11 +43,3 @@ impl Default for GcIntRegNode {
 }
 
 unsafe impl Send for GcIntRegNode {}
-
-pub const NONE_GC_INT_REG_NODE: Option<&GcIntRegNode> = None;
-
-impl fmt::Display for GcIntRegNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcIntRegNode")
-	}
-}

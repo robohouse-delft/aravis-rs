@@ -6,40 +6,40 @@ mod buffer;
 pub use self::buffer::Buffer;
 
 mod camera;
-pub use self::camera::{Camera, NONE_CAMERA};
+pub use self::camera::Camera;
 
 mod chunk_parser;
 pub use self::chunk_parser::ChunkParser;
 
 mod device;
-pub use self::device::{Device, NONE_DEVICE};
+pub use self::device::Device;
 
 mod dom_character_data;
-pub use self::dom_character_data::{DomCharacterData, NONE_DOM_CHARACTER_DATA};
+pub use self::dom_character_data::DomCharacterData;
 
 mod dom_document;
-pub use self::dom_document::{DomDocument, NONE_DOM_DOCUMENT};
+pub use self::dom_document::DomDocument;
 
 mod dom_document_fragment;
-pub use self::dom_document_fragment::{DomDocumentFragment, NONE_DOM_DOCUMENT_FRAGMENT};
+pub use self::dom_document_fragment::DomDocumentFragment;
 
 mod dom_element;
-pub use self::dom_element::{DomElement, NONE_DOM_ELEMENT};
+pub use self::dom_element::DomElement;
 
 mod dom_named_node_map;
-pub use self::dom_named_node_map::{DomNamedNodeMap, NONE_DOM_NAMED_NODE_MAP};
+pub use self::dom_named_node_map::DomNamedNodeMap;
 
 mod dom_node;
-pub use self::dom_node::{DomNode, NONE_DOM_NODE};
+pub use self::dom_node::DomNode;
 
 mod dom_node_child_list;
 pub use self::dom_node_child_list::DomNodeChildList;
 
 mod dom_node_list;
-pub use self::dom_node_list::{DomNodeList, NONE_DOM_NODE_LIST};
+pub use self::dom_node_list::DomNodeList;
 
 mod dom_text;
-pub use self::dom_text::{DomText, NONE_DOM_TEXT};
+pub use self::dom_text::DomText;
 
 mod evaluator;
 pub use self::evaluator::Evaluator;
@@ -69,7 +69,7 @@ mod gc_command;
 pub use self::gc_command::GcCommand;
 
 mod gc_converter;
-pub use self::gc_converter::{GcConverter, NONE_GC_CONVERTER};
+pub use self::gc_converter::GcConverter;
 
 mod gc_converter_node;
 pub use self::gc_converter_node::GcConverterNode;
@@ -81,16 +81,16 @@ mod gc_enumeration;
 pub use self::gc_enumeration::GcEnumeration;
 
 mod gc_feature_node;
-pub use self::gc_feature_node::{GcFeatureNode, NONE_GC_FEATURE_NODE};
+pub use self::gc_feature_node::GcFeatureNode;
 
 mod gc_float;
-pub use self::gc_float::{GcFloat, NONE_GC_FLOAT};
+pub use self::gc_float::GcFloat;
 
 mod gc_float_node;
 pub use self::gc_float_node::GcFloatNode;
 
 mod gc_float_reg_node;
-pub use self::gc_float_reg_node::{GcFloatRegNode, NONE_GC_FLOAT_REG_NODE};
+pub use self::gc_float_reg_node::GcFloatRegNode;
 
 mod gc_group_node;
 pub use self::gc_group_node::GcGroupNode;
@@ -102,13 +102,13 @@ mod gc_int_converter_node;
 pub use self::gc_int_converter_node::GcIntConverterNode;
 
 mod gc_int_reg_node;
-pub use self::gc_int_reg_node::{GcIntRegNode, NONE_GC_INT_REG_NODE};
+pub use self::gc_int_reg_node::GcIntRegNode;
 
 mod gc_int_swiss_knife_node;
-pub use self::gc_int_swiss_knife_node::{GcIntSwissKnifeNode, NONE_GC_INT_SWISS_KNIFE_NODE};
+pub use self::gc_int_swiss_knife_node::GcIntSwissKnifeNode;
 
 mod gc_integer;
-pub use self::gc_integer::{GcInteger, NONE_GC_INTEGER};
+pub use self::gc_integer::GcInteger;
 
 mod gc_integer_node;
 pub use self::gc_integer_node::GcIntegerNode;
@@ -117,49 +117,49 @@ mod gc_invalidator_node;
 pub use self::gc_invalidator_node::GcInvalidatorNode;
 
 mod gc_masked_int_reg_node;
-pub use self::gc_masked_int_reg_node::{GcMaskedIntRegNode, NONE_GC_MASKED_INT_REG_NODE};
+pub use self::gc_masked_int_reg_node::GcMaskedIntRegNode;
 
 mod gc_node;
-pub use self::gc_node::{GcNode, NONE_GC_NODE};
+pub use self::gc_node::GcNode;
 
 mod gc_port;
 pub use self::gc_port::GcPort;
 
 mod gc_property_node;
-pub use self::gc_property_node::{GcPropertyNode, NONE_GC_PROPERTY_NODE};
+pub use self::gc_property_node::GcPropertyNode;
 
 mod gc_register;
-pub use self::gc_register::{GcRegister, NONE_GC_REGISTER};
+pub use self::gc_register::GcRegister;
 
 mod gc_register_description_node;
 pub use self::gc_register_description_node::GcRegisterDescriptionNode;
 
 mod gc_register_node;
-pub use self::gc_register_node::{GcRegisterNode, NONE_GC_REGISTER_NODE};
+pub use self::gc_register_node::GcRegisterNode;
 
 mod gc_selector;
-pub use self::gc_selector::{GcSelector, NONE_GC_SELECTOR};
+pub use self::gc_selector::GcSelector;
 
 mod gc_string;
-pub use self::gc_string::{GcString, NONE_GC_STRING};
+pub use self::gc_string::GcString;
 
 mod gc_string_node;
 pub use self::gc_string_node::GcStringNode;
 
 mod gc_string_reg_node;
-pub use self::gc_string_reg_node::{GcStringRegNode, NONE_GC_STRING_REG_NODE};
+pub use self::gc_string_reg_node::GcStringRegNode;
 
 mod gc_struct_entry_node;
 pub use self::gc_struct_entry_node::GcStructEntryNode;
 
 mod gc_struct_reg_node;
-pub use self::gc_struct_reg_node::{GcStructRegNode, NONE_GC_STRUCT_REG_NODE};
+pub use self::gc_struct_reg_node::GcStructRegNode;
 
 mod gc_swiss_knife;
-pub use self::gc_swiss_knife::{GcSwissKnife, NONE_GC_SWISS_KNIFE};
+pub use self::gc_swiss_knife::GcSwissKnife;
 
 mod gc_swiss_knife_node;
-pub use self::gc_swiss_knife_node::{GcSwissKnifeNode, NONE_GC_SWISS_KNIFE_NODE};
+pub use self::gc_swiss_knife_node::GcSwissKnifeNode;
 
 mod gc_value_indexed_node;
 pub use self::gc_value_indexed_node::GcValueIndexedNode;
@@ -177,10 +177,10 @@ mod gv_stream;
 pub use self::gv_stream::GvStream;
 
 mod interface;
-pub use self::interface::{Interface, NONE_INTERFACE};
+pub use self::interface::Interface;
 
 mod stream;
-pub use self::stream::{Stream, NONE_STREAM};
+pub use self::stream::Stream;
 
 mod uv_device;
 pub use self::uv_device::UvDevice;
@@ -195,8 +195,8 @@ mod xml_schema;
 pub use self::xml_schema::XmlSchema;
 
 mod enums;
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 pub use self::enums::AccessCheckPolicy;
 pub use self::enums::AcquisitionMode;
 pub use self::enums::Auto;
@@ -215,25 +215,26 @@ pub use self::enums::GcNameSpace;
 pub use self::enums::GcPropertyNodeType;
 pub use self::enums::GcRepresentation;
 pub use self::enums::GcSignedness;
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 pub use self::enums::GcStreamable;
 pub use self::enums::GcVisibility;
 pub use self::enums::GvIpConfigurationMode;
 pub use self::enums::GvPacketSizeAdjustment;
-pub use self::enums::GvStreamOption;
 pub use self::enums::GvStreamPacketResend;
 pub use self::enums::GvStreamSocketBuffer;
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 pub use self::enums::RangeCheckPolicy;
 pub use self::enums::RegisterCachePolicy;
 pub use self::enums::StreamCallbackType;
 pub use self::enums::UvUsbMode;
 pub use self::enums::XmlSchemaError;
 
-#[doc(hidden)]
-pub mod traits {
+mod flags;
+pub use self::flags::GvStreamOption;
+
+pub(crate) mod traits {
 	pub use super::camera::CameraExt;
 	pub use super::device::DeviceExt;
 	pub use super::dom_character_data::DomCharacterDataExt;

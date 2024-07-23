@@ -2,11 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Interface;
+use crate::{ffi, Interface};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`InterfaceExt`][trait@crate::prelude::InterfaceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvFakeInterface")]
 	pub struct FakeInterface(Object<ffi::ArvFakeInterface, ffi::ArvFakeInterfaceClass>) @extends Interface;
 
@@ -16,11 +20,11 @@ glib::wrapper! {
 }
 
 impl FakeInterface {
-	/// Gets the unique instance of the fake interface.
-	///
-	/// # Returns
-	///
-	/// a [`Interface`][crate::Interface] singleton.
+/// Gets the unique instance of the fake interface.
+///
+/// # Returns
+///
+/// a [`Interface`][crate::Interface] singleton.
 	#[doc(alias = "arv_fake_interface_get_instance")]
 	#[doc(alias = "get_instance")]
 	pub fn instance() -> Option<Interface> {
@@ -30,9 +34,3 @@ impl FakeInterface {
 }
 
 unsafe impl Send for FakeInterface {}
-
-impl fmt::Display for FakeInterface {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("FakeInterface")
-	}
-}

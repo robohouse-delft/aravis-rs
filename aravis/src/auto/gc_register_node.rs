@@ -2,16 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use crate::GcRegister;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode, GcRegister};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcRegisterExt`][trait@crate::prelude::GcRegisterExt]
 	#[doc(alias = "ArvGcRegisterNode")]
 	pub struct GcRegisterNode(Object<ffi::ArvGcRegisterNode, ffi::ArvGcRegisterNodeClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister;
 
@@ -21,6 +20,8 @@ glib::wrapper! {
 }
 
 impl GcRegisterNode {
+	pub const NONE: Option<&'static GcRegisterNode> = None;
+
 	#[doc(alias = "arv_gc_register_node_new")]
 	pub fn new() -> GcRegisterNode {
 		assert_initialized_main_thread!();
@@ -35,11 +36,3 @@ impl Default for GcRegisterNode {
 }
 
 unsafe impl Send for GcRegisterNode {}
-
-pub const NONE_GC_REGISTER_NODE: Option<&GcRegisterNode> = None;
-
-impl fmt::Display for GcRegisterNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcRegisterNode")
-	}
-}

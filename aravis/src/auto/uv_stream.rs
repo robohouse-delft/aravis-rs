@@ -2,11 +2,45 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Stream;
+use crate::{ffi, Stream};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
+///
+///
+/// ## Properties
+///
+///
+/// #### `usb-mode`
+///  USB device I/O mode.
+///
+/// Writeable | Construct Only
+/// <details><summary><h4>Stream</h4></summary>
+///
+///
+/// #### `callback`
+///  Readable | Writeable | Construct Only
+///
+///
+/// #### `callback-data`
+///  Readable | Writeable | Construct Only
+///
+///
+/// #### `destroy-notify`
+///  Readable | Writeable | Construct Only
+///
+///
+/// #### `device`
+///  Readable | Writeable | Construct Only
+///
+///
+/// #### `emit-signals`
+///  Readable | Writeable
+/// </details>
+///
+/// # Implements
+///
+/// [`StreamExt`][trait@crate::prelude::StreamExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvUvStream")]
 	pub struct UvStream(Object<ffi::ArvUvStream, ffi::ArvUvStreamClass>) @extends Stream;
 
@@ -18,9 +52,3 @@ glib::wrapper! {
 impl UvStream {}
 
 unsafe impl Send for UvStream {}
-
-impl fmt::Display for UvStream {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("UvStream")
-	}
-}

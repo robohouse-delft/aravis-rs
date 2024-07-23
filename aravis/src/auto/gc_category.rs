@@ -2,15 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcCategory")]
 	pub struct GcCategory(Object<ffi::ArvGcCategory, ffi::ArvGcCategoryClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
@@ -26,11 +26,11 @@ impl GcCategory {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_category_new()).unsafe_cast() }
 	}
 
-	/// Get a list of strings with the name of the features listed in the given category node.
-	///
-	/// # Returns
-	///
-	/// a list of strings.
+/// Get a list of strings with the name of the features listed in the given category node.
+///
+/// # Returns
+///
+/// a list of strings.
 	#[doc(alias = "arv_gc_category_get_features")]
 	#[doc(alias = "get_features")]
 	pub fn features(&self) -> Vec<glib::GString> {
@@ -49,9 +49,3 @@ impl Default for GcCategory {
 }
 
 unsafe impl Send for GcCategory {}
-
-impl fmt::Display for GcCategory {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcCategory")
-	}
-}

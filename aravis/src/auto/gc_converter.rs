@@ -2,13 +2,16 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode};
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcConverter")]
 	pub struct GcConverter(Object<ffi::ArvGcConverter, ffi::ArvGcConverterClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
@@ -17,14 +20,8 @@ glib::wrapper! {
 	}
 }
 
-impl GcConverter {}
+impl GcConverter {
+	pub const NONE: Option<&'static GcConverter> = None;
+}
 
 unsafe impl Send for GcConverter {}
-
-pub const NONE_GC_CONVERTER: Option<&GcConverter> = None;
-
-impl fmt::Display for GcConverter {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcConverter")
-	}
-}

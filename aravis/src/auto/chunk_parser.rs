@@ -2,15 +2,33 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Buffer;
-use crate::Gc;
-use glib::object::ObjectType as ObjectType_;
-use glib::translate::*;
-use glib::StaticType;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, Buffer, Gc};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+/// [class[`ChunkParser`][crate::ChunkParser]] provides a class for the instantiation of chunk parsers used for the extraction of chunk data
+/// stored in the stream payload.
+///
+/// Chunks are tagged blocks of data stored in a [class[`Buffer`][crate::Buffer]] containing a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData]
+/// payload. The tags allow a chunk parser to dissect the data payload into its elements and to identify the content.
+///
+/// Chunk data are enabled using either [method[`Camera`][crate::Camera]] or [method[`Camera`][crate::Camera]]. Both
+/// functions are simple convenience wrappers that handle the setting of ChunkModeActive, ChunkSelector and ChunkEnable
+/// GENICAM features.
+///
+/// Here is an example of this API in use: [tests/arvchunkparsertest.c](https://github.com/AravisProject/aravis/blob/main/tests/arvchunkparsertest.c)
+///
+/// ## Properties
+///
+///
+/// #### `genicam`
+///  Internal Genicam object
+///
+/// Readable | Writeable | Construct Only
+///
+/// # Implements
+///
+/// [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvChunkParser")]
 	pub struct ChunkParser(Object<ffi::ArvChunkParser, ffi::ArvChunkParserClass>);
 
@@ -20,40 +38,41 @@ glib::wrapper! {
 }
 
 impl ChunkParser {
-	/// Creates a new chunk_parser.
-	/// ## `xml`
-	/// XML genicam data
-	/// ## `size`
-	/// genicam data size, -1 if NULL terminated
-	///
-	/// # Returns
-	///
-	/// a new [`ChunkParser`][crate::ChunkParser] object
+/// Creates a new chunk_parser.
+/// ## `xml`
+/// XML genicam data
+/// ## `size`
+/// genicam data size, -1 if NULL terminated
+///
+/// # Returns
+///
+/// a new [`ChunkParser`][crate::ChunkParser] object
 	#[doc(alias = "arv_chunk_parser_new")]
 	pub fn new(xml: &str, size: usize) -> ChunkParser {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_full(ffi::arv_chunk_parser_new(xml.to_glib_none().0, size)) }
 	}
 
-	/// ## `buffer`
-	/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
-	/// ## `chunk`
-	/// chunk data name
-	///
-	/// # Returns
-	///
-	/// the boolean chunk data value.
+/// ## `buffer`
+/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
+/// ## `chunk`
+/// chunk data name
+///
+/// # Returns
+///
+/// the boolean chunk data value.
 	#[doc(alias = "arv_chunk_parser_get_boolean_value")]
 	#[doc(alias = "get_boolean_value")]
 	pub fn boolean_value(&self, buffer: &Buffer, chunk: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_chunk_parser_get_boolean_value(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_chunk_parser_get_boolean_value(
 				self.to_glib_none().0,
 				buffer.to_glib_none().0,
 				chunk.to_glib_none().0,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -62,19 +81,19 @@ impl ChunkParser {
 		}
 	}
 
-	/// ## `buffer`
-	/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
-	/// ## `chunk`
-	/// chunk data name
-	///
-	/// # Returns
-	///
-	/// the float chunk data value.
+/// ## `buffer`
+/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
+/// ## `chunk`
+/// chunk data name
+///
+/// # Returns
+///
+/// the float chunk data value.
 	#[doc(alias = "arv_chunk_parser_get_float_value")]
 	#[doc(alias = "get_float_value")]
 	pub fn float_value(&self, buffer: &Buffer, chunk: &str) -> Result<f64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_chunk_parser_get_float_value(
 				self.to_glib_none().0,
 				buffer.to_glib_none().0,
@@ -89,19 +108,19 @@ impl ChunkParser {
 		}
 	}
 
-	/// ## `buffer`
-	/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
-	/// ## `chunk`
-	/// chunk data name
-	///
-	/// # Returns
-	///
-	/// the integer chunk data integer.
+/// ## `buffer`
+/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
+/// ## `chunk`
+/// chunk data name
+///
+/// # Returns
+///
+/// the integer chunk data integer.
 	#[doc(alias = "arv_chunk_parser_get_integer_value")]
 	#[doc(alias = "get_integer_value")]
 	pub fn integer_value(&self, buffer: &Buffer, chunk: &str) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_chunk_parser_get_integer_value(
 				self.to_glib_none().0,
 				buffer.to_glib_none().0,
@@ -116,19 +135,19 @@ impl ChunkParser {
 		}
 	}
 
-	/// ## `buffer`
-	/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
-	/// ## `chunk`
-	/// chunk data name
-	///
-	/// # Returns
-	///
-	/// the string chunk data value.
+/// ## `buffer`
+/// a [`Buffer`][crate::Buffer] with a [`BufferPayloadType::ChunkData`][crate::BufferPayloadType::ChunkData] payload
+/// ## `chunk`
+/// chunk data name
+///
+/// # Returns
+///
+/// the string chunk data value.
 	#[doc(alias = "arv_chunk_parser_get_string_value")]
 	#[doc(alias = "get_string_value")]
 	pub fn string_value(&self, buffer: &Buffer, chunk: &str) -> Result<glib::GString, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_chunk_parser_get_string_value(
 				self.to_glib_none().0,
 				buffer.to_glib_none().0,
@@ -143,26 +162,10 @@ impl ChunkParser {
 		}
 	}
 
-	/// Internal Genicam object
+/// Internal Genicam object
 	pub fn genicam(&self) -> Option<Gc> {
-		unsafe {
-			let mut value = glib::Value::from_type(<Gc as StaticType>::static_type());
-			glib::gobject_ffi::g_object_get_property(
-				self.as_ptr() as *mut glib::gobject_ffi::GObject,
-				b"genicam\0".as_ptr() as *const _,
-				value.to_glib_none_mut().0,
-			);
-			value
-				.get()
-				.expect("Return Value for property `genicam` getter")
-		}
+		ObjectExt::property(self, "genicam")
 	}
 }
 
 unsafe impl Send for ChunkParser {}
-
-impl fmt::Display for ChunkParser {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("ChunkParser")
-	}
-}

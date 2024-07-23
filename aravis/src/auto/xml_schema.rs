@@ -2,11 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::ffi;
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvXmlSchema")]
 	pub struct XmlSchema(Object<ffi::ArvXmlSchema, ffi::ArvXmlSchemaClass>);
 
@@ -18,7 +22,7 @@ glib::wrapper! {
 impl XmlSchema {
 	#[doc(alias = "arv_xml_schema_new_from_file")]
 	#[doc(alias = "new_from_file")]
-	pub fn from_file<P: IsA<gio::File>>(file: &P) -> XmlSchema {
+	pub fn from_file(file: &impl IsA<gio::File>) -> XmlSchema {
 		assert_initialized_main_thread!();
 		unsafe {
 			from_glib_full(ffi::arv_xml_schema_new_from_file(
@@ -47,15 +51,9 @@ impl XmlSchema {
 	}
 
 	//#[doc(alias = "arv_xml_schema_validate")]
-	//pub fn validate(&self, xml: /*Unimplemented*/Option<Fundamental: Pointer>, size: usize, line: i32, column: i32) -> Result<(), glib::Error> {
+	//pub fn validate(&self, xml: /*Unimplemented*/Option<Basic: Pointer>, size: usize, line: i32, column: i32) -> Result<(), glib::Error> {
 	//    unsafe { TODO: call ffi:arv_xml_schema_validate() }
 	//}
 }
 
 unsafe impl Send for XmlSchema {}
-
-impl fmt::Display for XmlSchema {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("XmlSchema")
-	}
-}
