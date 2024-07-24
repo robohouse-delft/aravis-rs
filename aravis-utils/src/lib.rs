@@ -29,7 +29,12 @@ pub fn init_logging(modules: &[&str]) {
 			}
 		};
 
-		writeln!(buffer, "{}{}", prefix_style.value(prefix), record.args())
+		writeln!(
+			buffer,
+			"{}{}",
+			prefix_style.value(prefix),
+			record.args()
+		)
 	});
 	for module in modules {
 		logger.filter_module(module, log::LevelFilter::Info);

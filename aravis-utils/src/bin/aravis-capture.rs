@@ -1,8 +1,8 @@
 use aravis::prelude::{CameraExt, CameraExtManual, StreamExt};
 use image::DynamicImage;
 use std::path::PathBuf;
-use std::sync::mpsc;
 use std::sync::Arc;
+use std::sync::mpsc;
 use std::time::{Duration, Instant, SystemTime};
 
 type ArcImage = Arc<image::DynamicImage>;
@@ -74,7 +74,11 @@ fn main() {
 
 	let options: Options = clap::Parser::parse();
 	let camera_id = options.id;
-	let count = if options.forever { 0 } else { options.count };
+	let count = if options.forever {
+		0
+	} else {
+		options.count
+	};
 	let period = Duration::from_secs_f64(1.0 / options.frequency);
 
 	let name_prefix = options.out_name;
@@ -107,8 +111,7 @@ fn main() {
 	});
 
 	let mut gui_thread = None;
-	#[cfg(feature = "gui")]
-	{
+	#[cfg(feature = "gui")] {
 		if options.show {
 			let (sender, receiver) = mpsc::channel::<(usize, SystemTime, ArcImage)>();
 			senders.push(Box::new(move |i, time, image| {
@@ -132,15 +135,7 @@ fn main() {
 	let usb_mode = options.usb_mode;
 
 	let camera_thread = std::thread::spawn(move || {
-		if let Err(e) = run_camera_loop(
-			&camera_id,
-			#[cfg(feature = "usb-mode")]
-			&usb_mode,
-			count,
-			period,
-			convert_color,
-			&mut senders,
-		) {
+		if let Err(e) = run_camera_loop(&camera_id, #[cfg(feature = "usb-mode")] &usb_mode, count, period, convert_color, &mut senders) {
 			// Only log the error, let the write thread stop on by itself when the channel is empty.
 			log::error!("{}", e);
 		}
@@ -156,7 +151,8 @@ fn main() {
 
 fn run_camera_loop(
 	camera_id: &str,
-	#[cfg(feature = "usb-mode")] usb_mode: &UsbMode,
+	#[cfg(feature = "usb-mode")]
+	usb_mode: &UsbMode,
 	count: usize,
 	period: Duration,
 	convert_color: bool,
@@ -170,41 +166,33 @@ fn run_camera_loop(
 	#[cfg(feature = "usb-mode")]
 	{
 		use aravis::glib::Cast;
-		let device = camera.device().ok_or("no device associated with camera")?;
+		let device = camera.device()
+			.ok_or("no device associated with camera")?;
 		if let Ok(device) = device.downcast::<aravis::UvDevice>() {
 			device.set_usb_mode(*usb_mode.as_ref());
 		}
 	}
 
-	let pixel_format = camera
-		.pixel_format()
+	let pixel_format = camera.pixel_format()
 		.map_err(|e| format!("Failed to determine pixel format: {}", e))?;
 	let (_, _, width, height) = camera.region().unwrap();
-	let make_buffer =
-		|| aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
+	let make_buffer = || aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
 
-	let stream = camera
-		.create_stream()
-		.map_err(|e| format!("Failed to open stream: {}", e))?;
+	let stream = camera.create_stream().map_err(|e| format!("Failed to open stream: {}", e))?;
 	stream.push_buffer(make_buffer());
 
-	camera
-		.set_acquisition_mode(aravis::AcquisitionMode::Continuous)
+	camera.set_acquisition_mode(aravis::AcquisitionMode::Continuous)
 		.map_err(|e| format!("Failed to set acquisition mode to continuous: {}.", e))?;
-	camera
-		.set_trigger("Software")
+	camera.set_trigger("Software")
 		.map_err(|e| format!("Failed to set trigger source to software: {}.", e))?;
-	camera
-		.start_acquisition()
+	camera.start_acquisition()
 		.map_err(|e| format!("Failed to start acquisition: {}.", e))?;
 
 	let start = Instant::now();
 	let mut next_frame = Instant::now() + period;
 
 	for i in (0..).take_while(|i| count == 0 || *i < count) {
-		camera
-			.software_trigger()
-			.map_err(|e| format!("Failed to trigger camera: {}", e))?;
+		camera.software_trigger().map_err(|e| format!("Failed to trigger camera: {}", e))?;
 		let trigger_time = SystemTime::now();
 
 		let buffer = match stream.timeout_pop_buffer(3_000_000) {
@@ -247,11 +235,7 @@ fn run_camera_loop(
 	}
 
 	let total_duration = start.elapsed().as_secs_f64();
-	log::info!(
-		"Total record time: {}s, average FPS: {}",
-		total_duration,
-		count as f64 / total_duration
-	);
+	log::info!("Total record time: {}s, average FPS: {}", total_duration, count as f64 / total_duration);
 
 	Ok(())
 }
