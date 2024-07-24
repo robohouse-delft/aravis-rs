@@ -11,10 +11,10 @@ use glib::{prelude::*, translate::*};
 #[non_exhaustive]
 #[doc(alias = "ArvAccessCheckPolicy")]
 pub enum AccessCheckPolicy {
-/// never check the register access mode
+	/// never check the register access mode
 	#[doc(alias = "ARV_ACCESS_CHECK_POLICY_DISABLE")]
 	Disable,
-/// always check the register access mode
+	/// always check the register access mode
 	#[doc(alias = "ARV_ACCESS_CHECK_POLICY_ENABLE")]
 	Enable,
 	#[doc(hidden)]
@@ -125,13 +125,13 @@ impl From<AccessCheckPolicy> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvAcquisitionMode")]
 pub enum AcquisitionMode {
-/// frames are captured continuously until stopped with the AcquisitionStop command.
+	/// frames are captured continuously until stopped with the AcquisitionStop command.
 	#[doc(alias = "ARV_ACQUISITION_MODE_CONTINUOUS")]
 	Continuous,
-/// only one frame will be acquired
+	/// only one frame will be acquired
 	#[doc(alias = "ARV_ACQUISITION_MODE_SINGLE_FRAME")]
 	SingleFrame,
-/// the number of frames specified by AcquisitionFrameCount is captured.
+	/// the number of frames specified by AcquisitionFrameCount is captured.
 	#[doc(alias = "ARV_ACQUISITION_MODE_MULTI_FRAME")]
 	MultiFrame,
 	#[doc(hidden)]
@@ -247,13 +247,13 @@ impl From<AcquisitionMode> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvAuto")]
 pub enum Auto {
-/// manual setting
+	/// manual setting
 	#[doc(alias = "ARV_AUTO_OFF")]
 	Off,
-/// automatic setting done once, then returns to manual
+	/// automatic setting done once, then returns to manual
 	#[doc(alias = "ARV_AUTO_ONCE")]
 	Once,
-/// setting is adjusted continuously
+	/// setting is adjusted continuously
 	#[doc(alias = "ARV_AUTO_CONTINUOUS")]
 	Continuous,
 	#[doc(hidden)]
@@ -365,40 +365,40 @@ impl From<Auto> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvBufferPayloadType")]
 pub enum BufferPayloadType {
-/// unknown payload type
+	/// unknown payload type
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_UNKNOWN")]
 	Unknown,
-/// no data
+	/// no data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_NO_DATA")]
 	NoData,
-/// image data
+	/// image data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_IMAGE")]
 	Image,
-/// raw data (not supported)
+	/// raw data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_RAWDATA")]
 	Rawdata,
-/// file (not supported)
+	/// file (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_FILE")]
 	File,
-/// chunk data (not supported)
+	/// chunk data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_CHUNK_DATA")]
 	ChunkData,
-/// extended chunk data
+	/// extended chunk data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_EXTENDED_CHUNK_DATA")]
 	ExtendedChunkData,
-/// JPEG data (not supported)
+	/// JPEG data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_JPEG")]
 	Jpeg,
-/// JPEG2000 data (not supported)
+	/// JPEG2000 data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_JPEG2000")]
 	Jpeg2000,
-/// h264 data (not supported)
+	/// h264 data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_H264")]
 	H264,
-/// multizone image (not supported)
+	/// multizone image (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_MULTIZONE_IMAGE")]
 	MultizoneImage,
-/// multipart data
+	/// multipart data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_MULTIPART")]
 	Multipart,
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_GENDC_CONTAINER")]
@@ -519,34 +519,34 @@ impl From<BufferPayloadType> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvBufferStatus")]
 pub enum BufferStatus {
-/// unknown status
+	/// unknown status
 	#[doc(alias = "ARV_BUFFER_STATUS_UNKNOWN")]
 	Unknown,
-/// the buffer contains a valid image
+	/// the buffer contains a valid image
 	#[doc(alias = "ARV_BUFFER_STATUS_SUCCESS")]
 	Success,
-/// the buffer is cleared
+	/// the buffer is cleared
 	#[doc(alias = "ARV_BUFFER_STATUS_CLEARED")]
 	Cleared,
-/// timeout was reached before all packets are received
+	/// timeout was reached before all packets are received
 	#[doc(alias = "ARV_BUFFER_STATUS_TIMEOUT")]
 	Timeout,
-/// stream has missing packets
+	/// stream has missing packets
 	#[doc(alias = "ARV_BUFFER_STATUS_MISSING_PACKETS")]
 	MissingPackets,
-/// stream has packet with wrong id
+	/// stream has packet with wrong id
 	#[doc(alias = "ARV_BUFFER_STATUS_WRONG_PACKET_ID")]
 	WrongPacketId,
-/// the received image didn't fit in the buffer data space
+	/// the received image didn't fit in the buffer data space
 	#[doc(alias = "ARV_BUFFER_STATUS_SIZE_MISMATCH")]
 	SizeMismatch,
-/// the image is currently being filled
+	/// the image is currently being filled
 	#[doc(alias = "ARV_BUFFER_STATUS_FILLING")]
 	Filling,
-/// the filling was aborted before completion
+	/// the filling was aborted before completion
 	#[doc(alias = "ARV_BUFFER_STATUS_ABORTED")]
 	Aborted,
-/// payload not yet supported
+	/// payload not yet supported
 	#[doc(alias = "ARV_BUFFER_STATUS_PAYLOAD_NOT_SUPPORTED")]
 	PayloadNotSupported,
 	#[doc(hidden)]
@@ -657,13 +657,13 @@ impl From<BufferStatus> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvChunkParserError")]
 pub enum ChunkParserError {
-/// invalid feature type
+	/// invalid feature type
 	#[doc(alias = "ARV_CHUNK_PARSER_ERROR_INVALID_FEATURE_TYPE")]
 	InvalidFeatureType,
-/// a buffer is not attached to the chunk parser
+	/// a buffer is not attached to the chunk parser
 	#[doc(alias = "ARV_CHUNK_PARSER_ERROR_BUFFER_NOT_FOUND")]
 	BufferNotFound,
-/// the requested chunk is not found in the buffer data
+	/// the requested chunk is not found in the buffer data
 	#[doc(alias = "ARV_CHUNK_PARSER_ERROR_CHUNK_NOT_FOUND")]
 	ChunkNotFound,
 	#[doc(hidden)]
@@ -783,40 +783,40 @@ impl From<ChunkParserError> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvDeviceError")]
 pub enum DeviceError {
-/// Wrong feature type
+	/// Wrong feature type
 	#[doc(alias = "ARV_DEVICE_ERROR_WRONG_FEATURE")]
 	WrongFeature,
-/// Feature node not found
+	/// Feature node not found
 	#[doc(alias = "ARV_DEVICE_ERROR_FEATURE_NOT_FOUND")]
 	FeatureNotFound,
-/// Device is not connected
+	/// Device is not connected
 	#[doc(alias = "ARV_DEVICE_ERROR_NOT_CONNECTED")]
 	NotConnected,
-/// Protocol error
+	/// Protocol error
 	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR")]
 	ProtocolError,
-/// Transfer error
+	/// Transfer error
 	#[doc(alias = "ARV_DEVICE_ERROR_TRANSFER_ERROR")]
 	TransferError,
-/// Timeout detected
+	/// Timeout detected
 	#[doc(alias = "ARV_DEVICE_ERROR_TIMEOUT")]
 	Timeout,
-/// Device not found
+	/// Device not found
 	#[doc(alias = "ARV_DEVICE_ERROR_NOT_FOUND")]
 	NotFound,
-/// Invalid construction parameter
+	/// Invalid construction parameter
 	#[doc(alias = "ARV_DEVICE_ERROR_INVALID_PARAMETER")]
 	InvalidParameter,
-/// Missing Genicam data
+	/// Missing Genicam data
 	#[doc(alias = "ARV_DEVICE_ERROR_GENICAM_NOT_FOUND")]
 	GenicamNotFound,
-/// No stream channel found
+	/// No stream channel found
 	#[doc(alias = "ARV_DEVICE_ERROR_NO_STREAM_CHANNEL")]
 	NoStreamChannel,
-/// Controller privilege required
+	/// Controller privilege required
 	#[doc(alias = "ARV_DEVICE_ERROR_NOT_CONTROLLER")]
 	NotController,
-/// Unknown error
+	/// Unknown error
 	#[doc(alias = "ARV_DEVICE_ERROR_UNKNOWN")]
 	Unknown,
 	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_NOT_IMPLEMENTED")]
@@ -1128,22 +1128,22 @@ impl From<DomNodeType> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvExposureMode")]
 pub enum ExposureMode {
-/// disables the Exposure and let the shutter open.
+	/// disables the Exposure and let the shutter open.
 	#[doc(alias = "ARV_EXPOSURE_MODE_OFF")]
 	Off,
-/// timed exposure. The exposure duration time is set using the ExposureTime or ExposureAuto
-/// features and the exposure starts with the FrameStart or LineStart.
+	/// timed exposure. The exposure duration time is set using the ExposureTime or ExposureAuto
+	/// features and the exposure starts with the FrameStart or LineStart.
 	#[doc(alias = "ARV_EXPOSURE_MODE_TIMED")]
 	Timed,
-/// uses the width of the current Frame or Line trigger signal(s) pulse to control the
-/// exposure duration. Note that if the Frame or Line TriggerActivation is RisingEdge or LevelHigh, the exposure duration
-/// will be the time the trigger stays High. If TriggerActivation is FallingEdge or LevelLow, the exposure time will last
-/// as long as the trigger stays Low.
+	/// uses the width of the current Frame or Line trigger signal(s) pulse to control the
+	/// exposure duration. Note that if the Frame or Line TriggerActivation is RisingEdge or LevelHigh, the exposure duration
+	/// will be the time the trigger stays High. If TriggerActivation is FallingEdge or LevelLow, the exposure time will last
+	/// as long as the trigger stays Low.
 	#[doc(alias = "ARV_EXPOSURE_MODE_TRIGGER_WIDTH")]
 	TriggerWidth,
-/// uses one or more trigger signal(s) to control the exposure duration
-/// independently from the current Frame or Line triggers. See ExposureStart, ExposureEnd and ExposureActive of
-/// the TriggerSelector feature.
+	/// uses one or more trigger signal(s) to control the exposure duration
+	/// independently from the current Frame or Line triggers. See ExposureStart, ExposureEnd and ExposureActive of
+	/// the TriggerSelector feature.
 	#[doc(alias = "ARV_EXPOSURE_MODE_TRIGGER_CONTROLLED")]
 	TriggerControlled,
 	#[doc(hidden)]
@@ -1258,16 +1258,16 @@ impl From<ExposureMode> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcAccessMode")]
 pub enum GcAccessMode {
-/// undefined access mode
+	/// undefined access mode
 	#[doc(alias = "ARV_GC_ACCESS_MODE_UNDEFINED")]
 	Undefined,
-/// read-only access
+	/// read-only access
 	#[doc(alias = "ARV_GC_ACCESS_MODE_RO")]
 	Ro,
-/// write-only access
+	/// write-only access
 	#[doc(alias = "ARV_GC_ACCESS_MODE_WO")]
 	Wo,
-/// read and write access
+	/// read and write access
 	#[doc(alias = "ARV_GC_ACCESS_MODE_RW")]
 	Rw,
 	#[doc(hidden)]
@@ -1382,16 +1382,16 @@ impl From<GcAccessMode> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcCachable")]
 pub enum GcCachable {
-/// undefined cache mode
+	/// undefined cache mode
 	#[doc(alias = "ARV_GC_CACHABLE_UNDEFINED")]
 	Undefined,
-/// no value caching
+	/// no value caching
 	#[doc(alias = "ARV_GC_CACHABLE_NO_CACHE")]
 	NoCache,
-/// write-through cache mode
+	/// write-through cache mode
 	#[doc(alias = "ARV_GC_CACHABLE_WRITE_THROUGH")]
 	WriteThrough,
-/// write-around cache mode
+	/// write-around cache mode
 	#[doc(alias = "ARV_GC_CACHABLE_WRITE_AROUND")]
 	WriteAround,
 	#[doc(hidden)]
@@ -1491,16 +1491,16 @@ impl From<GcCachable> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcDisplayNotation")]
 pub enum GcDisplayNotation {
-/// undefined number notation
+	/// undefined number notation
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_UNDEFINED")]
 	Undefined,
-/// automatically detect whether to use fixed or scientific number notation
+	/// automatically detect whether to use fixed or scientific number notation
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_AUTOMATIC")]
 	Automatic,
-/// used fixed (i.e. decimal) notation for displaying numbers
+	/// used fixed (i.e. decimal) notation for displaying numbers
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_FIXED")]
 	Fixed,
-/// use scientific notation for displaying numbers
+	/// use scientific notation for displaying numbers
 	#[doc(alias = "ARV_GC_DISPLAY_NOTATION_SCIENTIFIC")]
 	Scientific,
 	#[doc(hidden)]
@@ -1769,13 +1769,13 @@ impl From<GcError> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcIsLinear")]
 pub enum GcIsLinear {
-/// undefined relationship between variables
+	/// undefined relationship between variables
 	#[doc(alias = "ARV_GC_IS_LINEAR_UNDEFINED")]
 	Undefined,
-/// non-linear relationship between variables
+	/// non-linear relationship between variables
 	#[doc(alias = "ARV_GC_IS_LINEAR_NO")]
 	No,
-/// linear relationship between variables
+	/// linear relationship between variables
 	#[doc(alias = "ARV_GC_IS_LINEAR_YES")]
 	Yes,
 	#[doc(hidden)]
@@ -1874,13 +1874,13 @@ impl From<GcIsLinear> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcNameSpace")]
 pub enum GcNameSpace {
-/// undefined name space
+	/// undefined name space
 	#[doc(alias = "ARV_GC_NAME_SPACE_UNDEFINED")]
 	Undefined,
-/// Genicam standardized name space
+	/// Genicam standardized name space
 	#[doc(alias = "ARV_GC_NAME_SPACE_STANDARD")]
 	Standard,
-/// non-standardized name space
+	/// non-standardized name space
 	#[doc(alias = "ARV_GC_NAME_SPACE_CUSTOM")]
 	Custom,
 	#[doc(hidden)]
@@ -2308,28 +2308,28 @@ impl From<GcPropertyNodeType> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcRepresentation")]
 pub enum GcRepresentation {
-/// undefined representation
+	/// undefined representation
 	#[doc(alias = "ARV_GC_REPRESENTATION_UNDEFINED")]
 	Undefined,
-/// number presented on linear scale (e.g. on a linear slider)
+	/// number presented on linear scale (e.g. on a linear slider)
 	#[doc(alias = "ARV_GC_REPRESENTATION_LINEAR")]
 	Linear,
-/// number presented on logarithmic scale (e.g. on a logarithmic slider)
+	/// number presented on logarithmic scale (e.g. on a logarithmic slider)
 	#[doc(alias = "ARV_GC_REPRESENTATION_LOGARITHMIC")]
 	Logarithmic,
-/// binary choice (e.g. a checkbox)
+	/// binary choice (e.g. a checkbox)
 	#[doc(alias = "ARV_GC_REPRESENTATION_BOOLEAN")]
 	Boolean,
-/// number presented in an editable field (e.g. a spinbox)
+	/// number presented in an editable field (e.g. a spinbox)
 	#[doc(alias = "ARV_GC_REPRESENTATION_PURE_NUMBER")]
 	PureNumber,
-/// number presented in hexadecimal format
+	/// number presented in hexadecimal format
 	#[doc(alias = "ARV_GC_REPRESENTATION_HEX_NUMBER")]
 	HexNumber,
-/// IPv4 address
+	/// IPv4 address
 	#[doc(alias = "ARV_GC_REPRESENTATION_IPV4_ADDRESS")]
 	Ipv4Address,
-/// MAC address
+	/// MAC address
 	#[doc(alias = "ARV_GC_REPRESENTATION_MAC_ADDRESS")]
 	MacAddress,
 	#[doc(hidden)]
@@ -2439,13 +2439,13 @@ impl From<GcRepresentation> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcSignedness")]
 pub enum GcSignedness {
-/// undefined sign
+	/// undefined sign
 	#[doc(alias = "ARV_GC_SIGNEDNESS_UNDEFINED")]
 	Undefined,
-/// signed integer
+	/// signed integer
 	#[doc(alias = "ARV_GC_SIGNEDNESS_SIGNED")]
 	Signed,
-/// unsigned integer
+	/// unsigned integer
 	#[doc(alias = "ARV_GC_SIGNEDNESS_UNSIGNED")]
 	Unsigned,
 	#[doc(hidden)]
@@ -2547,13 +2547,13 @@ impl From<GcSignedness> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcStreamable")]
 pub enum GcStreamable {
-/// undefined streamable
+	/// undefined streamable
 	#[doc(alias = "ARV_GC_STREAMABLE_UNDEFINED")]
 	Undefined,
-/// the feature can't be used for camera state persistence
+	/// the feature can't be used for camera state persistence
 	#[doc(alias = "ARV_GC_STREAMABLE_NO")]
 	No,
-/// the feature can be used for camera state persistence
+	/// the feature can be used for camera state persistence
 	#[doc(alias = "ARV_GC_STREAMABLE_YES")]
 	Yes,
 	#[doc(hidden)]
@@ -2667,19 +2667,19 @@ impl From<GcStreamable> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGcVisibility")]
 pub enum GcVisibility {
-/// undefined feature visibility level
+	/// undefined feature visibility level
 	#[doc(alias = "ARV_GC_VISIBILITY_UNDEFINED")]
 	Undefined,
-/// feature should be not be visible in user interface
+	/// feature should be not be visible in user interface
 	#[doc(alias = "ARV_GC_VISIBILITY_INVISIBLE")]
 	Invisible,
-/// very advanced feature to be shown to very experienced users
+	/// very advanced feature to be shown to very experienced users
 	#[doc(alias = "ARV_GC_VISIBILITY_GURU")]
 	Guru,
-/// advanced feature to be shown to expert users
+	/// advanced feature to be shown to expert users
 	#[doc(alias = "ARV_GC_VISIBILITY_EXPERT")]
 	Expert,
-/// basic feature to be shown to all users
+	/// basic feature to be shown to all users
 	#[doc(alias = "ARV_GC_VISIBILITY_BEGINNER")]
 	Beginner,
 	#[doc(hidden)]
@@ -2888,20 +2888,20 @@ impl From<GvIpConfigurationMode> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGvPacketSizeAdjustment")]
 pub enum GvPacketSizeAdjustment {
-/// never adjust packet size
+	/// never adjust packet size
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_NEVER")]
 	Never,
-/// adjust packet size if test packet check fails the with current
-/// packet size, only on the first stream creation
+	/// adjust packet size if test packet check fails the with current
+	/// packet size, only on the first stream creation
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE_ONCE")]
 	OnFailureOnce,
-/// adjust packet size if test packet check fails with current packet size
+	/// adjust packet size if test packet check fails with current packet size
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE")]
 	OnFailure,
-/// adjust packet size on the first stream creation
+	/// adjust packet size on the first stream creation
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ONCE")]
 	Once,
-/// always adjust the stream packet size
+	/// always adjust the stream packet size
 	#[doc(alias = "ARV_GV_PACKET_SIZE_ADJUSTMENT_ALWAYS")]
 	Always,
 	#[doc(hidden)]
@@ -3002,10 +3002,10 @@ impl From<GvPacketSizeAdjustment> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGvStreamPacketResend")]
 pub enum GvStreamPacketResend {
-/// never request a packet resend
+	/// never request a packet resend
 	#[doc(alias = "ARV_GV_STREAM_PACKET_RESEND_NEVER")]
 	Never,
-/// request a packet resend if a packet was missing
+	/// request a packet resend if a packet was missing
 	#[doc(alias = "ARV_GV_STREAM_PACKET_RESEND_ALWAYS")]
 	Always,
 	#[doc(hidden)]
@@ -3100,10 +3100,10 @@ impl From<GvStreamPacketResend> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvGvStreamSocketBuffer")]
 pub enum GvStreamSocketBuffer {
-/// socket buffer is set to a given fixed value
+	/// socket buffer is set to a given fixed value
 	#[doc(alias = "ARV_GV_STREAM_SOCKET_BUFFER_FIXED")]
 	Fixed,
-/// socket buffer size is set to the payload size
+	/// socket buffer size is set to the payload size
 	#[doc(alias = "ARV_GV_STREAM_SOCKET_BUFFER_AUTO")]
 	Auto,
 	#[doc(hidden)]
@@ -3200,13 +3200,13 @@ impl From<GvStreamSocketBuffer> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvRangeCheckPolicy")]
 pub enum RangeCheckPolicy {
-/// never check if float or integer node value is in min/max range
+	/// never check if float or integer node value is in min/max range
 	#[doc(alias = "ARV_RANGE_CHECK_POLICY_DISABLE")]
 	Disable,
-/// always check if if float or integer node is in min/max range
+	/// always check if if float or integer node is in min/max range
 	#[doc(alias = "ARV_RANGE_CHECK_POLICY_ENABLE")]
 	Enable,
-/// check the value, but only display an error message if the value is not allowed (Since 0.8.8)
+	/// check the value, but only display an error message if the value is not allowed (Since 0.8.8)
 	#[doc(alias = "ARV_RANGE_CHECK_POLICY_DEBUG")]
 	Debug,
 	#[doc(hidden)]
@@ -3319,13 +3319,13 @@ impl From<RangeCheckPolicy> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvRegisterCachePolicy")]
 pub enum RegisterCachePolicy {
-/// disable register caching
+	/// disable register caching
 	#[doc(alias = "ARV_REGISTER_CACHE_POLICY_DISABLE")]
 	Disable,
-/// enable register caching
+	/// enable register caching
 	#[doc(alias = "ARV_REGISTER_CACHE_POLICY_ENABLE")]
 	Enable,
-/// enable register caching, but read the acual register value for comparison
+	/// enable register caching, but read the acual register value for comparison
 	#[doc(alias = "ARV_REGISTER_CACHE_POLICY_DEBUG")]
 	Debug,
 	#[doc(hidden)]
@@ -3424,16 +3424,16 @@ impl From<RegisterCachePolicy> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvStreamCallbackType")]
 pub enum StreamCallbackType {
-/// thread initialization, happens once
+	/// thread initialization, happens once
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_INIT")]
 	Init,
-/// thread end, happens once
+	/// thread end, happens once
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_EXIT")]
 	Exit,
-/// buffer filling start, happens at each frame
+	/// buffer filling start, happens at each frame
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_START_BUFFER")]
 	StartBuffer,
-/// buffer filled, happens at each frame
+	/// buffer filled, happens at each frame
 	#[doc(alias = "ARV_STREAM_CALLBACK_TYPE_BUFFER_DONE")]
 	BufferDone,
 	#[doc(hidden)]
@@ -3532,10 +3532,10 @@ impl From<StreamCallbackType> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvUvUsbMode")]
 pub enum UvUsbMode {
-/// utilize libusb synchronous device I/O API
+	/// utilize libusb synchronous device I/O API
 	#[doc(alias = "ARV_UV_USB_MODE_SYNC")]
 	Sync,
-/// utilize libusb asynchronous device I/O API
+	/// utilize libusb asynchronous device I/O API
 	#[doc(alias = "ARV_UV_USB_MODE_ASYNC")]
 	Async,
 	#[doc(hidden)]
@@ -3630,7 +3630,7 @@ impl From<UvUsbMode> for glib::Value {
 #[non_exhaustive]
 #[doc(alias = "ArvXmlSchemaError")]
 pub enum XmlSchemaError {
-/// invalid structure
+	/// invalid structure
 	#[doc(alias = "ARV_XML_SCHEMA_ERROR_INVALID_STRUCTURE")]
 	Structure,
 	#[doc(hidden)]

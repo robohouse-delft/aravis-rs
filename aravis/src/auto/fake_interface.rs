@@ -20,11 +20,11 @@ glib::wrapper! {
 }
 
 impl FakeInterface {
-/// Gets the unique instance of the fake interface.
-///
-/// # Returns
-///
-/// a [`Interface`][crate::Interface] singleton.
+	/// Gets the unique instance of the fake interface.
+	///
+	/// # Returns
+	///
+	/// a [`Interface`][crate::Interface] singleton.
 	#[doc(alias = "arv_fake_interface_get_instance")]
 	#[doc(alias = "get_instance")]
 	pub fn instance() -> Option<Interface> {

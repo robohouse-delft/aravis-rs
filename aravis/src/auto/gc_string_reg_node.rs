@@ -24,10 +24,10 @@ glib::wrapper! {
 impl GcStringRegNode {
 	pub const NONE: Option<&'static GcStringRegNode> = None;
 
-///
-/// # Returns
-///
-/// a new StringReg node
+	///
+	/// # Returns
+	///
+	/// a new StringReg node
 	#[doc(alias = "arv_gc_string_reg_node_new")]
 	pub fn new() -> GcStringRegNode {
 		assert_initialized_main_thread!();

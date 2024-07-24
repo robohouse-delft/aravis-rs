@@ -25,10 +25,10 @@ glib::wrapper! {
 impl GcIntRegNode {
 	pub const NONE: Option<&'static GcIntRegNode> = None;
 
-///
-/// # Returns
-///
-/// a new IntReg node
+	///
+	/// # Returns
+	///
+	/// a new IntReg node
 	#[doc(alias = "arv_gc_int_reg_node_new")]
 	pub fn new() -> GcIntRegNode {
 		assert_initialized_main_thread!();

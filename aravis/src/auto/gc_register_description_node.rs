@@ -26,17 +26,17 @@ impl GcRegisterDescriptionNode {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_register_description_node_new()).unsafe_cast() }
 	}
 
-/// Checks if the Genicam document version is higher or equal to the given version.
-/// ## `required_major`
-/// required major version number
-/// ## `required_minor`
-/// required minor version number
-/// ## `required_subminor`
-/// required sub minor version number
-///
-/// # Returns
-///
-/// True if document version is higher or equal than the given version.
+	/// Checks if the Genicam document version is higher or equal to the given version.
+	/// ## `required_major`
+	/// required major version number
+	/// ## `required_minor`
+	/// required minor version number
+	/// ## `required_subminor`
+	/// required sub minor version number
+	///
+	/// # Returns
+	///
+	/// True if document version is higher or equal than the given version.
 	#[doc(alias = "arv_gc_register_description_node_check_schema_version")]
 	pub fn check_schema_version(
 		&self,
@@ -54,17 +54,17 @@ impl GcRegisterDescriptionNode {
 		}
 	}
 
-/// Compare the Genicam document version to the given version.
-/// ## `major`
-/// major version number
-/// ## `minor`
-/// minor version number
-/// ## `subminor`
-/// sub minor version number
-///
-/// # Returns
-///
-/// -1 if document version is lower than the given version, 0 if equal and 1 if greater.
+	/// Compare the Genicam document version to the given version.
+	/// ## `major`
+	/// major version number
+	/// ## `minor`
+	/// minor version number
+	/// ## `subminor`
+	/// sub minor version number
+	///
+	/// # Returns
+	///
+	/// -1 if document version is lower than the given version, 0 if equal and 1 if greater.
 	#[doc(alias = "arv_gc_register_description_node_compare_schema_version")]
 	pub fn compare_schema_version(&self, major: u32, minor: u32, subminor: u32) -> i32 {
 		unsafe {
@@ -77,33 +77,33 @@ impl GcRegisterDescriptionNode {
 		}
 	}
 
-/// Gets Genicam document major version.
-///
-/// # Returns
-///
-/// Major version.
+	/// Gets Genicam document major version.
+	///
+	/// # Returns
+	///
+	/// Major version.
 	#[doc(alias = "arv_gc_register_description_node_get_major_version")]
 	#[doc(alias = "get_major_version")]
 	pub fn major_version(&self) -> u32 {
 		unsafe { ffi::arv_gc_register_description_node_get_major_version(self.to_glib_none().0) }
 	}
 
-/// Gets Genicam document minor version.
-///
-/// # Returns
-///
-/// Minor version.
+	/// Gets Genicam document minor version.
+	///
+	/// # Returns
+	///
+	/// Minor version.
 	#[doc(alias = "arv_gc_register_description_node_get_minor_version")]
 	#[doc(alias = "get_minor_version")]
 	pub fn minor_version(&self) -> u32 {
 		unsafe { ffi::arv_gc_register_description_node_get_minor_version(self.to_glib_none().0) }
 	}
 
-/// Gets camera model name for given Genicam document.
-///
-/// # Returns
-///
-/// Model name string.
+	/// Gets camera model name for given Genicam document.
+	///
+	/// # Returns
+	///
+	/// Model name string.
 	#[doc(alias = "arv_gc_register_description_node_get_model_name")]
 	#[doc(alias = "get_model_name")]
 	pub fn model_name(&self) -> Option<glib::GString> {
@@ -114,11 +114,11 @@ impl GcRegisterDescriptionNode {
 		}
 	}
 
-/// Gets Genicam document schema major version.
-///
-/// # Returns
-///
-/// Schema major version.
+	/// Gets Genicam document schema major version.
+	///
+	/// # Returns
+	///
+	/// Schema major version.
 	#[doc(alias = "arv_gc_register_description_node_get_schema_major_version")]
 	#[doc(alias = "get_schema_major_version")]
 	pub fn schema_major_version(&self) -> u32 {
@@ -127,11 +127,11 @@ impl GcRegisterDescriptionNode {
 		}
 	}
 
-/// Gets Genicam document schema minor version.
-///
-/// # Returns
-///
-/// Schema minor version.
+	/// Gets Genicam document schema minor version.
+	///
+	/// # Returns
+	///
+	/// Schema minor version.
 	#[doc(alias = "arv_gc_register_description_node_get_schema_minor_version")]
 	#[doc(alias = "get_schema_minor_version")]
 	pub fn schema_minor_version(&self) -> u32 {
@@ -140,11 +140,11 @@ impl GcRegisterDescriptionNode {
 		}
 	}
 
-/// Gets Genicam document schema sub minor version.
-///
-/// # Returns
-///
-/// Schema sub minor version.
+	/// Gets Genicam document schema sub minor version.
+	///
+	/// # Returns
+	///
+	/// Schema sub minor version.
 	#[doc(alias = "arv_gc_register_description_node_get_schema_subminor_version")]
 	#[doc(alias = "get_schema_subminor_version")]
 	pub fn schema_subminor_version(&self) -> u32 {
@@ -153,22 +153,22 @@ impl GcRegisterDescriptionNode {
 		}
 	}
 
-/// Gets Genicam document sub minor version.
-///
-/// # Returns
-///
-/// Sub minor version.
+	/// Gets Genicam document sub minor version.
+	///
+	/// # Returns
+	///
+	/// Sub minor version.
 	#[doc(alias = "arv_gc_register_description_node_get_subminor_version")]
 	#[doc(alias = "get_subminor_version")]
 	pub fn subminor_version(&self) -> u32 {
 		unsafe { ffi::arv_gc_register_description_node_get_subminor_version(self.to_glib_none().0) }
 	}
 
-/// Gets camera vendor name for given Genicam document.
-///
-/// # Returns
-///
-/// Vendor name string.
+	/// Gets camera vendor name for given Genicam document.
+	///
+	/// # Returns
+	///
+	/// Vendor name string.
 	#[doc(alias = "arv_gc_register_description_node_get_vendor_name")]
 	#[doc(alias = "get_vendor_name")]
 	pub fn vendor_name(&self) -> Option<glib::GString> {

@@ -41,16 +41,16 @@ glib::wrapper! {
 }
 
 impl UvDevice {
-/// ## `vendor`
-/// USB3 vendor string
-/// ## `product`
-/// USB3 product string
-/// ## `serial_number`
-/// device serial number
-///
-/// # Returns
-///
-/// a newly created [`Device`][crate::Device] using USB3 based protocol
+	/// ## `vendor`
+	/// USB3 vendor string
+	/// ## `product`
+	/// USB3 product string
+	/// ## `serial_number`
+	/// device serial number
+	///
+	/// # Returns
+	///
+	/// a newly created [`Device`][crate::Device] using USB3 based protocol
 	#[doc(alias = "arv_uv_device_new")]
 	pub fn new(vendor: &str, product: &str, serial_number: &str) -> Result<UvDevice, glib::Error> {
 		assert_initialized_main_thread!();
@@ -70,12 +70,12 @@ impl UvDevice {
 		}
 	}
 
-/// ## `guid`
-/// device GUID
-///
-/// # Returns
-///
-/// a newly created [`Device`][crate::Device] using USB3 based protocol
+	/// ## `guid`
+	/// device GUID
+	///
+	/// # Returns
+	///
+	/// a newly created [`Device`][crate::Device] using USB3 based protocol
 	#[cfg(feature = "v0_8_17")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_17")))]
 	#[doc(alias = "arv_uv_device_new_from_guid")]
@@ -93,12 +93,12 @@ impl UvDevice {
 		}
 	}
 
-/// Sets the option to utilize the USB synchronous or asynchronous device I/O API. The default mode is
-/// [`UvUsbMode::Sync`][crate::UvUsbMode::Sync], which means USB bulk transfer will be synchronously executed. This mode is qualified to work,
-/// but it has the performance issue with some high framerate device. Using [`UvUsbMode::Async`][crate::UvUsbMode::Async] possibly improves the
-/// bandwidth.
-/// ## `usb_mode`
-/// a [`UvUsbMode`][crate::UvUsbMode] option
+	/// Sets the option to utilize the USB synchronous or asynchronous device I/O API. The default mode is
+	/// [`UvUsbMode::Sync`][crate::UvUsbMode::Sync], which means USB bulk transfer will be synchronously executed. This mode is qualified to work,
+	/// but it has the performance issue with some high framerate device. Using [`UvUsbMode::Async`][crate::UvUsbMode::Async] possibly improves the
+	/// bandwidth.
+	/// ## `usb_mode`
+	/// a [`UvUsbMode`][crate::UvUsbMode] option
 	#[cfg(feature = "v0_8_17")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_17")))]
 	#[doc(alias = "arv_uv_device_set_usb_mode")]

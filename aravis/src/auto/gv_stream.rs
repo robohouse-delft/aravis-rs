@@ -103,9 +103,9 @@ impl GvStream {
 		unsafe { ffi::arv_gv_stream_get_port(self.to_glib_none().0) }
 	}
 
-///
-/// # Returns
-///
+	///
+	/// # Returns
+	///
 	#[doc(alias = "arv_gv_stream_get_statistics")]
 	#[doc(alias = "get_statistics")]
 	pub fn statistics(&self) -> (u64, u64) {
@@ -124,24 +124,24 @@ impl GvStream {
 		}
 	}
 
-/// Amount of time Aravis is wating for frame completion after the last packet is received. A greater value will
-/// also increase the maximum frame latency in case of missing packets.
+	/// Amount of time Aravis is wating for frame completion after the last packet is received. A greater value will
+	/// also increase the maximum frame latency in case of missing packets.
 	#[doc(alias = "frame-retention")]
 	pub fn frame_retention(&self) -> u32 {
 		ObjectExt::property(self, "frame-retention")
 	}
 
-/// Amount of time Aravis is wating for frame completion after the last packet is received. A greater value will
-/// also increase the maximum frame latency in case of missing packets.
+	/// Amount of time Aravis is wating for frame completion after the last packet is received. A greater value will
+	/// also increase the maximum frame latency in case of missing packets.
 	#[doc(alias = "frame-retention")]
 	pub fn set_frame_retention(&self, frame_retention: u32) {
 		ObjectExt::set_property(self, "frame-retention", frame_retention)
 	}
 
-/// Delay before asking for a packet resend after the packet was detected missing for the first time. The reason
-/// for this delay is, depending on the network topology, stream packets are not always received in increasing id
-/// order. As the missing packet detection happens at each received packet, by verifying if each previous packet
-/// has been received, we could emit useless packet resend requests if they are not ordered.
+	/// Delay before asking for a packet resend after the packet was detected missing for the first time. The reason
+	/// for this delay is, depending on the network topology, stream packets are not always received in increasing id
+	/// order. As the missing packet detection happens at each received packet, by verifying if each previous packet
+	/// has been received, we could emit useless packet resend requests if they are not ordered.
 	#[cfg(feature = "v0_8_15")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_15")))]
 	#[doc(alias = "initial-packet-timeout")]
@@ -149,10 +149,10 @@ impl GvStream {
 		ObjectExt::property(self, "initial-packet-timeout")
 	}
 
-/// Delay before asking for a packet resend after the packet was detected missing for the first time. The reason
-/// for this delay is, depending on the network topology, stream packets are not always received in increasing id
-/// order. As the missing packet detection happens at each received packet, by verifying if each previous packet
-/// has been received, we could emit useless packet resend requests if they are not ordered.
+	/// Delay before asking for a packet resend after the packet was detected missing for the first time. The reason
+	/// for this delay is, depending on the network topology, stream packets are not always received in increasing id
+	/// order. As the missing packet detection happens at each received packet, by verifying if each previous packet
+	/// has been received, we could emit useless packet resend requests if they are not ordered.
 	#[cfg(feature = "v0_8_15")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_15")))]
 	#[doc(alias = "initial-packet-timeout")]
@@ -160,65 +160,65 @@ impl GvStream {
 		ObjectExt::set_property(self, "initial-packet-timeout", initial_packet_timeout)
 	}
 
-/// Maximum number of packet resend requests for a given frame, as a percentage of the number of packets per
-/// frame.
+	/// Maximum number of packet resend requests for a given frame, as a percentage of the number of packets per
+	/// frame.
 	#[doc(alias = "packet-request-ratio")]
 	pub fn packet_request_ratio(&self) -> f64 {
 		ObjectExt::property(self, "packet-request-ratio")
 	}
 
-/// Maximum number of packet resend requests for a given frame, as a percentage of the number of packets per
-/// frame.
+	/// Maximum number of packet resend requests for a given frame, as a percentage of the number of packets per
+	/// frame.
 	#[doc(alias = "packet-request-ratio")]
 	pub fn set_packet_request_ratio(&self, packet_request_ratio: f64) {
 		ObjectExt::set_property(self, "packet-request-ratio", packet_request_ratio)
 	}
 
-/// Packet resend policy. This only applies if the device supports packet resend.
+	/// Packet resend policy. This only applies if the device supports packet resend.
 	#[doc(alias = "packet-resend")]
 	pub fn packet_resend(&self) -> GvStreamPacketResend {
 		ObjectExt::property(self, "packet-resend")
 	}
 
-/// Packet resend policy. This only applies if the device supports packet resend.
+	/// Packet resend policy. This only applies if the device supports packet resend.
 	#[doc(alias = "packet-resend")]
 	pub fn set_packet_resend(&self, packet_resend: GvStreamPacketResend) {
 		ObjectExt::set_property(self, "packet-resend", packet_resend)
 	}
 
-/// Timeout while waiting for a packet after a resend request, before asking again.
+	/// Timeout while waiting for a packet after a resend request, before asking again.
 	#[doc(alias = "packet-timeout")]
 	pub fn packet_timeout(&self) -> u32 {
 		ObjectExt::property(self, "packet-timeout")
 	}
 
-/// Timeout while waiting for a packet after a resend request, before asking again.
+	/// Timeout while waiting for a packet after a resend request, before asking again.
 	#[doc(alias = "packet-timeout")]
 	pub fn set_packet_timeout(&self, packet_timeout: u32) {
 		ObjectExt::set_property(self, "packet-timeout", packet_timeout)
 	}
 
-/// Incoming socket buffer policy.
+	/// Incoming socket buffer policy.
 	#[doc(alias = "socket-buffer")]
 	pub fn socket_buffer(&self) -> GvStreamSocketBuffer {
 		ObjectExt::property(self, "socket-buffer")
 	}
 
-/// Incoming socket buffer policy.
+	/// Incoming socket buffer policy.
 	#[doc(alias = "socket-buffer")]
 	pub fn set_socket_buffer(&self, socket_buffer: GvStreamSocketBuffer) {
 		ObjectExt::set_property(self, "socket-buffer", socket_buffer)
 	}
 
-/// Size in bytes of the incoming socket buffer. A greater value helps to lower the number of missings packets,
-/// as the expense of an increased memory usage.
+	/// Size in bytes of the incoming socket buffer. A greater value helps to lower the number of missings packets,
+	/// as the expense of an increased memory usage.
 	#[doc(alias = "socket-buffer-size")]
 	pub fn socket_buffer_size(&self) -> i32 {
 		ObjectExt::property(self, "socket-buffer-size")
 	}
 
-/// Size in bytes of the incoming socket buffer. A greater value helps to lower the number of missings packets,
-/// as the expense of an increased memory usage.
+	/// Size in bytes of the incoming socket buffer. A greater value helps to lower the number of missings packets,
+	/// as the expense of an increased memory usage.
 	#[doc(alias = "socket-buffer-size")]
 	pub fn set_socket_buffer_size(&self, socket_buffer_size: i32) {
 		ObjectExt::set_property(self, "socket-buffer-size", socket_buffer_size)

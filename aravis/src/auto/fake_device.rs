@@ -26,12 +26,12 @@ glib::wrapper! {
 }
 
 impl FakeDevice {
-/// ## `serial_number`
-/// fake device serial number
-///
-/// # Returns
-///
-/// a newly created [`Device`][crate::Device] simulating a real device
+	/// ## `serial_number`
+	/// fake device serial number
+	///
+	/// # Returns
+	///
+	/// a newly created [`Device`][crate::Device] simulating a real device
 	#[doc(alias = "arv_fake_device_new")]
 	pub fn new(serial_number: &str) -> Result<FakeDevice, glib::Error> {
 		assert_initialized_main_thread!();
@@ -46,10 +46,10 @@ impl FakeDevice {
 		}
 	}
 
-///
-/// # Returns
-///
-/// the [`FakeCamera`][crate::FakeCamera] used by this device instance.
+	///
+	/// # Returns
+	///
+	/// the [`FakeCamera`][crate::FakeCamera] used by this device instance.
 	#[doc(alias = "arv_fake_device_get_fake_camera")]
 	#[doc(alias = "get_fake_camera")]
 	pub fn fake_camera(&self) -> Option<FakeCamera> {

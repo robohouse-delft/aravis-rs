@@ -22,10 +22,10 @@ glib::wrapper! {
 impl GcFloatRegNode {
 	pub const NONE: Option<&'static GcFloatRegNode> = None;
 
-///
-/// # Returns
-///
-/// a new FloatReg node
+	///
+	/// # Returns
+	///
+	/// a new FloatReg node
 	#[doc(alias = "arv_gc_float_reg_node_new")]
 	pub fn new() -> GcFloatRegNode {
 		assert_initialized_main_thread!();

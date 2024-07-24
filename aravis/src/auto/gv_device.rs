@@ -42,14 +42,14 @@ glib::wrapper! {
 }
 
 impl GvDevice {
-/// ## `interface_address`
-/// address of the interface connected to the device
-/// ## `device_address`
-/// device address
-///
-/// # Returns
-///
-/// a newly created [`Device`][crate::Device] using GigE protocol
+	/// ## `interface_address`
+	/// address of the interface connected to the device
+	/// ## `device_address`
+	/// device address
+	///
+	/// # Returns
+	///
+	/// a newly created [`Device`][crate::Device] using GigE protocol
 	#[doc(alias = "arv_gv_device_new")]
 	pub fn new(
 		interface_address: &impl IsA<gio::InetAddress>,
@@ -71,12 +71,12 @@ impl GvDevice {
 		}
 	}
 
-/// Automatically determine the biggest packet size that can be used data streaming, and set ArvGevSCPSPacketSize value
-/// accordingly. This function relies on the GevSCPSFireTestPacket feature.
-///
-/// # Returns
-///
-/// The automatic packet size, in bytes, or the current one if GevSCPSFireTestPacket is not supported.
+	/// Automatically determine the biggest packet size that can be used data streaming, and set ArvGevSCPSPacketSize value
+	/// accordingly. This function relies on the GevSCPSFireTestPacket feature.
+	///
+	/// # Returns
+	///
+	/// The automatic packet size, in bytes, or the current one if GevSCPSFireTestPacket is not supported.
 	#[doc(alias = "arv_gv_device_auto_packet_size")]
 	pub fn auto_packet_size(&self) -> Result<(), glib::Error> {
 		unsafe {
@@ -92,20 +92,20 @@ impl GvDevice {
 		}
 	}
 
-/// Get the current IP address setting of device.
-///
-/// # Returns
-///
-/// [`true`] on success
-///
-/// ## `ip`
-/// a IP address placeholder
-///
-/// ## `mask`
-/// a netmask placeholder
-///
-/// ## `gateway`
-/// a gateway IP address placeholder
+	/// Get the current IP address setting of device.
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
+	///
+	/// ## `ip`
+	/// a IP address placeholder
+	///
+	/// ## `mask`
+	/// a netmask placeholder
+	///
+	/// ## `gateway`
+	/// a gateway IP address placeholder
 	#[cfg(feature = "v0_8_22")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_get_current_ip")]
@@ -138,20 +138,20 @@ impl GvDevice {
 		}
 	}
 
-///
-/// # Returns
-///
-/// the device IP address.
+	///
+	/// # Returns
+	///
+	/// the device IP address.
 	#[doc(alias = "arv_gv_device_get_device_address")]
 	#[doc(alias = "get_device_address")]
 	pub fn device_address(&self) -> Option<gio::SocketAddress> {
 		unsafe { from_glib_none(ffi::arv_gv_device_get_device_address(self.to_glib_none().0)) }
 	}
 
-///
-/// # Returns
-///
-/// the device host interface IP address.
+	///
+	/// # Returns
+	///
+	/// the device host interface IP address.
 	#[doc(alias = "arv_gv_device_get_interface_address")]
 	#[doc(alias = "get_interface_address")]
 	pub fn interface_address(&self) -> Option<gio::SocketAddress> {
@@ -162,11 +162,11 @@ impl GvDevice {
 		}
 	}
 
-/// Get the IP address configuration mode.
-///
-/// # Returns
-///
-/// IP address configuration mode
+	/// Get the IP address configuration mode.
+	///
+	/// # Returns
+	///
+	/// IP address configuration mode
 	#[cfg(feature = "v0_8_22")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_get_ip_configuration_mode")]
@@ -198,20 +198,20 @@ impl GvDevice {
 		}
 	}
 
-/// Get the persistent IP address setting of device.
-///
-/// # Returns
-///
-/// [`true`] on success
-///
-/// ## `ip`
-/// a IP address placeholder
-///
-/// ## `mask`
-/// a netmask placeholder
-///
-/// ## `gateway`
-/// a gateway IP address placeholder
+	/// Get the persistent IP address setting of device.
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
+	///
+	/// ## `ip`
+	/// a IP address placeholder
+	///
+	/// ## `mask`
+	/// a netmask placeholder
+	///
+	/// ## `gateway`
+	/// a gateway IP address placeholder
 	#[cfg(feature = "v0_8_22")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_get_persistent_ip")]
@@ -244,10 +244,10 @@ impl GvDevice {
 		}
 	}
 
-///
-/// # Returns
-///
-/// options for stream creation
+	///
+	/// # Returns
+	///
+	/// options for stream creation
 	#[doc(alias = "arv_gv_device_get_stream_options")]
 	#[doc(alias = "get_stream_options")]
 	pub fn stream_options(&self) -> GvStreamOption {
@@ -269,19 +269,19 @@ impl GvDevice {
 		}
 	}
 
-///
-/// # Returns
-///
-/// value indicating whether the ArvGvDevice has control access to the camera
+	///
+	/// # Returns
+	///
+	/// value indicating whether the ArvGvDevice has control access to the camera
 	#[doc(alias = "arv_gv_device_is_controller")]
 	pub fn is_controller(&self) -> bool {
 		unsafe { from_glib(ffi::arv_gv_device_is_controller(self.to_glib_none().0)) }
 	}
 
-///
-/// # Returns
-///
-/// whether the control was successfully relinquished
+	///
+	/// # Returns
+	///
+	/// whether the control was successfully relinquished
 	#[cfg(feature = "v0_8_3")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_gv_device_leave_control")]
@@ -298,15 +298,15 @@ impl GvDevice {
 		}
 	}
 
-/// Sets the IP address configuration mode.
-/// Available modes are ARV_GV_IP_CONFIGURATION_MODE_DHCP, ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP,
-/// ARV_GV_IP_CONFIGURATION_MODE_LLA
-/// ## `mode`
-/// IP address configuration mode
-///
-/// # Returns
-///
-/// [`true`] on success
+	/// Sets the IP address configuration mode.
+	/// Available modes are ARV_GV_IP_CONFIGURATION_MODE_DHCP, ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP,
+	/// ARV_GV_IP_CONFIGURATION_MODE_LLA
+	/// ## `mode`
+	/// IP address configuration mode
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
 	#[cfg(feature = "v0_8_22")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_set_ip_configuration_mode")]
@@ -344,13 +344,13 @@ impl GvDevice {
 		}
 	}
 
-/// Sets the option for the packet size adjustment happening at stream object creation. See
-/// [`auto_packet_size()`][Self::auto_packet_size()] for a description of the packet adjustment feature. The default behaviour is
-/// `ARV_GV_PACKET_SIZE_ADJUSTEMENT_ON_FAILURE_ONCE`, which means the packet size is adjusted if the current packet size
-/// check fails, and only the first time `arv_device_create_stream()` is successfully called during `self` instance
-/// life.
-/// ## `adjustment`
-/// a [`GvPacketSizeAdjustment`][crate::GvPacketSizeAdjustment] option
+	/// Sets the option for the packet size adjustment happening at stream object creation. See
+	/// [`auto_packet_size()`][Self::auto_packet_size()] for a description of the packet adjustment feature. The default behaviour is
+	/// `ARV_GV_PACKET_SIZE_ADJUSTEMENT_ON_FAILURE_ONCE`, which means the packet size is adjusted if the current packet size
+	/// check fails, and only the first time `arv_device_create_stream()` is successfully called during `self` instance
+	/// life.
+	/// ## `adjustment`
+	/// a [`GvPacketSizeAdjustment`][crate::GvPacketSizeAdjustment] option
 	#[cfg(feature = "v0_8_3")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_gv_device_set_packet_size_adjustment")]
@@ -364,18 +364,18 @@ impl GvDevice {
 		}
 	}
 
-/// Sets the persistent IP address to device.
-/// Also disable DHCP then enable persistent IP mode.
-/// ## `ip`
-/// IPv4 address
-/// ## `mask`
-/// Netmask
-/// ## `gateway`
-/// Gateway IPv4 address
-///
-/// # Returns
-///
-/// [`true`] on success
+	/// Sets the persistent IP address to device.
+	/// Also disable DHCP then enable persistent IP mode.
+	/// ## `ip`
+	/// IPv4 address
+	/// ## `mask`
+	/// Netmask
+	/// ## `gateway`
+	/// Gateway IPv4 address
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
 	#[cfg(feature = "v0_8_22")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_set_persistent_ip")]
@@ -403,17 +403,17 @@ impl GvDevice {
 		}
 	}
 
-/// Sets the persistent IP address to device.
-/// ## `ip`
-/// IPv4 address in string format
-/// ## `mask`
-/// netmask in string format
-/// ## `gateway`
-/// Gateway IPv4 address in string format
-///
-/// # Returns
-///
-/// [`true`] on success
+	/// Sets the persistent IP address to device.
+	/// ## `ip`
+	/// IPv4 address in string format
+	/// ## `mask`
+	/// netmask in string format
+	/// ## `gateway`
+	/// Gateway IPv4 address in string format
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
 	#[cfg(feature = "v0_8_22")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_set_persistent_ip_from_string")]
@@ -441,9 +441,9 @@ impl GvDevice {
 		}
 	}
 
-/// Sets the option used during stream creation. It must be called before `arv_device_create_stream()`.
-/// ## `options`
-/// options for stream creation
+	/// Sets the option used during stream creation. It must be called before `arv_device_create_stream()`.
+	/// ## `options`
+	/// options for stream creation
 	#[doc(alias = "arv_gv_device_set_stream_options")]
 	pub fn set_stream_options(&self, options: GvStreamOption) {
 		unsafe {
@@ -451,10 +451,10 @@ impl GvDevice {
 		}
 	}
 
-///
-/// # Returns
-///
-/// whether the control was successfully acquired
+	///
+	/// # Returns
+	///
+	/// whether the control was successfully acquired
 	#[cfg(feature = "v0_8_3")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_gv_device_take_control")]

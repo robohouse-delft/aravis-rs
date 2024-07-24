@@ -26,10 +26,10 @@ impl GcBoolean {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_boolean_new()).unsafe_cast() }
 	}
 
-///
-/// # Returns
-///
-/// the feature value.
+	///
+	/// # Returns
+	///
+	/// the feature value.
 	#[doc(alias = "arv_gc_boolean_get_value")]
 	#[doc(alias = "get_value")]
 	pub fn value(&self) -> Result<bool, glib::Error> {

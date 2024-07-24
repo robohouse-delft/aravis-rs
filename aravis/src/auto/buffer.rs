@@ -30,28 +30,28 @@ impl Buffer {
 	//    unsafe { TODO: call ffi:arv_buffer_new() }
 	//}
 
-/// Creates a new buffer for the storage of the video stream images.
-/// The data space is allocated by this function, and will
-/// be freed when the buffer is destroyed.
-/// ## `size`
-/// payload size
-///
-/// # Returns
-///
-/// a new [`Buffer`][crate::Buffer] object
+	/// Creates a new buffer for the storage of the video stream images.
+	/// The data space is allocated by this function, and will
+	/// be freed when the buffer is destroyed.
+	/// ## `size`
+	/// payload size
+	///
+	/// # Returns
+	///
+	/// a new [`Buffer`][crate::Buffer] object
 	#[doc(alias = "arv_buffer_new_allocate")]
 	pub fn new_allocate(size: usize) -> Buffer {
 		assert_initialized_main_thread!();
 		unsafe { from_glib_full(ffi::arv_buffer_new_allocate(size)) }
 	}
 
-/// Search for the part corresponding to `component_id`
-/// ## `component_id`
-/// the component id to find
-///
-/// # Returns
-///
-/// the corresponding part id, -1 if not found.
+	/// Search for the part corresponding to `component_id`
+	/// ## `component_id`
+	/// the component id to find
+	///
+	/// # Returns
+	///
+	/// the corresponding part id, -1 if not found.
 	#[cfg(feature = "v0_8_25")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_25")))]
 	#[doc(alias = "arv_buffer_find_component")]
@@ -59,13 +59,13 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_find_component(self.to_glib_none().0, component_id) }
 	}
 
-/// Chunk data accessor.
-/// ## `chunk_id`
-/// chunk id
-///
-/// # Returns
-///
-/// a pointer to the chunk data.
+	/// Chunk data accessor.
+	/// ## `chunk_id`
+	/// chunk id
+	///
+	/// # Returns
+	///
+	/// a pointer to the chunk data.
 	#[doc(alias = "arv_buffer_get_chunk_data")]
 	#[doc(alias = "get_chunk_data")]
 	pub fn chunk_data(&self, chunk_id: u64) -> Vec<u8> {
@@ -79,22 +79,22 @@ impl Buffer {
 		}
 	}
 
-/// Gets the buffer frame id. For GigEVision devices, 0 is an invalid value.
-///
-/// # Returns
-///
-/// frame id, 0 on error.
+	/// Gets the buffer frame id. For GigEVision devices, 0 is an invalid value.
+	///
+	/// # Returns
+	///
+	/// frame id, 0 on error.
 	#[doc(alias = "arv_buffer_get_frame_id")]
 	#[doc(alias = "get_frame_id")]
 	pub fn frame_id(&self) -> u64 {
 		unsafe { ffi::arv_buffer_get_frame_id(self.to_glib_none().0) }
 	}
 
-/// GenDC Data accessor.
-///
-/// # Returns
-///
-/// a pointer to the GenDC Data .
+	/// GenDC Data accessor.
+	///
+	/// # Returns
+	///
+	/// a pointer to the GenDC Data .
 	#[cfg(feature = "v0_8_31")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
 	#[doc(alias = "arv_buffer_get_gendc_data")]
@@ -110,11 +110,11 @@ impl Buffer {
 		}
 	}
 
-/// GenDC Descriptor accessor.
-///
-/// # Returns
-///
-/// a pointer to the GenDC Descriptor.
+	/// GenDC Descriptor accessor.
+	///
+	/// # Returns
+	///
+	/// a pointer to the GenDC Descriptor.
 	#[cfg(feature = "v0_8_31")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
 	#[doc(alias = "arv_buffer_get_gendc_descriptor")]
@@ -130,10 +130,10 @@ impl Buffer {
 		}
 	}
 
-///
-/// # Returns
-///
-/// a pointer to the image data.
+	///
+	/// # Returns
+	///
+	/// a pointer to the image data.
 	#[cfg(feature = "v0_8_25")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_25")))]
 	#[doc(alias = "arv_buffer_get_image_data")]
@@ -149,33 +149,33 @@ impl Buffer {
 		}
 	}
 
-/// Gets the image width.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-/// image height, in pixels.
+	/// Gets the image width.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	/// image height, in pixels.
 	#[doc(alias = "arv_buffer_get_image_height")]
 	#[doc(alias = "get_image_height")]
 	pub fn image_height(&self) -> i32 {
 		unsafe { ffi::arv_buffer_get_image_height(self.to_glib_none().0) }
 	}
 
-/// Gets the image padding.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-///
-/// ## `x_padding`
-/// image x offset placeholder
-///
-/// ## `y_padding`
-/// image y offset placeholder
+	/// Gets the image padding.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	///
+	/// ## `x_padding`
+	/// image x offset placeholder
+	///
+	/// ## `y_padding`
+	/// image y offset placeholder
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_image_padding")]
@@ -193,14 +193,14 @@ impl Buffer {
 		}
 	}
 
-/// Gets the image pixel format.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-/// image pixel format.
+	/// Gets the image pixel format.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	/// image pixel format.
 	#[doc(alias = "arv_buffer_get_image_pixel_format")]
 	#[doc(alias = "get_image_pixel_format")]
 	pub fn image_pixel_format(&self) -> PixelFormat {
@@ -211,25 +211,25 @@ impl Buffer {
 		}
 	}
 
-/// Gets the image region.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-///
-/// ## `x`
-/// image x offset placeholder
-///
-/// ## `y`
-/// image y offset placeholder
-///
-/// ## `width`
-/// image width placholder
-///
-/// ## `height`
-/// image height placeholder
+	/// Gets the image region.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	///
+	/// ## `x`
+	/// image x offset placeholder
+	///
+	/// ## `y`
+	/// image y offset placeholder
+	///
+	/// ## `width`
+	/// image width placholder
+	///
+	/// ## `height`
+	/// image height placeholder
 	#[doc(alias = "arv_buffer_get_image_region")]
 	#[doc(alias = "get_image_region")]
 	pub fn image_region(&self) -> (i32, i32, i32, i32) {
@@ -254,52 +254,52 @@ impl Buffer {
 		}
 	}
 
-/// Gets the image width.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-/// image width, in pixels.
+	/// Gets the image width.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	/// image width, in pixels.
 	#[doc(alias = "arv_buffer_get_image_width")]
 	#[doc(alias = "get_image_width")]
 	pub fn image_width(&self) -> i32 {
 		unsafe { ffi::arv_buffer_get_image_width(self.to_glib_none().0) }
 	}
 
-/// Gets the image x offset.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-/// image x offset, in pixels.
+	/// Gets the image x offset.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	/// image x offset, in pixels.
 	#[doc(alias = "arv_buffer_get_image_x")]
 	#[doc(alias = "get_image_x")]
 	pub fn image_x(&self) -> i32 {
 		unsafe { ffi::arv_buffer_get_image_x(self.to_glib_none().0) }
 	}
 
-/// Gets the image y offset.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-///
-/// # Returns
-///
-/// image y offset, in pixels.
+	/// Gets the image y offset.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	///
+	/// # Returns
+	///
+	/// image y offset, in pixels.
 	#[doc(alias = "arv_buffer_get_image_y")]
 	#[doc(alias = "get_image_y")]
 	pub fn image_y(&self) -> i32 {
 		unsafe { ffi::arv_buffer_get_image_y(self.to_glib_none().0) }
 	}
 
-///
-/// # Returns
-///
-/// the number of part in the buffer.
+	///
+	/// # Returns
+	///
+	/// the number of part in the buffer.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_n_parts")]
@@ -308,12 +308,12 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_get_n_parts(self.to_glib_none().0) }
 	}
 
-/// ## `part_id`
-/// part id
-///
-/// # Returns
-///
-/// the part component id value
+	/// ## `part_id`
+	/// part id
+	///
+	/// # Returns
+	///
+	/// the part component id value
 	#[cfg(feature = "v0_8_25")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_25")))]
 	#[doc(alias = "arv_buffer_get_part_component_id")]
@@ -322,12 +322,12 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_get_part_component_id(self.to_glib_none().0, part_id) }
 	}
 
-/// ## `part_id`
-/// part id
-///
-/// # Returns
-///
-/// a pointer to the part data.
+	/// ## `part_id`
+	/// part id
+	///
+	/// # Returns
+	///
+	/// a pointer to the part data.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_data")]
@@ -351,16 +351,16 @@ impl Buffer {
 	//    unsafe { TODO: call ffi:arv_buffer_get_part_data_type() }
 	//}
 
-/// Gets the part height.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-/// height, in pixels.
+	/// Gets the part height.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	/// height, in pixels.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_height")]
@@ -369,21 +369,21 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_get_part_height(self.to_glib_none().0, part_id) }
 	}
 
-/// Gets the part padding.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-///
-/// ## `x_padding`
-/// x offset placeholder
-///
-/// ## `y_padding`
-/// y offset placeholder
+	/// Gets the part padding.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	///
+	/// ## `x_padding`
+	/// x offset placeholder
+	///
+	/// ## `y_padding`
+	/// y offset placeholder
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_padding")]
@@ -402,16 +402,16 @@ impl Buffer {
 		}
 	}
 
-/// Gets the part pixel format.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-/// part pixel format.
+	/// Gets the part pixel format.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	/// part pixel format.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_pixel_format")]
@@ -425,27 +425,27 @@ impl Buffer {
 		}
 	}
 
-/// Gets the part region.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-///
-/// ## `x`
-/// x offset placeholder
-///
-/// ## `y`
-/// y offset placeholder
-///
-/// ## `width`
-/// width placeholder
-///
-/// ## `height`
-/// height placeholder
+	/// Gets the part region.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	///
+	/// ## `x`
+	/// x offset placeholder
+	///
+	/// ## `y`
+	/// y offset placeholder
+	///
+	/// ## `width`
+	/// width placeholder
+	///
+	/// ## `height`
+	/// height placeholder
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_region")]
@@ -473,16 +473,16 @@ impl Buffer {
 		}
 	}
 
-/// Gets the part width.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-/// width, in pixels.
+	/// Gets the part width.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	/// width, in pixels.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_width")]
@@ -491,16 +491,16 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_get_part_width(self.to_glib_none().0, part_id) }
 	}
 
-/// Gets the part x offset.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-/// x offset, in pixels.
+	/// Gets the part x offset.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	/// x offset, in pixels.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_x")]
@@ -509,16 +509,16 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_get_part_x(self.to_glib_none().0, part_id) }
 	}
 
-/// Gets the part y_offset.
-///
-/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
-/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
-/// ## `part_id`
-/// a part id
-///
-/// # Returns
-///
-/// y offset, in pixels.
+	/// Gets the part y_offset.
+	///
+	/// This function must only be called if buffer payload is either [`BufferPayloadType::Image`][crate::BufferPayloadType::Image],
+	/// [`BufferPayloadType::ExtendedChunkData`][crate::BufferPayloadType::ExtendedChunkData] or [`BufferPayloadType::Multipart`][crate::BufferPayloadType::Multipart].
+	/// ## `part_id`
+	/// a part id
+	///
+	/// # Returns
+	///
+	/// y offset, in pixels.
 	#[cfg(feature = "v0_8_23")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
 	#[doc(alias = "arv_buffer_get_part_y")]
@@ -527,48 +527,48 @@ impl Buffer {
 		unsafe { ffi::arv_buffer_get_part_y(self.to_glib_none().0, part_id) }
 	}
 
-/// Gets the buffer payload type.
-///
-/// # Returns
-///
-/// payload type.
+	/// Gets the buffer payload type.
+	///
+	/// # Returns
+	///
+	/// payload type.
 	#[doc(alias = "arv_buffer_get_payload_type")]
 	#[doc(alias = "get_payload_type")]
 	pub fn payload_type(&self) -> BufferPayloadType {
 		unsafe { from_glib(ffi::arv_buffer_get_payload_type(self.to_glib_none().0)) }
 	}
 
-/// Gets the buffer acquisition status.
-///
-/// # Returns
-///
-/// buffer acquisition status.
+	/// Gets the buffer acquisition status.
+	///
+	/// # Returns
+	///
+	/// buffer acquisition status.
 	#[doc(alias = "arv_buffer_get_status")]
 	#[doc(alias = "get_status")]
 	pub fn status(&self) -> BufferStatus {
 		unsafe { from_glib(ffi::arv_buffer_get_status(self.to_glib_none().0)) }
 	}
 
-/// Gets the system timestamp for when the frame was received. Expressed in
-/// nanoseconds.
-///
-/// # Returns
-///
-/// buffer system timestamp, in nanoseconds.
+	/// Gets the system timestamp for when the frame was received. Expressed in
+	/// nanoseconds.
+	///
+	/// # Returns
+	///
+	/// buffer system timestamp, in nanoseconds.
 	#[doc(alias = "arv_buffer_get_system_timestamp")]
 	#[doc(alias = "get_system_timestamp")]
 	pub fn system_timestamp(&self) -> u64 {
 		unsafe { ffi::arv_buffer_get_system_timestamp(self.to_glib_none().0) }
 	}
 
-/// Gets the buffer camera timestamp, expressed as nanoseconds. Not all devices
-/// provide reliable timestamp, which means sometimes its better to rely on the
-/// buffer completion host local time, or to use
-/// [`system_timestamp()`][Self::system_timestamp()].
-///
-/// # Returns
-///
-/// buffer timestamp, in nanoseconds.
+	/// Gets the buffer camera timestamp, expressed as nanoseconds. Not all devices
+	/// provide reliable timestamp, which means sometimes its better to rely on the
+	/// buffer completion host local time, or to use
+	/// [`system_timestamp()`][Self::system_timestamp()].
+	///
+	/// # Returns
+	///
+	/// buffer timestamp, in nanoseconds.
 	#[doc(alias = "arv_buffer_get_timestamp")]
 	#[doc(alias = "get_timestamp")]
 	pub fn timestamp(&self) -> u64 {
@@ -581,19 +581,19 @@ impl Buffer {
 	//    unsafe { TODO: call ffi:arv_buffer_get_user_data() }
 	//}
 
-///
-/// # Returns
-///
-/// [`true`] if `self` has a payload type that contains chunk data.
+	///
+	/// # Returns
+	///
+	/// [`true`] if `self` has a payload type that contains chunk data.
 	#[doc(alias = "arv_buffer_has_chunks")]
 	pub fn has_chunks(&self) -> bool {
 		unsafe { from_glib(ffi::arv_buffer_has_chunks(self.to_glib_none().0)) }
 	}
 
-///
-/// # Returns
-///
-/// [`true`] if `self` has a payload type that contains GenDC Data.
+	///
+	/// # Returns
+	///
+	/// [`true`] if `self` has a payload type that contains GenDC Data.
 	#[cfg(feature = "v0_8_31")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
 	#[doc(alias = "arv_buffer_has_gendc")]
@@ -601,9 +601,9 @@ impl Buffer {
 		unsafe { from_glib(ffi::arv_buffer_has_gendc(self.to_glib_none().0)) }
 	}
 
-/// Sets the buffer frame id. For GigEVision devices, 0 is an invalid value.
-/// ## `frame_id`
-/// a `guint64`
+	/// Sets the buffer frame id. For GigEVision devices, 0 is an invalid value.
+	/// ## `frame_id`
+	/// a `guint64`
 	#[cfg(feature = "v0_8_3")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_buffer_set_frame_id")]
@@ -613,10 +613,10 @@ impl Buffer {
 		}
 	}
 
-/// Sets the system timestamp for when the frame was received. Expressed in
-/// nanoseconds.
-/// ## `timestamp_ns`
-/// a timestamp, expressed as nanoseconds
+	/// Sets the system timestamp for when the frame was received. Expressed in
+	/// nanoseconds.
+	/// ## `timestamp_ns`
+	/// a timestamp, expressed as nanoseconds
 	#[doc(alias = "arv_buffer_set_system_timestamp")]
 	pub fn set_system_timestamp(&self, timestamp_ns: u64) {
 		unsafe {
@@ -624,10 +624,10 @@ impl Buffer {
 		}
 	}
 
-/// Sets the buffer timestamp, which allows to override the timpestamp set by
-/// the camera, which in some case is incorrect.
-/// ## `timestamp_ns`
-/// a timestamp, expressed as nanoseconds
+	/// Sets the buffer timestamp, which allows to override the timpestamp set by
+	/// the camera, which in some case is incorrect.
+	/// ## `timestamp_ns`
+	/// a timestamp, expressed as nanoseconds
 	#[doc(alias = "arv_buffer_set_timestamp")]
 	pub fn set_timestamp(&self, timestamp_ns: u64) {
 		unsafe {

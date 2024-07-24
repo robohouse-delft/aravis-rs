@@ -22,10 +22,10 @@ glib::wrapper! {
 impl GcStructRegNode {
 	pub const NONE: Option<&'static GcStructRegNode> = None;
 
-///
-/// # Returns
-///
-/// a new StructReg [`GcNode`][crate::GcNode]
+	///
+	/// # Returns
+	///
+	/// a new StructReg [`GcNode`][crate::GcNode]
 	#[doc(alias = "arv_gc_struct_reg_node_new")]
 	pub fn new() -> GcStructRegNode {
 		assert_initialized_main_thread!();

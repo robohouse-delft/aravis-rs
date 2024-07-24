@@ -20,10 +20,10 @@ glib::wrapper! {
 }
 
 impl GcStructEntryNode {
-///
-/// # Returns
-///
-/// a newly created [`GcStructEntryNode`][crate::GcStructEntryNode].
+	///
+	/// # Returns
+	///
+	/// a newly created [`GcStructEntryNode`][crate::GcStructEntryNode].
 	#[doc(alias = "arv_gc_struct_entry_node_new")]
 	pub fn new() -> GcStructEntryNode {
 		assert_initialized_main_thread!();

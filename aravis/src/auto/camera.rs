@@ -62,36 +62,36 @@ glib::wrapper! {
 impl Camera {
 	pub const NONE: Option<&'static Camera> = None;
 
-/// Creates a new [`Camera`][crate::Camera]. If `name` is null, it will instantiate the
-/// first available camera.
-///
-/// If the camera is a GigEVision, `name` can be either:
-///
-/// - &lt;vendor&gt;-&lt;model&gt;-&lt;serial&gt;
-/// - &lt;vendor_alias&gt;-&lt;serial&gt;
-/// - &lt;vendor&gt;-&lt;serial&gt;
-/// - &lt;user_id&gt;
-/// - &lt;ip_address&gt;
-/// - &lt;mac_address&gt;
-///
-/// For example:
-///
-/// - The Imaging Source Europe GmbH-DFK 33GX265-39020369
-/// - The Imaging Source Europe GmbH-39020369
-/// - TIS-39020369
-/// - 192.168.0.2
-/// - 00:07:48:af:a2:61
-///
-/// If the camera is a USB3Vision device, `name` is either:
-///
-/// - &lt;vendor_alias&gt;-&lt;serial&gt;
-/// - &lt;vendor&gt;-&lt;serial&gt;
-/// ## `name`
-/// name of the camera.
-///
-/// # Returns
-///
-/// a new [`Camera`][crate::Camera].
+	/// Creates a new [`Camera`][crate::Camera]. If `name` is null, it will instantiate the
+	/// first available camera.
+	///
+	/// If the camera is a GigEVision, `name` can be either:
+	///
+	/// - &lt;vendor&gt;-&lt;model&gt;-&lt;serial&gt;
+	/// - &lt;vendor_alias&gt;-&lt;serial&gt;
+	/// - &lt;vendor&gt;-&lt;serial&gt;
+	/// - &lt;user_id&gt;
+	/// - &lt;ip_address&gt;
+	/// - &lt;mac_address&gt;
+	///
+	/// For example:
+	///
+	/// - The Imaging Source Europe GmbH-DFK 33GX265-39020369
+	/// - The Imaging Source Europe GmbH-39020369
+	/// - TIS-39020369
+	/// - 192.168.0.2
+	/// - 00:07:48:af:a2:61
+	///
+	/// If the camera is a USB3Vision device, `name` is either:
+	///
+	/// - &lt;vendor_alias&gt;-&lt;serial&gt;
+	/// - &lt;vendor&gt;-&lt;serial&gt;
+	/// ## `name`
+	/// name of the camera.
+	///
+	/// # Returns
+	///
+	/// a new [`Camera`][crate::Camera].
 	#[doc(alias = "arv_camera_new")]
 	pub fn new(name: Option<&str>) -> Result<Camera, glib::Error> {
 		assert_initialized_main_thread!();
@@ -106,13 +106,13 @@ impl Camera {
 		}
 	}
 
-/// Creates a new [`Camera`][crate::Camera], using `device` as its internal device object.
-/// ## `device`
-/// a [`Device`][crate::Device]
-///
-/// # Returns
-///
-/// a new [`Camera`][crate::Camera].
+	/// Creates a new [`Camera`][crate::Camera], using `device` as its internal device object.
+	/// ## `device`
+	/// a [`Device`][crate::Device]
+	///
+	/// # Returns
+	///
+	/// a new [`Camera`][crate::Camera].
 	#[cfg(feature = "v0_8_6")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 	#[doc(alias = "arv_camera_new_with_device")]

@@ -25,7 +25,12 @@ impl<T: IsA<GcRegister>> traits::GcRegisterExtManual for T {
 			let mut error = ptr::null_mut();
 			let len = buffer.len();
 			let ptr = buffer.as_mut_ptr();
-			arv_gc_register_get(self.as_ref().to_glib_none().0, ptr as *mut c_void, len as u64, &mut error);
+			arv_gc_register_get(
+				self.as_ref().to_glib_none().0,
+				ptr as *mut c_void,
+				len as u64,
+				&mut error,
+			);
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -39,7 +44,12 @@ impl<T: IsA<GcRegister>> traits::GcRegisterExtManual for T {
 			let mut error = ptr::null_mut();
 			let len = buffer.len();
 			let ptr = buffer.as_ptr();
-			ffi::arv_gc_register_set(self.as_ref().to_glib_none().0, ptr as *mut c_void, len as u64, &mut error);
+			ffi::arv_gc_register_set(
+				self.as_ref().to_glib_none().0,
+				ptr as *mut c_void,
+				len as u64,
+				&mut error,
+			);
 			if error.is_null() {
 				Ok(())
 			} else {

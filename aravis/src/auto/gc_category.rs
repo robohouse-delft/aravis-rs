@@ -26,11 +26,11 @@ impl GcCategory {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_category_new()).unsafe_cast() }
 	}
 
-/// Get a list of strings with the name of the features listed in the given category node.
-///
-/// # Returns
-///
-/// a list of strings.
+	/// Get a list of strings with the name of the features listed in the given category node.
+	///
+	/// # Returns
+	///
+	/// a list of strings.
 	#[doc(alias = "arv_gc_category_get_features")]
 	#[doc(alias = "get_features")]
 	pub fn features(&self) -> Vec<glib::GString> {

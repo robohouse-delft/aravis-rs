@@ -47,35 +47,35 @@ impl Gc {
 		unsafe { from_glib(ffi::arv_gc_get_access_check_policy(self.to_glib_none().0)) }
 	}
 
-/// Retrieves the binded buffer.
-///
-/// # Returns
-///
-/// a [`Buffer`][crate::Buffer].
+	/// Retrieves the binded buffer.
+	///
+	/// # Returns
+	///
+	/// a [`Buffer`][crate::Buffer].
 	#[doc(alias = "arv_gc_get_buffer")]
 	#[doc(alias = "get_buffer")]
 	pub fn buffer(&self) -> Option<Buffer> {
 		unsafe { from_glib_none(ffi::arv_gc_get_buffer(self.to_glib_none().0)) }
 	}
 
-/// Retrieves the device handled by this genicam interface. The device is used for register access.
-///
-/// # Returns
-///
-/// a [`Device`][crate::Device].
+	/// Retrieves the device handled by this genicam interface. The device is used for register access.
+	///
+	/// # Returns
+	///
+	/// a [`Device`][crate::Device].
 	#[doc(alias = "arv_gc_get_device")]
 	#[doc(alias = "get_device")]
 	pub fn device(&self) -> Option<Device> {
 		unsafe { from_glib_none(ffi::arv_gc_get_device(self.to_glib_none().0)) }
 	}
 
-/// Retrieves a genicam node by name.
-/// ## `name`
-/// node name
-///
-/// # Returns
-///
-/// a [`GcNode`][crate::GcNode], null if not found.
+	/// Retrieves a genicam node by name.
+	/// ## `name`
+	/// node name
+	///
+	/// # Returns
+	///
+	/// a [`GcNode`][crate::GcNode], null if not found.
 	#[doc(alias = "arv_gc_get_node")]
 	#[doc(alias = "get_node")]
 	pub fn node(&self, name: &str) -> Option<GcNode> {

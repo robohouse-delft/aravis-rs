@@ -43,14 +43,14 @@ glib::wrapper! {
 }
 
 impl GvFakeCamera {
-/// ## `interface_name`
-/// listening network interface ('lo' by default)
-/// ## `serial_number`
-/// fake device serial number ('GV01' by default)
-///
-/// # Returns
-///
-/// a new [`GvFakeCamera`][crate::GvFakeCamera]
+	/// ## `interface_name`
+	/// listening network interface ('lo' by default)
+	/// ## `serial_number`
+	/// fake device serial number ('GV01' by default)
+	///
+	/// # Returns
+	///
+	/// a new [`GvFakeCamera`][crate::GvFakeCamera]
 	#[doc(alias = "arv_gv_fake_camera_new")]
 	pub fn new(interface_name: Option<&str>, serial_number: Option<&str>) -> GvFakeCamera {
 		assert_initialized_main_thread!();
@@ -62,16 +62,16 @@ impl GvFakeCamera {
 		}
 	}
 
-/// ## `interface_name`
-/// listening network interface, by name or IP address, default is 127.0.0.1
-/// ## `serial_number`
-/// fake device serial number, default is GV01
-/// ## `genicam_filename`
-/// path to alternative genicam data
-///
-/// # Returns
-///
-/// a new [`GvFakeCamera`][crate::GvFakeCamera]
+	/// ## `interface_name`
+	/// listening network interface, by name or IP address, default is 127.0.0.1
+	/// ## `serial_number`
+	/// fake device serial number, default is GV01
+	/// ## `genicam_filename`
+	/// path to alternative genicam data
+	///
+	/// # Returns
+	///
+	/// a new [`GvFakeCamera`][crate::GvFakeCamera]
 	#[doc(alias = "arv_gv_fake_camera_new_full")]
 	pub fn new_full(
 		interface_name: Option<&str>,
@@ -88,11 +88,11 @@ impl GvFakeCamera {
 		}
 	}
 
-/// Retrieves the underlying [`FakeCamera`][crate::FakeCamera] object owned by `self`.
-///
-/// # Returns
-///
-/// underlying fake camera object.
+	/// Retrieves the underlying [`FakeCamera`][crate::FakeCamera] object owned by `self`.
+	///
+	/// # Returns
+	///
+	/// underlying fake camera object.
 	#[doc(alias = "arv_gv_fake_camera_get_fake_camera")]
 	#[doc(alias = "get_fake_camera")]
 	pub fn fake_camera(&self) -> Option<FakeCamera> {
@@ -103,10 +103,10 @@ impl GvFakeCamera {
 		}
 	}
 
-///
-/// # Returns
-///
-/// [`true`] if the fake camera is correctly listening on the GVCP port
+	///
+	/// # Returns
+	///
+	/// [`true`] if the fake camera is correctly listening on the GVCP port
 	#[doc(alias = "arv_gv_fake_camera_is_running")]
 	pub fn is_running(&self) -> bool {
 		unsafe { from_glib(ffi::arv_gv_fake_camera_is_running(self.to_glib_none().0)) }

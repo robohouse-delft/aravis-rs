@@ -26,12 +26,12 @@ impl GcEnumeration {
 		unsafe { GcNode::from_glib_full(ffi::arv_gc_enumeration_new()).unsafe_cast() }
 	}
 
-/// Create an array of display names of all available entries.
-///
-/// # Returns
-///
-/// an newly created array of const strings, which must freed after use using g_free,
-/// [`None`] on error.
+	/// Create an array of display names of all available entries.
+	///
+	/// # Returns
+	///
+	/// an newly created array of const strings, which must freed after use using g_free,
+	/// [`None`] on error.
 	#[doc(alias = "arv_gc_enumeration_dup_available_display_names")]
 	pub fn dup_available_display_names(&self) -> Result<Vec<glib::GString>, glib::Error> {
 		unsafe {
@@ -53,11 +53,11 @@ impl GcEnumeration {
 		}
 	}
 
-///
-/// # Returns
-///
-/// a newly allocated array of 64 bit integers, to be freed after
-/// use using `g_free()`.
+	///
+	/// # Returns
+	///
+	/// a newly allocated array of 64 bit integers, to be freed after
+	/// use using `g_free()`.
 	#[doc(alias = "arv_gc_enumeration_dup_available_int_values")]
 	pub fn dup_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
 		unsafe {
@@ -79,12 +79,12 @@ impl GcEnumeration {
 		}
 	}
 
-/// Create an array of all available values of `self`, as strings.
-///
-/// # Returns
-///
-/// an newly created array of const strings, which must freed after use using g_free,
-/// [`None`] on error.
+	/// Create an array of all available values of `self`, as strings.
+	///
+	/// # Returns
+	///
+	/// an newly created array of const strings, which must freed after use using g_free,
+	/// [`None`] on error.
 	#[doc(alias = "arv_gc_enumeration_dup_available_string_values")]
 	pub fn dup_available_string_values(&self) -> Result<Vec<glib::GString>, glib::Error> {
 		unsafe {
@@ -106,10 +106,10 @@ impl GcEnumeration {
 		}
 	}
 
-///
-/// # Returns
-///
-/// the list of enumeration entry nodes.
+	///
+	/// # Returns
+	///
+	/// the list of enumeration entry nodes.
 	#[doc(alias = "arv_gc_enumeration_get_entries")]
 	#[doc(alias = "get_entries")]
 	pub fn entries(&self) -> Vec<GcFeatureNode> {

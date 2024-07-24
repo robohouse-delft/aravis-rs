@@ -20,11 +20,11 @@ glib::wrapper! {
 }
 
 impl GvInterface {
-/// Gets the unique instance of the GV interface.
-///
-/// # Returns
-///
-/// a [`Interface`][crate::Interface] singleton.
+	/// Gets the unique instance of the GV interface.
+	///
+	/// # Returns
+	///
+	/// a [`Interface`][crate::Interface] singleton.
 	#[doc(alias = "arv_gv_interface_get_instance")]
 	#[doc(alias = "get_instance")]
 	pub fn instance() -> Option<Interface> {
