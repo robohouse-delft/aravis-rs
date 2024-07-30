@@ -1,7 +1,7 @@
 use crate::{Camera, Stream};
 
+use glib::prelude::IsA;
 use glib::translate::ToGlibPtr;
-use glib::IsA;
 
 pub(crate) mod traits {
 	use super::*;

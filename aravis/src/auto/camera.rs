@@ -2,6 +2,9 @@
 // from ../gir-files
 // DO NOT EDIT
 
+#[cfg(feature = "v0_8_25")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_25")))]
+use crate::ComponentSelectionFlags;
 #[cfg(feature = "v0_8_31")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
 use crate::GcRepresentation;
@@ -21,13 +24,7 @@ use crate::{AccessCheckPolicy, GvIpConfigurationMode};
 #[cfg(feature = "v0_8_8")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 use crate::{RangeCheckPolicy, RegisterCachePolicy};
-#[cfg(feature = "v0_8_23")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
-use crate::{Stream, StreamCallbackType};
 use glib::{prelude::*, translate::*};
-#[cfg(feature = "v0_8_23")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
-use std::boxed::Box as Box_;
 
 glib::wrapper! {
 /// [class`Aravis`] is a class for the generic control of cameras. It hides the complexity of the genicam interface
@@ -207,58 +204,6 @@ pub trait CameraExt: IsA<Camera> + sealed::Sealed + 'static {
 			from_glib_full(ffi::arv_camera_create_chunk_parser(
 				self.as_ref().to_glib_none().0,
 			))
-		}
-	}
-
-	#[cfg(feature = "v0_8_23")]
-	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
-	#[doc(alias = "arv_camera_create_stream_full")]
-	fn create_stream_full(
-		&self,
-		callback: Option<Box_<dyn Fn(&StreamCallbackType) + 'static>>,
-	) -> Result<Stream, glib::Error> {
-		let callback_data: Box_<Option<Box_<dyn Fn(&StreamCallbackType) + 'static>>> =
-			Box_::new(callback);
-		unsafe extern "C" fn callback_func(
-			user_data: glib::ffi::gpointer,
-			type_: ffi::ArvStreamCallbackType,
-			buffer: *mut ffi::ArvBuffer,
-		) {
-			let type_ = from_glib_borrow(type_);
-			let buffer = from_glib_borrow(buffer);
-			let callback = &*(buffer as *mut Option<Box_<dyn Fn(&StreamCallbackType) + 'static>>);
-			if let Some(ref callback) = *callback {
-				callback(&type_, &buffer)
-			} else {
-				panic!("cannot get closure...")
-			}
-		}
-		let callback = if callback_data.is_some() {
-			Some(callback_func as _)
-		} else {
-			None
-		};
-		unsafe extern "C" fn destroy_func(data: glib::ffi::gpointer) {
-			let _callback =
-				Box_::from_raw(data as *mut Option<Box_<dyn Fn(&StreamCallbackType) + 'static>>);
-		}
-		let destroy_call3 = Some(destroy_func as _);
-		let super_callback0: Box_<Option<Box_<dyn Fn(&StreamCallbackType) + 'static>>> =
-			callback_data;
-		unsafe {
-			let mut error = std::ptr::null_mut();
-			let ret = ffi::arv_camera_create_stream_full(
-				self.as_ref().to_glib_none().0,
-				callback,
-				Box_::into_raw(super_callback0) as *mut _,
-				destroy_call3,
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(from_glib_full(ret))
-			} else {
-				Err(from_glib_full(error))
-			}
 		}
 	}
 
@@ -1435,8 +1380,7 @@ pub trait CameraExt: IsA<Camera> + sealed::Sealed + 'static {
 		unsafe {
 			let mut error = std::ptr::null_mut();
 			let is_ok =
-				ffi::arv_camera_gv_auto_packet_size(self.as_ref().to_glib_none().0, &mut error)
-					as i32;
+				ffi::arv_camera_gv_auto_packet_size(self.as_ref().to_glib_none().0, &mut error) as i32;
 			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
@@ -2066,12 +2010,32 @@ pub trait CameraExt: IsA<Camera> + sealed::Sealed + 'static {
 		}
 	}
 
-	//#[cfg(feature = "v0_8_25")]
-	//#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_25")))]
-	//#[doc(alias = "arv_camera_select_component")]
-	//fn select_component(&self, component: &str, flags: /*Ignored*/ComponentSelectionFlags) -> Result<u32, glib::Error> {
-	//    unsafe { TODO: call ffi:arv_camera_select_component() }
-	//}
+	#[cfg(feature = "v0_8_25")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_25")))]
+	#[doc(alias = "arv_camera_select_component")]
+	fn select_component(
+		&self,
+		component: &str,
+		flags: ComponentSelectionFlags,
+	) -> Result<u32, glib::Error> {
+		unsafe {
+			let mut component_id = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_camera_select_component(
+				self.as_ref().to_glib_none().0,
+				component.to_glib_none().0,
+				flags.into_glib(),
+				component_id.as_mut_ptr(),
+				&mut error,
+			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
+			if error.is_null() {
+				Ok(component_id.assume_init())
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
 
 	#[cfg(feature = "v0_8_27")]
 	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_27")))]

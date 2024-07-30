@@ -81,8 +81,7 @@ impl GvDevice {
 	pub fn auto_packet_size(&self) -> Result<(), glib::Error> {
 		unsafe {
 			let mut error = std::ptr::null_mut();
-			let is_ok =
-				ffi::arv_gv_device_auto_packet_size(self.to_glib_none().0, &mut error) as i32;
+			let is_ok = ffi::arv_gv_device_auto_packet_size(self.to_glib_none().0, &mut error) as i32;
 			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())

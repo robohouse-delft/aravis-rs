@@ -6,6 +6,7 @@ use crate::ffi;
 use glib::{bitflags::bitflags, prelude::*, translate::*};
 
 bitflags! {
+	#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 	#[doc(alias = "ArvGvStreamOption")]
 	pub struct GvStreamOption: u32 {
 		#[doc(alias = "ARV_GV_STREAM_OPTION_NONE")]
@@ -71,10 +72,7 @@ impl ToValue for GvStreamOption {
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
-			glib::gobject_ffi::g_value_set_flags(
-				value.to_glib_none_mut().0,
-				self.clone().into_glib(),
-			);
+			glib::gobject_ffi::g_value_set_flags(value.to_glib_none_mut().0, self.into_glib());
 		}
 		value
 	}

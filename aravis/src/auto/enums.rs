@@ -363,6 +363,148 @@ impl From<Auto> for glib::Value {
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
+#[doc(alias = "ArvBufferPartDataType")]
+pub enum BufferPartDataType {
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_UNKNOWN")]
+	Unknown,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_IMAGE")]
+	_2dImage,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_BIPLANAR")]
+	_2dPlaneBiplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_TRIPLANAR")]
+	_2dPlaneTriplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_QUADPLANAR")]
+	_2dPlaneQuadplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_IMAGE")]
+	_3dImage,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_BIPLANAR")]
+	_3dPlaneBiplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_TRIPLANAR")]
+	_3dPlaneTriplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_QUADPLANAR")]
+	_3dPlaneQuadplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_CONFIDENCE_MAP")]
+	ConfidenceMap,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_CHUNK_DATA")]
+	ChunkData,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_JPEG")]
+	Jpeg,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_JPEG2000")]
+	Jpeg2000,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_DEVICE_SPECIFIC")]
+	DeviceSpecific,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[doc(hidden)]
+impl IntoGlib for BufferPartDataType {
+	type GlibType = ffi::ArvBufferPartDataType;
+
+	fn into_glib(self) -> ffi::ArvBufferPartDataType {
+		match self {
+			Self::Unknown => ffi::ARV_BUFFER_PART_DATA_TYPE_UNKNOWN,
+			Self::_2dImage => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_IMAGE,
+			Self::_2dPlaneBiplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_BIPLANAR,
+			Self::_2dPlaneTriplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_TRIPLANAR,
+			Self::_2dPlaneQuadplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_QUADPLANAR,
+			Self::_3dImage => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_IMAGE,
+			Self::_3dPlaneBiplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_BIPLANAR,
+			Self::_3dPlaneTriplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_TRIPLANAR,
+			Self::_3dPlaneQuadplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_QUADPLANAR,
+			Self::ConfidenceMap => ffi::ARV_BUFFER_PART_DATA_TYPE_CONFIDENCE_MAP,
+			Self::ChunkData => ffi::ARV_BUFFER_PART_DATA_TYPE_CHUNK_DATA,
+			Self::Jpeg => ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG,
+			Self::Jpeg2000 => ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG2000,
+			Self::DeviceSpecific => ffi::ARV_BUFFER_PART_DATA_TYPE_DEVICE_SPECIFIC,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvBufferPartDataType> for BufferPartDataType {
+	unsafe fn from_glib(value: ffi::ArvBufferPartDataType) -> Self {
+		skip_assert_initialized!();
+
+		match value {
+			ffi::ARV_BUFFER_PART_DATA_TYPE_UNKNOWN => Self::Unknown,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_IMAGE => Self::_2dImage,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_BIPLANAR => Self::_2dPlaneBiplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_TRIPLANAR => Self::_2dPlaneTriplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_QUADPLANAR => Self::_2dPlaneQuadplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_IMAGE => Self::_3dImage,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_BIPLANAR => Self::_3dPlaneBiplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_TRIPLANAR => Self::_3dPlaneTriplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_QUADPLANAR => Self::_3dPlaneQuadplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_CONFIDENCE_MAP => Self::ConfidenceMap,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_CHUNK_DATA => Self::ChunkData,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG => Self::Jpeg,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG2000 => Self::Jpeg2000,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_DEVICE_SPECIFIC => Self::DeviceSpecific,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for BufferPartDataType {
+	#[inline]
+	#[doc(alias = "arv_buffer_part_data_type_get_type")]
+	fn static_type() -> glib::Type {
+		unsafe { from_glib(ffi::arv_buffer_part_data_type_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for BufferPartDataType {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+impl glib::value::ValueType for BufferPartDataType {
+	type Type = Self;
+}
+
+unsafe impl<'a> glib::value::FromValue<'a> for BufferPartDataType {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	#[inline]
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for BufferPartDataType {
+	#[inline]
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	#[inline]
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
+impl From<BufferPartDataType> for glib::Value {
+	#[inline]
+	fn from(v: BufferPartDataType) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
 #[doc(alias = "ArvBufferPayloadType")]
 pub enum BufferPayloadType {
 	/// unknown payload type
@@ -774,6 +916,114 @@ impl ToValue for ChunkParserError {
 impl From<ChunkParserError> for glib::Value {
 	#[inline]
 	fn from(v: ChunkParserError) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvComponentSelectionFlags")]
+pub enum ComponentSelectionFlags {
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_NONE")]
+	None,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_ENABLE")]
+	Enable,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_DISABLE")]
+	Disable,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_EXCLUSIVE_ENABLE")]
+	ExclusiveEnable,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_ENABLE_ALL")]
+	EnableAll,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[doc(hidden)]
+impl IntoGlib for ComponentSelectionFlags {
+	type GlibType = ffi::ArvComponentSelectionFlags;
+
+	#[inline]
+	fn into_glib(self) -> ffi::ArvComponentSelectionFlags {
+		match self {
+			Self::None => ffi::ARV_COMPONENT_SELECTION_FLAGS_NONE,
+			Self::Enable => ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE,
+			Self::Disable => ffi::ARV_COMPONENT_SELECTION_FLAGS_DISABLE,
+			Self::ExclusiveEnable => ffi::ARV_COMPONENT_SELECTION_FLAGS_EXCLUSIVE_ENABLE,
+			Self::EnableAll => ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE_ALL,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvComponentSelectionFlags> for ComponentSelectionFlags {
+	#[inline]
+	unsafe fn from_glib(value: ffi::ArvComponentSelectionFlags) -> Self {
+		skip_assert_initialized!();
+
+		match value {
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_NONE => Self::None,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE => Self::Enable,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_DISABLE => Self::Disable,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_EXCLUSIVE_ENABLE => Self::ExclusiveEnable,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE_ALL => Self::EnableAll,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for ComponentSelectionFlags {
+	#[inline]
+	#[doc(alias = "arv_component_selection_flags_get_type")]
+	fn static_type() -> glib::Type {
+		unsafe { from_glib(ffi::arv_component_selection_flags_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for ComponentSelectionFlags {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+impl glib::value::ValueType for ComponentSelectionFlags {
+	type Type = Self;
+}
+
+unsafe impl<'a> glib::value::FromValue<'a> for ComponentSelectionFlags {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	#[inline]
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for ComponentSelectionFlags {
+	#[inline]
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	#[inline]
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
+impl From<ComponentSelectionFlags> for glib::Value {
+	#[inline]
+	fn from(v: ComponentSelectionFlags) -> Self {
 		skip_assert_initialized!();
 		ToValue::to_value(&v)
 	}

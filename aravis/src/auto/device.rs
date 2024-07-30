@@ -12,9 +12,6 @@ use crate::{ffi, ChunkParser, Gc, GcNode, RegisterCachePolicy};
 #[cfg(feature = "v0_8_22")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 use crate::{AccessCheckPolicy, GcAccessMode};
-#[cfg(feature = "v0_8_23")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
-use crate::{Buffer, Stream, StreamCallbackType};
 use glib::{
 	prelude::*,
 	signal::{connect_raw, SignalHandlerId},
@@ -74,49 +71,6 @@ pub trait DeviceExt: IsA<Device> + sealed::Sealed + 'static {
 			from_glib_full(ffi::arv_device_create_chunk_parser(
 				self.as_ref().to_glib_none().0,
 			))
-		}
-	}
-
-	#[cfg(feature = "v0_8_23")]
-	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
-	#[doc(alias = "arv_device_create_stream_full")]
-	fn create_stream_full<P: Fn(&StreamCallbackType) + Send + 'static>(
-		&self,
-		callback: P,
-	) -> Result<Stream, glib::Error> {
-		let callback_data: Box_<P> = Box_::new(callback);
-		unsafe extern "C" fn callback_func<P: Fn(&StreamCallbackType) + Send + 'static>(
-			user_data: glib::ffi::gpointer,
-			type_: ffi::ArvStreamCallbackType,
-			buffer: *mut ffi::ArvBuffer,
-		) {
-			let type_ = from_glib_borrow(type_);
-			let buffer = from_glib_borrow(buffer);
-			let callback = &*(buffer as *mut P);
-			(*callback)(&type_, &buffer)
-		}
-		let callback = Some(callback_func::<P> as _);
-		unsafe extern "C" fn destroy_func<P: Fn(&StreamCallbackType) + Send + 'static>(
-			data: glib::ffi::gpointer,
-		) {
-			let _callback = Box_::from_raw(data as *mut P);
-		}
-		let destroy_call3 = Some(destroy_func::<P> as _);
-		let super_callback0: Box_<P> = callback_data;
-		unsafe {
-			let mut error = std::ptr::null_mut();
-			let ret = ffi::arv_device_create_stream_full(
-				self.as_ref().to_glib_none().0,
-				callback,
-				Box_::into_raw(super_callback0) as *mut _,
-				destroy_call3,
-				&mut error,
-			);
-			if error.is_null() {
-				Ok(from_glib_full(ret))
-			} else {
-				Err(from_glib_full(error))
-			}
 		}
 	}
 

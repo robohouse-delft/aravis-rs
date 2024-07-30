@@ -165,7 +165,7 @@ fn run_camera_loop(
 
 	#[cfg(feature = "usb-mode")]
 	{
-		use aravis::glib::Cast;
+		use aravis::glib::object::Cast;
 		let device = camera.device()
 			.ok_or("no device associated with camera")?;
 		if let Ok(device) = device.downcast::<aravis::UvDevice>() {

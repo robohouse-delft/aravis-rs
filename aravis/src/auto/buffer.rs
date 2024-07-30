@@ -2,6 +2,9 @@
 // from ../gir-files
 // DO NOT EDIT
 
+#[cfg(feature = "v0_8_23")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
+use crate::BufferPartDataType;
 use crate::{ffi, BufferPayloadType, BufferStatus, PixelFormat};
 use glib::translate::*;
 
@@ -343,13 +346,24 @@ impl Buffer {
 		}
 	}
 
-	//#[cfg(feature = "v0_8_23")]
-	//#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
-	//#[doc(alias = "arv_buffer_get_part_data_type")]
-	//#[doc(alias = "get_part_data_type")]
-	//pub fn part_data_type(&self, part_id: u32) -> /*Ignored*/BufferPartDataType {
-	//    unsafe { TODO: call ffi:arv_buffer_get_part_data_type() }
-	//}
+	/// ## `part_id`
+	/// part id
+	///
+	/// # Returns
+	///
+	/// the part [`BufferPartDataType`][crate::BufferPartDataType]
+	#[cfg(feature = "v0_8_23")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
+	#[doc(alias = "arv_buffer_get_part_data_type")]
+	#[doc(alias = "get_part_data_type")]
+	pub fn part_data_type(&self, part_id: u32) -> BufferPartDataType {
+		unsafe {
+			from_glib(ffi::arv_buffer_get_part_data_type(
+				self.to_glib_none().0,
+				part_id,
+			))
+		}
+	}
 
 	/// Gets the part height.
 	///
