@@ -1,3 +1,8 @@
+main:
+  * Add support for new features from Aravis `v0.8.31`.
+  * The `Stream::push_buffer()` function now takes the buffer by value.
+  * Remove auto-generated `Display` implementations with practically no information.
+
 v0.9.2 - 2024-06-28:
   * Make the `image` crate an optional dependency (enabled by default).
   * Add `Buffer::into_boxed_slice()`.
