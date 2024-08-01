@@ -97,5 +97,5 @@ pkg-config = "0.3.27"
 system-deps = "7.0.1"
 
 [dev-dependencies]
-shell-words = "1.0.0"
+shell-words = "1.1.0"
 tempfile = "3"
