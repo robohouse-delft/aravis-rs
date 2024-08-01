@@ -7,7 +7,7 @@ use std::ptr;
 use crate::GcRegister;
 
 pub(crate) mod traits {
-	/// Trait containing additional [`GcRegister`] methods.
+	/// Trait containing additional [`GcRegister`][crate::GcRegister] methods.
 	///
 	/// It is prefereable to use the typed interfaces like those those available in `DeviceExt` when possible.
 	pub trait GcRegisterExtManual {
