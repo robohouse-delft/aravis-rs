@@ -2,17 +2,38 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::FakeCamera;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::ToValue;
+use crate::{ffi, FakeCamera};
+use glib::{
+	prelude::*,
+	signal::{connect_raw, SignalHandlerId},
+	translate::*,
+};
 use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
 
 glib::wrapper! {
+/// [`GvFakeCamera`][crate::GvFakeCamera] is a class that simulates a real GigEVision camera.
+///
+/// ## Properties
+///
+///
+/// #### `genicam-filename`
+///  Writeable | Construct Only
+///
+///
+/// #### `gvsp-lost-ratio`
+///  Writeable | Construct
+///
+///
+/// #### `interface-name`
+///  Writeable | Construct Only
+///
+///
+/// #### `serial-number`
+///  Writeable | Construct Only
+///
+/// # Implements
+///
+/// [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGvFakeCamera")]
 	pub struct GvFakeCamera(Object<ffi::ArvGvFakeCamera, ffi::ArvGvFakeCameraClass>);
 
@@ -93,13 +114,7 @@ impl GvFakeCamera {
 
 	#[doc(alias = "gvsp-lost-ratio")]
 	pub fn set_gvsp_lost_ratio(&self, gvsp_lost_ratio: f64) {
-		unsafe {
-			glib::gobject_ffi::g_object_set_property(
-				self.as_ptr() as *mut glib::gobject_ffi::GObject,
-				b"gvsp-lost-ratio\0".as_ptr() as *const _,
-				gvsp_lost_ratio.to_value().to_glib_none().0,
-			);
-		}
+		ObjectExt::set_property(self, "gvsp-lost-ratio", gvsp_lost_ratio)
 	}
 
 	#[doc(alias = "gvsp-lost-ratio")]
@@ -122,7 +137,7 @@ impl GvFakeCamera {
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::gvsp-lost-ratio\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
+				Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
 					notify_gvsp_lost_ratio_trampoline::<F> as *const (),
 				)),
 				Box_::into_raw(f),
@@ -132,9 +147,3 @@ impl GvFakeCamera {
 }
 
 unsafe impl Send for GvFakeCamera {}
-
-impl fmt::Display for GvFakeCamera {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GvFakeCamera")
-	}
-}

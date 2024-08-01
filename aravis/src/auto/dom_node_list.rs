@@ -2,12 +2,17 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomNode;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`DomNodeListExt`][trait@crate::prelude::DomNodeListExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomNodeList")]
 	pub struct DomNodeList(Object<ffi::ArvDomNodeList, ffi::ArvDomNodeListClass>);
 
@@ -16,33 +21,25 @@ glib::wrapper! {
 	}
 }
 
+impl DomNodeList {
+	pub const NONE: Option<&'static DomNodeList> = None;
+}
+
 unsafe impl Send for DomNodeList {}
 
-pub const NONE_DOM_NODE_LIST: Option<&DomNodeList> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::DomNodeList>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@DomNodeList`] methods.
 ///
 /// # Implementors
 ///
 /// [`DomNodeChildList`][struct@crate::DomNodeChildList], [`DomNodeList`][struct@crate::DomNodeList]
-pub trait DomNodeListExt: 'static {
-	/// Get one of the item of `self`.
-	/// ## `index`
-	/// item index
-	///
-	/// # Returns
-	///
-	/// item corresponding to index, NULL on error.
+pub trait DomNodeListExt: IsA<DomNodeList> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_dom_node_list_get_item")]
 	#[doc(alias = "get_item")]
-	fn item(&self, index: u32) -> Option<DomNode>;
-
-	#[doc(alias = "arv_dom_node_list_get_length")]
-	#[doc(alias = "get_length")]
-	fn length(&self) -> u32;
-}
-
-impl<O: IsA<DomNodeList>> DomNodeListExt for O {
 	fn item(&self, index: u32) -> Option<DomNode> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_node_list_get_item(
@@ -52,13 +49,11 @@ impl<O: IsA<DomNodeList>> DomNodeListExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_node_list_get_length")]
+	#[doc(alias = "get_length")]
 	fn length(&self) -> u32 {
 		unsafe { ffi::arv_dom_node_list_get_length(self.as_ref().to_glib_none().0) }
 	}
 }
 
-impl fmt::Display for DomNodeList {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomNodeList")
-	}
-}
+impl<O: IsA<DomNodeList>> DomNodeListExt for O {}

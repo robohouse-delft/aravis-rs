@@ -2,12 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::ffi;
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcStringExt`][trait@crate::prelude::GcStringExt]
 	#[doc(alias = "ArvGcString")]
 	pub struct GcString(Interface<ffi::ArvGcString, ffi::ArvGcStringInterface>);
 
@@ -16,44 +19,28 @@ glib::wrapper! {
 	}
 }
 
+impl GcString {
+	pub const NONE: Option<&'static GcString> = None;
+}
+
 unsafe impl Send for GcString {}
 
-pub const NONE_GC_STRING: Option<&GcString> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::GcString>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@GcString`] methods.
 ///
 /// # Implementors
 ///
 /// [`GcEnumeration`][struct@crate::GcEnumeration], [`GcStringNode`][struct@crate::GcStringNode], [`GcStringRegNode`][struct@crate::GcStringRegNode], [`GcString`][struct@crate::GcString]
-pub trait GcStringExt: 'static {
-	///
-	/// # Returns
-	///
-	/// the maximum length `self` can store, excluding the NULL terminal character.
+pub trait GcStringExt: IsA<GcString> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_gc_string_get_max_length")]
 	#[doc(alias = "get_max_length")]
-	fn max_length(&self) -> Result<i64, glib::Error>;
-
-	/// `<warning>``<para>`Please note the string content is still owned by the `self` object, which means the returned pointer may not be still valid after a new call to this function.`</para>``</warning>`
-	///
-	/// # Returns
-	///
-	/// the string value.
-	#[doc(alias = "arv_gc_string_get_value")]
-	#[doc(alias = "get_value")]
-	fn value(&self) -> Result<glib::GString, glib::Error>;
-
-	/// Set `value` as the new `self` value.
-	/// ## `value`
-	/// new string value
-	#[doc(alias = "arv_gc_string_set_value")]
-	fn set_value(&self, value: &str) -> Result<(), glib::Error>;
-}
-
-impl<O: IsA<GcString>> GcStringExt for O {
 	fn max_length(&self) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_string_get_max_length(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
@@ -63,9 +50,11 @@ impl<O: IsA<GcString>> GcStringExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_string_get_value")]
+	#[doc(alias = "get_value")]
 	fn value(&self) -> Result<glib::GString, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_string_get_value(self.as_ref().to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(from_glib_none(ret))
@@ -75,9 +64,10 @@ impl<O: IsA<GcString>> GcStringExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_string_set_value")]
 	fn set_value(&self, value: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_gc_string_set_value(
 				self.as_ref().to_glib_none().0,
 				value.to_glib_none().0,
@@ -92,8 +82,4 @@ impl<O: IsA<GcString>> GcStringExt for O {
 	}
 }
 
-impl fmt::Display for GcString {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcString")
-	}
-}
+impl<O: IsA<GcString>> GcStringExt for O {}

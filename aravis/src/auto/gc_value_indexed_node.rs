@@ -2,15 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcNode;
-use crate::GcPropertyNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcNode, GcPropertyNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcPropertyNodeExt`][trait@crate::prelude::GcPropertyNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcValueIndexedNode")]
 	pub struct GcValueIndexedNode(Object<ffi::ArvGcValueIndexedNode, ffi::ArvGcValueIndexedNodeClass>) @extends GcPropertyNode, GcNode, DomElement, DomNode;
 
@@ -40,9 +40,3 @@ impl Default for GcValueIndexedNode {
 }
 
 unsafe impl Send for GcValueIndexedNode {}
-
-impl fmt::Display for GcValueIndexedNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcValueIndexedNode")
-	}
-}

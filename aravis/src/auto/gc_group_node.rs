@@ -2,15 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcGroupNode")]
 	pub struct GcGroupNode(Object<ffi::ArvGcGroupNode, ffi::ArvGcGroupNodeClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
@@ -34,9 +34,3 @@ impl Default for GcGroupNode {
 }
 
 unsafe impl Send for GcGroupNode {}
-
-impl fmt::Display for GcGroupNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcGroupNode")
-	}
-}

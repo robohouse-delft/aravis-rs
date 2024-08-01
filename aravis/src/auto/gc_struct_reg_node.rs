@@ -2,17 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use crate::GcRegister;
-use crate::GcRegisterNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode, GcRegister, GcRegisterNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcRegisterNodeExt`][trait@crate::prelude::GcRegisterNodeExt], [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcRegisterExt`][trait@crate::prelude::GcRegisterExt]
 	#[doc(alias = "ArvGcStructRegNode")]
 	pub struct GcStructRegNode(Object<ffi::ArvGcStructRegNode, ffi::ArvGcStructRegNodeClass>) @extends GcRegisterNode, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcRegister;
 
@@ -22,6 +20,8 @@ glib::wrapper! {
 }
 
 impl GcStructRegNode {
+	pub const NONE: Option<&'static GcStructRegNode> = None;
+
 	///
 	/// # Returns
 	///
@@ -40,11 +40,3 @@ impl Default for GcStructRegNode {
 }
 
 unsafe impl Send for GcStructRegNode {}
-
-pub const NONE_GC_STRUCT_REG_NODE: Option<&GcStructRegNode> = None;
-
-impl fmt::Display for GcStructRegNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcStructRegNode")
-	}
-}

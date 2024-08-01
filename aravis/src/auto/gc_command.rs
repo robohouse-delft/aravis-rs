@@ -2,16 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcCommand")]
 	pub struct GcCommand(Object<ffi::ArvGcCommand, ffi::ArvGcCommandClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
@@ -30,7 +29,7 @@ impl GcCommand {
 	#[doc(alias = "arv_gc_command_execute")]
 	pub fn execute(&self) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_gc_command_execute(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(())
@@ -48,9 +47,3 @@ impl Default for GcCommand {
 }
 
 unsafe impl Send for GcCommand {}
-
-impl fmt::Display for GcCommand {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcCommand")
-	}
-}

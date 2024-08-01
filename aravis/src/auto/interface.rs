@@ -2,13 +2,21 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Device;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, Device};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+/// [`Interface`][crate::Interface] is an abstract base class for camera discovery. It maintains a
+/// list of the available devices and helps to instantiate the corresponding
+/// [`Device`][crate::Device] objects. If the user already knows the device id of the device, he should
+/// not worry about this class and just use [`Camera::new()`][crate::Camera::new()] or
+/// `arv_open_device()`.
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`InterfaceExt`][trait@crate::prelude::InterfaceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvInterface")]
 	pub struct Interface(Object<ffi::ArvInterface, ffi::ArvInterfaceClass>);
 
@@ -17,151 +25,25 @@ glib::wrapper! {
 	}
 }
 
+impl Interface {
+	pub const NONE: Option<&'static Interface> = None;
+}
+
 unsafe impl Send for Interface {}
 
-pub const NONE_INTERFACE: Option<&Interface> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::Interface>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@Interface`] methods.
 ///
 /// # Implementors
 ///
 /// [`FakeInterface`][struct@crate::FakeInterface], [`GvInterface`][struct@crate::GvInterface], [`Interface`][struct@crate::Interface], [`UvInterface`][struct@crate::UvInterface]
-pub trait InterfaceExt: 'static {
-	/// queries the device address (IP address in the case of an ethernet camera). Useful
-	/// for constructing manual connections to devices using [`GvDevice::new()`][crate::GvDevice::new()]
-	///
-	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
-	/// function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// the device address
+pub trait InterfaceExt: IsA<Interface> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_interface_get_device_address")]
 	#[doc(alias = "get_device_address")]
-	fn device_address(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the unique device id corresponding to index. Prior to this
-	/// call the [`update_device_list()`][Self::update_device_list()] function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// a unique device id
-	#[doc(alias = "arv_interface_get_device_id")]
-	#[doc(alias = "get_device_id")]
-	fn device_id(&self, index: u32) -> Option<glib::GString>;
-
-	#[cfg(any(feature = "v0_8_20", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_20")))]
-	#[doc(alias = "arv_interface_get_device_manufacturer_info")]
-	#[doc(alias = "get_device_manufacturer_info")]
-	fn device_manufacturer_info(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the device model.
-	///
-	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
-	/// function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// the device model, NULL on error
-	#[doc(alias = "arv_interface_get_device_model")]
-	#[doc(alias = "get_device_model")]
-	fn device_model(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the physical device id corresponding to index such
-	/// as the MAC address for Ethernet based devices, bus id for PCI,
-	/// USB or Firewire based devices.
-	///
-	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
-	/// function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// a physical device id
-	#[doc(alias = "arv_interface_get_device_physical_id")]
-	#[doc(alias = "get_device_physical_id")]
-	fn device_physical_id(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the device protocol. Possible values are 'USB3Vision', 'GigEVision'
-	/// and 'Fake'.
-	///
-	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
-	/// function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// the device protocol as a string, NULL on error
-	#[doc(alias = "arv_interface_get_device_protocol")]
-	#[doc(alias = "get_device_protocol")]
-	fn device_protocol(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the device serial.
-	///
-	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
-	/// function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// the device serial, NULL on error
-	#[doc(alias = "arv_interface_get_device_serial_nbr")]
-	#[doc(alias = "get_device_serial_nbr")]
-	fn device_serial_nbr(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the device vendor.
-	///
-	/// Prior to this call the [`update_device_list()`][Self::update_device_list()]
-	/// function must be called.
-	/// ## `index`
-	/// device index
-	///
-	/// # Returns
-	///
-	/// the device vendor, NULL on error
-	#[doc(alias = "arv_interface_get_device_vendor")]
-	#[doc(alias = "get_device_vendor")]
-	fn device_vendor(&self, index: u32) -> Option<glib::GString>;
-
-	/// Queries the number of available devices on this interface. Prior to this
-	/// call the [`update_device_list()`][Self::update_device_list()] function must be called. The list content will not
-	/// change until the next call of the update function.
-	///
-	/// # Returns
-	///
-	/// the number of available devices
-	#[doc(alias = "arv_interface_get_n_devices")]
-	#[doc(alias = "get_n_devices")]
-	fn n_devices(&self) -> u32;
-
-	/// Creates a new [`Device`][crate::Device] object corresponding to the given device id string.
-	/// The first available device is returned if `device_id` is [`None`].
-	/// ## `device_id`
-	/// device unique id
-	///
-	/// # Returns
-	///
-	/// a new [`Device`][crate::Device]
-	#[doc(alias = "arv_interface_open_device")]
-	fn open_device(&self, device_id: Option<&str>) -> Result<Device, glib::Error>;
-
-	/// Updates the internal list of available devices. This may change the
-	/// connection between a list index and a device ID.
-	#[doc(alias = "arv_interface_update_device_list")]
-	fn update_device_list(&self);
-}
-
-impl<O: IsA<Interface>> InterfaceExt for O {
 	fn device_address(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_address(
@@ -171,6 +53,8 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_device_id")]
+	#[doc(alias = "get_device_id")]
 	fn device_id(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_id(
@@ -180,8 +64,10 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_20", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_20")))]
+	#[cfg(feature = "v0_8_20")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_20")))]
+	#[doc(alias = "arv_interface_get_device_manufacturer_info")]
+	#[doc(alias = "get_device_manufacturer_info")]
 	fn device_manufacturer_info(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_manufacturer_info(
@@ -191,6 +77,8 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_device_model")]
+	#[doc(alias = "get_device_model")]
 	fn device_model(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_model(
@@ -200,6 +88,8 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_device_physical_id")]
+	#[doc(alias = "get_device_physical_id")]
 	fn device_physical_id(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_physical_id(
@@ -209,6 +99,8 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_device_protocol")]
+	#[doc(alias = "get_device_protocol")]
 	fn device_protocol(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_protocol(
@@ -218,6 +110,8 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_device_serial_nbr")]
+	#[doc(alias = "get_device_serial_nbr")]
 	fn device_serial_nbr(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_serial_nbr(
@@ -227,6 +121,8 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_device_vendor")]
+	#[doc(alias = "get_device_vendor")]
 	fn device_vendor(&self, index: u32) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_interface_get_device_vendor(
@@ -236,13 +132,16 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_get_n_devices")]
+	#[doc(alias = "get_n_devices")]
 	fn n_devices(&self) -> u32 {
 		unsafe { ffi::arv_interface_get_n_devices(self.as_ref().to_glib_none().0) }
 	}
 
+	#[doc(alias = "arv_interface_open_device")]
 	fn open_device(&self, device_id: Option<&str>) -> Result<Device, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_interface_open_device(
 				self.as_ref().to_glib_none().0,
 				device_id.to_glib_none().0,
@@ -256,6 +155,7 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_interface_update_device_list")]
 	fn update_device_list(&self) {
 		unsafe {
 			ffi::arv_interface_update_device_list(self.as_ref().to_glib_none().0);
@@ -263,8 +163,4 @@ impl<O: IsA<Interface>> InterfaceExt for O {
 	}
 }
 
-impl fmt::Display for Interface {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("Interface")
-	}
-}
+impl<O: IsA<Interface>> InterfaceExt for O {}

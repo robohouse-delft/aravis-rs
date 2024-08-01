@@ -1,6 +1,6 @@
-use aravis::prelude::*;
 use aravis::glib;
-use glib::Cast;
+use aravis::prelude::*;
+use crate::glib::prelude::Cast;
 
 #[derive(clap::Parser)]
 #[clap(group = clap::ArgGroup::new("selector").required(true))]

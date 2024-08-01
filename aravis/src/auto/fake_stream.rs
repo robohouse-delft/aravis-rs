@@ -2,10 +2,14 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Stream;
-use std::fmt;
+use crate::{ffi, Stream};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`StreamExt`][trait@crate::prelude::StreamExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvFakeStream")]
 	pub struct FakeStream(Object<ffi::ArvFakeStream, ffi::ArvFakeStreamClass>) @extends Stream;
 
@@ -17,9 +21,3 @@ glib::wrapper! {
 impl FakeStream {}
 
 unsafe impl Send for FakeStream {}
-
-impl fmt::Display for FakeStream {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("FakeStream")
-	}
-}

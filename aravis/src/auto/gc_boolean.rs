@@ -2,16 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcBoolean")]
 	pub struct GcBoolean(Object<ffi::ArvGcBoolean, ffi::ArvGcBooleanClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
@@ -35,7 +34,7 @@ impl GcBoolean {
 	#[doc(alias = "get_value")]
 	pub fn value(&self) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_boolean_get_value(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(from_glib(ret))
@@ -48,7 +47,7 @@ impl GcBoolean {
 	#[doc(alias = "arv_gc_boolean_set_value")]
 	pub fn set_value(&self, v_boolean: bool) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_gc_boolean_set_value(
 				self.to_glib_none().0,
 				v_boolean.into_glib(),
@@ -70,9 +69,3 @@ impl Default for GcBoolean {
 }
 
 unsafe impl Send for GcBoolean {}
-
-impl fmt::Display for GcBoolean {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcBoolean")
-	}
-}

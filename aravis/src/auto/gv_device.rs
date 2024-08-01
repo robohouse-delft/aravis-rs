@@ -2,26 +2,37 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Device;
-#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+#[cfg(feature = "v0_8_22")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 use crate::GvIpConfigurationMode;
-use crate::GvPacketSizeAdjustment;
-use crate::GvStreamOption;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
+use crate::{ffi, Device, GvPacketSizeAdjustment, GvStreamOption};
+use glib::{
+	prelude::*,
+	signal::{connect_raw, SignalHandlerId},
+	translate::*,
+};
 use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem::transmute;
-use std::ptr;
 
 glib::wrapper! {
+///
+///
+/// ## Properties
+///
+///
+/// #### `device-address`
+///  Writeable | Construct Only
+///
+///
+/// #### `interface-address`
+///  Writeable | Construct Only
+///
+///
+/// #### `packet-size-adjustment`
+///  Readable | Writeable | Construct
+///
+/// # Implements
+///
+/// [`DeviceExt`][trait@crate::prelude::DeviceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGvDevice")]
 	pub struct GvDevice(Object<ffi::ArvGvDevice, ffi::ArvGvDeviceClass>) @extends Device;
 
@@ -40,13 +51,13 @@ impl GvDevice {
 	///
 	/// a newly created [`Device`][crate::Device] using GigE protocol
 	#[doc(alias = "arv_gv_device_new")]
-	pub fn new<P: IsA<gio::InetAddress>, Q: IsA<gio::InetAddress>>(
-		interface_address: &P,
-		device_address: &Q,
+	pub fn new(
+		interface_address: &impl IsA<gio::InetAddress>,
+		device_address: &impl IsA<gio::InetAddress>,
 	) -> Result<GvDevice, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gv_device_new(
 				interface_address.as_ref().to_glib_none().0,
 				device_address.as_ref().to_glib_none().0,
@@ -60,7 +71,7 @@ impl GvDevice {
 		}
 	}
 
-	/// Automatically determine the biggest packet size that can be used data streaming, and set GevSCPSPacketSize value
+	/// Automatically determine the biggest packet size that can be used data streaming, and set ArvGevSCPSPacketSize value
 	/// accordingly. This function relies on the GevSCPSFireTestPacket feature.
 	///
 	/// # Returns
@@ -69,8 +80,9 @@ impl GvDevice {
 	#[doc(alias = "arv_gv_device_auto_packet_size")]
 	pub fn auto_packet_size(&self) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_auto_packet_size(self.to_glib_none().0, &mut error);
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_auto_packet_size(self.to_glib_none().0, &mut error) as i32;
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -83,6 +95,7 @@ impl GvDevice {
 	///
 	/// # Returns
 	///
+	/// [`true`] on success
 	///
 	/// ## `ip`
 	/// a IP address placeholder
@@ -92,25 +105,26 @@ impl GvDevice {
 	///
 	/// ## `gateway`
 	/// a gateway IP address placeholder
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_get_current_ip")]
 	#[doc(alias = "get_current_ip")]
 	pub fn current_ip(
 		&self,
 	) -> Result<(gio::InetAddress, gio::InetAddressMask, gio::InetAddress), glib::Error> {
 		unsafe {
-			let mut ip = ptr::null_mut();
-			let mut mask = ptr::null_mut();
-			let mut gateway = ptr::null_mut();
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_get_current_ip(
+			let mut ip = std::ptr::null_mut();
+			let mut mask = std::ptr::null_mut();
+			let mut gateway = std::ptr::null_mut();
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_get_current_ip(
 				self.to_glib_none().0,
 				&mut ip,
 				&mut mask,
 				&mut gateway,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok((
 					from_glib_full(ip),
@@ -152,13 +166,13 @@ impl GvDevice {
 	/// # Returns
 	///
 	/// IP address configuration mode
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_get_ip_configuration_mode")]
 	#[doc(alias = "get_ip_configuration_mode")]
 	pub fn ip_configuration_mode(&self) -> Result<GvIpConfigurationMode, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret =
 				ffi::arv_gv_device_get_ip_configuration_mode(self.to_glib_none().0, &mut error);
 			if error.is_null() {
@@ -173,7 +187,7 @@ impl GvDevice {
 	#[doc(alias = "get_packet_size")]
 	pub fn packet_size(&self) -> Result<u32, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gv_device_get_packet_size(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
@@ -187,6 +201,7 @@ impl GvDevice {
 	///
 	/// # Returns
 	///
+	/// [`true`] on success
 	///
 	/// ## `ip`
 	/// a IP address placeholder
@@ -196,25 +211,26 @@ impl GvDevice {
 	///
 	/// ## `gateway`
 	/// a gateway IP address placeholder
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_get_persistent_ip")]
 	#[doc(alias = "get_persistent_ip")]
 	pub fn persistent_ip(
 		&self,
 	) -> Result<(gio::InetAddress, gio::InetAddressMask, gio::InetAddress), glib::Error> {
 		unsafe {
-			let mut ip = ptr::null_mut();
-			let mut mask = ptr::null_mut();
-			let mut gateway = ptr::null_mut();
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_get_persistent_ip(
+			let mut ip = std::ptr::null_mut();
+			let mut mask = std::ptr::null_mut();
+			let mut gateway = std::ptr::null_mut();
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_get_persistent_ip(
 				self.to_glib_none().0,
 				&mut ip,
 				&mut mask,
 				&mut gateway,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok((
 					from_glib_full(ip),
@@ -241,7 +257,7 @@ impl GvDevice {
 	#[doc(alias = "get_timestamp_tick_frequency")]
 	pub fn timestamp_tick_frequency(&self) -> Result<u64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret =
 				ffi::arv_gv_device_get_timestamp_tick_frequency(self.to_glib_none().0, &mut error);
 			if error.is_null() {
@@ -265,13 +281,14 @@ impl GvDevice {
 	/// # Returns
 	///
 	/// whether the control was successfully relinquished
-	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_3")))]
+	#[cfg(feature = "v0_8_3")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_gv_device_leave_control")]
 	pub fn leave_control(&self) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_leave_control(self.to_glib_none().0, &mut error);
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_leave_control(self.to_glib_none().0, &mut error);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -285,20 +302,25 @@ impl GvDevice {
 	/// ARV_GV_IP_CONFIGURATION_MODE_LLA
 	/// ## `mode`
 	/// IP address configuration mode
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_set_ip_configuration_mode")]
 	pub fn set_ip_configuration_mode(
 		&self,
 		mode: GvIpConfigurationMode,
 	) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_set_ip_configuration_mode(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_set_ip_configuration_mode(
 				self.to_glib_none().0,
 				mode.into_glib(),
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -310,7 +332,7 @@ impl GvDevice {
 	#[doc(alias = "arv_gv_device_set_packet_size")]
 	pub fn set_packet_size(&self, packet_size: i32) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ =
 				ffi::arv_gv_device_set_packet_size(self.to_glib_none().0, packet_size, &mut error);
 			if error.is_null() {
@@ -328,9 +350,10 @@ impl GvDevice {
 	/// life.
 	/// ## `adjustment`
 	/// a [`GvPacketSizeAdjustment`][crate::GvPacketSizeAdjustment] option
-	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_3")))]
+	#[cfg(feature = "v0_8_3")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_gv_device_set_packet_size_adjustment")]
+	#[doc(alias = "packet-size-adjustment")]
 	pub fn set_packet_size_adjustment(&self, adjustment: GvPacketSizeAdjustment) {
 		unsafe {
 			ffi::arv_gv_device_set_packet_size_adjustment(
@@ -348,28 +371,29 @@ impl GvDevice {
 	/// Netmask
 	/// ## `gateway`
 	/// Gateway IPv4 address
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_set_persistent_ip")]
-	pub fn set_persistent_ip<
-		P: IsA<gio::InetAddress>,
-		Q: IsA<gio::InetAddressMask>,
-		R: IsA<gio::InetAddress>,
-	>(
+	pub fn set_persistent_ip(
 		&self,
-		ip: Option<&P>,
-		mask: Option<&Q>,
-		gateway: Option<&R>,
+		ip: Option<&impl IsA<gio::InetAddress>>,
+		mask: Option<&impl IsA<gio::InetAddressMask>>,
+		gateway: Option<&impl IsA<gio::InetAddress>>,
 	) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_set_persistent_ip(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_set_persistent_ip(
 				self.to_glib_none().0,
 				ip.map(|p| p.as_ref()).to_glib_none().0,
 				mask.map(|p| p.as_ref()).to_glib_none().0,
 				gateway.map(|p| p.as_ref()).to_glib_none().0,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -385,8 +409,12 @@ impl GvDevice {
 	/// netmask in string format
 	/// ## `gateway`
 	/// Gateway IPv4 address in string format
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	///
+	/// # Returns
+	///
+	/// [`true`] on success
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
 	#[doc(alias = "arv_gv_device_set_persistent_ip_from_string")]
 	pub fn set_persistent_ip_from_string(
 		&self,
@@ -395,14 +423,15 @@ impl GvDevice {
 		gateway: Option<&str>,
 	) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_set_persistent_ip_from_string(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_set_persistent_ip_from_string(
 				self.to_glib_none().0,
 				ip.to_glib_none().0,
 				mask.to_glib_none().0,
 				gateway.to_glib_none().0,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -425,13 +454,14 @@ impl GvDevice {
 	/// # Returns
 	///
 	/// whether the control was successfully acquired
-	#[cfg(any(feature = "v0_8_3", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_3")))]
+	#[cfg(feature = "v0_8_3")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_3")))]
 	#[doc(alias = "arv_gv_device_take_control")]
 	pub fn take_control(&self) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gv_device_take_control(self.to_glib_none().0, &mut error);
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gv_device_take_control(self.to_glib_none().0, &mut error);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -442,32 +472,14 @@ impl GvDevice {
 
 	#[doc(alias = "packet-size-adjustment")]
 	pub fn packet_size_adjustment(&self) -> GvPacketSizeAdjustment {
-		unsafe {
-			let mut value =
-				glib::Value::from_type(<GvPacketSizeAdjustment as StaticType>::static_type());
-			glib::gobject_ffi::g_object_get_property(
-				self.as_ptr() as *mut glib::gobject_ffi::GObject,
-				b"packet-size-adjustment\0".as_ptr() as *const _,
-				value.to_glib_none_mut().0,
-			);
-			value
-				.get()
-				.expect("Return Value for property `packet-size-adjustment` getter")
-		}
+		ObjectExt::property(self, "packet-size-adjustment")
 	}
 
+	#[cfg(not(feature = "v0_8_3"))]
+	#[cfg_attr(docsrs, doc(cfg(not(feature = "v0_8_3"))))]
 	#[doc(alias = "packet-size-adjustment")]
-	pub fn set_property_packet_size_adjustment(
-		&self,
-		packet_size_adjustment: GvPacketSizeAdjustment,
-	) {
-		unsafe {
-			glib::gobject_ffi::g_object_set_property(
-				self.as_ptr() as *mut glib::gobject_ffi::GObject,
-				b"packet-size-adjustment\0".as_ptr() as *const _,
-				packet_size_adjustment.to_value().to_glib_none().0,
-			);
-		}
+	pub fn set_packet_size_adjustment(&self, packet_size_adjustment: GvPacketSizeAdjustment) {
+		ObjectExt::set_property(self, "packet-size-adjustment", packet_size_adjustment)
 	}
 
 	#[doc(alias = "packet-size-adjustment")]
@@ -490,7 +502,7 @@ impl GvDevice {
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"notify::packet-size-adjustment\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
+				Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
 					notify_packet_size_adjustment_trampoline::<F> as *const (),
 				)),
 				Box_::into_raw(f),
@@ -500,9 +512,3 @@ impl GvDevice {
 }
 
 unsafe impl Send for GvDevice {}
-
-impl fmt::Display for GvDevice {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GvDevice")
-	}
-}

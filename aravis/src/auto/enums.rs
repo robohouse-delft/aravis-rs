@@ -2,17 +2,11 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use glib::error::ErrorDomain;
-use glib::translate::*;
-use glib::value::FromValue;
-use glib::value::ToValue;
-use glib::Quark;
-use glib::StaticType;
-use glib::Type;
-use std::fmt;
+use crate::ffi;
+use glib::{prelude::*, translate::*};
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvAccessCheckPolicy")]
@@ -27,28 +21,13 @@ pub enum AccessCheckPolicy {
 	__Unknown(i32),
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-impl fmt::Display for AccessCheckPolicy {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"AccessCheckPolicy::{}",
-			match *self {
-				Self::Disable => "Disable",
-				Self::Enable => "Enable",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 #[doc(hidden)]
 impl IntoGlib for AccessCheckPolicy {
 	type GlibType = ffi::ArvAccessCheckPolicy;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvAccessCheckPolicy {
 		match self {
 			Self::Disable => ffi::ARV_ACCESS_CHECK_POLICY_DISABLE,
@@ -58,12 +37,14 @@ impl IntoGlib for AccessCheckPolicy {
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 #[doc(hidden)]
 impl FromGlib<ffi::ArvAccessCheckPolicy> for AccessCheckPolicy {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvAccessCheckPolicy) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_ACCESS_CHECK_POLICY_DISABLE => Self::Disable,
 			ffi::ARV_ACCESS_CHECK_POLICY_ENABLE => Self::Enable,
@@ -72,34 +53,50 @@ impl FromGlib<ffi::ArvAccessCheckPolicy> for AccessCheckPolicy {
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 impl StaticType for AccessCheckPolicy {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_access_check_policy_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_access_check_policy_get_type()) }
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+impl glib::HasParamSpec for AccessCheckPolicy {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 impl glib::value::ValueType for AccessCheckPolicy {
 	type Type = Self;
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-unsafe impl<'a> FromValue<'a> for AccessCheckPolicy {
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+unsafe impl<'a> glib::value::FromValue<'a> for AccessCheckPolicy {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 impl ToValue for AccessCheckPolicy {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -108,8 +105,19 @@ impl ToValue for AccessCheckPolicy {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+impl From<AccessCheckPolicy> for glib::Value {
+	#[inline]
+	fn from(v: AccessCheckPolicy) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -149,25 +157,11 @@ impl AcquisitionMode {
 	}
 }
 
-impl fmt::Display for AcquisitionMode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"AcquisitionMode::{}",
-			match *self {
-				Self::Continuous => "Continuous",
-				Self::SingleFrame => "SingleFrame",
-				Self::MultiFrame => "MultiFrame",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for AcquisitionMode {
 	type GlibType = ffi::ArvAcquisitionMode;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvAcquisitionMode {
 		match self {
 			Self::Continuous => ffi::ARV_ACQUISITION_MODE_CONTINUOUS,
@@ -180,8 +174,10 @@ impl IntoGlib for AcquisitionMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvAcquisitionMode> for AcquisitionMode {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvAcquisitionMode) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_ACQUISITION_MODE_CONTINUOUS => Self::Continuous,
 			ffi::ARV_ACQUISITION_MODE_SINGLE_FRAME => Self::SingleFrame,
@@ -192,8 +188,20 @@ impl FromGlib<ffi::ArvAcquisitionMode> for AcquisitionMode {
 }
 
 impl StaticType for AcquisitionMode {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_acquisition_mode_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_acquisition_mode_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for AcquisitionMode {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -201,9 +209,10 @@ impl glib::value::ValueType for AcquisitionMode {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for AcquisitionMode {
+unsafe impl<'a> glib::value::FromValue<'a> for AcquisitionMode {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -211,6 +220,7 @@ unsafe impl<'a> FromValue<'a> for AcquisitionMode {
 }
 
 impl ToValue for AcquisitionMode {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -219,8 +229,17 @@ impl ToValue for AcquisitionMode {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<AcquisitionMode> for glib::Value {
+	#[inline]
+	fn from(v: AcquisitionMode) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -256,25 +275,11 @@ impl Auto {
 	}
 }
 
-impl fmt::Display for Auto {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"Auto::{}",
-			match *self {
-				Self::Off => "Off",
-				Self::Once => "Once",
-				Self::Continuous => "Continuous",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for Auto {
 	type GlibType = ffi::ArvAuto;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvAuto {
 		match self {
 			Self::Off => ffi::ARV_AUTO_OFF,
@@ -287,8 +292,10 @@ impl IntoGlib for Auto {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvAuto> for Auto {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvAuto) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_AUTO_OFF => Self::Off,
 			ffi::ARV_AUTO_ONCE => Self::Once,
@@ -299,8 +306,20 @@ impl FromGlib<ffi::ArvAuto> for Auto {
 }
 
 impl StaticType for Auto {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_auto_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_auto_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for Auto {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -308,9 +327,10 @@ impl glib::value::ValueType for Auto {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for Auto {
+unsafe impl<'a> glib::value::FromValue<'a> for Auto {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -318,6 +338,7 @@ unsafe impl<'a> FromValue<'a> for Auto {
 }
 
 impl ToValue for Auto {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -326,8 +347,159 @@ impl ToValue for Auto {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<Auto> for glib::Value {
+	#[inline]
+	fn from(v: Auto) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvBufferPartDataType")]
+pub enum BufferPartDataType {
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_UNKNOWN")]
+	Unknown,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_IMAGE")]
+	_2dImage,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_BIPLANAR")]
+	_2dPlaneBiplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_TRIPLANAR")]
+	_2dPlaneTriplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_QUADPLANAR")]
+	_2dPlaneQuadplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_IMAGE")]
+	_3dImage,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_BIPLANAR")]
+	_3dPlaneBiplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_TRIPLANAR")]
+	_3dPlaneTriplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_QUADPLANAR")]
+	_3dPlaneQuadplanar,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_CONFIDENCE_MAP")]
+	ConfidenceMap,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_CHUNK_DATA")]
+	ChunkData,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_JPEG")]
+	Jpeg,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_JPEG2000")]
+	Jpeg2000,
+	#[doc(alias = "ARV_BUFFER_PART_DATA_TYPE_DEVICE_SPECIFIC")]
+	DeviceSpecific,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[doc(hidden)]
+impl IntoGlib for BufferPartDataType {
+	type GlibType = ffi::ArvBufferPartDataType;
+
+	fn into_glib(self) -> ffi::ArvBufferPartDataType {
+		match self {
+			Self::Unknown => ffi::ARV_BUFFER_PART_DATA_TYPE_UNKNOWN,
+			Self::_2dImage => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_IMAGE,
+			Self::_2dPlaneBiplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_BIPLANAR,
+			Self::_2dPlaneTriplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_TRIPLANAR,
+			Self::_2dPlaneQuadplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_QUADPLANAR,
+			Self::_3dImage => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_IMAGE,
+			Self::_3dPlaneBiplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_BIPLANAR,
+			Self::_3dPlaneTriplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_TRIPLANAR,
+			Self::_3dPlaneQuadplanar => ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_QUADPLANAR,
+			Self::ConfidenceMap => ffi::ARV_BUFFER_PART_DATA_TYPE_CONFIDENCE_MAP,
+			Self::ChunkData => ffi::ARV_BUFFER_PART_DATA_TYPE_CHUNK_DATA,
+			Self::Jpeg => ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG,
+			Self::Jpeg2000 => ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG2000,
+			Self::DeviceSpecific => ffi::ARV_BUFFER_PART_DATA_TYPE_DEVICE_SPECIFIC,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvBufferPartDataType> for BufferPartDataType {
+	unsafe fn from_glib(value: ffi::ArvBufferPartDataType) -> Self {
+		skip_assert_initialized!();
+
+		match value {
+			ffi::ARV_BUFFER_PART_DATA_TYPE_UNKNOWN => Self::Unknown,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_IMAGE => Self::_2dImage,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_BIPLANAR => Self::_2dPlaneBiplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_TRIPLANAR => Self::_2dPlaneTriplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_2D_PLANE_QUADPLANAR => Self::_2dPlaneQuadplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_IMAGE => Self::_3dImage,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_BIPLANAR => Self::_3dPlaneBiplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_TRIPLANAR => Self::_3dPlaneTriplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_3D_PLANE_QUADPLANAR => Self::_3dPlaneQuadplanar,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_CONFIDENCE_MAP => Self::ConfidenceMap,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_CHUNK_DATA => Self::ChunkData,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG => Self::Jpeg,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_JPEG2000 => Self::Jpeg2000,
+			ffi::ARV_BUFFER_PART_DATA_TYPE_DEVICE_SPECIFIC => Self::DeviceSpecific,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for BufferPartDataType {
+	#[inline]
+	#[doc(alias = "arv_buffer_part_data_type_get_type")]
+	fn static_type() -> glib::Type {
+		unsafe { from_glib(ffi::arv_buffer_part_data_type_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for BufferPartDataType {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+impl glib::value::ValueType for BufferPartDataType {
+	type Type = Self;
+}
+
+unsafe impl<'a> glib::value::FromValue<'a> for BufferPartDataType {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	#[inline]
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for BufferPartDataType {
+	#[inline]
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	#[inline]
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
+impl From<BufferPartDataType> for glib::Value {
+	#[inline]
+	fn from(v: BufferPartDataType) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -338,61 +510,45 @@ pub enum BufferPayloadType {
 	/// unknown payload type
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_UNKNOWN")]
 	Unknown,
+	/// no data
+	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_NO_DATA")]
+	NoData,
 	/// image data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_IMAGE")]
 	Image,
-	/// raw data
+	/// raw data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_RAWDATA")]
 	Rawdata,
-	/// file
+	/// file (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_FILE")]
 	File,
-	/// chunk data
+	/// chunk data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_CHUNK_DATA")]
 	ChunkData,
 	/// extended chunk data
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_EXTENDED_CHUNK_DATA")]
 	ExtendedChunkData,
-	/// JPEG data
+	/// JPEG data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_JPEG")]
 	Jpeg,
-	/// JPEG2000 data
+	/// JPEG2000 data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_JPEG2000")]
 	Jpeg2000,
-	/// h264 data
+	/// h264 data (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_H264")]
 	H264,
-	/// multizone image
+	/// multizone image (not supported)
 	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_MULTIZONE_IMAGE")]
 	MultizoneImage,
-	/// image and chunk data
-	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_IMAGE_EXTENDED_CHUNK")]
-	ImageExtendedChunk,
+	/// multipart data
+	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_MULTIPART")]
+	Multipart,
+	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_GENDC_CONTAINER")]
+	GendcContainer,
+	#[doc(alias = "ARV_BUFFER_PAYLOAD_TYPE_GENDC_COMPONENT_DATA")]
+	GendcComponentData,
 	#[doc(hidden)]
 	__Unknown(i32),
-}
-
-impl fmt::Display for BufferPayloadType {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"BufferPayloadType::{}",
-			match *self {
-				Self::Unknown => "Unknown",
-				Self::Image => "Image",
-				Self::Rawdata => "Rawdata",
-				Self::File => "File",
-				Self::ChunkData => "ChunkData",
-				Self::ExtendedChunkData => "ExtendedChunkData",
-				Self::Jpeg => "Jpeg",
-				Self::Jpeg2000 => "Jpeg2000",
-				Self::H264 => "H264",
-				Self::MultizoneImage => "MultizoneImage",
-				Self::ImageExtendedChunk => "ImageExtendedChunk",
-				_ => "Unknown",
-			}
-		)
-	}
 }
 
 #[doc(hidden)]
@@ -402,6 +558,7 @@ impl IntoGlib for BufferPayloadType {
 	fn into_glib(self) -> ffi::ArvBufferPayloadType {
 		match self {
 			Self::Unknown => ffi::ARV_BUFFER_PAYLOAD_TYPE_UNKNOWN,
+			Self::NoData => ffi::ARV_BUFFER_PAYLOAD_TYPE_NO_DATA,
 			Self::Image => ffi::ARV_BUFFER_PAYLOAD_TYPE_IMAGE,
 			Self::Rawdata => ffi::ARV_BUFFER_PAYLOAD_TYPE_RAWDATA,
 			Self::File => ffi::ARV_BUFFER_PAYLOAD_TYPE_FILE,
@@ -411,7 +568,9 @@ impl IntoGlib for BufferPayloadType {
 			Self::Jpeg2000 => ffi::ARV_BUFFER_PAYLOAD_TYPE_JPEG2000,
 			Self::H264 => ffi::ARV_BUFFER_PAYLOAD_TYPE_H264,
 			Self::MultizoneImage => ffi::ARV_BUFFER_PAYLOAD_TYPE_MULTIZONE_IMAGE,
-			Self::ImageExtendedChunk => ffi::ARV_BUFFER_PAYLOAD_TYPE_IMAGE_EXTENDED_CHUNK,
+			Self::Multipart => ffi::ARV_BUFFER_PAYLOAD_TYPE_MULTIPART,
+			Self::GendcContainer => ffi::ARV_BUFFER_PAYLOAD_TYPE_GENDC_CONTAINER,
+			Self::GendcComponentData => ffi::ARV_BUFFER_PAYLOAD_TYPE_GENDC_COMPONENT_DATA,
 			Self::__Unknown(value) => value,
 		}
 	}
@@ -421,8 +580,10 @@ impl IntoGlib for BufferPayloadType {
 impl FromGlib<ffi::ArvBufferPayloadType> for BufferPayloadType {
 	unsafe fn from_glib(value: ffi::ArvBufferPayloadType) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_UNKNOWN => Self::Unknown,
+			ffi::ARV_BUFFER_PAYLOAD_TYPE_NO_DATA => Self::NoData,
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_IMAGE => Self::Image,
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_RAWDATA => Self::Rawdata,
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_FILE => Self::File,
@@ -432,15 +593,29 @@ impl FromGlib<ffi::ArvBufferPayloadType> for BufferPayloadType {
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_JPEG2000 => Self::Jpeg2000,
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_H264 => Self::H264,
 			ffi::ARV_BUFFER_PAYLOAD_TYPE_MULTIZONE_IMAGE => Self::MultizoneImage,
-			ffi::ARV_BUFFER_PAYLOAD_TYPE_IMAGE_EXTENDED_CHUNK => Self::ImageExtendedChunk,
+			ffi::ARV_BUFFER_PAYLOAD_TYPE_MULTIPART => Self::Multipart,
+			ffi::ARV_BUFFER_PAYLOAD_TYPE_GENDC_CONTAINER => Self::GendcContainer,
+			ffi::ARV_BUFFER_PAYLOAD_TYPE_GENDC_COMPONENT_DATA => Self::GendcComponentData,
 			value => Self::__Unknown(value),
 		}
 	}
 }
 
 impl StaticType for BufferPayloadType {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_buffer_payload_type_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_buffer_payload_type_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for BufferPayloadType {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -448,9 +623,10 @@ impl glib::value::ValueType for BufferPayloadType {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for BufferPayloadType {
+unsafe impl<'a> glib::value::FromValue<'a> for BufferPayloadType {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -458,6 +634,7 @@ unsafe impl<'a> FromValue<'a> for BufferPayloadType {
 }
 
 impl ToValue for BufferPayloadType {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -466,8 +643,17 @@ impl ToValue for BufferPayloadType {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<BufferPayloadType> for glib::Value {
+	#[inline]
+	fn from(v: BufferPayloadType) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -502,35 +688,18 @@ pub enum BufferStatus {
 	/// the filling was aborted before completion
 	#[doc(alias = "ARV_BUFFER_STATUS_ABORTED")]
 	Aborted,
+	/// payload not yet supported
+	#[doc(alias = "ARV_BUFFER_STATUS_PAYLOAD_NOT_SUPPORTED")]
+	PayloadNotSupported,
 	#[doc(hidden)]
 	__Unknown(i32),
-}
-
-impl fmt::Display for BufferStatus {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"BufferStatus::{}",
-			match *self {
-				Self::Unknown => "Unknown",
-				Self::Success => "Success",
-				Self::Cleared => "Cleared",
-				Self::Timeout => "Timeout",
-				Self::MissingPackets => "MissingPackets",
-				Self::WrongPacketId => "WrongPacketId",
-				Self::SizeMismatch => "SizeMismatch",
-				Self::Filling => "Filling",
-				Self::Aborted => "Aborted",
-				_ => "Unknown",
-			}
-		)
-	}
 }
 
 #[doc(hidden)]
 impl IntoGlib for BufferStatus {
 	type GlibType = ffi::ArvBufferStatus;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvBufferStatus {
 		match self {
 			Self::Unknown => ffi::ARV_BUFFER_STATUS_UNKNOWN,
@@ -542,6 +711,7 @@ impl IntoGlib for BufferStatus {
 			Self::SizeMismatch => ffi::ARV_BUFFER_STATUS_SIZE_MISMATCH,
 			Self::Filling => ffi::ARV_BUFFER_STATUS_FILLING,
 			Self::Aborted => ffi::ARV_BUFFER_STATUS_ABORTED,
+			Self::PayloadNotSupported => ffi::ARV_BUFFER_STATUS_PAYLOAD_NOT_SUPPORTED,
 			Self::__Unknown(value) => value,
 		}
 	}
@@ -549,8 +719,10 @@ impl IntoGlib for BufferStatus {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvBufferStatus> for BufferStatus {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvBufferStatus) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_BUFFER_STATUS_UNKNOWN => Self::Unknown,
 			ffi::ARV_BUFFER_STATUS_SUCCESS => Self::Success,
@@ -561,14 +733,27 @@ impl FromGlib<ffi::ArvBufferStatus> for BufferStatus {
 			ffi::ARV_BUFFER_STATUS_SIZE_MISMATCH => Self::SizeMismatch,
 			ffi::ARV_BUFFER_STATUS_FILLING => Self::Filling,
 			ffi::ARV_BUFFER_STATUS_ABORTED => Self::Aborted,
+			ffi::ARV_BUFFER_STATUS_PAYLOAD_NOT_SUPPORTED => Self::PayloadNotSupported,
 			value => Self::__Unknown(value),
 		}
 	}
 }
 
 impl StaticType for BufferStatus {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_buffer_status_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_buffer_status_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for BufferStatus {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -576,9 +761,10 @@ impl glib::value::ValueType for BufferStatus {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for BufferStatus {
+unsafe impl<'a> glib::value::FromValue<'a> for BufferStatus {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -586,6 +772,7 @@ unsafe impl<'a> FromValue<'a> for BufferStatus {
 }
 
 impl ToValue for BufferStatus {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -594,8 +781,17 @@ impl ToValue for BufferStatus {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<BufferStatus> for glib::Value {
+	#[inline]
+	fn from(v: BufferStatus) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -616,25 +812,11 @@ pub enum ChunkParserError {
 	__Unknown(i32),
 }
 
-impl fmt::Display for ChunkParserError {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"ChunkParserError::{}",
-			match *self {
-				Self::InvalidFeatureType => "InvalidFeatureType",
-				Self::BufferNotFound => "BufferNotFound",
-				Self::ChunkNotFound => "ChunkNotFound",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for ChunkParserError {
 	type GlibType = ffi::ArvChunkParserError;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvChunkParserError {
 		match self {
 			Self::InvalidFeatureType => ffi::ARV_CHUNK_PARSER_ERROR_INVALID_FEATURE_TYPE,
@@ -647,8 +829,10 @@ impl IntoGlib for ChunkParserError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvChunkParserError> for ChunkParserError {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvChunkParserError) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_CHUNK_PARSER_ERROR_INVALID_FEATURE_TYPE => Self::InvalidFeatureType,
 			ffi::ARV_CHUNK_PARSER_ERROR_BUFFER_NOT_FOUND => Self::BufferNotFound,
@@ -658,31 +842,44 @@ impl FromGlib<ffi::ArvChunkParserError> for ChunkParserError {
 	}
 }
 
-impl ErrorDomain for ChunkParserError {
-	fn domain() -> Quark {
+impl glib::error::ErrorDomain for ChunkParserError {
+	#[inline]
+	fn domain() -> glib::Quark {
 		skip_assert_initialized!();
 
 		unsafe { from_glib(ffi::arv_chunk_parser_error_quark()) }
 	}
 
+	#[inline]
 	fn code(self) -> i32 {
 		self.into_glib()
 	}
 
+	#[inline]
+	#[allow(clippy::match_single_binding)]
 	fn from(code: i32) -> Option<Self> {
 		skip_assert_initialized!();
-		match code {
-			ffi::ARV_CHUNK_PARSER_ERROR_INVALID_FEATURE_TYPE => Some(Self::InvalidFeatureType),
-			ffi::ARV_CHUNK_PARSER_ERROR_BUFFER_NOT_FOUND => Some(Self::BufferNotFound),
-			ffi::ARV_CHUNK_PARSER_ERROR_CHUNK_NOT_FOUND => Some(Self::ChunkNotFound),
-			value => Some(Self::__Unknown(value)),
+		match unsafe { from_glib(code) } {
+			value => Some(value),
 		}
 	}
 }
 
 impl StaticType for ChunkParserError {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_chunk_parser_error_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_chunk_parser_error_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for ChunkParserError {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -690,9 +887,10 @@ impl glib::value::ValueType for ChunkParserError {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ChunkParserError {
+unsafe impl<'a> glib::value::FromValue<'a> for ChunkParserError {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -700,6 +898,7 @@ unsafe impl<'a> FromValue<'a> for ChunkParserError {
 }
 
 impl ToValue for ChunkParserError {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -708,8 +907,125 @@ impl ToValue for ChunkParserError {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<ChunkParserError> for glib::Value {
+	#[inline]
+	fn from(v: ChunkParserError) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
+	}
+}
+
+#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
+#[non_exhaustive]
+#[doc(alias = "ArvComponentSelectionFlags")]
+pub enum ComponentSelectionFlags {
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_NONE")]
+	None,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_ENABLE")]
+	Enable,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_DISABLE")]
+	Disable,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_EXCLUSIVE_ENABLE")]
+	ExclusiveEnable,
+	#[doc(alias = "ARV_COMPONENT_SELECTION_FLAGS_ENABLE_ALL")]
+	EnableAll,
+	#[doc(hidden)]
+	__Unknown(i32),
+}
+
+#[doc(hidden)]
+impl IntoGlib for ComponentSelectionFlags {
+	type GlibType = ffi::ArvComponentSelectionFlags;
+
+	#[inline]
+	fn into_glib(self) -> ffi::ArvComponentSelectionFlags {
+		match self {
+			Self::None => ffi::ARV_COMPONENT_SELECTION_FLAGS_NONE,
+			Self::Enable => ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE,
+			Self::Disable => ffi::ARV_COMPONENT_SELECTION_FLAGS_DISABLE,
+			Self::ExclusiveEnable => ffi::ARV_COMPONENT_SELECTION_FLAGS_EXCLUSIVE_ENABLE,
+			Self::EnableAll => ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE_ALL,
+			Self::__Unknown(value) => value,
+		}
+	}
+}
+
+#[doc(hidden)]
+impl FromGlib<ffi::ArvComponentSelectionFlags> for ComponentSelectionFlags {
+	#[inline]
+	unsafe fn from_glib(value: ffi::ArvComponentSelectionFlags) -> Self {
+		skip_assert_initialized!();
+
+		match value {
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_NONE => Self::None,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE => Self::Enable,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_DISABLE => Self::Disable,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_EXCLUSIVE_ENABLE => Self::ExclusiveEnable,
+			ffi::ARV_COMPONENT_SELECTION_FLAGS_ENABLE_ALL => Self::EnableAll,
+			value => Self::__Unknown(value),
+		}
+	}
+}
+
+impl StaticType for ComponentSelectionFlags {
+	#[inline]
+	#[doc(alias = "arv_component_selection_flags_get_type")]
+	fn static_type() -> glib::Type {
+		unsafe { from_glib(ffi::arv_component_selection_flags_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for ComponentSelectionFlags {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+impl glib::value::ValueType for ComponentSelectionFlags {
+	type Type = Self;
+}
+
+unsafe impl<'a> glib::value::FromValue<'a> for ComponentSelectionFlags {
+	type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+	#[inline]
+	unsafe fn from_value(value: &'a glib::Value) -> Self {
+		skip_assert_initialized!();
+		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+	}
+}
+
+impl ToValue for ComponentSelectionFlags {
+	#[inline]
+	fn to_value(&self) -> glib::Value {
+		let mut value = glib::Value::for_value_type::<Self>();
+		unsafe {
+			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+		}
+		value
+	}
+
+	#[inline]
+	fn value_type(&self) -> glib::Type {
+		Self::static_type()
+	}
+}
+
+impl From<ComponentSelectionFlags> for glib::Value {
+	#[inline]
+	fn from(v: ComponentSelectionFlags) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -753,32 +1069,22 @@ pub enum DeviceError {
 	/// Unknown error
 	#[doc(alias = "ARV_DEVICE_ERROR_UNKNOWN")]
 	Unknown,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_NOT_IMPLEMENTED")]
+	ProtocolErrorNotImplemented,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_INVALID_PARAMETER")]
+	ProtocolErrorInvalidParameter,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_INVALID_ADDRESS")]
+	ProtocolErrorInvalidAddress,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_WRITE_PROTECT")]
+	ProtocolErrorWriteProtect,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_BAD_ALIGNMENT")]
+	ProtocolErrorBadAlignment,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_ACCESS_DENIED")]
+	ProtocolErrorAccessDenied,
+	#[doc(alias = "ARV_DEVICE_ERROR_PROTOCOL_ERROR_BUSY")]
+	ProtocolErrorBusy,
 	#[doc(hidden)]
 	__Unknown(i32),
-}
-
-impl fmt::Display for DeviceError {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"DeviceError::{}",
-			match *self {
-				Self::WrongFeature => "WrongFeature",
-				Self::FeatureNotFound => "FeatureNotFound",
-				Self::NotConnected => "NotConnected",
-				Self::ProtocolError => "ProtocolError",
-				Self::TransferError => "TransferError",
-				Self::Timeout => "Timeout",
-				Self::NotFound => "NotFound",
-				Self::InvalidParameter => "InvalidParameter",
-				Self::GenicamNotFound => "GenicamNotFound",
-				Self::NoStreamChannel => "NoStreamChannel",
-				Self::NotController => "NotController",
-				Self::Unknown => "Unknown",
-				_ => "Unknown",
-			}
-		)
-	}
 }
 
 #[doc(hidden)]
@@ -799,6 +1105,19 @@ impl IntoGlib for DeviceError {
 			Self::NoStreamChannel => ffi::ARV_DEVICE_ERROR_NO_STREAM_CHANNEL,
 			Self::NotController => ffi::ARV_DEVICE_ERROR_NOT_CONTROLLER,
 			Self::Unknown => ffi::ARV_DEVICE_ERROR_UNKNOWN,
+			Self::ProtocolErrorNotImplemented => {
+				ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_NOT_IMPLEMENTED
+			}
+			Self::ProtocolErrorInvalidParameter => {
+				ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_INVALID_PARAMETER
+			}
+			Self::ProtocolErrorInvalidAddress => {
+				ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_INVALID_ADDRESS
+			}
+			Self::ProtocolErrorWriteProtect => ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_WRITE_PROTECT,
+			Self::ProtocolErrorBadAlignment => ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_BAD_ALIGNMENT,
+			Self::ProtocolErrorAccessDenied => ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_ACCESS_DENIED,
+			Self::ProtocolErrorBusy => ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_BUSY,
 			Self::__Unknown(value) => value,
 		}
 	}
@@ -808,6 +1127,7 @@ impl IntoGlib for DeviceError {
 impl FromGlib<ffi::ArvDeviceError> for DeviceError {
 	unsafe fn from_glib(value: ffi::ArvDeviceError) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_DEVICE_ERROR_WRONG_FEATURE => Self::WrongFeature,
 			ffi::ARV_DEVICE_ERROR_FEATURE_NOT_FOUND => Self::FeatureNotFound,
@@ -821,45 +1141,62 @@ impl FromGlib<ffi::ArvDeviceError> for DeviceError {
 			ffi::ARV_DEVICE_ERROR_NO_STREAM_CHANNEL => Self::NoStreamChannel,
 			ffi::ARV_DEVICE_ERROR_NOT_CONTROLLER => Self::NotController,
 			ffi::ARV_DEVICE_ERROR_UNKNOWN => Self::Unknown,
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_NOT_IMPLEMENTED => {
+				Self::ProtocolErrorNotImplemented
+			}
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_INVALID_PARAMETER => {
+				Self::ProtocolErrorInvalidParameter
+			}
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_INVALID_ADDRESS => {
+				Self::ProtocolErrorInvalidAddress
+			}
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_WRITE_PROTECT => Self::ProtocolErrorWriteProtect,
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_BAD_ALIGNMENT => Self::ProtocolErrorBadAlignment,
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_ACCESS_DENIED => Self::ProtocolErrorAccessDenied,
+			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR_BUSY => Self::ProtocolErrorBusy,
 			value => Self::__Unknown(value),
 		}
 	}
 }
 
-impl ErrorDomain for DeviceError {
-	fn domain() -> Quark {
+impl glib::error::ErrorDomain for DeviceError {
+	#[inline]
+	fn domain() -> glib::Quark {
 		skip_assert_initialized!();
 
 		unsafe { from_glib(ffi::arv_device_error_quark()) }
 	}
 
+	#[inline]
 	fn code(self) -> i32 {
 		self.into_glib()
 	}
 
+	#[inline]
+	#[allow(clippy::match_single_binding)]
 	fn from(code: i32) -> Option<Self> {
 		skip_assert_initialized!();
-		match code {
-			ffi::ARV_DEVICE_ERROR_WRONG_FEATURE => Some(Self::WrongFeature),
-			ffi::ARV_DEVICE_ERROR_FEATURE_NOT_FOUND => Some(Self::FeatureNotFound),
-			ffi::ARV_DEVICE_ERROR_NOT_CONNECTED => Some(Self::NotConnected),
-			ffi::ARV_DEVICE_ERROR_PROTOCOL_ERROR => Some(Self::ProtocolError),
-			ffi::ARV_DEVICE_ERROR_TRANSFER_ERROR => Some(Self::TransferError),
-			ffi::ARV_DEVICE_ERROR_TIMEOUT => Some(Self::Timeout),
-			ffi::ARV_DEVICE_ERROR_NOT_FOUND => Some(Self::NotFound),
-			ffi::ARV_DEVICE_ERROR_INVALID_PARAMETER => Some(Self::InvalidParameter),
-			ffi::ARV_DEVICE_ERROR_GENICAM_NOT_FOUND => Some(Self::GenicamNotFound),
-			ffi::ARV_DEVICE_ERROR_NO_STREAM_CHANNEL => Some(Self::NoStreamChannel),
-			ffi::ARV_DEVICE_ERROR_NOT_CONTROLLER => Some(Self::NotController),
-			ffi::ARV_DEVICE_ERROR_UNKNOWN => Some(Self::Unknown),
-			value => Some(Self::__Unknown(value)),
+		match unsafe { from_glib(code) } {
+			value => Some(value),
 		}
 	}
 }
 
 impl StaticType for DeviceError {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_device_error_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_device_error_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for DeviceError {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -867,9 +1204,10 @@ impl glib::value::ValueType for DeviceError {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for DeviceError {
+unsafe impl<'a> glib::value::FromValue<'a> for DeviceError {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -877,6 +1215,7 @@ unsafe impl<'a> FromValue<'a> for DeviceError {
 }
 
 impl ToValue for DeviceError {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -885,8 +1224,17 @@ impl ToValue for DeviceError {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<DeviceError> for glib::Value {
+	#[inline]
+	fn from(v: DeviceError) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -922,34 +1270,11 @@ pub enum DomNodeType {
 	__Unknown(i32),
 }
 
-impl fmt::Display for DomNodeType {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"DomNodeType::{}",
-			match *self {
-				Self::ElementNode => "ElementNode",
-				Self::AttributeNode => "AttributeNode",
-				Self::TextNode => "TextNode",
-				Self::CdataSectionNode => "CdataSectionNode",
-				Self::EntityReferenceNode => "EntityReferenceNode",
-				Self::EntityNode => "EntityNode",
-				Self::ProcessingInstructionNode => "ProcessingInstructionNode",
-				Self::CommentNode => "CommentNode",
-				Self::DocumentNode => "DocumentNode",
-				Self::DocumentTypeNode => "DocumentTypeNode",
-				Self::DocumentFragmentNode => "DocumentFragmentNode",
-				Self::NotationNode => "NotationNode",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for DomNodeType {
 	type GlibType = ffi::ArvDomNodeType;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvDomNodeType {
 		match self {
 			Self::ElementNode => ffi::ARV_DOM_NODE_TYPE_ELEMENT_NODE,
@@ -971,8 +1296,10 @@ impl IntoGlib for DomNodeType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvDomNodeType> for DomNodeType {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvDomNodeType) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_DOM_NODE_TYPE_ELEMENT_NODE => Self::ElementNode,
 			ffi::ARV_DOM_NODE_TYPE_ATTRIBUTE_NODE => Self::AttributeNode,
@@ -992,8 +1319,20 @@ impl FromGlib<ffi::ArvDomNodeType> for DomNodeType {
 }
 
 impl StaticType for DomNodeType {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_dom_node_type_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_dom_node_type_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for DomNodeType {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1001,9 +1340,10 @@ impl glib::value::ValueType for DomNodeType {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for DomNodeType {
+unsafe impl<'a> glib::value::FromValue<'a> for DomNodeType {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1011,6 +1351,7 @@ unsafe impl<'a> FromValue<'a> for DomNodeType {
 }
 
 impl ToValue for DomNodeType {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1019,8 +1360,17 @@ impl ToValue for DomNodeType {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<DomNodeType> for glib::Value {
+	#[inline]
+	fn from(v: DomNodeType) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1065,26 +1415,11 @@ impl ExposureMode {
 	}
 }
 
-impl fmt::Display for ExposureMode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"ExposureMode::{}",
-			match *self {
-				Self::Off => "Off",
-				Self::Timed => "Timed",
-				Self::TriggerWidth => "TriggerWidth",
-				Self::TriggerControlled => "TriggerControlled",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for ExposureMode {
 	type GlibType = ffi::ArvExposureMode;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvExposureMode {
 		match self {
 			Self::Off => ffi::ARV_EXPOSURE_MODE_OFF,
@@ -1098,8 +1433,10 @@ impl IntoGlib for ExposureMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvExposureMode> for ExposureMode {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvExposureMode) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_EXPOSURE_MODE_OFF => Self::Off,
 			ffi::ARV_EXPOSURE_MODE_TIMED => Self::Timed,
@@ -1111,8 +1448,20 @@ impl FromGlib<ffi::ArvExposureMode> for ExposureMode {
 }
 
 impl StaticType for ExposureMode {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_exposure_mode_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_exposure_mode_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for ExposureMode {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1120,9 +1469,10 @@ impl glib::value::ValueType for ExposureMode {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for ExposureMode {
+unsafe impl<'a> glib::value::FromValue<'a> for ExposureMode {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1130,6 +1480,7 @@ unsafe impl<'a> FromValue<'a> for ExposureMode {
 }
 
 impl ToValue for ExposureMode {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1138,8 +1489,17 @@ impl ToValue for ExposureMode {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<ExposureMode> for glib::Value {
+	#[inline]
+	fn from(v: ExposureMode) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1179,26 +1539,11 @@ impl GcAccessMode {
 	}
 }
 
-impl fmt::Display for GcAccessMode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcAccessMode::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::Ro => "Ro",
-				Self::Wo => "Wo",
-				Self::Rw => "Rw",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcAccessMode {
 	type GlibType = ffi::ArvGcAccessMode;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcAccessMode {
 		match self {
 			Self::Undefined => ffi::ARV_GC_ACCESS_MODE_UNDEFINED,
@@ -1212,8 +1557,10 @@ impl IntoGlib for GcAccessMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcAccessMode> for GcAccessMode {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcAccessMode) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_ACCESS_MODE_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_ACCESS_MODE_RO => Self::Ro,
@@ -1225,8 +1572,20 @@ impl FromGlib<ffi::ArvGcAccessMode> for GcAccessMode {
 }
 
 impl StaticType for GcAccessMode {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_access_mode_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_access_mode_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcAccessMode {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1234,9 +1593,10 @@ impl glib::value::ValueType for GcAccessMode {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcAccessMode {
+unsafe impl<'a> glib::value::FromValue<'a> for GcAccessMode {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1244,6 +1604,7 @@ unsafe impl<'a> FromValue<'a> for GcAccessMode {
 }
 
 impl ToValue for GcAccessMode {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1252,8 +1613,17 @@ impl ToValue for GcAccessMode {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcAccessMode> for glib::Value {
+	#[inline]
+	fn from(v: GcAccessMode) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1278,26 +1648,11 @@ pub enum GcCachable {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcCachable {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcCachable::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::NoCache => "NoCache",
-				Self::WriteThrough => "WriteThrough",
-				Self::WriteAround => "WriteAround",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcCachable {
 	type GlibType = ffi::ArvGcCachable;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcCachable {
 		match self {
 			Self::Undefined => ffi::ARV_GC_CACHABLE_UNDEFINED,
@@ -1311,8 +1666,10 @@ impl IntoGlib for GcCachable {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcCachable> for GcCachable {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcCachable) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_CACHABLE_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_CACHABLE_NO_CACHE => Self::NoCache,
@@ -1324,8 +1681,20 @@ impl FromGlib<ffi::ArvGcCachable> for GcCachable {
 }
 
 impl StaticType for GcCachable {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_cachable_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_cachable_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcCachable {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1333,9 +1702,10 @@ impl glib::value::ValueType for GcCachable {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcCachable {
+unsafe impl<'a> glib::value::FromValue<'a> for GcCachable {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1343,6 +1713,7 @@ unsafe impl<'a> FromValue<'a> for GcCachable {
 }
 
 impl ToValue for GcCachable {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1351,8 +1722,17 @@ impl ToValue for GcCachable {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcCachable> for glib::Value {
+	#[inline]
+	fn from(v: GcCachable) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1377,26 +1757,11 @@ pub enum GcDisplayNotation {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcDisplayNotation {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcDisplayNotation::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::Automatic => "Automatic",
-				Self::Fixed => "Fixed",
-				Self::Scientific => "Scientific",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcDisplayNotation {
 	type GlibType = ffi::ArvGcDisplayNotation;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcDisplayNotation {
 		match self {
 			Self::Undefined => ffi::ARV_GC_DISPLAY_NOTATION_UNDEFINED,
@@ -1410,8 +1775,10 @@ impl IntoGlib for GcDisplayNotation {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcDisplayNotation> for GcDisplayNotation {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcDisplayNotation) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_DISPLAY_NOTATION_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_DISPLAY_NOTATION_AUTOMATIC => Self::Automatic,
@@ -1423,8 +1790,20 @@ impl FromGlib<ffi::ArvGcDisplayNotation> for GcDisplayNotation {
 }
 
 impl StaticType for GcDisplayNotation {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_display_notation_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_display_notation_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcDisplayNotation {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1432,9 +1811,10 @@ impl glib::value::ValueType for GcDisplayNotation {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcDisplayNotation {
+unsafe impl<'a> glib::value::FromValue<'a> for GcDisplayNotation {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1442,6 +1822,7 @@ unsafe impl<'a> FromValue<'a> for GcDisplayNotation {
 }
 
 impl ToValue for GcDisplayNotation {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1450,8 +1831,17 @@ impl ToValue for GcDisplayNotation {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcDisplayNotation> for glib::Value {
+	#[inline]
+	fn from(v: GcDisplayNotation) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1487,34 +1877,10 @@ pub enum GcError {
 	GetAsStringUndefined,
 	#[doc(alias = "ARV_GC_ERROR_INVALID_BIT_RANGE")]
 	InvalidBitRange,
+	#[doc(alias = "ARV_GC_ERROR_INVALID_SYNTAX")]
+	InvalidSyntax,
 	#[doc(hidden)]
 	__Unknown(i32),
-}
-
-impl fmt::Display for GcError {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcError::{}",
-			match *self {
-				Self::PropertyNotDefined => "PropertyNotDefined",
-				Self::PvalueNotDefined => "PvalueNotDefined",
-				Self::InvalidPvalue => "InvalidPvalue",
-				Self::EmptyEnumeration => "EmptyEnumeration",
-				Self::OutOfRange => "OutOfRange",
-				Self::NoDeviceSet => "NoDeviceSet",
-				Self::NoEventImplementation => "NoEventImplementation",
-				Self::NodeNotFound => "NodeNotFound",
-				Self::EnumEntryNotFound => "EnumEntryNotFound",
-				Self::InvalidLength => "InvalidLength",
-				Self::ReadOnly => "ReadOnly",
-				Self::SetFromStringUndefined => "SetFromStringUndefined",
-				Self::GetAsStringUndefined => "GetAsStringUndefined",
-				Self::InvalidBitRange => "InvalidBitRange",
-				_ => "Unknown",
-			}
-		)
-	}
 }
 
 #[doc(hidden)]
@@ -1537,6 +1903,7 @@ impl IntoGlib for GcError {
 			Self::SetFromStringUndefined => ffi::ARV_GC_ERROR_SET_FROM_STRING_UNDEFINED,
 			Self::GetAsStringUndefined => ffi::ARV_GC_ERROR_GET_AS_STRING_UNDEFINED,
 			Self::InvalidBitRange => ffi::ARV_GC_ERROR_INVALID_BIT_RANGE,
+			Self::InvalidSyntax => ffi::ARV_GC_ERROR_INVALID_SYNTAX,
 			Self::__Unknown(value) => value,
 		}
 	}
@@ -1546,6 +1913,7 @@ impl IntoGlib for GcError {
 impl FromGlib<ffi::ArvGcError> for GcError {
 	unsafe fn from_glib(value: ffi::ArvGcError) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_ERROR_PROPERTY_NOT_DEFINED => Self::PropertyNotDefined,
 			ffi::ARV_GC_ERROR_PVALUE_NOT_DEFINED => Self::PvalueNotDefined,
@@ -1561,47 +1929,50 @@ impl FromGlib<ffi::ArvGcError> for GcError {
 			ffi::ARV_GC_ERROR_SET_FROM_STRING_UNDEFINED => Self::SetFromStringUndefined,
 			ffi::ARV_GC_ERROR_GET_AS_STRING_UNDEFINED => Self::GetAsStringUndefined,
 			ffi::ARV_GC_ERROR_INVALID_BIT_RANGE => Self::InvalidBitRange,
+			ffi::ARV_GC_ERROR_INVALID_SYNTAX => Self::InvalidSyntax,
 			value => Self::__Unknown(value),
 		}
 	}
 }
 
-impl ErrorDomain for GcError {
-	fn domain() -> Quark {
+impl glib::error::ErrorDomain for GcError {
+	#[inline]
+	fn domain() -> glib::Quark {
 		skip_assert_initialized!();
 
 		unsafe { from_glib(ffi::arv_gc_error_quark()) }
 	}
 
+	#[inline]
 	fn code(self) -> i32 {
 		self.into_glib()
 	}
 
+	#[inline]
+	#[allow(clippy::match_single_binding)]
 	fn from(code: i32) -> Option<Self> {
 		skip_assert_initialized!();
-		match code {
-			ffi::ARV_GC_ERROR_PROPERTY_NOT_DEFINED => Some(Self::PropertyNotDefined),
-			ffi::ARV_GC_ERROR_PVALUE_NOT_DEFINED => Some(Self::PvalueNotDefined),
-			ffi::ARV_GC_ERROR_INVALID_PVALUE => Some(Self::InvalidPvalue),
-			ffi::ARV_GC_ERROR_EMPTY_ENUMERATION => Some(Self::EmptyEnumeration),
-			ffi::ARV_GC_ERROR_OUT_OF_RANGE => Some(Self::OutOfRange),
-			ffi::ARV_GC_ERROR_NO_DEVICE_SET => Some(Self::NoDeviceSet),
-			ffi::ARV_GC_ERROR_NO_EVENT_IMPLEMENTATION => Some(Self::NoEventImplementation),
-			ffi::ARV_GC_ERROR_NODE_NOT_FOUND => Some(Self::NodeNotFound),
-			ffi::ARV_GC_ERROR_ENUM_ENTRY_NOT_FOUND => Some(Self::EnumEntryNotFound),
-			ffi::ARV_GC_ERROR_INVALID_LENGTH => Some(Self::InvalidLength),
-			ffi::ARV_GC_ERROR_READ_ONLY => Some(Self::ReadOnly),
-			ffi::ARV_GC_ERROR_SET_FROM_STRING_UNDEFINED => Some(Self::SetFromStringUndefined),
-			ffi::ARV_GC_ERROR_GET_AS_STRING_UNDEFINED => Some(Self::GetAsStringUndefined),
-			ffi::ARV_GC_ERROR_INVALID_BIT_RANGE => Some(Self::InvalidBitRange),
-			value => Some(Self::__Unknown(value)),
+		match unsafe { from_glib(code) } {
+			value => Some(value),
 		}
 	}
 }
 
 impl StaticType for GcError {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_error_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_error_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcError {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1609,9 +1980,10 @@ impl glib::value::ValueType for GcError {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcError {
+unsafe impl<'a> glib::value::FromValue<'a> for GcError {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1619,6 +1991,7 @@ unsafe impl<'a> FromValue<'a> for GcError {
 }
 
 impl ToValue for GcError {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1627,8 +2000,17 @@ impl ToValue for GcError {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcError> for glib::Value {
+	#[inline]
+	fn from(v: GcError) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1650,25 +2032,11 @@ pub enum GcIsLinear {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcIsLinear {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcIsLinear::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::No => "No",
-				Self::Yes => "Yes",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcIsLinear {
 	type GlibType = ffi::ArvGcIsLinear;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcIsLinear {
 		match self {
 			Self::Undefined => ffi::ARV_GC_IS_LINEAR_UNDEFINED,
@@ -1681,8 +2049,10 @@ impl IntoGlib for GcIsLinear {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcIsLinear> for GcIsLinear {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcIsLinear) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_IS_LINEAR_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_IS_LINEAR_NO => Self::No,
@@ -1693,8 +2063,20 @@ impl FromGlib<ffi::ArvGcIsLinear> for GcIsLinear {
 }
 
 impl StaticType for GcIsLinear {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_is_linear_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_is_linear_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcIsLinear {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1702,9 +2084,10 @@ impl glib::value::ValueType for GcIsLinear {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcIsLinear {
+unsafe impl<'a> glib::value::FromValue<'a> for GcIsLinear {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1712,6 +2095,7 @@ unsafe impl<'a> FromValue<'a> for GcIsLinear {
 }
 
 impl ToValue for GcIsLinear {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1720,8 +2104,17 @@ impl ToValue for GcIsLinear {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcIsLinear> for glib::Value {
+	#[inline]
+	fn from(v: GcIsLinear) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1744,25 +2137,11 @@ pub enum GcNameSpace {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcNameSpace {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcNameSpace::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::Standard => "Standard",
-				Self::Custom => "Custom",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcNameSpace {
 	type GlibType = ffi::ArvGcNameSpace;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcNameSpace {
 		match self {
 			Self::Undefined => ffi::ARV_GC_NAME_SPACE_UNDEFINED,
@@ -1775,8 +2154,10 @@ impl IntoGlib for GcNameSpace {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcNameSpace> for GcNameSpace {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcNameSpace) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_NAME_SPACE_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_NAME_SPACE_STANDARD => Self::Standard,
@@ -1787,8 +2168,20 @@ impl FromGlib<ffi::ArvGcNameSpace> for GcNameSpace {
 }
 
 impl StaticType for GcNameSpace {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_name_space_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_name_space_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcNameSpace {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -1796,9 +2189,10 @@ impl glib::value::ValueType for GcNameSpace {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcNameSpace {
+unsafe impl<'a> glib::value::FromValue<'a> for GcNameSpace {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -1806,6 +2200,7 @@ unsafe impl<'a> FromValue<'a> for GcNameSpace {
 }
 
 impl ToValue for GcNameSpace {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -1814,8 +2209,17 @@ impl ToValue for GcNameSpace {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcNameSpace> for glib::Value {
+	#[inline]
+	fn from(v: GcNameSpace) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -1901,6 +2305,8 @@ pub enum GcPropertyNodeType {
 	ValueDefault,
 	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_STREAMABLE")]
 	Streamable,
+	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_IS_DEPRECATED")]
+	IsDeprecated,
 	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_P_UNKNONW")]
 	PUnknonw,
 	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_P_FEATURE")]
@@ -1939,78 +2345,12 @@ pub enum GcPropertyNodeType {
 	PValueIndexed,
 	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_P_VALUE_DEFAULT")]
 	PValueDefault,
+	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_P_ALIAS")]
+	PAlias,
+	#[doc(alias = "ARV_GC_PROPERTY_NODE_TYPE_P_CAST_ALIAS")]
+	PCastAlias,
 	#[doc(hidden)]
 	__Unknown(i32),
-}
-
-impl fmt::Display for GcPropertyNodeType {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcPropertyNodeType::{}",
-			match *self {
-				Self::Unknown => "Unknown",
-				Self::Value => "Value",
-				Self::Address => "Address",
-				Self::Description => "Description",
-				Self::Visibility => "Visibility",
-				Self::Tooltip => "Tooltip",
-				Self::DisplayName => "DisplayName",
-				Self::Minimum => "Minimum",
-				Self::Maximum => "Maximum",
-				Self::Slope => "Slope",
-				Self::Increment => "Increment",
-				Self::IsLinear => "IsLinear",
-				Self::Representation => "Representation",
-				Self::DisplayNotation => "DisplayNotation",
-				Self::DisplayPrecision => "DisplayPrecision",
-				Self::Unit => "Unit",
-				Self::OnValue => "OnValue",
-				Self::OffValue => "OffValue",
-				Self::Length => "Length",
-				Self::Formula => "Formula",
-				Self::FormulaTo => "FormulaTo",
-				Self::FormulaFrom => "FormulaFrom",
-				Self::Expression => "Expression",
-				Self::Constant => "Constant",
-				Self::AccessMode => "AccessMode",
-				Self::ImposedAccessMode => "ImposedAccessMode",
-				Self::Cachable => "Cachable",
-				Self::PollingTime => "PollingTime",
-				Self::Endianness => "Endianness",
-				Self::Sign => "Sign",
-				Self::Lsb => "Lsb",
-				Self::Msb => "Msb",
-				Self::Bit => "Bit",
-				Self::CommandValue => "CommandValue",
-				Self::ChunkId => "ChunkId",
-				Self::EventId => "EventId",
-				Self::ValueIndexed => "ValueIndexed",
-				Self::ValueDefault => "ValueDefault",
-				Self::Streamable => "Streamable",
-				Self::PUnknonw => "PUnknonw",
-				Self::PFeature => "PFeature",
-				Self::PValue => "PValue",
-				Self::PAddress => "PAddress",
-				Self::PIsImplemented => "PIsImplemented",
-				Self::PIsLocked => "PIsLocked",
-				Self::PIsAvailable => "PIsAvailable",
-				Self::PSelected => "PSelected",
-				Self::PMinimum => "PMinimum",
-				Self::PMaximum => "PMaximum",
-				Self::PIncrement => "PIncrement",
-				Self::PIndex => "PIndex",
-				Self::PLength => "PLength",
-				Self::PPort => "PPort",
-				Self::PVariable => "PVariable",
-				Self::PInvalidator => "PInvalidator",
-				Self::PCommandValue => "PCommandValue",
-				Self::PValueIndexed => "PValueIndexed",
-				Self::PValueDefault => "PValueDefault",
-				_ => "Unknown",
-			}
-		)
-	}
 }
 
 #[doc(hidden)]
@@ -2058,6 +2398,7 @@ impl IntoGlib for GcPropertyNodeType {
 			Self::ValueIndexed => ffi::ARV_GC_PROPERTY_NODE_TYPE_VALUE_INDEXED,
 			Self::ValueDefault => ffi::ARV_GC_PROPERTY_NODE_TYPE_VALUE_DEFAULT,
 			Self::Streamable => ffi::ARV_GC_PROPERTY_NODE_TYPE_STREAMABLE,
+			Self::IsDeprecated => ffi::ARV_GC_PROPERTY_NODE_TYPE_IS_DEPRECATED,
 			Self::PUnknonw => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_UNKNONW,
 			Self::PFeature => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_FEATURE,
 			Self::PValue => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_VALUE,
@@ -2077,6 +2418,8 @@ impl IntoGlib for GcPropertyNodeType {
 			Self::PCommandValue => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_COMMAND_VALUE,
 			Self::PValueIndexed => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_VALUE_INDEXED,
 			Self::PValueDefault => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_VALUE_DEFAULT,
+			Self::PAlias => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_ALIAS,
+			Self::PCastAlias => ffi::ARV_GC_PROPERTY_NODE_TYPE_P_CAST_ALIAS,
 			Self::__Unknown(value) => value,
 		}
 	}
@@ -2086,6 +2429,7 @@ impl IntoGlib for GcPropertyNodeType {
 impl FromGlib<ffi::ArvGcPropertyNodeType> for GcPropertyNodeType {
 	unsafe fn from_glib(value: ffi::ArvGcPropertyNodeType) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_UNKNOWN => Self::Unknown,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_VALUE => Self::Value,
@@ -2126,6 +2470,7 @@ impl FromGlib<ffi::ArvGcPropertyNodeType> for GcPropertyNodeType {
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_VALUE_INDEXED => Self::ValueIndexed,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_VALUE_DEFAULT => Self::ValueDefault,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_STREAMABLE => Self::Streamable,
+			ffi::ARV_GC_PROPERTY_NODE_TYPE_IS_DEPRECATED => Self::IsDeprecated,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_UNKNONW => Self::PUnknonw,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_FEATURE => Self::PFeature,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_VALUE => Self::PValue,
@@ -2145,14 +2490,28 @@ impl FromGlib<ffi::ArvGcPropertyNodeType> for GcPropertyNodeType {
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_COMMAND_VALUE => Self::PCommandValue,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_VALUE_INDEXED => Self::PValueIndexed,
 			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_VALUE_DEFAULT => Self::PValueDefault,
+			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_ALIAS => Self::PAlias,
+			ffi::ARV_GC_PROPERTY_NODE_TYPE_P_CAST_ALIAS => Self::PCastAlias,
 			value => Self::__Unknown(value),
 		}
 	}
 }
 
 impl StaticType for GcPropertyNodeType {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_property_node_type_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_property_node_type_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcPropertyNodeType {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2160,9 +2519,10 @@ impl glib::value::ValueType for GcPropertyNodeType {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcPropertyNodeType {
+unsafe impl<'a> glib::value::FromValue<'a> for GcPropertyNodeType {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2170,6 +2530,7 @@ unsafe impl<'a> FromValue<'a> for GcPropertyNodeType {
 }
 
 impl ToValue for GcPropertyNodeType {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2178,8 +2539,17 @@ impl ToValue for GcPropertyNodeType {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcPropertyNodeType> for glib::Value {
+	#[inline]
+	fn from(v: GcPropertyNodeType) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -2216,30 +2586,11 @@ pub enum GcRepresentation {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcRepresentation {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcRepresentation::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::Linear => "Linear",
-				Self::Logarithmic => "Logarithmic",
-				Self::Boolean => "Boolean",
-				Self::PureNumber => "PureNumber",
-				Self::HexNumber => "HexNumber",
-				Self::Ipv4Address => "Ipv4Address",
-				Self::MacAddress => "MacAddress",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcRepresentation {
 	type GlibType = ffi::ArvGcRepresentation;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcRepresentation {
 		match self {
 			Self::Undefined => ffi::ARV_GC_REPRESENTATION_UNDEFINED,
@@ -2257,8 +2608,10 @@ impl IntoGlib for GcRepresentation {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcRepresentation> for GcRepresentation {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcRepresentation) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_REPRESENTATION_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_REPRESENTATION_LINEAR => Self::Linear,
@@ -2274,8 +2627,20 @@ impl FromGlib<ffi::ArvGcRepresentation> for GcRepresentation {
 }
 
 impl StaticType for GcRepresentation {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_representation_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_representation_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcRepresentation {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2283,9 +2648,10 @@ impl glib::value::ValueType for GcRepresentation {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcRepresentation {
+unsafe impl<'a> glib::value::FromValue<'a> for GcRepresentation {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2293,6 +2659,7 @@ unsafe impl<'a> FromValue<'a> for GcRepresentation {
 }
 
 impl ToValue for GcRepresentation {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2301,8 +2668,17 @@ impl ToValue for GcRepresentation {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcRepresentation> for glib::Value {
+	#[inline]
+	fn from(v: GcRepresentation) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -2326,25 +2702,11 @@ pub enum GcSignedness {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcSignedness {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcSignedness::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::Signed => "Signed",
-				Self::Unsigned => "Unsigned",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcSignedness {
 	type GlibType = ffi::ArvGcSignedness;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcSignedness {
 		match self {
 			Self::Undefined => ffi::ARV_GC_SIGNEDNESS_UNDEFINED,
@@ -2357,8 +2719,10 @@ impl IntoGlib for GcSignedness {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcSignedness> for GcSignedness {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcSignedness) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_SIGNEDNESS_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_SIGNEDNESS_SIGNED => Self::Signed,
@@ -2369,8 +2733,20 @@ impl FromGlib<ffi::ArvGcSignedness> for GcSignedness {
 }
 
 impl StaticType for GcSignedness {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_signedness_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_signedness_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcSignedness {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2378,9 +2754,10 @@ impl glib::value::ValueType for GcSignedness {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcSignedness {
+unsafe impl<'a> glib::value::FromValue<'a> for GcSignedness {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2388,6 +2765,7 @@ unsafe impl<'a> FromValue<'a> for GcSignedness {
 }
 
 impl ToValue for GcSignedness {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2396,16 +2774,25 @@ impl ToValue for GcSignedness {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcSignedness> for glib::Value {
+	#[inline]
+	fn from(v: GcSignedness) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
 /// Denotes that the corresponding feature is prepared to be stored to and loaded from a file via the node tree.
 /// The idea is to persist the state of a camera by storing the features marked as Streamable and restore the state by
 /// writing those features back to the node tree.
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvGcStreamable")]
@@ -2423,29 +2810,13 @@ pub enum GcStreamable {
 	__Unknown(i32),
 }
 
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-impl fmt::Display for GcStreamable {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcStreamable::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::No => "No",
-				Self::Yes => "Yes",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 #[doc(hidden)]
 impl IntoGlib for GcStreamable {
 	type GlibType = ffi::ArvGcStreamable;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcStreamable {
 		match self {
 			Self::Undefined => ffi::ARV_GC_STREAMABLE_UNDEFINED,
@@ -2456,12 +2827,14 @@ impl IntoGlib for GcStreamable {
 	}
 }
 
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcStreamable> for GcStreamable {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcStreamable) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_STREAMABLE_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_STREAMABLE_NO => Self::No,
@@ -2471,34 +2844,50 @@ impl FromGlib<ffi::ArvGcStreamable> for GcStreamable {
 	}
 }
 
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 impl StaticType for GcStreamable {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_streamable_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_streamable_get_type()) }
 	}
 }
 
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
+impl glib::HasParamSpec for GcStreamable {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 impl glib::value::ValueType for GcStreamable {
 	type Type = Self;
 }
 
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
-unsafe impl<'a> FromValue<'a> for GcStreamable {
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
+unsafe impl<'a> glib::value::FromValue<'a> for GcStreamable {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
 	}
 }
 
-#[cfg(any(feature = "v0_8_8", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_8")))]
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
 impl ToValue for GcStreamable {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2507,8 +2896,19 @@ impl ToValue for GcStreamable {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+#[cfg(feature = "v0_8_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_8")))]
+impl From<GcStreamable> for glib::Value {
+	#[inline]
+	fn from(v: GcStreamable) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -2536,27 +2936,11 @@ pub enum GcVisibility {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GcVisibility {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GcVisibility::{}",
-			match *self {
-				Self::Undefined => "Undefined",
-				Self::Invisible => "Invisible",
-				Self::Guru => "Guru",
-				Self::Expert => "Expert",
-				Self::Beginner => "Beginner",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GcVisibility {
 	type GlibType = ffi::ArvGcVisibility;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGcVisibility {
 		match self {
 			Self::Undefined => ffi::ARV_GC_VISIBILITY_UNDEFINED,
@@ -2571,8 +2955,10 @@ impl IntoGlib for GcVisibility {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGcVisibility> for GcVisibility {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGcVisibility) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GC_VISIBILITY_UNDEFINED => Self::Undefined,
 			ffi::ARV_GC_VISIBILITY_INVISIBLE => Self::Invisible,
@@ -2585,8 +2971,20 @@ impl FromGlib<ffi::ArvGcVisibility> for GcVisibility {
 }
 
 impl StaticType for GcVisibility {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gc_visibility_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gc_visibility_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GcVisibility {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2594,9 +2992,10 @@ impl glib::value::ValueType for GcVisibility {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GcVisibility {
+unsafe impl<'a> glib::value::FromValue<'a> for GcVisibility {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2604,6 +3003,7 @@ unsafe impl<'a> FromValue<'a> for GcVisibility {
 }
 
 impl ToValue for GcVisibility {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2612,8 +3012,17 @@ impl ToValue for GcVisibility {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GcVisibility> for glib::Value {
+	#[inline]
+	fn from(v: GcVisibility) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -2635,27 +3044,11 @@ pub enum GvIpConfigurationMode {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GvIpConfigurationMode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GvIpConfigurationMode::{}",
-			match *self {
-				Self::None => "None",
-				Self::PersistentIp => "PersistentIp",
-				Self::Dhcp => "Dhcp",
-				Self::Lla => "Lla",
-				Self::ForceIp => "ForceIp",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GvIpConfigurationMode {
 	type GlibType = ffi::ArvGvIpConfigurationMode;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGvIpConfigurationMode {
 		match self {
 			Self::None => ffi::ARV_GV_IP_CONFIGURATION_MODE_NONE,
@@ -2670,8 +3063,10 @@ impl IntoGlib for GvIpConfigurationMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGvIpConfigurationMode> for GvIpConfigurationMode {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGvIpConfigurationMode) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GV_IP_CONFIGURATION_MODE_NONE => Self::None,
 			ffi::ARV_GV_IP_CONFIGURATION_MODE_PERSISTENT_IP => Self::PersistentIp,
@@ -2684,8 +3079,20 @@ impl FromGlib<ffi::ArvGvIpConfigurationMode> for GvIpConfigurationMode {
 }
 
 impl StaticType for GvIpConfigurationMode {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gv_ip_configuration_mode_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gv_ip_configuration_mode_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GvIpConfigurationMode {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2693,9 +3100,10 @@ impl glib::value::ValueType for GvIpConfigurationMode {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GvIpConfigurationMode {
+unsafe impl<'a> glib::value::FromValue<'a> for GvIpConfigurationMode {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2703,6 +3111,7 @@ unsafe impl<'a> FromValue<'a> for GvIpConfigurationMode {
 }
 
 impl ToValue for GvIpConfigurationMode {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2711,8 +3120,17 @@ impl ToValue for GvIpConfigurationMode {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GvIpConfigurationMode> for glib::Value {
+	#[inline]
+	fn from(v: GvIpConfigurationMode) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -2740,27 +3158,11 @@ pub enum GvPacketSizeAdjustment {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GvPacketSizeAdjustment {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GvPacketSizeAdjustment::{}",
-			match *self {
-				Self::Never => "Never",
-				Self::OnFailureOnce => "OnFailureOnce",
-				Self::OnFailure => "OnFailure",
-				Self::Once => "Once",
-				Self::Always => "Always",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GvPacketSizeAdjustment {
 	type GlibType = ffi::ArvGvPacketSizeAdjustment;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGvPacketSizeAdjustment {
 		match self {
 			Self::Never => ffi::ARV_GV_PACKET_SIZE_ADJUSTMENT_NEVER,
@@ -2775,8 +3177,10 @@ impl IntoGlib for GvPacketSizeAdjustment {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGvPacketSizeAdjustment> for GvPacketSizeAdjustment {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGvPacketSizeAdjustment) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GV_PACKET_SIZE_ADJUSTMENT_NEVER => Self::Never,
 			ffi::ARV_GV_PACKET_SIZE_ADJUSTMENT_ON_FAILURE_ONCE => Self::OnFailureOnce,
@@ -2789,8 +3193,20 @@ impl FromGlib<ffi::ArvGvPacketSizeAdjustment> for GvPacketSizeAdjustment {
 }
 
 impl StaticType for GvPacketSizeAdjustment {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gv_packet_size_adjustment_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gv_packet_size_adjustment_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GvPacketSizeAdjustment {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2798,9 +3214,10 @@ impl glib::value::ValueType for GvPacketSizeAdjustment {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GvPacketSizeAdjustment {
+unsafe impl<'a> glib::value::FromValue<'a> for GvPacketSizeAdjustment {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2808,6 +3225,7 @@ unsafe impl<'a> FromValue<'a> for GvPacketSizeAdjustment {
 }
 
 impl ToValue for GvPacketSizeAdjustment {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2816,94 +3234,17 @@ impl ToValue for GvPacketSizeAdjustment {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
 	}
 }
 
-#[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
-#[non_exhaustive]
-#[doc(alias = "ArvGvStreamOption")]
-pub enum GvStreamOption {
-	/// no option specified
-	#[doc(alias = "ARV_GV_STREAM_OPTION_NONE")]
-	None,
-	/// use of packet socket is disabled
-	#[doc(alias = "ARV_GV_STREAM_OPTION_PACKET_SOCKET_DISABLED")]
-	PacketSocketDisabled,
-	#[doc(hidden)]
-	__Unknown(i32),
-}
-
-impl fmt::Display for GvStreamOption {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GvStreamOption::{}",
-			match *self {
-				Self::None => "None",
-				Self::PacketSocketDisabled => "PacketSocketDisabled",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
-#[doc(hidden)]
-impl IntoGlib for GvStreamOption {
-	type GlibType = ffi::ArvGvStreamOption;
-
-	fn into_glib(self) -> ffi::ArvGvStreamOption {
-		match self {
-			Self::None => ffi::ARV_GV_STREAM_OPTION_NONE,
-			Self::PacketSocketDisabled => ffi::ARV_GV_STREAM_OPTION_PACKET_SOCKET_DISABLED,
-			Self::__Unknown(value) => value,
-		}
-	}
-}
-
-#[doc(hidden)]
-impl FromGlib<ffi::ArvGvStreamOption> for GvStreamOption {
-	unsafe fn from_glib(value: ffi::ArvGvStreamOption) -> Self {
+impl From<GvPacketSizeAdjustment> for glib::Value {
+	#[inline]
+	fn from(v: GvPacketSizeAdjustment) -> Self {
 		skip_assert_initialized!();
-		match value {
-			ffi::ARV_GV_STREAM_OPTION_NONE => Self::None,
-			ffi::ARV_GV_STREAM_OPTION_PACKET_SOCKET_DISABLED => Self::PacketSocketDisabled,
-			value => Self::__Unknown(value),
-		}
-	}
-}
-
-impl StaticType for GvStreamOption {
-	fn static_type() -> Type {
-		unsafe { from_glib(ffi::arv_gv_stream_option_get_type()) }
-	}
-}
-
-impl glib::value::ValueType for GvStreamOption {
-	type Type = Self;
-}
-
-unsafe impl<'a> FromValue<'a> for GvStreamOption {
-	type Checker = glib::value::GenericValueTypeChecker<Self>;
-
-	unsafe fn from_value(value: &'a glib::Value) -> Self {
-		skip_assert_initialized!();
-		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
-	}
-}
-
-impl ToValue for GvStreamOption {
-	fn to_value(&self) -> glib::Value {
-		let mut value = glib::Value::for_value_type::<Self>();
-		unsafe {
-			glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
-		}
-		value
-	}
-
-	fn value_type(&self) -> glib::Type {
-		Self::static_type()
+		ToValue::to_value(&v)
 	}
 }
 
@@ -2921,24 +3262,11 @@ pub enum GvStreamPacketResend {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GvStreamPacketResend {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GvStreamPacketResend::{}",
-			match *self {
-				Self::Never => "Never",
-				Self::Always => "Always",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GvStreamPacketResend {
 	type GlibType = ffi::ArvGvStreamPacketResend;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGvStreamPacketResend {
 		match self {
 			Self::Never => ffi::ARV_GV_STREAM_PACKET_RESEND_NEVER,
@@ -2950,8 +3278,10 @@ impl IntoGlib for GvStreamPacketResend {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGvStreamPacketResend> for GvStreamPacketResend {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGvStreamPacketResend) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GV_STREAM_PACKET_RESEND_NEVER => Self::Never,
 			ffi::ARV_GV_STREAM_PACKET_RESEND_ALWAYS => Self::Always,
@@ -2961,8 +3291,20 @@ impl FromGlib<ffi::ArvGvStreamPacketResend> for GvStreamPacketResend {
 }
 
 impl StaticType for GvStreamPacketResend {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gv_stream_packet_resend_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gv_stream_packet_resend_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GvStreamPacketResend {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -2970,9 +3312,10 @@ impl glib::value::ValueType for GvStreamPacketResend {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GvStreamPacketResend {
+unsafe impl<'a> glib::value::FromValue<'a> for GvStreamPacketResend {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -2980,6 +3323,7 @@ unsafe impl<'a> FromValue<'a> for GvStreamPacketResend {
 }
 
 impl ToValue for GvStreamPacketResend {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -2988,8 +3332,17 @@ impl ToValue for GvStreamPacketResend {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<GvStreamPacketResend> for glib::Value {
+	#[inline]
+	fn from(v: GvStreamPacketResend) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -3007,24 +3360,11 @@ pub enum GvStreamSocketBuffer {
 	__Unknown(i32),
 }
 
-impl fmt::Display for GvStreamSocketBuffer {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"GvStreamSocketBuffer::{}",
-			match *self {
-				Self::Fixed => "Fixed",
-				Self::Auto => "Auto",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for GvStreamSocketBuffer {
 	type GlibType = ffi::ArvGvStreamSocketBuffer;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvGvStreamSocketBuffer {
 		match self {
 			Self::Fixed => ffi::ARV_GV_STREAM_SOCKET_BUFFER_FIXED,
@@ -3036,8 +3376,10 @@ impl IntoGlib for GvStreamSocketBuffer {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvGvStreamSocketBuffer> for GvStreamSocketBuffer {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvGvStreamSocketBuffer) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_GV_STREAM_SOCKET_BUFFER_FIXED => Self::Fixed,
 			ffi::ARV_GV_STREAM_SOCKET_BUFFER_AUTO => Self::Auto,
@@ -3047,8 +3389,20 @@ impl FromGlib<ffi::ArvGvStreamSocketBuffer> for GvStreamSocketBuffer {
 }
 
 impl StaticType for GvStreamSocketBuffer {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_gv_stream_socket_buffer_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_gv_stream_socket_buffer_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for GvStreamSocketBuffer {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -3056,9 +3410,10 @@ impl glib::value::ValueType for GvStreamSocketBuffer {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for GvStreamSocketBuffer {
+unsafe impl<'a> glib::value::FromValue<'a> for GvStreamSocketBuffer {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -3066,6 +3421,7 @@ unsafe impl<'a> FromValue<'a> for GvStreamSocketBuffer {
 }
 
 impl ToValue for GvStreamSocketBuffer {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -3074,13 +3430,22 @@ impl ToValue for GvStreamSocketBuffer {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+impl From<GvStreamSocketBuffer> for glib::Value {
+	#[inline]
+	fn from(v: GvStreamSocketBuffer) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
+	}
+}
+
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvRangeCheckPolicy")]
@@ -3098,29 +3463,13 @@ pub enum RangeCheckPolicy {
 	__Unknown(i32),
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-impl fmt::Display for RangeCheckPolicy {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"RangeCheckPolicy::{}",
-			match *self {
-				Self::Disable => "Disable",
-				Self::Enable => "Enable",
-				Self::Debug => "Debug",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 #[doc(hidden)]
 impl IntoGlib for RangeCheckPolicy {
 	type GlibType = ffi::ArvRangeCheckPolicy;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvRangeCheckPolicy {
 		match self {
 			Self::Disable => ffi::ARV_RANGE_CHECK_POLICY_DISABLE,
@@ -3131,12 +3480,14 @@ impl IntoGlib for RangeCheckPolicy {
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 #[doc(hidden)]
 impl FromGlib<ffi::ArvRangeCheckPolicy> for RangeCheckPolicy {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvRangeCheckPolicy) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_RANGE_CHECK_POLICY_DISABLE => Self::Disable,
 			ffi::ARV_RANGE_CHECK_POLICY_ENABLE => Self::Enable,
@@ -3146,34 +3497,50 @@ impl FromGlib<ffi::ArvRangeCheckPolicy> for RangeCheckPolicy {
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 impl StaticType for RangeCheckPolicy {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_range_check_policy_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_range_check_policy_get_type()) }
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+impl glib::HasParamSpec for RangeCheckPolicy {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
+	}
+}
+
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 impl glib::value::ValueType for RangeCheckPolicy {
 	type Type = Self;
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-unsafe impl<'a> FromValue<'a> for RangeCheckPolicy {
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+unsafe impl<'a> glib::value::FromValue<'a> for RangeCheckPolicy {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
 	}
 }
 
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 impl ToValue for RangeCheckPolicy {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -3182,8 +3549,19 @@ impl ToValue for RangeCheckPolicy {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+impl From<RangeCheckPolicy> for glib::Value {
+	#[inline]
+	fn from(v: RangeCheckPolicy) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -3204,25 +3582,11 @@ pub enum RegisterCachePolicy {
 	__Unknown(i32),
 }
 
-impl fmt::Display for RegisterCachePolicy {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"RegisterCachePolicy::{}",
-			match *self {
-				Self::Disable => "Disable",
-				Self::Enable => "Enable",
-				Self::Debug => "Debug",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for RegisterCachePolicy {
 	type GlibType = ffi::ArvRegisterCachePolicy;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvRegisterCachePolicy {
 		match self {
 			Self::Disable => ffi::ARV_REGISTER_CACHE_POLICY_DISABLE,
@@ -3235,8 +3599,10 @@ impl IntoGlib for RegisterCachePolicy {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvRegisterCachePolicy> for RegisterCachePolicy {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvRegisterCachePolicy) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_REGISTER_CACHE_POLICY_DISABLE => Self::Disable,
 			ffi::ARV_REGISTER_CACHE_POLICY_ENABLE => Self::Enable,
@@ -3247,8 +3613,20 @@ impl FromGlib<ffi::ArvRegisterCachePolicy> for RegisterCachePolicy {
 }
 
 impl StaticType for RegisterCachePolicy {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_register_cache_policy_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_register_cache_policy_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for RegisterCachePolicy {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -3256,9 +3634,10 @@ impl glib::value::ValueType for RegisterCachePolicy {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for RegisterCachePolicy {
+unsafe impl<'a> glib::value::FromValue<'a> for RegisterCachePolicy {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -3266,6 +3645,7 @@ unsafe impl<'a> FromValue<'a> for RegisterCachePolicy {
 }
 
 impl ToValue for RegisterCachePolicy {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -3274,12 +3654,22 @@ impl ToValue for RegisterCachePolicy {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
 	}
 }
 
-/// Describes when the stream callback is called.
+impl From<RegisterCachePolicy> for glib::Value {
+	#[inline]
+	fn from(v: RegisterCachePolicy) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
+	}
+}
+
+/// Describes when the reason the stream callback is called. You are probably more interested in
+/// [`Init`][Self::Init] and [`BufferDone`][Self::BufferDone].
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
 #[doc(alias = "ArvStreamCallbackType")]
@@ -3300,26 +3690,11 @@ pub enum StreamCallbackType {
 	__Unknown(i32),
 }
 
-impl fmt::Display for StreamCallbackType {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"StreamCallbackType::{}",
-			match *self {
-				Self::Init => "Init",
-				Self::Exit => "Exit",
-				Self::StartBuffer => "StartBuffer",
-				Self::BufferDone => "BufferDone",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for StreamCallbackType {
 	type GlibType = ffi::ArvStreamCallbackType;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvStreamCallbackType {
 		match self {
 			Self::Init => ffi::ARV_STREAM_CALLBACK_TYPE_INIT,
@@ -3333,8 +3708,10 @@ impl IntoGlib for StreamCallbackType {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvStreamCallbackType> for StreamCallbackType {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvStreamCallbackType) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_STREAM_CALLBACK_TYPE_INIT => Self::Init,
 			ffi::ARV_STREAM_CALLBACK_TYPE_EXIT => Self::Exit,
@@ -3346,8 +3723,20 @@ impl FromGlib<ffi::ArvStreamCallbackType> for StreamCallbackType {
 }
 
 impl StaticType for StreamCallbackType {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_stream_callback_type_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_stream_callback_type_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for StreamCallbackType {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -3355,9 +3744,10 @@ impl glib::value::ValueType for StreamCallbackType {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for StreamCallbackType {
+unsafe impl<'a> glib::value::FromValue<'a> for StreamCallbackType {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -3365,6 +3755,7 @@ unsafe impl<'a> FromValue<'a> for StreamCallbackType {
 }
 
 impl ToValue for StreamCallbackType {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -3373,8 +3764,17 @@ impl ToValue for StreamCallbackType {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<StreamCallbackType> for glib::Value {
+	#[inline]
+	fn from(v: StreamCallbackType) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -3392,24 +3792,11 @@ pub enum UvUsbMode {
 	__Unknown(i32),
 }
 
-impl fmt::Display for UvUsbMode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"UvUsbMode::{}",
-			match *self {
-				Self::Sync => "Sync",
-				Self::Async => "Async",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for UvUsbMode {
 	type GlibType = ffi::ArvUvUsbMode;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvUvUsbMode {
 		match self {
 			Self::Sync => ffi::ARV_UV_USB_MODE_SYNC,
@@ -3421,8 +3808,10 @@ impl IntoGlib for UvUsbMode {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvUvUsbMode> for UvUsbMode {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvUvUsbMode) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_UV_USB_MODE_SYNC => Self::Sync,
 			ffi::ARV_UV_USB_MODE_ASYNC => Self::Async,
@@ -3432,8 +3821,20 @@ impl FromGlib<ffi::ArvUvUsbMode> for UvUsbMode {
 }
 
 impl StaticType for UvUsbMode {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_uv_usb_mode_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_uv_usb_mode_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for UvUsbMode {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -3441,9 +3842,10 @@ impl glib::value::ValueType for UvUsbMode {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for UvUsbMode {
+unsafe impl<'a> glib::value::FromValue<'a> for UvUsbMode {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -3451,6 +3853,7 @@ unsafe impl<'a> FromValue<'a> for UvUsbMode {
 }
 
 impl ToValue for UvUsbMode {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -3459,8 +3862,17 @@ impl ToValue for UvUsbMode {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<UvUsbMode> for glib::Value {
+	#[inline]
+	fn from(v: UvUsbMode) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }
 
@@ -3475,23 +3887,11 @@ pub enum XmlSchemaError {
 	__Unknown(i32),
 }
 
-impl fmt::Display for XmlSchemaError {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		write!(
-			f,
-			"XmlSchemaError::{}",
-			match *self {
-				Self::Structure => "Structure",
-				_ => "Unknown",
-			}
-		)
-	}
-}
-
 #[doc(hidden)]
 impl IntoGlib for XmlSchemaError {
 	type GlibType = ffi::ArvXmlSchemaError;
 
+	#[inline]
 	fn into_glib(self) -> ffi::ArvXmlSchemaError {
 		match self {
 			Self::Structure => ffi::ARV_XML_SCHEMA_ERROR_INVALID_STRUCTURE,
@@ -3502,8 +3902,10 @@ impl IntoGlib for XmlSchemaError {
 
 #[doc(hidden)]
 impl FromGlib<ffi::ArvXmlSchemaError> for XmlSchemaError {
+	#[inline]
 	unsafe fn from_glib(value: ffi::ArvXmlSchemaError) -> Self {
 		skip_assert_initialized!();
+
 		match value {
 			ffi::ARV_XML_SCHEMA_ERROR_INVALID_STRUCTURE => Self::Structure,
 			value => Self::__Unknown(value),
@@ -3511,29 +3913,44 @@ impl FromGlib<ffi::ArvXmlSchemaError> for XmlSchemaError {
 	}
 }
 
-impl ErrorDomain for XmlSchemaError {
-	fn domain() -> Quark {
+impl glib::error::ErrorDomain for XmlSchemaError {
+	#[inline]
+	fn domain() -> glib::Quark {
 		skip_assert_initialized!();
 
 		unsafe { from_glib(ffi::arv_xml_schema_error_quark()) }
 	}
 
+	#[inline]
 	fn code(self) -> i32 {
 		self.into_glib()
 	}
 
+	#[inline]
+	#[allow(clippy::match_single_binding)]
 	fn from(code: i32) -> Option<Self> {
 		skip_assert_initialized!();
-		match code {
-			ffi::ARV_XML_SCHEMA_ERROR_INVALID_STRUCTURE => Some(Self::Structure),
-			value => Some(Self::__Unknown(value)),
+		match unsafe { from_glib(code) } {
+			value => Some(value),
 		}
 	}
 }
 
 impl StaticType for XmlSchemaError {
-	fn static_type() -> Type {
+	#[inline]
+	#[doc(alias = "arv_xml_schema_error_get_type")]
+	fn static_type() -> glib::Type {
 		unsafe { from_glib(ffi::arv_xml_schema_error_get_type()) }
+	}
+}
+
+impl glib::HasParamSpec for XmlSchemaError {
+	type ParamSpec = glib::ParamSpecEnum;
+	type SetValue = Self;
+	type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+	fn param_spec_builder() -> Self::BuilderFn {
+		Self::ParamSpec::builder_with_default
 	}
 }
 
@@ -3541,9 +3958,10 @@ impl glib::value::ValueType for XmlSchemaError {
 	type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for XmlSchemaError {
+unsafe impl<'a> glib::value::FromValue<'a> for XmlSchemaError {
 	type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+	#[inline]
 	unsafe fn from_value(value: &'a glib::Value) -> Self {
 		skip_assert_initialized!();
 		from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -3551,6 +3969,7 @@ unsafe impl<'a> FromValue<'a> for XmlSchemaError {
 }
 
 impl ToValue for XmlSchemaError {
+	#[inline]
 	fn to_value(&self) -> glib::Value {
 		let mut value = glib::Value::for_value_type::<Self>();
 		unsafe {
@@ -3559,7 +3978,16 @@ impl ToValue for XmlSchemaError {
 		value
 	}
 
+	#[inline]
 	fn value_type(&self) -> glib::Type {
 		Self::static_type()
+	}
+}
+
+impl From<XmlSchemaError> for glib::Value {
+	#[inline]
+	fn from(v: XmlSchemaError) -> Self {
+		skip_assert_initialized!();
+		ToValue::to_value(&v)
 	}
 }

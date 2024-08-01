@@ -2,12 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::GcFeatureNode;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, GcFeatureNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcSelectorExt`][trait@crate::prelude::GcSelectorExt]
 	#[doc(alias = "ArvGcSelector")]
 	pub struct GcSelector(Interface<ffi::ArvGcSelector, ffi::ArvGcSelectorInterface>);
 
@@ -16,33 +19,25 @@ glib::wrapper! {
 	}
 }
 
+impl GcSelector {
+	pub const NONE: Option<&'static GcSelector> = None;
+}
+
 unsafe impl Send for GcSelector {}
 
-pub const NONE_GC_SELECTOR: Option<&GcSelector> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::GcSelector>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@GcSelector`] methods.
 ///
 /// # Implementors
 ///
 /// [`GcEnumeration`][struct@crate::GcEnumeration], [`GcIntRegNode`][struct@crate::GcIntRegNode], [`GcIntegerNode`][struct@crate::GcIntegerNode], [`GcMaskedIntRegNode`][struct@crate::GcMaskedIntRegNode], [`GcSelector`][struct@crate::GcSelector]
-pub trait GcSelectorExt: 'static {
-	///
-	/// # Returns
-	///
-	/// a list of selected [`GcFeatureNode`][crate::GcFeatureNode]
+pub trait GcSelectorExt: IsA<GcSelector> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_gc_selector_get_selected_features")]
 	#[doc(alias = "get_selected_features")]
-	fn selected_features(&self) -> Vec<GcFeatureNode>;
-
-	///
-	/// # Returns
-	///
-	/// [`true`] if this node is a selector, i.e. it has pSelected childs.
-	#[doc(alias = "arv_gc_selector_is_selector")]
-	fn is_selector(&self) -> bool;
-}
-
-impl<O: IsA<GcSelector>> GcSelectorExt for O {
 	fn selected_features(&self) -> Vec<GcFeatureNode> {
 		unsafe {
 			FromGlibPtrContainer::from_glib_none(ffi::arv_gc_selector_get_selected_features(
@@ -51,6 +46,7 @@ impl<O: IsA<GcSelector>> GcSelectorExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_gc_selector_is_selector")]
 	fn is_selector(&self) -> bool {
 		unsafe {
 			from_glib(ffi::arv_gc_selector_is_selector(
@@ -60,8 +56,4 @@ impl<O: IsA<GcSelector>> GcSelectorExt for O {
 	}
 }
 
-impl fmt::Display for GcSelector {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcSelector")
-	}
-}
+impl<O: IsA<GcSelector>> GcSelectorExt for O {}

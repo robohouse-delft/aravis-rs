@@ -2,17 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcConverter;
-use crate::GcFeatureNode;
-use crate::GcFloat;
-use crate::GcNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomElement, DomNode, GcConverter, GcFeatureNode, GcFloat, GcNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcConverterExt`][trait@crate::prelude::GcConverterExt], [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcFloatExt`][trait@crate::prelude::GcFloatExt]
 	#[doc(alias = "ArvGcConverterNode")]
 	pub struct GcConverterNode(Object<ffi::ArvGcConverterNode, ffi::ArvGcConverterNodeClass>) @extends GcConverter, GcFeatureNode, GcNode, DomElement, DomNode, @implements GcFloat;
 
@@ -36,9 +34,3 @@ impl Default for GcConverterNode {
 }
 
 unsafe impl Send for GcConverterNode {}
-
-impl fmt::Display for GcConverterNode {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcConverterNode")
-	}
-}

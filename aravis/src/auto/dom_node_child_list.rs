@@ -2,14 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomNode;
-use crate::DomNodeList;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomNode, DomNodeList};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`DomNodeListExt`][trait@crate::prelude::DomNodeListExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomNodeChildList")]
 	pub struct DomNodeChildList(Object<ffi::ArvDomNodeChildList, ffi::ArvDomNodeChildListClass>) @extends DomNodeList;
 
@@ -20,7 +21,7 @@ glib::wrapper! {
 
 impl DomNodeChildList {
 	#[doc(alias = "arv_dom_node_child_list_new")]
-	pub fn new<P: IsA<DomNode>>(parent_node: &P) -> DomNodeChildList {
+	pub fn new(parent_node: &impl IsA<DomNode>) -> DomNodeChildList {
 		skip_assert_initialized!();
 		unsafe {
 			DomNodeList::from_glib_full(ffi::arv_dom_node_child_list_new(
@@ -32,9 +33,3 @@ impl DomNodeChildList {
 }
 
 unsafe impl Send for DomNodeChildList {}
-
-impl fmt::Display for DomNodeChildList {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomNodeChildList")
-	}
-}

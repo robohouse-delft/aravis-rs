@@ -14,10 +14,12 @@ generate = [
 	"Aravis.AcquisitionMode",
 	"Aravis.Auto",
 	#"Aravis.Buffer",
+	"Aravis.BufferPartDataType",
 	"Aravis.BufferPayloadType",
 	"Aravis.BufferStatus",
 	#"Aravis.Camera",
 	"Aravis.CameraBuilder",
+	"Aravis.ComponentSelectionFlags",
 	"Aravis.AccessCheckPolicy",
 	"Aravis.ChunkParser",
 	"Aravis.ChunkParserError",
@@ -644,6 +646,9 @@ status = "generate"
 	name = "create_stream"
 	ignore = true
 	[[object.function]]
+	name = "create_stream_full"
+	ignore = true
+	[[object.function]]
 	name = "check_status"
 	return = { use_return_for_result = true }
 	[[object.function]]
@@ -697,6 +702,9 @@ name = "Aravis.Device"
 status = "generate"
 	[[object.function]]
 	name = "create_stream"
+	ignore = true
+	[[object.function]]
+	name = "create_stream_full"
 	ignore = true
 	[[object.function]]
 	name = "get_boolean_feature_value"

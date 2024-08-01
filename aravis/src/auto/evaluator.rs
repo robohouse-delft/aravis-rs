@@ -2,11 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
+use crate::ffi;
 use glib::translate::*;
-use std::fmt;
-use std::ptr;
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvEvaluator")]
 	pub struct Evaluator(Object<ffi::ArvEvaluator, ffi::ArvEvaluatorClass>);
 
@@ -32,7 +36,7 @@ impl Evaluator {
 	#[doc(alias = "arv_evaluator_evaluate_as_double")]
 	pub fn evaluate_as_double(&self) -> Result<f64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_evaluator_evaluate_as_double(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
@@ -45,7 +49,7 @@ impl Evaluator {
 	#[doc(alias = "arv_evaluator_evaluate_as_int64")]
 	pub fn evaluate_as_int64(&self) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_evaluator_evaluate_as_int64(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
@@ -159,9 +163,3 @@ impl Evaluator {
 }
 
 unsafe impl Send for Evaluator {}
-
-impl fmt::Display for Evaluator {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("Evaluator")
-	}
-}

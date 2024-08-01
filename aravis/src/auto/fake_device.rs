@@ -2,14 +2,21 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Device;
-use crate::FakeCamera;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, Device, FakeCamera};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// ## Properties
+///
+///
+/// #### `serial-number`
+///  Writeable | Construct Only
+///
+/// # Implements
+///
+/// [`DeviceExt`][trait@crate::prelude::DeviceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvFakeDevice")]
 	pub struct FakeDevice(Object<ffi::ArvFakeDevice, ffi::ArvFakeDeviceClass>) @extends Device;
 
@@ -29,7 +36,7 @@ impl FakeDevice {
 	pub fn new(serial_number: &str) -> Result<FakeDevice, glib::Error> {
 		assert_initialized_main_thread!();
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_fake_device_new(serial_number.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(Device::from_glib_full(ret).unsafe_cast())
@@ -51,9 +58,3 @@ impl FakeDevice {
 }
 
 unsafe impl Send for FakeDevice {}
-
-impl fmt::Display for FakeDevice {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("FakeDevice")
-	}
-}

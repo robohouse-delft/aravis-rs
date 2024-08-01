@@ -2,31 +2,44 @@
 // from ../gir-files
 // DO NOT EDIT
 
-#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
-use crate::AccessCheckPolicy;
-use crate::ChunkParser;
-use crate::Gc;
-#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
-use crate::GcAccessMode;
-use crate::GcNode;
-#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+#[cfg(feature = "v0_8_31")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
+use crate::GcRepresentation;
+#[cfg(feature = "v0_8_6")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
 use crate::RangeCheckPolicy;
-use crate::RegisterCachePolicy;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
-use glib::translate::*;
+use crate::{ffi, ChunkParser, Gc, GcNode, RegisterCachePolicy};
+#[cfg(feature = "v0_8_22")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
+use crate::{AccessCheckPolicy, GcAccessMode};
+use glib::{
+	prelude::*,
+	signal::{connect_raw, SignalHandlerId},
+	translate::*,
+};
 use std::boxed::Box as Box_;
-use std::fmt;
-use std::mem;
-use std::mem::transmute;
-use std::ptr;
 
 glib::wrapper! {
+/// [`Device`][crate::Device] is an abstract base class for the control of cameras. It provides
+/// an easy access to the camera settings, and to its genicam interface for more
+/// advanced uses.
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// ## Signals
+///
+///
+/// #### `control-lost`
+///  Signal that the control of the device is lost.
+///
+/// This signal may be emited from a thread different than the main one,
+/// so please take care to shared data access from the callback.
+///
+///
+///
+/// # Implements
+///
+/// [`DeviceExt`][trait@crate::prelude::DeviceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDevice")]
 	pub struct Device(Object<ffi::ArvDevice, ffi::ArvDeviceClass>);
 
@@ -35,321 +48,24 @@ glib::wrapper! {
 	}
 }
 
+impl Device {
+	pub const NONE: Option<&'static Device> = None;
+}
+
 unsafe impl Send for Device {}
 
-pub const NONE_DEVICE: Option<&Device> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::Device>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@Device`] methods.
 ///
 /// # Implementors
 ///
 /// [`Device`][struct@crate::Device], [`FakeDevice`][struct@crate::FakeDevice], [`GvDevice`][struct@crate::GvDevice], [`UvDevice`][struct@crate::UvDevice]
-pub trait DeviceExt: 'static {
-	/// Create a [`ChunkParser`][crate::ChunkParser] object, to be used for chunk data extraction from [`Buffer`][crate::Buffer].
-	///
-	/// # Returns
-	///
-	/// a new [`ChunkParser`][crate::ChunkParser] object, NULL on error.
+pub trait DeviceExt: IsA<Device> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_device_create_chunk_parser")]
-	fn create_chunk_parser(&self) -> Option<ChunkParser>;
-
-	/// Get all the available values of `feature`, as integers.
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// a newly created array of 64 bit integers, which must freed after use using g_free,
-	/// or NULL on error.
-	#[doc(alias = "arv_device_dup_available_enumeration_feature_values")]
-	fn dup_available_enumeration_feature_values(
-		&self,
-		feature: &str,
-	) -> Result<Vec<i64>, glib::Error>;
-
-	/// Get display names of all the available entries of `feature`.
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// a newly created array of const strings, to be freed after use using g_free, or
-	/// [`None`] on error.
-	#[doc(alias = "arv_device_dup_available_enumeration_feature_values_as_display_names")]
-	fn dup_available_enumeration_feature_values_as_display_names(
-		&self,
-		feature: &str,
-	) -> Result<Vec<glib::GString>, glib::Error>;
-
-	/// Get all the available values of `feature`, as strings.
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// a newly created array of const strings, which must freed after use using g_free,
-	/// or NULL on error.
-	#[doc(alias = "arv_device_dup_available_enumeration_feature_values_as_strings")]
-	fn dup_available_enumeration_feature_values_as_strings(
-		&self,
-		feature: &str,
-	) -> Result<Vec<glib::GString>, glib::Error>;
-
-	/// Execute a genicam command.
-	/// ## `feature`
-	/// feature name
-	#[doc(alias = "arv_device_execute_command")]
-	fn execute_command(&self, feature: &str) -> Result<(), glib::Error>;
-
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// the feature value, [`false`] on error.
-	#[doc(alias = "arv_device_get_boolean_feature_value")]
-	#[doc(alias = "get_boolean_feature_value")]
-	fn boolean_feature_value(&self, feature: &str) -> Result<bool, glib::Error>;
-
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// the genicam node corresponding to the feature name, NULL if not found.
-	#[doc(alias = "arv_device_get_feature")]
-	#[doc(alias = "get_feature")]
-	fn feature(&self, feature: &str) -> Option<GcNode>;
-
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
-	#[doc(alias = "arv_device_get_feature_access_mode")]
-	#[doc(alias = "get_feature_access_mode")]
-	fn feature_access_mode(&self, feature: &str) -> GcAccessMode;
-
-	/// Retrieves feature bounds.
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	///
-	/// ## `min`
-	/// minimum feature value
-	///
-	/// ## `max`
-	/// maximum feature value
-	#[doc(alias = "arv_device_get_float_feature_bounds")]
-	#[doc(alias = "get_float_feature_bounds")]
-	fn float_feature_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error>;
-
-	#[cfg(any(feature = "v0_8_16", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_16")))]
-	#[doc(alias = "arv_device_get_float_feature_increment")]
-	#[doc(alias = "get_float_feature_increment")]
-	fn float_feature_increment(&self, feature: &str) -> Result<f64, glib::Error>;
-
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// the float feature value, 0.0 on error.
-	#[doc(alias = "arv_device_get_float_feature_value")]
-	#[doc(alias = "get_float_feature_value")]
-	fn float_feature_value(&self, feature: &str) -> Result<f64, glib::Error>;
-
-	/// Retrieves the genicam interface of the given device.
-	///
-	/// # Returns
-	///
-	/// the genicam interface.
-	#[doc(alias = "arv_device_get_genicam")]
-	#[doc(alias = "get_genicam")]
-	fn genicam(&self) -> Option<Gc>;
-
-	/// Gets the Genicam XML data stored in the device memory.
-	///
-	/// # Returns
-	///
-	/// a pointer to the Genicam XML data, owned by the device.
-	///
-	/// ## `size`
-	/// placeholder for the returned data size (bytes)
-	#[doc(alias = "arv_device_get_genicam_xml")]
-	#[doc(alias = "get_genicam_xml")]
-	fn genicam_xml(&self) -> (glib::GString, usize);
-
-	/// Retrieves feature bounds.
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	///
-	/// ## `min`
-	/// minimum feature value
-	///
-	/// ## `max`
-	/// maximum feature value
-	#[doc(alias = "arv_device_get_integer_feature_bounds")]
-	#[doc(alias = "get_integer_feature_bounds")]
-	fn integer_feature_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error>;
-
-	/// Not all integer features have evenly distributed allowed values, which means the returned increment may not reflect the allowed value
-	/// set.
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// feature value increment, or 1 on error.
-	#[doc(alias = "arv_device_get_integer_feature_increment")]
-	#[doc(alias = "get_integer_feature_increment")]
-	fn integer_feature_increment(&self, feature: &str) -> Result<i64, glib::Error>;
-
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// the integer feature value, 0 on error.
-	#[doc(alias = "arv_device_get_integer_feature_value")]
-	#[doc(alias = "get_integer_feature_value")]
-	fn integer_feature_value(&self, feature: &str) -> Result<i64, glib::Error>;
-
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// the string feature value, [`None`] on error.
-	#[doc(alias = "arv_device_get_string_feature_value")]
-	#[doc(alias = "get_string_feature_value")]
-	fn string_feature_value(&self, feature: &str) -> Result<glib::GString, glib::Error>;
-
-	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
-	#[doc(alias = "arv_device_is_enumeration_entry_available")]
-	fn is_enumeration_entry_available(&self, feature: &str, entry: &str)
-		-> Result<(), glib::Error>;
-
-	/// ## `feature`
-	/// feature name
-	///
-	/// # Returns
-	///
-	/// [`true`] if feature is available, [`false`] if not or on error.
-	#[doc(alias = "arv_device_is_feature_available")]
-	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error>;
-
-	//#[doc(alias = "arv_device_read_memory")]
-	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error>;
-
-	/// Reads the value of a device register.
-	/// ## `address`
-	/// register address
-	///
-	/// # Returns
-	///
-	/// TRUE on success.
-	///
-	/// ## `value`
-	/// a placeholder for the read value
-	#[doc(alias = "arv_device_read_register")]
-	fn read_register(&self, address: u64) -> Result<(bool, u32), glib::Error>;
-
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
-	#[doc(alias = "arv_device_set_access_check_policy")]
-	fn set_access_check_policy(&self, policy: AccessCheckPolicy);
-
-	/// Set the value of a boolean feature.
-	/// ## `feature`
-	/// feature name
-	/// ## `value`
-	/// feature value
-	#[doc(alias = "arv_device_set_boolean_feature_value")]
-	fn set_boolean_feature_value(&self, feature: &str, value: bool) -> Result<(), glib::Error>;
-
-	/// Set features from a string containing a list of space separated feature assignments or command names. For example:
-	///
-	///
-	///
-	/// **⚠️ The following code is in C ⚠️**
-	///
-	/// ```C
-	/// arv_device_set_features_from_string (device, "Width=256 Height=256 PixelFormat='Mono8' TriggerStart", &error);
-	/// ```
-	/// ## `string`
-	/// a space separated list of features assignments
-	#[doc(alias = "arv_device_set_features_from_string")]
-	fn set_features_from_string(&self, string: &str) -> Result<(), glib::Error>;
-
-	/// Set the float feature value.
-	/// ## `feature`
-	/// feature name
-	/// ## `value`
-	/// new feature value
-	#[doc(alias = "arv_device_set_float_feature_value")]
-	fn set_float_feature_value(&self, feature: &str, value: f64) -> Result<(), glib::Error>;
-
-	/// Set the integer feature value.
-	/// ## `feature`
-	/// feature name
-	/// ## `value`
-	/// new feature value
-	#[doc(alias = "arv_device_set_integer_feature_value")]
-	fn set_integer_feature_value(&self, feature: &str, value: i64) -> Result<(), glib::Error>;
-
-	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
-	#[doc(alias = "arv_device_set_range_check_policy")]
-	fn set_range_check_policy(&self, policy: RangeCheckPolicy);
-
-	/// Sets the register cache policy.
-	///
-	/// `<warning>``<para>`Be aware that some camera may have wrong Cachable properties defined in their Genicam metadata, which may
-	/// lead to incorrect readouts. Using the debug cache policy, and activating genicam debug output (export ARV_DEBUG=genicam), can help you to
-	/// check the cache validity. In this mode, every time the cache content is not in sync with the actual register value, a debug message is
-	/// printed on the console.`</para>``</warning>`
-	/// ## `policy`
-	/// cache policy
-	#[doc(alias = "arv_device_set_register_cache_policy")]
-	fn set_register_cache_policy(&self, policy: RegisterCachePolicy);
-
-	/// Set the string feature value.
-	/// ## `feature`
-	/// feature name
-	/// ## `value`
-	/// new feature value
-	#[doc(alias = "arv_device_set_string_feature_value")]
-	fn set_string_feature_value(&self, feature: &str, value: &str) -> Result<(), glib::Error>;
-
-	//#[doc(alias = "arv_device_write_memory")]
-	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error>;
-
-	/// Writes `value` to a device register.
-	/// ## `address`
-	/// the register address
-	/// ## `value`
-	/// value to write
-	///
-	/// # Returns
-	///
-	/// TRUE on success.
-	#[doc(alias = "arv_device_write_register")]
-	fn write_register(&self, address: u64, value: u32) -> Result<bool, glib::Error>;
-
-	/// Signal that the control of the device is lost.
-	///
-	/// This signal may be emited from a thread different than the main one,
-	/// so please take care to shared data access from the callback.
-	#[doc(alias = "control-lost")]
-	fn connect_control_lost<F: Fn(&Self) + Send + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<Device>> DeviceExt for O {
 	fn create_chunk_parser(&self) -> Option<ChunkParser> {
 		unsafe {
 			from_glib_full(ffi::arv_device_create_chunk_parser(
@@ -358,13 +74,14 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_dup_available_enumeration_feature_values")]
 	fn dup_available_enumeration_feature_values(
 		&self,
 		feature: &str,
 	) -> Result<Vec<i64>, glib::Error> {
 		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut n_values = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_dup_available_enumeration_feature_values(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -374,7 +91,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 			if error.is_null() {
 				Ok(FromGlibContainer::from_glib_container_num(
 					ret,
-					n_values.assume_init() as usize,
+					n_values.assume_init() as _,
 				))
 			} else {
 				Err(from_glib_full(error))
@@ -382,13 +99,14 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_dup_available_enumeration_feature_values_as_display_names")]
 	fn dup_available_enumeration_feature_values_as_display_names(
 		&self,
 		feature: &str,
 	) -> Result<Vec<glib::GString>, glib::Error> {
 		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut n_values = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_dup_available_enumeration_feature_values_as_display_names(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -398,7 +116,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 			if error.is_null() {
 				Ok(FromGlibContainer::from_glib_container_num(
 					ret,
-					n_values.assume_init() as usize,
+					n_values.assume_init() as _,
 				))
 			} else {
 				Err(from_glib_full(error))
@@ -406,13 +124,14 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_dup_available_enumeration_feature_values_as_strings")]
 	fn dup_available_enumeration_feature_values_as_strings(
 		&self,
 		feature: &str,
 	) -> Result<Vec<glib::GString>, glib::Error> {
 		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut n_values = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_dup_available_enumeration_feature_values_as_strings(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -422,7 +141,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 			if error.is_null() {
 				Ok(FromGlibContainer::from_glib_container_num(
 					ret,
-					n_values.assume_init() as usize,
+					n_values.assume_init() as _,
 				))
 			} else {
 				Err(from_glib_full(error))
@@ -430,9 +149,17 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	//#[cfg(feature = "v0_8_31")]
+	//#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
+	//#[doc(alias = "arv_device_dup_register_feature_value")]
+	//fn dup_register_feature_value(&self, feature: &str) -> Result<(/*Unimplemented*/Option<Basic: Pointer>, u64), glib::Error> {
+	//    unsafe { TODO: call ffi:arv_device_dup_register_feature_value() }
+	//}
+
+	#[doc(alias = "arv_device_execute_command")]
 	fn execute_command(&self, feature: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_execute_command(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -446,9 +173,11 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_get_boolean_feature_value")]
+	#[doc(alias = "get_boolean_feature_value")]
 	fn boolean_feature_value(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_get_boolean_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -462,6 +191,8 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_get_feature")]
+	#[doc(alias = "get_feature")]
 	fn feature(&self, feature: &str) -> Option<GcNode> {
 		unsafe {
 			from_glib_none(ffi::arv_device_get_feature(
@@ -471,8 +202,10 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_device_get_feature_access_mode")]
+	#[doc(alias = "get_feature_access_mode")]
 	fn feature_access_mode(&self, feature: &str) -> GcAccessMode {
 		unsafe {
 			from_glib(ffi::arv_device_get_feature_access_mode(
@@ -482,11 +215,26 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[cfg(feature = "v0_8_31")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_31")))]
+	#[doc(alias = "arv_device_get_feature_representation")]
+	#[doc(alias = "get_feature_representation")]
+	fn feature_representation(&self, feature: &str) -> GcRepresentation {
+		unsafe {
+			from_glib(ffi::arv_device_get_feature_representation(
+				self.as_ref().to_glib_none().0,
+				feature.to_glib_none().0,
+			))
+		}
+	}
+
+	#[doc(alias = "arv_device_get_float_feature_bounds")]
+	#[doc(alias = "get_float_feature_bounds")]
 	fn float_feature_bounds(&self, feature: &str) -> Result<(f64, f64), glib::Error> {
 		unsafe {
-			let mut min = mem::MaybeUninit::uninit();
-			let mut max = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut min = std::mem::MaybeUninit::uninit();
+			let mut max = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_get_float_feature_bounds(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -494,21 +242,21 @@ impl<O: IsA<Device>> DeviceExt for O {
 				max.as_mut_ptr(),
 				&mut error,
 			);
-			let min = min.assume_init();
-			let max = max.assume_init();
 			if error.is_null() {
-				Ok((min, max))
+				Ok((min.assume_init(), max.assume_init()))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_16", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_16")))]
+	#[cfg(feature = "v0_8_16")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_16")))]
+	#[doc(alias = "arv_device_get_float_feature_increment")]
+	#[doc(alias = "get_float_feature_increment")]
 	fn float_feature_increment(&self, feature: &str) -> Result<f64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_get_float_feature_increment(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -522,9 +270,11 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_get_float_feature_value")]
+	#[doc(alias = "get_float_feature_value")]
 	fn float_feature_value(&self, feature: &str) -> Result<f64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_get_float_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -538,27 +288,32 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_get_genicam")]
+	#[doc(alias = "get_genicam")]
 	fn genicam(&self) -> Option<Gc> {
 		unsafe { from_glib_none(ffi::arv_device_get_genicam(self.as_ref().to_glib_none().0)) }
 	}
 
+	#[doc(alias = "arv_device_get_genicam_xml")]
+	#[doc(alias = "get_genicam_xml")]
 	fn genicam_xml(&self) -> (glib::GString, usize) {
 		unsafe {
-			let mut size = mem::MaybeUninit::uninit();
+			let mut size = std::mem::MaybeUninit::uninit();
 			let ret = from_glib_none(ffi::arv_device_get_genicam_xml(
 				self.as_ref().to_glib_none().0,
 				size.as_mut_ptr(),
 			));
-			let size = size.assume_init();
-			(ret, size)
+			(ret, size.assume_init())
 		}
 	}
 
+	#[doc(alias = "arv_device_get_integer_feature_bounds")]
+	#[doc(alias = "get_integer_feature_bounds")]
 	fn integer_feature_bounds(&self, feature: &str) -> Result<(i64, i64), glib::Error> {
 		unsafe {
-			let mut min = mem::MaybeUninit::uninit();
-			let mut max = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut min = std::mem::MaybeUninit::uninit();
+			let mut max = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_get_integer_feature_bounds(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -566,19 +321,19 @@ impl<O: IsA<Device>> DeviceExt for O {
 				max.as_mut_ptr(),
 				&mut error,
 			);
-			let min = min.assume_init();
-			let max = max.assume_init();
 			if error.is_null() {
-				Ok((min, max))
+				Ok((min.assume_init(), max.assume_init()))
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
+	#[doc(alias = "arv_device_get_integer_feature_increment")]
+	#[doc(alias = "get_integer_feature_increment")]
 	fn integer_feature_increment(&self, feature: &str) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_get_integer_feature_increment(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -592,9 +347,11 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_get_integer_feature_value")]
+	#[doc(alias = "get_integer_feature_value")]
 	fn integer_feature_value(&self, feature: &str) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_get_integer_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -608,9 +365,11 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_get_string_feature_value")]
+	#[doc(alias = "get_string_feature_value")]
 	fn string_feature_value(&self, feature: &str) -> Result<glib::GString, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_get_string_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -624,21 +383,23 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_17", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_17")))]
+	#[cfg(feature = "v0_8_17")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_17")))]
+	#[doc(alias = "arv_device_is_enumeration_entry_available")]
 	fn is_enumeration_entry_available(
 		&self,
 		feature: &str,
 		entry: &str,
 	) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_device_is_enumeration_entry_available(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_device_is_enumeration_entry_available(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
 				entry.to_glib_none().0,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -647,9 +408,10 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_is_feature_available")]
 	fn is_feature_available(&self, feature: &str) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_is_feature_available(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -663,31 +425,53 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error> {
-	//    unsafe { TODO: call ffi:arv_device_read_memory() }
-	//}
-
-	fn read_register(&self, address: u64) -> Result<(bool, u32), glib::Error> {
+	#[cfg(feature = "v0_8_23")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_23")))]
+	#[doc(alias = "arv_device_is_feature_implemented")]
+	fn is_feature_implemented(&self, feature: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut value = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
-			let ret = ffi::arv_device_read_register(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_device_is_feature_implemented(
 				self.as_ref().to_glib_none().0,
-				address,
-				value.as_mut_ptr(),
+				feature.to_glib_none().0,
 				&mut error,
 			);
-			let value = value.assume_init();
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
-				Ok((from_glib(ret), value))
+				Ok(())
 			} else {
 				Err(from_glib_full(error))
 			}
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_22", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_22")))]
+	//#[doc(alias = "arv_device_read_memory")]
+	//fn read_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Basic: Pointer>) -> Result<bool, glib::Error> {
+	//    unsafe { TODO: call ffi:arv_device_read_memory() }
+	//}
+
+	#[doc(alias = "arv_device_read_register")]
+	fn read_register(&self, address: u64) -> Result<(bool, u32), glib::Error> {
+		unsafe {
+			let mut value = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
+			let ret = ffi::arv_device_read_register(
+				self.as_ref().to_glib_none().0,
+				address,
+				value.as_mut_ptr(),
+				&mut error,
+			);
+			if error.is_null() {
+				Ok((from_glib(ret), value.assume_init()))
+			} else {
+				Err(from_glib_full(error))
+			}
+		}
+	}
+
+	#[cfg(feature = "v0_8_22")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_22")))]
+	#[doc(alias = "arv_device_set_access_check_policy")]
 	fn set_access_check_policy(&self, policy: AccessCheckPolicy) {
 		unsafe {
 			ffi::arv_device_set_access_check_policy(
@@ -697,9 +481,10 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_set_boolean_feature_value")]
 	fn set_boolean_feature_value(&self, feature: &str, value: bool) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_set_boolean_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -714,14 +499,16 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_set_features_from_string")]
 	fn set_features_from_string(&self, string: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_device_set_features_from_string(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_device_set_features_from_string(
 				self.as_ref().to_glib_none().0,
 				string.to_glib_none().0,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -730,9 +517,10 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_set_float_feature_value")]
 	fn set_float_feature_value(&self, feature: &str, value: f64) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_set_float_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -747,9 +535,10 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_set_integer_feature_value")]
 	fn set_integer_feature_value(&self, feature: &str, value: i64) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_set_integer_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -764,8 +553,9 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	#[cfg(any(feature = "v0_8_6", feature = "dox"))]
-	#[cfg_attr(feature = "dox", doc(cfg(feature = "v0_8_6")))]
+	#[cfg(feature = "v0_8_6")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "v0_8_6")))]
+	#[doc(alias = "arv_device_set_range_check_policy")]
 	fn set_range_check_policy(&self, policy: RangeCheckPolicy) {
 		unsafe {
 			ffi::arv_device_set_range_check_policy(
@@ -775,6 +565,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_device_set_register_cache_policy")]
 	fn set_register_cache_policy(&self, policy: RegisterCachePolicy) {
 		unsafe {
 			ffi::arv_device_set_register_cache_policy(
@@ -784,9 +575,15 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	//#[doc(alias = "arv_device_set_register_feature_value")]
+	//fn set_register_feature_value(&self, feature: &str, value: /*Unimplemented*/Option<Basic: Pointer>) -> Result<(), glib::Error> {
+	//    unsafe { TODO: call ffi:arv_device_set_register_feature_value() }
+	//}
+
+	#[doc(alias = "arv_device_set_string_feature_value")]
 	fn set_string_feature_value(&self, feature: &str, value: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let _ = ffi::arv_device_set_string_feature_value(
 				self.as_ref().to_glib_none().0,
 				feature.to_glib_none().0,
@@ -801,13 +598,15 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
-	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Fundamental: Pointer>) -> Result<bool, glib::Error> {
+	//#[doc(alias = "arv_device_write_memory")]
+	//fn write_memory(&self, address: u64, size: u32, buffer: /*Unimplemented*/Option<Basic: Pointer>) -> Result<bool, glib::Error> {
 	//    unsafe { TODO: call ffi:arv_device_write_memory() }
 	//}
 
+	#[doc(alias = "arv_device_write_register")]
 	fn write_register(&self, address: u64, value: u32) -> Result<bool, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_device_write_register(
 				self.as_ref().to_glib_none().0,
 				address,
@@ -822,6 +621,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 		}
 	}
 
+	#[doc(alias = "control-lost")]
 	fn connect_control_lost<F: Fn(&Self) + Send + 'static>(&self, f: F) -> SignalHandlerId {
 		unsafe extern "C" fn control_lost_trampoline<P: IsA<Device>, F: Fn(&P) + Send + 'static>(
 			this: *mut ffi::ArvDevice,
@@ -835,7 +635,7 @@ impl<O: IsA<Device>> DeviceExt for O {
 			connect_raw(
 				self.as_ptr() as *mut _,
 				b"control-lost\0".as_ptr() as *const _,
-				Some(transmute::<_, unsafe extern "C" fn()>(
+				Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
 					control_lost_trampoline::<Self, F> as *const (),
 				)),
 				Box_::into_raw(f),
@@ -844,8 +644,4 @@ impl<O: IsA<Device>> DeviceExt for O {
 	}
 }
 
-impl fmt::Display for Device {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("Device")
-	}
-}
+impl<O: IsA<Device>> DeviceExt for O {}

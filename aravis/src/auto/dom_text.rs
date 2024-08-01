@@ -2,13 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomCharacterData;
-use crate::DomNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomCharacterData, DomNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`DomCharacterDataExt`][trait@crate::prelude::DomCharacterDataExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomText")]
 	pub struct DomText(Object<ffi::ArvDomText, ffi::ArvDomTextClass>) @extends DomCharacterData, DomNode;
 
@@ -18,6 +20,8 @@ glib::wrapper! {
 }
 
 impl DomText {
+	pub const NONE: Option<&'static DomText> = None;
+
 	#[doc(alias = "arv_dom_text_new")]
 	pub fn new(data: &str) -> DomText {
 		assert_initialized_main_thread!();
@@ -28,11 +32,3 @@ impl DomText {
 }
 
 unsafe impl Send for DomText {}
-
-pub const NONE_DOM_TEXT: Option<&DomText> = None;
-
-impl fmt::Display for DomText {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomText")
-	}
-}

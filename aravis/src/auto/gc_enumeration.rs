@@ -2,20 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcInteger;
-use crate::GcNode;
-use crate::GcSelector;
-use crate::GcString;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
-use std::mem;
-use std::ptr;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcInteger, GcNode, GcSelector, GcString};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`], [`GcIntegerExt`][trait@crate::prelude::GcIntegerExt], [`GcSelectorExt`][trait@crate::prelude::GcSelectorExt], [`GcStringExt`][trait@crate::prelude::GcStringExt]
 	#[doc(alias = "ArvGcEnumeration")]
 	pub struct GcEnumeration(Object<ffi::ArvGcEnumeration, ffi::ArvGcEnumerationClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode, @implements GcInteger, GcSelector, GcString;
 
@@ -40,8 +35,8 @@ impl GcEnumeration {
 	#[doc(alias = "arv_gc_enumeration_dup_available_display_names")]
 	pub fn dup_available_display_names(&self) -> Result<Vec<glib::GString>, glib::Error> {
 		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut n_values = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_enumeration_dup_available_display_names(
 				self.to_glib_none().0,
 				n_values.as_mut_ptr(),
@@ -50,7 +45,7 @@ impl GcEnumeration {
 			if error.is_null() {
 				Ok(FromGlibContainer::from_glib_container_num(
 					ret,
-					n_values.assume_init() as usize,
+					n_values.assume_init() as _,
 				))
 			} else {
 				Err(from_glib_full(error))
@@ -66,8 +61,8 @@ impl GcEnumeration {
 	#[doc(alias = "arv_gc_enumeration_dup_available_int_values")]
 	pub fn dup_available_int_values(&self) -> Result<Vec<i64>, glib::Error> {
 		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut n_values = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_enumeration_dup_available_int_values(
 				self.to_glib_none().0,
 				n_values.as_mut_ptr(),
@@ -76,7 +71,7 @@ impl GcEnumeration {
 			if error.is_null() {
 				Ok(FromGlibContainer::from_glib_full_num(
 					ret,
-					n_values.assume_init() as usize,
+					n_values.assume_init() as _,
 				))
 			} else {
 				Err(from_glib_full(error))
@@ -93,8 +88,8 @@ impl GcEnumeration {
 	#[doc(alias = "arv_gc_enumeration_dup_available_string_values")]
 	pub fn dup_available_string_values(&self) -> Result<Vec<glib::GString>, glib::Error> {
 		unsafe {
-			let mut n_values = mem::MaybeUninit::uninit();
-			let mut error = ptr::null_mut();
+			let mut n_values = std::mem::MaybeUninit::uninit();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_enumeration_dup_available_string_values(
 				self.to_glib_none().0,
 				n_values.as_mut_ptr(),
@@ -103,7 +98,7 @@ impl GcEnumeration {
 			if error.is_null() {
 				Ok(FromGlibContainer::from_glib_container_num(
 					ret,
-					n_values.assume_init() as usize,
+					n_values.assume_init() as _,
 				))
 			} else {
 				Err(from_glib_full(error))
@@ -129,7 +124,7 @@ impl GcEnumeration {
 	#[doc(alias = "get_int_value")]
 	pub fn int_value(&self) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_enumeration_get_int_value(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
@@ -143,7 +138,7 @@ impl GcEnumeration {
 	#[doc(alias = "get_string_value")]
 	pub fn string_value(&self) -> Result<glib::GString, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_enumeration_get_string_value(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(from_glib_none(ret))
@@ -156,8 +151,10 @@ impl GcEnumeration {
 	#[doc(alias = "arv_gc_enumeration_set_int_value")]
 	pub fn set_int_value(&self, value: i64) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gc_enumeration_set_int_value(self.to_glib_none().0, value, &mut error);
+			let mut error = std::ptr::null_mut();
+			let is_ok =
+				ffi::arv_gc_enumeration_set_int_value(self.to_glib_none().0, value, &mut error);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -169,12 +166,13 @@ impl GcEnumeration {
 	#[doc(alias = "arv_gc_enumeration_set_string_value")]
 	pub fn set_string_value(&self, value: &str) -> Result<(), glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
-			let _ = ffi::arv_gc_enumeration_set_string_value(
+			let mut error = std::ptr::null_mut();
+			let is_ok = ffi::arv_gc_enumeration_set_string_value(
 				self.to_glib_none().0,
 				value.to_glib_none().0,
 				&mut error,
 			);
+			debug_assert_eq!(is_ok == glib::ffi::GFALSE, !error.is_null());
 			if error.is_null() {
 				Ok(())
 			} else {
@@ -191,9 +189,3 @@ impl Default for GcEnumeration {
 }
 
 unsafe impl Send for GcEnumeration {}
-
-impl fmt::Display for GcEnumeration {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcEnumeration")
-	}
-}

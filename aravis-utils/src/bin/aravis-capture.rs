@@ -83,7 +83,7 @@ fn main() {
 
 	let name_prefix = options.out_name;
 	let format_name = move |_i, time: SystemTime, suffix| {
-		let time : chrono::DateTime<chrono::Utc> = time.into();
+		let time: chrono::DateTime<chrono::Utc> = time.into();
 		let time = time.format("%F-%H-%M-%S-%9f");
 		format!("{}{}{}", name_prefix, time, suffix)
 	};
@@ -93,8 +93,10 @@ fn main() {
 	// Start write thread if saving images.
 	let write_thread = options.save.map(|path| {
 		let (sender, receiver) = mpsc::channel::<(usize, SystemTime, ArcImage)>();
-		senders.push(Box::new(move |i, time, image| if let Err(e) = sender.send((i, time, image)) {
-			log::error!("Failed to send image to writer thread: {}.", e);
+		senders.push(Box::new(move |i, time, image| {
+			if let Err(e) = sender.send((i, time, image)) {
+				log::error!("Failed to send image to writer thread: {}.", e);
+			}
 		}));
 
 		let format_name = format_name.clone();
@@ -163,7 +165,7 @@ fn run_camera_loop(
 
 	#[cfg(feature = "usb-mode")]
 	{
-		use aravis::glib::Cast;
+		use aravis::glib::object::Cast;
 		let device = camera.device()
 			.ok_or("no device associated with camera")?;
 		if let Ok(device) = device.downcast::<aravis::UvDevice>() {
@@ -177,7 +179,7 @@ fn run_camera_loop(
 	let make_buffer = || aravis::Buffer::new_leaked_image(pixel_format, width as usize, height as usize);
 
 	let stream = camera.create_stream().map_err(|e| format!("Failed to open stream: {}", e))?;
-	stream.push_buffer(&make_buffer());
+	stream.push_buffer(make_buffer());
 
 	camera.set_acquisition_mode(aravis::AcquisitionMode::Continuous)
 		.map_err(|e| format!("Failed to set acquisition mode to continuous: {}.", e))?;
@@ -201,7 +203,7 @@ fn run_camera_loop(
 			}
 		};
 
-		stream.push_buffer(&make_buffer());
+		stream.push_buffer(make_buffer());
 
 		let image = match unsafe { buffer.into_image() } {
 			Ok(x) => x,
@@ -230,7 +232,6 @@ fn run_camera_loop(
 		if next_frame < now {
 			next_frame = now;
 		}
-
 	}
 
 	let total_duration = start.elapsed().as_secs_f64();

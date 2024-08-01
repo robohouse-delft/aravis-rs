@@ -2,11 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::Interface;
+use crate::{ffi, Interface};
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`InterfaceExt`][trait@crate::prelude::InterfaceExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvUvInterface")]
 	pub struct UvInterface(Object<ffi::ArvUvInterface, ffi::ArvUvInterfaceClass>) @extends Interface;
 
@@ -30,9 +34,3 @@ impl UvInterface {
 }
 
 unsafe impl Send for UvInterface {}
-
-impl fmt::Display for UvInterface {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("UvInterface")
-	}
-}

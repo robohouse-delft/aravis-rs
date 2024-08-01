@@ -2,12 +2,17 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomNode;
-use glib::object::IsA;
-use glib::translate::*;
-use std::fmt;
+use crate::{ffi, DomNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// This is an Abstract Base Class, you cannot instantiate it.
+///
+/// # Implements
+///
+/// [`DomCharacterDataExt`][trait@crate::prelude::DomCharacterDataExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvDomCharacterData")]
 	pub struct DomCharacterData(Object<ffi::ArvDomCharacterData, ffi::ArvDomCharacterDataClass>) @extends DomNode;
 
@@ -16,25 +21,25 @@ glib::wrapper! {
 	}
 }
 
+impl DomCharacterData {
+	pub const NONE: Option<&'static DomCharacterData> = None;
+}
+
 unsafe impl Send for DomCharacterData {}
 
-pub const NONE_DOM_CHARACTER_DATA: Option<&DomCharacterData> = None;
+mod sealed {
+	pub trait Sealed {}
+	impl<T: super::IsA<super::DomCharacterData>> Sealed for T {}
+}
 
 /// Trait containing all [`struct@DomCharacterData`] methods.
 ///
 /// # Implementors
 ///
 /// [`DomCharacterData`][struct@crate::DomCharacterData], [`DomText`][struct@crate::DomText]
-pub trait DomCharacterDataExt: 'static {
+pub trait DomCharacterDataExt: IsA<DomCharacterData> + sealed::Sealed + 'static {
 	#[doc(alias = "arv_dom_character_data_get_data")]
 	#[doc(alias = "get_data")]
-	fn data(&self) -> Option<glib::GString>;
-
-	#[doc(alias = "arv_dom_character_data_set_data")]
-	fn set_data(&self, value: &str);
-}
-
-impl<O: IsA<DomCharacterData>> DomCharacterDataExt for O {
 	fn data(&self) -> Option<glib::GString> {
 		unsafe {
 			from_glib_none(ffi::arv_dom_character_data_get_data(
@@ -43,6 +48,7 @@ impl<O: IsA<DomCharacterData>> DomCharacterDataExt for O {
 		}
 	}
 
+	#[doc(alias = "arv_dom_character_data_set_data")]
 	fn set_data(&self, value: &str) {
 		unsafe {
 			ffi::arv_dom_character_data_set_data(
@@ -53,8 +59,4 @@ impl<O: IsA<DomCharacterData>> DomCharacterDataExt for O {
 	}
 }
 
-impl fmt::Display for DomCharacterData {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("DomCharacterData")
-	}
-}
+impl<O: IsA<DomCharacterData>> DomCharacterDataExt for O {}

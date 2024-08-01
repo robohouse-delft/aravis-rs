@@ -2,16 +2,15 @@
 // from ../gir-files
 // DO NOT EDIT
 
-use crate::DomElement;
-use crate::DomNode;
-use crate::GcFeatureNode;
-use crate::GcNode;
-use glib::object::Cast;
-use glib::translate::*;
-use std::fmt;
-use std::ptr;
+use crate::{ffi, DomElement, DomNode, GcFeatureNode, GcNode};
+use glib::{prelude::*, translate::*};
 
 glib::wrapper! {
+///
+///
+/// # Implements
+///
+/// [`GcFeatureNodeExt`][trait@crate::prelude::GcFeatureNodeExt], [`GcNodeExt`][trait@crate::prelude::GcNodeExt], [`DomElementExt`][trait@crate::prelude::DomElementExt], [`DomNodeExt`][trait@crate::prelude::DomNodeExt], [`trait@glib::ObjectExt`]
 	#[doc(alias = "ArvGcEnumEntry")]
 	pub struct GcEnumEntry(Object<ffi::ArvGcEnumEntry, ffi::ArvGcEnumEntryClass>) @extends GcFeatureNode, GcNode, DomElement, DomNode;
 
@@ -31,7 +30,7 @@ impl GcEnumEntry {
 	#[doc(alias = "get_value")]
 	pub fn value(&self) -> Result<i64, glib::Error> {
 		unsafe {
-			let mut error = ptr::null_mut();
+			let mut error = std::ptr::null_mut();
 			let ret = ffi::arv_gc_enum_entry_get_value(self.to_glib_none().0, &mut error);
 			if error.is_null() {
 				Ok(ret)
@@ -49,9 +48,3 @@ impl Default for GcEnumEntry {
 }
 
 unsafe impl Send for GcEnumEntry {}
-
-impl fmt::Display for GcEnumEntry {
-	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		f.write_str("GcEnumEntry")
-	}
-}
