@@ -1,4 +1,4 @@
-main:
+v0.9.10 - 2024-08-01:
   * Add support for new features from Aravis `v0.8.31`.
   * The `Stream::push_buffer()` function now takes the buffer by value.
   * Remove auto-generated `Display` implementations with practically no information.

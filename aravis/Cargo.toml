@@ -1,16 +1,13 @@
 [package]
 name = "aravis"
-version = "0.9.2"
+version = "0.10.0"
 description = "safe bindings for Aravis, a vision library for genicam based cameras"
-authors = [
-	"RoboHouse <robohouse@robovalley.com>",
-	"Maarten de Vries <maarten@de-vri.es>",
-]
 license = "BSD-2-Clause"
-keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
-categories = ["multimedia::video"]
+
 repository = "https://github.com/robohouse-delft/aravis-rs"
 documentation = "https://docs.rs/aravis"
+keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
+categories = ["multimedia::video"]
 
 edition = "2015"
 
@@ -38,7 +35,7 @@ v0_8_31 = ["v0_8_27", "aravis-sys/v0_8_31"]
 features = ["dox"]
 
 [dependencies]
-aravis-sys = { version = "=0.9.0", path = "../aravis-sys" }
+aravis-sys = { version = "0.10.0", path = "../aravis-sys" }
 bayer = { version = "0.1.5", optional = true }
 gio = { workspace = true }
 gio-sys = { workspace = true }

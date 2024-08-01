@@ -1,12 +1,12 @@
 [package]
 name = "aravis-utils"
-version = "0.9.0"
+version = "0.10.0"
 description = "command line utilities for interacting with GenICam cameras"
-authors = ["RoboHouse <robohouse@robovalley.com>", "Maarten de Vries <maarten@de-vri.es>"]
 license = "BSD-2-Clause"
+
+repository = "https://github.com/robohouse-delft/aravis-rs"
 keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
 categories = ["multimedia::video"]
-repository = "https://github.com/robohouse-delft/aravis-rs"
 
 edition = "2021"
 
@@ -17,7 +17,7 @@ gui      = ["show-image"]
 usb-mode = ["aravis/v0_8_22"]
 
 [dependencies]
-aravis     = { version = "0.9.0", path = "../aravis" }
+aravis     = { version = "0.10.0", path = "../aravis" }
 chrono     = "0.4.24"
 clap       = { version = "4.2.7", features = ["derive"] }
 env_logger = "0.10.0"

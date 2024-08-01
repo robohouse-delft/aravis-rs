@@ -1,13 +1,14 @@
 [package]
 name = "aravis-sys"
-version = "0.9.0"
+version = "0.10.0"
 description = "raw FFI-bindings for Aravis"
-authors = ["RoboHouse <robohouse@robovalley.com>", "Maarten de Vries <maarten@de-vri.es>"]
 license = "BSD-2-Clause"
-keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
-categories = ["multimedia::video"]
+
 repository = "https://github.com/robohouse-delft/aravis-rs"
 documentation = "https://docs.rs/aravis-sys"
+keywords = ["GenICam", "GigE", "USB3", "Vision", "Camera"]
+categories = ["multimedia::video"]
+
 edition = "2021"
 links = "aravis"
 build = "build.rs"
