@@ -25,8 +25,6 @@ and some may be removed in the future if they don't make sense for Rust.
 
 5. Run the gir tool in the aravis crate. This time there should be no manual intervention needed. Some of the items might not be generated which can be fixed by following the [manual](https://gtk-rs.org/gir/book/tutorial/high_level_rust_api.html).
 
-6. Run cargo fmt in both crates after re-generating the files.
+6. Run gir -m doc in each crate followed by rustdoc-stripper -g -o vendor.md. You can install rustdoc-stripper from https://crates.io. Don't commit the `vendor.md`.
 
-7. Run gir -m doc in each crate followed by rustdoc-stripper -g -o vendor.md. You can install rustdoc-stripper from https://crates.io. Don't commit the `vendor.md`.
-
-8. Run cargo fmt again after.
+7. Run cargo fmt in both crates after re-generating the files.
