@@ -24,4 +24,4 @@ env_logger = "0.10.0"
 image      = { workspace = true }
 log        = "0.4.17"
 png        = "0.17.8"
-show-image = { version = "0.13.1", optional = true, features = ["image", "save"] }
+show-image = { version = "0.14.0", optional = true, features = ["image", "save"] }
