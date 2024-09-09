@@ -1,6 +1,6 @@
 [package]
 name = "aravis"
-version = "0.10.0"
+version = "0.11.0"
 description = "safe bindings for Aravis, a vision library for genicam based cameras"
 license = "BSD-2-Clause"
 
