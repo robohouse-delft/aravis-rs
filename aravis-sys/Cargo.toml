@@ -1,6 +1,6 @@
 [package]
 name = "aravis-sys"
-version = "0.10.0"
+version = "0.11.1"
 description = "raw FFI-bindings for Aravis"
 license = "BSD-2-Clause"
 
