@@ -1,3 +1,6 @@
+main:
+  * Fix `docs.rs` build.
+
 v0.11.0 - 2024-09-09:
   * Update `image` crate to `v0.25`.
 
